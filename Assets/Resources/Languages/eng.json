@@ -1,0 +1,12 @@
+{
+  "title": "Game Name",
+  "newgame": "New Game",
+  "highscores": "High Scores",
+  "settings": "Settings",
+  "exit": "Exit",
+  "info": "About the game",
+  "mainmenu": "Main menu",
+
+  "hun": "Hungarian",
+  "eng": "English"
+}
