@@ -6,6 +6,11 @@
   "exit": "Exit",
   "info": "About the game",
   "mainmenu": "Main menu",
+  "language": "Language",
+  "audio": "Audio",
+  "music": "Music",
+  "sfx": "Sound effects",
+  "mute": "Mute",
 
   "hun": "Hungarian",
   "eng": "English"

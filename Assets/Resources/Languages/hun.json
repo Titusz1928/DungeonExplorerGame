@@ -1,11 +1,16 @@
 {
   "title": "Game Name",
-  "newgame":"Új játék",
+  "newgame": "Új játék",
   "highscores": "Rekordok",
   "settings": "Beállitások",
   "exit": "Kilépés",
   "info": "A játékról",
   "mainmenu": "Főmenü",
+  "language": "Nyelv",
+  "audio": "Hang",
+  "music": "Zene",
+  "sfx": "Hang effektek",
+  "mute": "Némítás",
 
   "hun": "Magyar",
   "eng": "Angol"

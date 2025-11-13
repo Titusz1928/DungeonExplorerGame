@@ -74,6 +74,9 @@ public class LanguageManager : MonoBehaviour
                 break;
         }
 
+        if (AudioManager.Instance != null)
+            AudioManager.Instance.PlayTestSFX();
+
         // Update LocalizationManager
         LocalizationManager.Instance.SetLanguageIndex(index);
     }

@@ -35,6 +35,14 @@ public class Boot : MonoBehaviour
             LocalizationManager.Instance.Initialize();
         }
 
+        // Audio Manager
+        if (AudioManager.Instance == null)
+        {
+            var audioObj = new GameObject("AudioManager");
+            audioObj.AddComponent<AudioManager>();
+            DontDestroyOnLoad(audioObj);
+        }
+
         // Optional small delay while visible
         yield return new WaitForSeconds(0.5f);
 
