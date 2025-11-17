@@ -77,6 +77,9 @@ public class LanguageManager : MonoBehaviour
         if (AudioManager.Instance != null)
             AudioManager.Instance.PlayTestSFX();
 
+        Sprite infoIcon = Resources.Load<Sprite>("UI/Icons/info2");
+        MessageManager.Instance.ShowMessage("testmessage", infoIcon);
+
         // Update LocalizationManager
         LocalizationManager.Instance.SetLanguageIndex(index);
     }

@@ -378,6 +378,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2498889386828100993, guid: dfcf3190c1aa337488bb43b9920bfdc9, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2498889386828100993, guid: dfcf3190c1aa337488bb43b9920bfdc9, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2939344784290019003, guid: dfcf3190c1aa337488bb43b9920bfdc9, type: 3}
       propertyPath: m_Name
       value: GameCanvas

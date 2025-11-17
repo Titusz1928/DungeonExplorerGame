@@ -43,6 +43,8 @@ public class Boot : MonoBehaviour
             DontDestroyOnLoad(audioObj);
         }
 
+        InitializeMessageManager();
+
         // Optional small delay while visible
         yield return new WaitForSeconds(0.5f);
 
@@ -51,6 +53,32 @@ public class Boot : MonoBehaviour
 
         // Load Main Menu
         SceneManagerEX.Instance.LoadScene("MainMenu");
+    }
+
+    private void InitializeMessageManager()
+    {
+        if (MessageManager.Instance != null)
+            return;
+
+        // Create MessageManager
+        var msgObj = new GameObject("MessageManager");
+        var mm = msgObj.AddComponent<MessageManager>();
+        DontDestroyOnLoad(msgObj);
+
+        // Load the message box prefab (you still need this)
+        mm.messagePrefab = Resources.Load<GameObject>("UI/Messaging/MessagePrefab");
+
+        // Find MessageContainer in the current scene
+        var container = GameObject.Find("MessageContainer");
+
+        if (container != null)
+        {
+            mm.messageContainer = container.GetComponent<RectTransform>();
+        }
+        else
+        {
+            Debug.LogError("[Boot] No MessageContainer found in scene!");
+        }
     }
 
     private void EnsureManager<T>(string name) where T : MonoBehaviour
