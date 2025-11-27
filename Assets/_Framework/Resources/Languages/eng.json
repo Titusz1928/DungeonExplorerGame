@@ -12,8 +12,12 @@
   "sfx": "Sound effects",
   "mute": "Mute",
   "testmessage": "this is a test message",
-  "loading": "Loading...",
 
   "hun": "Hungarian",
-  "eng": "English"
+  "eng": "English",
+
+
+
+  "loading": "Loading...",
+  "inventory": "Inventory"
 }
