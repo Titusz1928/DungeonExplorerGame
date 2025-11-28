@@ -665,7 +665,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 9134168649349001388}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.883
+  m_Size: 0.856
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -1198,6 +1198,8 @@ MonoBehaviour:
   languageCodes:
   - hun
   - eng
+  - spa
+  - rom
 --- !u!1 &2219241920755563247
 GameObject:
   m_ObjectHideFlags: 0

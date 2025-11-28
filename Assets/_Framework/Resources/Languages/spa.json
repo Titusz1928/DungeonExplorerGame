@@ -1,0 +1,28 @@
+{
+  "title": "Nombre del Juego",
+  "newgame": "Nuevo Juego",
+  "highscores": "Puntuaciones Altas",
+  "settings": "Opciones",
+  "exit": "Salir",
+  "info": "Acerca del juego",
+  "mainmenu": "Menú Principal",
+  "language": "Idioma",
+  "audio": "Audio",
+  "music": "Música",
+  "sfx": "Efectos de Sonido",
+  "mute": "Silencio",
+  "testmessage": "Este es un mensaje de prueba",
+
+  "hun": "Húngaro",
+  "eng": "Inglés",
+  "spa": "Español",
+  "rom": "Rumano",
+
+  "loading": "Cargando...",
+  "inventory": "Inventario",
+  "name": "Nombre",
+  "type": "Tipo",
+  "durability": "Durabilidad",
+  "amount": "Cantidad",
+  "dropitem": "Soltar objeto"
+}

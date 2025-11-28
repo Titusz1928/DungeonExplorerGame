@@ -8,7 +8,7 @@ public class LanguageManager : MonoBehaviour
     public TMP_Dropdown dropdown;
 
     [Header("Language Settings")]
-    public string[] languageCodes = { "hun", "eng" }; // internal codes
+    public string[] languageCodes = { "hun", "eng","spa","rom" }; // internal codes
 
     private string PREF_KEY = "language"; // key in PlayerPrefs
 
@@ -71,6 +71,12 @@ public class LanguageManager : MonoBehaviour
                 break;
             case 1:
                 Debug.Log("Set language to English");
+                break;
+            case 2:
+                Debug.Log("Set language to Spanish");
+                break;
+            case 3:
+                Debug.Log("Set language to Romanian");
                 break;
         }
 

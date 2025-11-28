@@ -1,5 +1,6 @@
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class InventoryRow : MonoBehaviour
 {
@@ -8,6 +9,7 @@ public class InventoryRow : MonoBehaviour
     [SerializeField] private TextMeshProUGUI typeText;
     [SerializeField] private TextMeshProUGUI durabilityText;
     [SerializeField] private TextMeshProUGUI amountText;
+    [SerializeField] private Button dropButton;
 
     public void SetData(ItemInstance instance)
     {

@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class InventoryWindowInitializer : MonoBehaviour
 {
-    [SerializeField] private GameObject inventoryWindowPrefab; // assign the prefab here
+    [SerializeField] private GameObject inventoryWindowPrefab;
 
     public void OpenInventoryWindow()
     {

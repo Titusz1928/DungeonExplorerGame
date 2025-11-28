@@ -5,6 +5,7 @@ public class InventoryWindow : MonoBehaviour
 {
     [SerializeField] private Transform rowContainer;
     [SerializeField] private GameObject rowPrefab;
+    [SerializeField] private GameObject titleRowPrefab;
 
     [SerializeField] private Inventory inventory;   // <-- Assign this in Inspector
 
@@ -35,6 +36,16 @@ public class InventoryWindow : MonoBehaviour
 
         foreach (Transform child in rowContainer)
             Destroy(child.gameObject);
+
+
+        if (titleRowPrefab != null)
+        {
+            Instantiate(titleRowPrefab, rowContainer);
+        }
+        else
+        {
+            Debug.LogWarning("titleRowPrefab not assigned! No title row will be created.");
+        }
 
         foreach (ItemInstance instance in inventory.items)
         {

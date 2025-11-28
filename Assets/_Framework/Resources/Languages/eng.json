@@ -15,9 +15,14 @@
 
   "hun": "Hungarian",
   "eng": "English",
-
-
+  "spa": "Spanish",
+  "rom": "Romanian",
 
   "loading": "Loading...",
-  "inventory": "Inventory"
+  "inventory": "Inventory",
+  "name": "Name",
+  "type": "Type",
+  "durability": "Durability",
+  "amount": "Amount",
+  "dropitem": "Drop item"
 }

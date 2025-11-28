@@ -1,0 +1,28 @@
+﻿{
+  "title": "Numele Jocului",
+  "newgame": "Joc Nou",
+  "highscores": "Scoruri Mari",
+  "settings": "Setări",
+  "exit": "Ieșire",
+  "info": "Despre joc",
+  "mainmenu": "Meniu Principal",
+  "language": "Limbă",
+  "audio": "Audio",
+  "music": "Muzică",
+  "sfx": "Efecte sonore",
+  "mute": "Dezactivare sunet",
+  "testmessage": "Acesta este un mesaj de test",
+
+  "hun": "Maghiară",
+  "eng": "Engleză",
+  "rom": "Română",
+  "spa": "Spaniolă",
+
+  "loading": "Se încarcă...",
+  "inventory": "Inventar",
+  "name": "Nume",
+  "type": "Tip",
+  "durability": "Durabilitate",
+  "amount": "Cantitate",
+  "dropitem": "Aruncă obiect"
+}
