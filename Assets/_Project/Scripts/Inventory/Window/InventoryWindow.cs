@@ -51,8 +51,13 @@ public class InventoryWindow : MonoBehaviour
         {
             GameObject rowObj = Instantiate(rowPrefab, rowContainer);
             InventoryRow row = rowObj.GetComponent<InventoryRow>();
-            row.SetData(instance);
+            row.SetData(instance, this);
         }
+    }
+
+    public void OnDropButtonPressed(ItemInstance item)
+    {
+        Debug.Log($"Drop pressed for item: {item.itemSO.itemName} (qty: {item.quantity})");
     }
 }
 

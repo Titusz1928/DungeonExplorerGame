@@ -26,6 +26,11 @@ public class WindowManager : MonoBehaviour
     {
         GameObject window = Instantiate(windowPrefab, uiRoot);
         windowStack.Push(window);
+
+        if (UIManager.Instance != null)
+            UIManager.Instance.SetWindowState(true);
+
+
         return window;
     }
 
@@ -35,12 +40,19 @@ public class WindowManager : MonoBehaviour
 
         GameObject top = windowStack.Pop();
         Destroy(top);
+
+        if (UIManager.Instance != null)
+            UIManager.Instance.SetWindowState(false);
+
     }
 
     public void CloseAllWindows()
     {
         while (windowStack.Count > 0)
             Destroy(windowStack.Pop());
+
+        if (UIManager.Instance != null)
+            UIManager.Instance.SetWindowState(false);
     }
 
     public void RegisterUIRoot(Transform root)

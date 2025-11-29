@@ -52,6 +52,14 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
+        if (UIManager.Instance != null && UIManager.Instance.IsWindowOpen)
+        {
+            moveInput = Vector2.zero;     // stop movement
+            usingJoystick = false;
+            return;                        // skip reading joystick
+        }
+
+
         // --- Get joystick input ---
         Vector2 joystickInput = new Vector2(joystick.Horizontal, joystick.Vertical);
 
@@ -84,6 +92,12 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (UIManager.Instance != null && UIManager.Instance.IsWindowOpen)
+        {
+            rb.linearVelocity = Vector2.zero;
+            return;
+        }
+
         // --- Move player ---
         rb.MovePosition(rb.position + moveInput * speed * Time.fixedDeltaTime);
     }

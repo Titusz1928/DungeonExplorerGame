@@ -129,6 +129,7 @@ GameObject:
   m_Component:
   - component: {fileID: 26186326}
   - component: {fileID: 26186325}
+  - component: {fileID: 26186327}
   m_Layer: 0
   m_Name: UIManager
   m_TagString: Untagged
@@ -164,6 +165,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &26186327
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 26186324}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6ad4606d718e454fa50a85692889802, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  joystickUI: {fileID: 5785680797539915957}
 --- !u!1001 &92269003
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -256,7 +270,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inventory: {fileID: 1481028806}
-  testItem: {fileID: 11400000, guid: ac639bed04f7a334da037ba66d46a803, type: 2}
+  testItem1: {fileID: 11400000, guid: ac639bed04f7a334da037ba66d46a803, type: 2}
+  testItem2: {fileID: 11400000, guid: f0e6021c834c2eb498cfba970e8e170b, type: 2}
+  testItem3: {fileID: 11400000, guid: 2f23002bf368faf46b34646efc3b1c7e, type: 2}
 --- !u!4 &187353146
 Transform:
   m_ObjectHideFlags: 0
@@ -4076,7 +4092,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7857915187744615691, guid: dfcf3190c1aa337488bb43b9920bfdc9, type: 3}
   m_PrefabInstance: {fileID: 5785680797539915953}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 5785680797539915957}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7a47f546fc70ec8428172694e78e4288, type: 3}
@@ -4113,6 +4129,11 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!1 &5785680797539915957 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7857915187744615695, guid: dfcf3190c1aa337488bb43b9920bfdc9, type: 3}
+  m_PrefabInstance: {fileID: 5785680797539915953}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &5857015243130042011
 PrefabInstance:
   m_ObjectHideFlags: 0
