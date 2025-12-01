@@ -7,16 +7,18 @@ public class InventoryWindow : MonoBehaviour
     [SerializeField] private GameObject rowPrefab;
     [SerializeField] private GameObject titleRowPrefab;
 
-    [SerializeField] private Inventory inventory;   // <-- Assign this in Inspector
+    [SerializeField] private Transform player;
+    [SerializeField] private Inventory inventory;
 
     private void Start()
     {
         //Refresh();
     }
 
-    public void SetInventory(Inventory inv)
+    public void Initialize(Inventory inv, Transform playerTransform)
     {
         inventory = inv;
+        player = playerTransform;
         Refresh();
     }
 
@@ -55,9 +57,21 @@ public class InventoryWindow : MonoBehaviour
         }
     }
 
+
     public void OnDropButtonPressed(ItemInstance item)
     {
-        Debug.Log($"Drop pressed for item: {item.itemSO.itemName} (qty: {item.quantity})");
+        //Debug.Log($"Drop pressed for item: {item.itemSO.itemName} (qty: {item.quantity})");
+
+        if (inventory == null) return;
+
+        inventory.RemoveItem(item.itemSO);
+        Refresh();
+
+        Vector3 dropPos = player.transform.position + player.transform.forward * 1.5f;
+
+        // spawn item in the world
+        ItemSpawner.Instance.SpawnWorldItem(item.itemSO, dropPos, item.quantity);
+
     }
 }
 

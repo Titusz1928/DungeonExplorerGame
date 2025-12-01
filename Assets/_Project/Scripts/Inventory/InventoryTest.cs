@@ -6,6 +6,7 @@ public class InventoryTest : MonoBehaviour
     public ItemSO testItem1;
     public ItemSO testItem2;
     public ItemSO testItem3;
+    public ItemSO testItem4;
 
     void Start()
     {
@@ -14,6 +15,7 @@ public class InventoryTest : MonoBehaviour
         inventory.AddItem(testItem3, 3);
         inventory.AddItem(testItem1, 1);
         inventory.AddItem(testItem2, 1);
+        inventory.AddItem(testItem4, 2);
         inventory.Save();
         inventory.Load();
     }

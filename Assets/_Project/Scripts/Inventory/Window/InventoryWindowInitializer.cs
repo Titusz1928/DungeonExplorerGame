@@ -6,12 +6,14 @@ public class InventoryWindowInitializer : MonoBehaviour
 
     public void OpenInventoryWindow()
     {
-        // Open window via WindowManager
         GameObject windowObj = WindowManager.Instance.OpenWindow(inventoryWindowPrefab);
 
-        // Get InventoryWindow component
         InventoryWindow invWindow = windowObj.GetComponent<InventoryWindow>();
-        invWindow.SetInventory(FindObjectOfType<Inventory>());
+
+        Inventory inventory = FindObjectOfType<Inventory>();
+        Transform player = inventory.transform;   // player is the one who has the Inventory
+
+        invWindow.Initialize(inventory, player);
     }
 }
 

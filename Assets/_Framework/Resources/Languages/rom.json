@@ -24,5 +24,6 @@
   "type": "Tip",
   "durability": "Durabilitate",
   "amount": "Cantitate",
-  "dropitem": "Aruncă obiect"
+  "dropitem": "Aruncă obiect",
+  "debug": "Debug"
 }

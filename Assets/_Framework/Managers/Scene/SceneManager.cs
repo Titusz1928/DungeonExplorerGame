@@ -18,6 +18,16 @@ public class SceneManagerEX : MonoBehaviour
         }
     }
 
+/*    private void CleanupPersistentManagers()
+    {
+        var uiManager = FindFirstObjectByType<UIManager>();
+        if (uiManager != null) Destroy(uiManager.gameObject);
+
+        var itemDb = FindFirstObjectByType<ItemDatabase>();
+        if (itemDb != null) Destroy(itemDb.gameObject);
+    }*/
+
+
     public void LoadScene(string sceneName)
     {
         SceneManager.LoadScene(sceneName);

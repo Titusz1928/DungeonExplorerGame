@@ -24,5 +24,6 @@
   "type": "Tipo",
   "durability": "Durabilidad",
   "amount": "Cantidad",
-  "dropitem": "Soltar objeto"
+  "dropitem": "Soltar objeto",
+  "debug": "Debug"
 }

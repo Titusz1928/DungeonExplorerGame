@@ -24,5 +24,6 @@
   "type": "Type",
   "durability": "Durability",
   "amount": "Amount",
-  "dropitem": "Drop item"
+  "dropitem": "Drop item",
+  "debug": "Debug"
 }

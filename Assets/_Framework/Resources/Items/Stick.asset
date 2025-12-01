@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a6f45f3e2a77f3f4eb17e18eefde75b5, type: 3}
-  m_Name: Stone
+  m_Name: Stick
   m_EditorClassIdentifier: 
-  ID: 2
-  itemName: Stone
-  icon: {fileID: -1661587629135309383, guid: 0cbbea216a25475419ec57114d95fe82, type: 3}
-  category: 2
+  ID: 1
+  itemName: Stick
+  icon: {fileID: 5211616382531422945, guid: 10ccc91ee65ef1243ba5a8da380d9f10, type: 3}
+  category: 0
   isStackable: 1
   maxStackSize: 10
-  isBreakable: 0
-  maxDurability: 0
+  isBreakable: 1
+  maxDurability: 30

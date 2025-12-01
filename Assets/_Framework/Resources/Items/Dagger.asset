@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a6f45f3e2a77f3f4eb17e18eefde75b5, type: 3}
-  m_Name: Stick
+  m_Name: Dagger
   m_EditorClassIdentifier: 
-  ID: 1
-  itemName: Stick
-  icon: {fileID: -1661587629135309383, guid: 46265b48a029aef41a9402d0db169948, type: 3}
+  ID: 4
+  itemName: Dagger
+  icon: {fileID: 6785220244083936136, guid: 741c734bc8b9ea74e8b828ada5ab60cc, type: 3}
   category: 0
-  isStackable: 1
-  maxStackSize: 10
+  isStackable: 0
+  maxStackSize: 1
   isBreakable: 1
-  maxDurability: 30
+  maxDurability: 100

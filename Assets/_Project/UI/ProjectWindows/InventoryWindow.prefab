@@ -1107,6 +1107,7 @@ MonoBehaviour:
   rowContainer: {fileID: 1209120336629404312}
   rowPrefab: {fileID: 5837686507565617882, guid: ac5b0a1797ad0564f811f01b72ebd423, type: 3}
   titleRowPrefab: {fileID: 1026542716532189693, guid: d104084deaddd5f41af65cebf080935b, type: 3}
+  player: {fileID: 0}
   inventory: {fileID: 0}
 --- !u!1 &8114504133711943583
 GameObject:

@@ -11,6 +11,35 @@ public class GameBoot : MonoBehaviour
     public float fadeDuration = 1f;
 
 
+    private void InitializePersistentManagers()
+    {
+        // UIManager
+        if (FindFirstObjectByType<UIManager>() == null)
+        {
+            GameObject uiManagerObj = new GameObject("UIManager");
+            UIManager uiManager = uiManagerObj.AddComponent<UIManager>();
+
+            // Add InventoryWindowInitializer
+            InventoryWindowInitializer invInitializer = uiManagerObj.AddComponent<InventoryWindowInitializer>();
+
+            DontDestroyOnLoad(uiManagerObj);
+
+            // Assign joystick UI if needed
+            GameObject joystickObj = GameObject.Find("JoystickUI");
+            if (joystickObj != null)
+                uiManager.joystickUI = joystickObj;
+        }
+
+        // ItemDatabase
+        if (FindFirstObjectByType<ItemDatabase>() == null)
+        {
+            GameObject itemDbObj = new GameObject("ItemDatabase");
+            itemDbObj.AddComponent<ItemDatabase>();
+            DontDestroyOnLoad(itemDbObj);
+        }
+    }
+
+
     private IEnumerator Start()
     {
         // Make sure canvas is visible at start
@@ -19,6 +48,9 @@ public class GameBoot : MonoBehaviour
 
         // Fade in
         yield return StartCoroutine(FadeCanvas(0f, 1f, fadeDuration));
+
+
+        //InitializePersistentManagers();
 
         // Optional small delay while visible
         yield return new WaitForSeconds(0.5f);

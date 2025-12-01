@@ -39,6 +39,33 @@ public class Inventory : MonoBehaviour
         return amount <= 0;
     }
 
+    public bool RemoveItem(ItemSO itemSO, int amount = 1)
+    {
+        for (int i = 0; i < items.Count; i++)
+        {
+            var inst = items[i];
+
+            if (inst.itemSO == itemSO)
+            {
+                if (inst.quantity > amount)
+                {
+                    // Just decrease quantity
+                    inst.quantity -= amount;
+                    return true;
+                }
+                else
+                {
+                    // Remove entire stack
+                    items.RemoveAt(i);
+                    return true;
+                }
+            }
+        }
+
+        return false; // item not found
+    }
+
+
 
     public void Save()
     {
