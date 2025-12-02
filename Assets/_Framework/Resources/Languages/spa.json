@@ -25,5 +25,7 @@
   "durability": "Durabilidad",
   "amount": "Cantidad",
   "dropitem": "Soltar objeto",
-  "debug": "Debug"
+  "debug": "Debug",
+  "items": "Items",
+  "pickup": "Pick up"
 }

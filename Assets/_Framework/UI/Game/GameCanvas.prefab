@@ -792,7 +792,6 @@ GameObject:
   - component: {fileID: 918954775968386468}
   - component: {fileID: 3975542580282656695}
   - component: {fileID: 6717591764471143344}
-  - component: {fileID: 4292057487546959601}
   m_Layer: 5
   m_Name: itemsButton
   m_TagString: Untagged
@@ -901,7 +900,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 4292057487546959601}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: UI_OpenWindow, Assembly-CSharp
         m_MethodName: Open
         m_Mode: 1
@@ -913,19 +912,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &4292057487546959601
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7228181856484336799}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 742628eec2cc0d84fa92c17b00c07f4b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  windowPrefab: {fileID: 3843620043544498579, guid: 1a619bfdf1f8c45448b722c76e958460, type: 3}
 --- !u!1 &7506095881085988929
 GameObject:
   m_ObjectHideFlags: 0

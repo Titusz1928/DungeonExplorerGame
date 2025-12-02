@@ -512,6 +512,7 @@ GameObject:
   - component: {fileID: 9003755353840783361}
   - component: {fileID: 4811948068377998780}
   - component: {fileID: 2288765722466872365}
+  - component: {fileID: 6538939593826429788}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -639,6 +640,19 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &6538939593826429788
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8411610853386942673}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b212e406d8b10fd4788b61ac7f9f6da1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  key: pickup
 --- !u!1 &9056794022660446292
 GameObject:
   m_ObjectHideFlags: 0
@@ -649,9 +663,9 @@ GameObject:
   m_Component:
   - component: {fileID: 2251077443455215982}
   - component: {fileID: 8059068903933082094}
-  - component: {fileID: 6044612974938097138}
+  - component: {fileID: 4840378293832730284}
   m_Layer: 5
-  m_Name: ItemsRow
+  m_Name: PickupRow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -705,7 +719,7 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
---- !u!114 &6044612974938097138
+--- !u!114 &4840378293832730284
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -714,12 +728,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 9056794022660446292}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 510bd9e064a437c4f9d436b8dc7e8e90, type: 3}
+  m_Script: {fileID: 11500000, guid: 55d978f40a3d2594ead8fb8ad0b57e41, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  idText: {fileID: 6182971659463641246}
-  nameText: {fileID: 0}
-  typeText: {fileID: 0}
-  durabilityText: {fileID: 0}
-  amountText: {fileID: 7184353344403446369}
-  dropButton: {fileID: 2986198009757299}
+  nameText: {fileID: 6182971659463641246}
+  qtyText: {fileID: 7184353344403446369}
+  pickupButton: {fileID: 2986198009757299}

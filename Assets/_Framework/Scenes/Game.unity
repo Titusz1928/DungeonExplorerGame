@@ -359,6 +359,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de9136eca9bcf1a468da21be3c4c44a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &379920943 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8547604746230806290, guid: 834bedc3841b7464d82bde986a634170, type: 3}
+  m_PrefabInstance: {fileID: 379920941}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b203843bb45aa7d488566146b41a3589, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &410153308
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4205,6 +4216,18 @@ PrefabInstance:
     - target: {fileID: 6674469672111240158, guid: dfcf3190c1aa337488bb43b9920bfdc9, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6717591764471143344, guid: dfcf3190c1aa337488bb43b9920bfdc9, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 379920943}
+    - target: {fileID: 6717591764471143344, guid: dfcf3190c1aa337488bb43b9920bfdc9, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OpenPickupWindow
+      objectReference: {fileID: 0}
+    - target: {fileID: 6717591764471143344, guid: dfcf3190c1aa337488bb43b9920bfdc9, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: PickupWindowInitializer, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 7228181856484336799, guid: dfcf3190c1aa337488bb43b9920bfdc9, type: 3}
       propertyPath: m_Name
