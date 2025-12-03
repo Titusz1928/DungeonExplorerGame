@@ -70,7 +70,7 @@ public class InventoryWindow : MonoBehaviour
         Vector3 dropPos = player.transform.position + player.transform.forward * 1.5f;
 
         // spawn item in the world
-        ItemSpawner.Instance.SpawnWorldItem(item.itemSO, dropPos, item.quantity);
+        ItemSpawner.Instance.SpawnWorldItem(item.itemSO, dropPos, 1);
 
     }
 }

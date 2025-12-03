@@ -1,66 +1,102 @@
-using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine;
+using static UnityEngine.EventSystems.EventTrigger;
 
 public class PickupWindow : MonoBehaviour
 {
+    [Header("Item Rows")]
     [SerializeField] private Transform rowContainer;
     [SerializeField] private GameObject rowPrefab;
+
+    [Header("Ground Tab")]
+    [SerializeField] private ContainerTab groundTab;
+    [SerializeField] private Sprite groundIcon;
+
+    [Header("Container Tabs")]
+    [SerializeField] private Transform containerTabContainer;
+    [SerializeField] private GameObject containerTabPrefab;
 
     private Transform player;
     private Inventory playerInventory;
 
-    public float scanRadius = 3.0f;
+    public float scanRadius = 1.0f;
 
+    // -------------------------------
+    // INITIALIZATION
+    // -------------------------------
     public void Initialize(Inventory inv, Transform playerTransform)
     {
-        Debug.Log("PickupWindow.Initialize called");
-
         playerInventory = inv;
         player = playerTransform;
 
-        if (player == null) Debug.LogError("Player IS NULL in Initialize!");
-        if (playerInventory == null) Debug.LogError("Inventory IS NULL in Initialize!");
+        if (!player) Debug.LogError("PickupWindow: Player is NULL!");
+        if (!playerInventory) Debug.LogError("PickupWindow: Inventory is NULL!");
+
+        // Setup ground tab (permanent)
+        if (groundTab != null)
+            groundTab.SetGroundTab(this, groundIcon);
 
         Refresh();
+        ShowGroundItems();
     }
 
-    public Inventory GetInventory()
-    {
-        return playerInventory;
-    }
+    public Inventory GetInventory() => playerInventory;
 
+    // -------------------------------
+    // REFRESH (REBUILD TABS)
+    // -------------------------------
     public void Refresh()
     {
-        Debug.Log("PickupWindow.Refresh called");
+        if (!player) return;
 
-        if (player == null || playerInventory == null)
+        // Remove ONLY the dynamic container tabs
+        foreach (Transform child in containerTabContainer)
         {
-            Debug.LogError("PickupWindow missing player or inventory!");
-            return;
+            if (child.gameObject != groundTab.gameObject)
+                Destroy(child.gameObject);
         }
 
-        if (rowContainer == null)
-        {
-            Debug.LogError("rowContainer is NULL!");
-            return;
-        }
-
-        Debug.Log("Clearing previous rows... childCount = " + rowContainer.childCount);
-
-        // Clear all old rows
-        foreach (Transform child in rowContainer)
-            Destroy(child.gameObject);
-
-        Debug.Log("Rows cleared. New scan starting...");
-
-        // Search for items
+        // Scan for world containers
         Collider2D[] hits = Physics2D.OverlapCircleAll(player.position, scanRadius);
-        Debug.Log("OverlapCircle hit count: " + hits.Length);
+        Debug.Log("Hit count = " + hits.Length);
 
         foreach (var hit in hits)
         {
-            Debug.Log("Hit object: " + hit.name + "   Has WorldItem = " + (hit.GetComponent<WorldItem>() != null));
+            Debug.Log("Hit object: " + hit.name);
+
+            WorldContainer wc = hit.GetComponent<WorldContainer>();
+            if (wc != null)
+            {
+                Debug.Log("FOUND container: " + hit.name);
+
+                // create a tab for each container
+                GameObject tabObj = Instantiate(containerTabPrefab, containerTabContainer);
+                Debug.Log("Created container tab: " + tabObj.name);
+
+                ContainerTab tab = tabObj.GetComponent<ContainerTab>();
+                tab.SetContainerData(wc, this);
+            }
+            else
+            {
+                Debug.Log("NOT a container: " + hit.name);
+            }
         }
+
+        Debug.Log("---- REFRESH END ----");
+    }
+
+    // -------------------------------
+    // SHOW GROUND ITEMS
+    // -------------------------------
+    public void ShowGroundItems()
+    {
+        ClearRows();
+        ScanAndDisplayGroundItems();
+    }
+
+    private void ScanAndDisplayGroundItems()
+    {
+        Collider2D[] hits = Physics2D.OverlapCircleAll(player.position, scanRadius);
 
         List<WorldItem> items = new List<WorldItem>();
 
@@ -68,24 +104,39 @@ public class PickupWindow : MonoBehaviour
         {
             WorldItem wi = hit.GetComponent<WorldItem>();
             if (wi != null)
-            {
-                Debug.Log("Found world item: " + wi.itemData.itemName);
                 items.Add(wi);
-            }
         }
 
-        Debug.Log("Total world items found: " + items.Count);
-
-        // Create rows
         foreach (var wi in items)
         {
-            Debug.Log("Creating row for: " + wi.itemData.itemName);
-
             GameObject rowObj = Instantiate(rowPrefab, rowContainer);
             PickupRow row = rowObj.GetComponent<PickupRow>();
             row.SetData(wi, this);
         }
+    }
 
-        Debug.Log("Refresh COMPLETED — Total rows created: " + rowContainer.childCount);
+    // -------------------------------
+    // SHOW CONTAINER ITEMS
+    // -------------------------------
+    public void ShowContainerItems(WorldContainer wc)
+    {
+        ClearRows();
+
+        foreach (var entry in wc.items)
+        {
+            GameObject rowObj = Instantiate(rowPrefab, rowContainer);
+            PickupRow row = rowObj.GetComponent<PickupRow>();
+            row.SetData(entry.item, entry.qty, wc, this);
+            // this version of SetData will allow “Take” from container
+        }
+    }
+
+    // -------------------------------
+    // UTILITIES
+    // -------------------------------
+    private void ClearRows()
+    {
+        foreach (Transform child in rowContainer)
+            Destroy(child.gameObject);
     }
 }
