@@ -21,6 +21,8 @@ public class PickupWindow : MonoBehaviour
 
     public float scanRadius = 1.0f;
 
+    private WorldContainer activeContainer;
+
     // -------------------------------
     // INITIALIZATION
     // -------------------------------
@@ -91,6 +93,10 @@ public class PickupWindow : MonoBehaviour
     public void ShowGroundItems()
     {
         ClearRows();
+
+        if (activeContainer != null)
+            activeContainer.Highlight(false);
+
         ScanAndDisplayGroundItems();
     }
 
@@ -122,6 +128,19 @@ public class PickupWindow : MonoBehaviour
     {
         ClearRows();
 
+        // remove highlight from previous
+        if (activeContainer != null)
+            activeContainer.Highlight(false);
+
+        // highlight new
+        activeContainer = wc;
+
+        if (activeContainer != null)
+        {
+            Debug.Log("highlighting");
+            activeContainer.Highlight(true);
+        }
+
         foreach (var entry in wc.items)
         {
             GameObject rowObj = Instantiate(rowPrefab, rowContainer);
@@ -138,5 +157,15 @@ public class PickupWindow : MonoBehaviour
     {
         foreach (Transform child in rowContainer)
             Destroy(child.gameObject);
+    }
+
+    private void OnDestroy()
+    {
+        // Safety: also handle destroy case
+        if (activeContainer != null)
+        {
+            activeContainer.Highlight(false);
+            activeContainer = null;
+        }
     }
 }

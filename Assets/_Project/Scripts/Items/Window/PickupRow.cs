@@ -8,6 +8,8 @@ public class PickupRow : MonoBehaviour
     [SerializeField] private TMP_Text qtyText;
     [SerializeField] private Button pickupButton;
 
+    private WorldContainer sourceContainer; //for switching to the correct container after refreshing (for example when picking up an item)
+
     private WorldItem worldItem;                 // for ground
     private PickupWindow window;
 
@@ -23,7 +25,7 @@ public class PickupRow : MonoBehaviour
     public void SetData(WorldItem wi, PickupWindow pw)
     {
         isFromGround = true;
-
+        sourceContainer = null;
         worldItem = wi;
         window = pw;
 
@@ -40,7 +42,7 @@ public class PickupRow : MonoBehaviour
     public void SetData(ItemSO item, int qty, WorldContainer container, PickupWindow pw)
     {
         isFromGround = false;
-
+        sourceContainer = container;
         containerItemSO = item;
         containerItemQty = qty;
         parentContainer = container;
@@ -67,13 +69,16 @@ public class PickupRow : MonoBehaviour
         }
         else
         {
-            inv.AddItem(containerItemSO, containerItemQty);
-
-            // remove from container
-            parentContainer.RemoveItem(containerItemSO, containerItemQty);
+            inv.AddItem(containerItemSO, 1);
+            parentContainer.RemoveItem(containerItemSO, 1);
         }
 
         window.Refresh();
-        window.ShowGroundItems();
+
+        // Restore previous tab
+        if (isFromGround || sourceContainer == null)
+            window.ShowGroundItems();
+        else
+            window.ShowContainerItems(sourceContainer);
     }
 }
