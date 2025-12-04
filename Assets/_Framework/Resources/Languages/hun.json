@@ -27,6 +27,7 @@
   "durability": "Használtság",
   "amount": "Mennyiség",
   "dropitem": "Eszköz eldobása",
+  "moveitem": "Move item",
   "debug": "Debug",
   "items": "Items",
   "pickup": "Pick up"

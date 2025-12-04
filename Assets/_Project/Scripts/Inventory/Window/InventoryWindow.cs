@@ -10,6 +10,9 @@ public class InventoryWindow : MonoBehaviour
     [SerializeField] private Transform player;
     [SerializeField] private Inventory inventory;
 
+    [SerializeField] private GameObject moveWindow;
+    private ItemInstance pendingMoveItem;
+
     private void Start()
     {
         //Refresh();
@@ -56,6 +59,23 @@ public class InventoryWindow : MonoBehaviour
             row.SetData(instance, this);
         }
     }
+
+    public void OnMoveButtonPressed(ItemInstance item)
+    {
+        Debug.Log($"Move pressed for {item.itemSO.itemName}");
+
+        pendingMoveItem = item;
+
+        // Spawn MoveWindow through WindowManager
+        GameObject windowGO = WindowManager.Instance.OpenWindow(moveWindow);
+
+        // Get MoveWindow component from the instantiated window
+        MoveWindow moveWindowInstance = windowGO.GetComponent<MoveWindow>();
+
+        // Tell the window which item is being moved
+        moveWindowInstance.OpenMoveWindow(item, inventory, player);
+    }
+
 
 
     public void OnDropButtonPressed(ItemInstance item)

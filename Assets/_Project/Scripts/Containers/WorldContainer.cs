@@ -52,7 +52,7 @@ public class WorldContainer : MonoBehaviour
         initialized = true;
     }
 
-    private void AddItemToContainer(ItemSO item, int amount)
+    public void AddItemToContainer(ItemSO item, int amount)
     {
         // Merge into existing stacks
         if (item.isStackable)

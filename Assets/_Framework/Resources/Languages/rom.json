@@ -25,6 +25,7 @@
   "durability": "Durabilitate",
   "amount": "Cantitate",
   "dropitem": "Aruncă obiect",
+  "moveitem": "Move item",
   "debug": "Debug",
   "items": "Items",
   "pickup": "Pick up"

@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6939623776639238072}
   - component: {fileID: 2986198009757299}
   m_Layer: 5
-  m_Name: TabbleButton
+  m_Name: PickUpButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

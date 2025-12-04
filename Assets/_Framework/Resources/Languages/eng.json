@@ -25,6 +25,7 @@
   "durability": "Durability",
   "amount": "Amount",
   "dropitem": "Drop item",
+  "moveitem": "Move item",
   "debug": "Debug",
   "items": "Items",
   "pickup": "Pick up"
