@@ -4,66 +4,84 @@ using UnityEngine.InputSystem;
 public class PlayerMovement : MonoBehaviour
 {
     [Header("Movement Settings")]
-    public float speed = 5f;
+    public float baseSpeed = 5f;
+
+    [Header("Movement Multipliers")]
+    public float sneakMultiplier = 0.5f;
+    public float sprintMultiplier = 1.7f;
 
     [Header("Mobile Controls")]
-    public Joystick joystick;  // Assign your joystick in the Inspector
+    public Joystick joystick;
 
     private Rigidbody2D rb;
     private Vector2 moveInput;
     private PlayerControls controls;
     private Animator animator;
+
     private bool usingJoystick = false;
+
+    private PlayerStateManager state;   // ⭐ Reference to the state manager
+    private float currentSpeed;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        state = PlayerStateManager.Instance;
 
-        // Setup Input System
         controls = new PlayerControls();
         controls.Player.Move.performed += ctx =>
         {
-            // Only use keyboard input if not currently using joystick
             if (!usingJoystick)
-            {
                 moveInput = ctx.ReadValue<Vector2>();
-            }
         };
+
         controls.Player.Move.canceled += ctx =>
         {
-            // Only zero keyboard input if not currently using joystick
             if (!usingJoystick)
-            {
                 moveInput = Vector2.zero;
-            }
         };
     }
 
-    private void OnEnable()
+    private void Start()
     {
-        controls.Enable();
+        UpdateSpeed(state.CurrentMode);
+        state.OnMovementModeChanged += UpdateSpeed;  // ⭐ Listen for changes
     }
 
-    private void OnDisable()
+    private void OnEnable() => controls.Enable();
+    private void OnDisable() => controls.Disable();
+
+    private void UpdateSpeed(MovementMode mode)
     {
-        controls.Disable();
+        switch (mode)
+        {
+            case MovementMode.Sneaking:
+                currentSpeed = baseSpeed * sneakMultiplier;
+                break;
+
+            case MovementMode.Sprinting:
+                currentSpeed = baseSpeed * sprintMultiplier;
+                break;
+
+            default:
+                currentSpeed = baseSpeed;
+                break;
+        }
     }
 
     private void Update()
     {
         if (UIManager.Instance != null && UIManager.Instance.IsWindowOpen)
         {
-            moveInput = Vector2.zero;     // stop movement
+            moveInput = Vector2.zero;
             usingJoystick = false;
-            return;                        // skip reading joystick
+            return;
         }
 
-
-        // --- Get joystick input ---
+        // --- Joystick input ---
         Vector2 joystickInput = new Vector2(joystick.Horizontal, joystick.Vertical);
 
-        // Check if joystick is being used
         if (joystickInput.magnitude > 0.1f)
         {
             usingJoystick = true;
@@ -71,13 +89,11 @@ public class PlayerMovement : MonoBehaviour
         }
         else if (usingJoystick)
         {
-            // Joystick was being used but is now released
             usingJoystick = false;
             moveInput = Vector2.zero;
         }
-        // If not using joystick, keyboard input is handled by the Input System callbacks
 
-        // --- Animator ---
+        // --- Animator stuff ---
         bool walking = moveInput.magnitude > 0.1f;
         animator.SetBool("isWalking", walking);
 
@@ -98,7 +114,7 @@ public class PlayerMovement : MonoBehaviour
             return;
         }
 
-        // --- Move player ---
-        rb.MovePosition(rb.position + moveInput * speed * Time.fixedDeltaTime);
+        // --- Move player with state-based speed ---
+        rb.MovePosition(rb.position + moveInput * currentSpeed * Time.fixedDeltaTime);
     }
 }
