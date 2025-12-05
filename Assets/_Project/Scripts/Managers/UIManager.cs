@@ -1,8 +1,11 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
     public static UIManager Instance;
+
+    public static MovementButtonsUI sprintButton;
 
     [Header("Gameplay UI Elements")]
     public GameObject joystickUI;
@@ -31,4 +34,5 @@ public class UIManager : MonoBehaviour
         if (joystickUI != null)
             joystickUI.SetActive(!IsWindowOpen);
     }
+
 }

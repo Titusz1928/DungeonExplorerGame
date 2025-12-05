@@ -76,6 +76,7 @@ public class PlayerMovement : MonoBehaviour
         {
             moveInput = Vector2.zero;
             usingJoystick = false;
+            state.IsMoving = false;
             return;
         }
 
@@ -95,6 +96,7 @@ public class PlayerMovement : MonoBehaviour
 
         // --- Animator stuff ---
         bool walking = moveInput.magnitude > 0.1f;
+        state.IsMoving = walking;
         animator.SetBool("isWalking", walking);
 
         if (walking)
