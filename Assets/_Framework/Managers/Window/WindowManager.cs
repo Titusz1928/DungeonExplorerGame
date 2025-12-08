@@ -10,6 +10,8 @@ public class WindowManager : MonoBehaviour
 
     private Stack<GameObject> windowStack = new Stack<GameObject>();
 
+    public List<string> debugHistory = new List<string>();
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
