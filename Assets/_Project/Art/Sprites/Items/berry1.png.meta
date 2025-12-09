@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 10ccc91ee65ef1243ba5a8da380d9f10
+guid: f57a13f4e13ccf044a072d5a81b10ec2
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 5211616382531422945
-    second: stickItem_0
+      213: 5067623468917506123
+    second: berry1_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: stickItem_0
+      name: berry1_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 0
-        width: 10
-        height: 10
+        y: 1
+        width: 9
+        height: 8
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 1ea4462dc71635840800000000000000
-      internalID: 5211616382531422945
+      spriteID: b40c24012b0d35640800000000000000
+      internalID: 5067623468917506123
       vertices: []
       indices: 
       edges: []
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      stickItem_0: 5211616382531422945
+      berry1_0: 5067623468917506123
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

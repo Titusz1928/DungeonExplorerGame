@@ -44,7 +44,7 @@ public class PlayerStateManager : MonoBehaviour
         health = health - amount;
     }
 
-    public void heal(float amount)
+    public void addHealth(float amount)
     {
         if(health+amount> maxHealth)
         {
@@ -59,6 +59,16 @@ public class PlayerStateManager : MonoBehaviour
     public void healMax()
     {
         health = maxHealth;
+    }
+
+    public void addStamina(float amount)
+    {
+        stamina = Mathf.Clamp(stamina + amount, 0f, maxStamina);
+    }
+
+    public void staminaMax()
+    {
+        stamina = maxStamina;
     }
 
 

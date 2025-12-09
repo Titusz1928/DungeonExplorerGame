@@ -16,5 +16,6 @@ MonoBehaviour:
   containerIcon: {fileID: 21300000, guid: 7ef4ea48210a05c4d8c2a3b0804f5916, type: 3}
   allowedItems:
   - {fileID: 11400000, guid: 2f23002bf368faf46b34646efc3b1c7e, type: 2}
+  - {fileID: 11400000, guid: b4d18e64f56f2f44ab61ef436ddf2aac, type: 2}
   minItems: 1
   maxItems: 5

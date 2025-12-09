@@ -54,6 +54,7 @@ public class MessageManager : MonoBehaviour
     /// <summary>
     /// Shows a localized message using a key from JSON.
     /// </summary>
+    /// 
     public void ShowMessage(string key, Sprite icon = null)
     {
         if (messagePrefab == null || messageContainer == null)
@@ -83,6 +84,39 @@ public class MessageManager : MonoBehaviour
 
         StartCoroutine(RemoveAfterDelay(msg));
     }
+
+    public void ShowMessageDirectly(string message, Sprite icon = null)
+    {
+        if (messagePrefab == null || messageContainer == null)
+        {
+            Debug.LogError("[MessageManager] Missing UI references!");
+            return;
+        }
+
+        GameObject msg = Instantiate(messagePrefab, messageContainer);
+
+        var textObj = msg.transform.Find("MessageText");
+        var iconObj = msg.transform.Find("MessageIcon");
+
+        // Directly set the text (NO LOCALIZATION)
+        if (textObj != null)
+        {
+            var tmp = textObj.GetComponent<TMPro.TextMeshProUGUI>();
+            if (tmp != null)
+                tmp.text = message;
+        }
+
+        // Optional icon
+        if (iconObj != null)
+        {
+            var img = iconObj.GetComponent<Image>();
+            if (img != null && icon != null)
+                img.sprite = icon;
+        }
+
+        StartCoroutine(RemoveAfterDelay(msg));
+    }
+
 
     private IEnumerator RemoveAfterDelay(GameObject msg)
     {

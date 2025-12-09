@@ -9,14 +9,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a6f45f3e2a77f3f4eb17e18eefde75b5, type: 3}
-  m_Name: Apple
+  m_Script: {fileID: 11500000, guid: 17b9229988c98aa4ca485cfc6bab493c, type: 3}
+  m_Name: Berry
   m_EditorClassIdentifier: 
-  ID: 3
-  itemName: Apple
-  icon: {fileID: 8193665943220294642, guid: 6ad84e8ff311a054184ac13bc94a0378, type: 3}
+  ID: 8
+  itemName: Berry
+  icon: {fileID: 21300000, guid: f57a13f4e13ccf044a072d5a81b10ec2, type: 3}
   category: 3
   isStackable: 1
-  maxStackSize: 10
+  maxStackSize: 20
   isBreakable: 0
   maxDurability: 0
+  consumableType: 0
+  healthAmount: 5
+  staminaAmount: 10

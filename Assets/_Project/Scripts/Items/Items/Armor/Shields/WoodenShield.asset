@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91e740cad4821b6489564bf07cd644d4, type: 3}
+  m_Name: WoodenShield
+  m_EditorClassIdentifier: 
+  ID: 10
+  itemName: Wooden Shield
+  icon: {fileID: 21300000, guid: 550287d1eaa88aa489529afc8c736e05, type: 3}
+  category: 4
+  isStackable: 0
+  maxStackSize: 1
+  isBreakable: 1
+  maxDurability: 200
+  slotsCovered: 0
+  layer: 0
+  bluntRes: 0
+  pierceRes: 0
+  slashRes: 0
+  noise: 0
+  conspicuousness: 0
+  holes: 0
+  shieldType: 1
+  blockStrength: 50
+  staminaCost: 10
+  knockbackResist: 25

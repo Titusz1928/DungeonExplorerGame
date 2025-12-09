@@ -1301,6 +1301,7 @@ MonoBehaviour:
   durabilityImage: {fileID: 6004126821392411138}
   amountText: {fileID: 4227613658499179508}
   infoButton: {fileID: 2896246755389038862}
+  useButton: {fileID: 5343243147359318472}
   moveButton: {fileID: 4914900174370871341}
   dropButton: {fileID: 2151132954324190760}
 --- !u!222 &5471969016942298883

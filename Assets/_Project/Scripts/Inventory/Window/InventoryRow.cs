@@ -16,6 +16,7 @@ public class InventoryRow : MonoBehaviour
     //[SerializeField] private TextMeshProUGUI durabilityText;
     [SerializeField] private TextMeshProUGUI amountText;
     [SerializeField] private Button infoButton;
+    [SerializeField] private Button useButton;
     [SerializeField] private Button moveButton;
     [SerializeField] private Button dropButton;
 
@@ -58,6 +59,9 @@ public class InventoryRow : MonoBehaviour
         infoButton.onClick.RemoveAllListeners();
         infoButton.onClick.AddListener(OnItemInfoPressed);
 
+        useButton.onClick.RemoveAllListeners();
+        useButton.onClick.AddListener(OnUsePressed);
+
         moveButton.onClick.RemoveAllListeners();
         moveButton.onClick.AddListener(OnMovePressed);
 
@@ -68,6 +72,11 @@ public class InventoryRow : MonoBehaviour
     private void OnItemInfoPressed()
     {
         parentWindow.OnInfoButtonPressed(linkedItem);
+    }
+
+    private void OnUsePressed()
+    {
+        parentWindow.OnUseButtonPressed(linkedItem);
     }
 
     private void OnMovePressed()

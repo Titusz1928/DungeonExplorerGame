@@ -9,14 +9,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a6f45f3e2a77f3f4eb17e18eefde75b5, type: 3}
-  m_Name: Stick
+  m_Script: {fileID: 11500000, guid: 17b9229988c98aa4ca485cfc6bab493c, type: 3}
+  m_Name: Apple
   m_EditorClassIdentifier: 
-  ID: 1
-  itemName: Stick
-  icon: {fileID: 5211616382531422945, guid: 10ccc91ee65ef1243ba5a8da380d9f10, type: 3}
-  category: 0
+  ID: 3
+  itemName: Apple
+  icon: {fileID: 8193665943220294642, guid: 6ad84e8ff311a054184ac13bc94a0378, type: 3}
+  category: 3
   isStackable: 1
   maxStackSize: 10
-  isBreakable: 1
-  maxDurability: 30
+  isBreakable: 0
+  maxDurability: 0
+  consumableType: 0
+  healthAmount: 10
+  staminaAmount: 10

@@ -122,7 +122,7 @@ public class DebugConsole : MonoBehaviour
         }
         else
         {
-            PlayerStateManager.Instance.heal(number);
+            PlayerStateManager.Instance.addHealth(number);
         }
         AddHistory($"Player healed by ({number})");
     }

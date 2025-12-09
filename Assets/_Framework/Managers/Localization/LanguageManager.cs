@@ -80,11 +80,11 @@ public class LanguageManager : MonoBehaviour
                 break;
         }
 
-        if (AudioManager.Instance != null)
-            AudioManager.Instance.PlayTestSFX();
+        //if (AudioManager.Instance != null)
+        //    AudioManager.Instance.PlayTestSFX();
 
-        Sprite infoIcon = Resources.Load<Sprite>("UI/Icons/info2");
-        MessageManager.Instance.ShowMessage("testmessage", infoIcon);
+        //Sprite infoIcon = Resources.Load<Sprite>("UI/Icons/info2");
+        //MessageManager.Instance.ShowMessage("testmessage", infoIcon);
 
         // Update LocalizationManager
         LocalizationManager.Instance.SetLanguageIndex(index);

@@ -18,6 +18,12 @@ public class ItemInfoWindow : MonoBehaviour
         if (instance.itemSO is ArmorItemSO armor)
             AddArmorInfo(armor);
 
+        if (instance.itemSO is ConsumableItemSO consumable)
+            AddConsumableInfo(consumable);
+
+        if (instance.itemSO is WeaponItemSO weapon)
+            AddWeaponInfo(weapon);
+
         //if (instance.itemSO is ConsumableItemSO consumable)
         //    AddConsumableInfo(consumable);
 
@@ -107,12 +113,26 @@ public class ItemInfoWindow : MonoBehaviour
         AddRow($"Holes", $"{armor.holes}");
     }
 
-    // ----------------------------
-    // CONSUMABLE INFO
-    // ----------------------------
-    //private void AddConsumableInfo(ConsumableItemSO con)
-    //{
-    //    AddRow("Effect", con.effectDescription);
-    //    AddRow("Duration", con.duration.ToString());
-    //}
+    // -------------------------------------
+    //  WEAPON INFO
+    // -------------------------------------
+    private void AddWeaponInfo(WeaponItemSO weapon)
+    {
+        AddRow("Weapon Type", weapon.weaponType.ToString());
+
+        AddRow("Pierce Damage", weapon.pierceDamage.ToString());
+        AddRow("Blunt Damage", weapon.bluntDamage.ToString());
+        AddRow("Slash Damage", weapon.slashDamage.ToString());
+    }
+
+    // -------------------------------------
+    //  CONSUMABLE INFO
+    // -------------------------------------
+    private void AddConsumableInfo(ConsumableItemSO c)
+    {
+        AddRow("Consumable Type", c.consumableType.ToString());
+
+        AddRow("Health Restore", c.healthAmount.ToString());
+        AddRow("Stamina Restore", c.staminaAmount.ToString());
+    }
 }

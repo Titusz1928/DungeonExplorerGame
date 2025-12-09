@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a6f45f3e2a77f3f4eb17e18eefde75b5, type: 3}
+  m_Script: {fileID: 11500000, guid: 2759143b7a096d645a675433371394d5, type: 3}
   m_Name: Dagger
   m_EditorClassIdentifier: 
   ID: 4
@@ -20,3 +20,7 @@ MonoBehaviour:
   maxStackSize: 1
   isBreakable: 1
   maxDurability: 100
+  weaponType: 1
+  pierceDamage: 10
+  bluntDamage: 5
+  slashDamage: 10

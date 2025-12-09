@@ -84,6 +84,37 @@ public class InventoryWindow : MonoBehaviour
         }
     }
 
+    public void OnUseButtonPressed(ItemInstance item)
+    {
+        ItemSO so = item.itemSO;
+
+        switch (so)
+        {
+            case ConsumableItemSO consumable:
+                Debug.Log($"Using consumable: {consumable.itemName}");
+                PlayerStateManager.Instance.addHealth(consumable.healthAmount);
+                PlayerStateManager.Instance.addStamina(consumable.staminaAmount);
+                inventory.RemoveItem(item.itemSO);
+                Sprite infoIcon = Resources.Load<Sprite>("UI/Icons/heal");
+                MessageManager.Instance.ShowMessageDirectly($"+{consumable.healthAmount}HP, +{consumable.staminaAmount}STAMINA", infoIcon);
+
+                Refresh();
+                break;
+
+            case WeaponItemSO weapon:
+                Debug.Log($"Equipping weapon: {weapon.itemName}");
+                break;
+
+            case ArmorItemSO armor:
+                Debug.Log($"Equipping armor: {armor.itemName}");
+                break;
+
+            default:
+                Debug.Log($"Item cannot be used: {so.itemName}");
+                break;
+        }
+    }
+
 
     public void OnMoveButtonPressed(ItemInstance item)
     {

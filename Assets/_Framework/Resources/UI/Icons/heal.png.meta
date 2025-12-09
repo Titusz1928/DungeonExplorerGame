@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 10ccc91ee65ef1243ba5a8da380d9f10
+guid: d441bea03408a1f498162da805c740da
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 5211616382531422945
-    second: stickItem_0
+      213: -1049461823314036041
+    second: heal_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -51,7 +51,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 32
+  spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: stickItem_0
+      name: heal_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 0
-        width: 10
-        height: 10
+        y: 18
+        width: 256
+        height: 220
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 1ea4462dc71635840800000000000000
-      internalID: 5211616382531422945
+      spriteID: 7ba780038009f61f0800000000000000
+      internalID: -1049461823314036041
       vertices: []
       indices: 
       edges: []
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      stickItem_0: 5211616382531422945
+      heal_0: -1049461823314036041
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
