@@ -2,7 +2,7 @@
 public class ItemInstance
 {
     public ItemSO itemSO;
-    public int currentDurability;
+    public double currentDurability;
     public int quantity;
 
     public ItemInstance(ItemSO so, int quantity = 1)

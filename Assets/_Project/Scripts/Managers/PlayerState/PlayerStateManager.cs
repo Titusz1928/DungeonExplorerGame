@@ -23,6 +23,12 @@ public class PlayerStateManager : MonoBehaviour
     public Bar staminaBar;
     public GameObject staminaBarbackground;
 
+
+    [Header("Health Settings")]
+    public float maxHealth = 100f;
+    public Bar healthBar;
+    public GameObject healthBarbackground;
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -32,6 +38,29 @@ public class PlayerStateManager : MonoBehaviour
         }
         Instance = this;
     }
+
+    public void inflictDamage(float amount)
+    {
+        health = health - amount;
+    }
+
+    public void heal(float amount)
+    {
+        if(health+amount> maxHealth)
+        {
+            health = maxHealth;
+        }
+        else
+        {
+            health = health + amount;
+        }
+    }
+
+    public void healMax()
+    {
+        health = maxHealth;
+    }
+
 
     public void SetSneak(bool active)
     {
@@ -84,6 +113,16 @@ public class PlayerStateManager : MonoBehaviour
 
             // Update fill
             staminaBar.SetValue(stamina / maxStamina);
+        }
+
+        if (healthBar != null)
+        {
+            // Show only when NOT full
+            healthBar.gameObject.SetActive(health < maxHealth);
+            healthBar.gameObject.SetActive(health < maxHealth);
+
+            // Update fill
+            healthBar.SetValue(health / maxHealth);
         }
     }
 

@@ -12,5 +12,5 @@ public class ItemSaveEntry
 {
     public int itemID;
     public int quantity;
-    public int durability;
+    public double durability;
 }

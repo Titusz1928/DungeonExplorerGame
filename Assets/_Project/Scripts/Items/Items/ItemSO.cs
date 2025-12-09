@@ -6,7 +6,7 @@ public enum ItemCategory
     Tool,
     Material,
     Consumable,
-    Armor
+    Clothing
 }
 
 [CreateAssetMenu(fileName = "NewItem", menuName = "Inventory/Item")]
@@ -21,5 +21,5 @@ public class ItemSO : ScriptableObject
     public int maxStackSize = 1;
 
     public bool isBreakable;
-    public int maxDurability = 0; // ignored if not breakable
+    public double maxDurability = 0; // ignored if not breakable
 }

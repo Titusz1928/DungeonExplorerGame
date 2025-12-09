@@ -48,6 +48,7 @@ public class DebugConsole : MonoBehaviour
         commands["/help"] = CmdHelp;
         commands["/tp"] = CmdTeleport;
         commands["/give"] = CmdGive;
+        commands["/heal"] = CmdHealth;
         commands["/clear"] = CmdClear;
     }
 
@@ -92,6 +93,8 @@ public class DebugConsole : MonoBehaviour
         AddHistory("/help - show this list");
         AddHistory("/tp <x> <y> - teleport player");
         AddHistory("/give <itemId> - give item to inventory");
+        AddHistory("/heal <amount> - heal player");
+        AddHistory("/clear - clear console");
     }
 
     private void CmdClear(string[] args)
@@ -100,6 +103,28 @@ public class DebugConsole : MonoBehaviour
 
         foreach (Transform child in content)
             Destroy(child.gameObject);
+    }
+
+    private void CmdHealth(string[] args)
+    {
+        if(args.Length < 2)
+        {
+            AddHistory("Usage: /heal <amount>");
+            return;
+        }
+        if (!float.TryParse(args[1], out float number))
+        {
+            AddHistory("Health must be a number");
+            return;
+        }
+        if (number < 0){
+            PlayerStateManager.Instance.inflictDamage(-number);
+        }
+        else
+        {
+            PlayerStateManager.Instance.heal(number);
+        }
+        AddHistory($"Player healed by ({number})");
     }
 
     private void CmdTeleport(string[] args)

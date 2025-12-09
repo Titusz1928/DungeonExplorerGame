@@ -13,6 +13,9 @@ public class InventoryWindow : MonoBehaviour
     [SerializeField] private GameObject moveWindow;
     private ItemInstance pendingMoveItem;
 
+    [SerializeField] private GameObject itemInfoWindow;
+    private ItemInstance pendinginfoItem;
+
     private void Start()
     {
         //Refresh();
@@ -59,6 +62,28 @@ public class InventoryWindow : MonoBehaviour
             row.SetData(instance, this);
         }
     }
+
+    public void OnInfoButtonPressed(ItemInstance item)
+    {
+        Debug.Log($"Info pressed for {item.itemSO.itemName}");
+        pendinginfoItem = item; // store the item if needed later
+
+        // Open the item info window via WindowManager
+        GameObject windowGO = WindowManager.Instance.OpenWindow(itemInfoWindow);
+
+        // Get the ItemInfoWindow component from the instantiated window
+        ItemInfoWindow infoWindow = windowGO.GetComponent<ItemInfoWindow>();
+
+        if (infoWindow != null)
+        {
+            infoWindow.Show(item); // <-- pass the ItemInstance here
+        }
+        else
+        {
+            Debug.LogError("ItemInfoWindow component not found on the window prefab!");
+        }
+    }
+
 
     public void OnMoveButtonPressed(ItemInstance item)
     {
