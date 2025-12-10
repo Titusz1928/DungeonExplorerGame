@@ -49,6 +49,7 @@ public class DebugConsole : MonoBehaviour
         commands["/tp"] = CmdTeleport;
         commands["/give"] = CmdGive;
         commands["/heal"] = CmdHealth;
+        commands["/xp"] = CmdAddXP;
         commands["/clear"] = CmdClear;
     }
 
@@ -94,6 +95,7 @@ public class DebugConsole : MonoBehaviour
         AddHistory("/tp <x> <y> - teleport player");
         AddHistory("/give <itemId> - give item to inventory");
         AddHistory("/heal <amount> - heal player");
+        AddHistory("/xp <skillname> <amount> - add xp");
         AddHistory("/clear - clear console");
     }
 
@@ -103,6 +105,27 @@ public class DebugConsole : MonoBehaviour
 
         foreach (Transform child in content)
             Destroy(child.gameObject);
+    }
+
+    private void CmdAddXP(string[] args)
+    {
+        if (args.Length < 3)
+        {
+            AddHistory("Usage: /xp <skillName> <amount>");
+            return;
+        }
+
+        string skillName = args[1].ToLower();
+        if (!float.TryParse(args[2], out float amount))
+        {
+            AddHistory("XP amount must be a number.");
+            return;
+        }
+
+
+        PlayerSkillManager.Instance.TryAddXP(skillName, amount);
+
+        AddHistory($"Added {amount} XP to '{skillName}'.");
     }
 
     private void CmdHealth(string[] args)

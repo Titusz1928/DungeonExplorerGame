@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10555ffa5738b314f8a1d32caa49d9eb, type: 3}
   m_Name: MaterialChest
   m_EditorClassIdentifier: 
-  containerName: 
+  containerName: Materials
   containerIcon: {fileID: 21300000, guid: 7ef4ea48210a05c4d8c2a3b0804f5916, type: 3}
   allowedItems:
-  - {fileID: 11400000, guid: ac639bed04f7a334da037ba66d46a803, type: 2}
   - {fileID: 11400000, guid: 143d01bc259be3742b7bd3afc5d0606a, type: 2}
+  - {fileID: 11400000, guid: ac639bed04f7a334da037ba66d46a803, type: 2}
   minItems: 1
   maxItems: 3

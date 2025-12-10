@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10555ffa5738b314f8a1d32caa49d9eb, type: 3}
+  m_Name: Enemy
+  m_EditorClassIdentifier: 
+  containerName: Corspe
+  containerIcon: {fileID: 21300000, guid: 4c71a713737ca7940bb5872e84134ada, type: 3}
+  allowedItems:
+  - {fileID: 11400000, guid: 660786c249eef234aafe4f02bd12d385, type: 2}
+  - {fileID: 11400000, guid: fe8efae00a826d74eb594e0cf0c30ea1, type: 2}
+  - {fileID: 11400000, guid: 90fac7911190a574d9814d7cc90ecd47, type: 2}
+  - {fileID: 11400000, guid: f28e0592a06d0584e90d100d6d14b6a6, type: 2}
+  - {fileID: 11400000, guid: 4d9f2f8f6cf7c474db0732b397b95f52, type: 2}
+  - {fileID: 11400000, guid: a0a2d8c2d6d1ca241be17e83a67646be, type: 2}
+  minItems: 1
+  maxItems: 1

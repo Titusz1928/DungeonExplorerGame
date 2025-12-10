@@ -14,6 +14,9 @@ public class InventoryWindow : MonoBehaviour
     [SerializeField] private GameObject equipmentRowPrefab;
     [SerializeField] private GameObject equipmentStatRowPrefab;
 
+    //Inventory Skills Tab
+    [SerializeField] private GameObject skillsRowPrefab;
+
     [SerializeField] private Transform player;
     [SerializeField] private Inventory inventory;
 
@@ -56,7 +59,7 @@ public class InventoryWindow : MonoBehaviour
                 buildEquipmentSection();
                 break;
             case 2:
-
+                buildSkillsSection();
                 break;
         }
 
@@ -195,6 +198,28 @@ public class InventoryWindow : MonoBehaviour
                 .SetData("Conspicuousness", EquipmentManager.Instance.GetTotalConspicuousness());
         }
 
+    }
+
+
+    public void buildSkillsSection()
+    {
+        if (rowContainer == null)
+        {
+            Debug.LogError("Row container not assigned!");
+            return;
+        }
+
+        // Clear existing rows
+        foreach (Transform child in rowContainer)
+            Destroy(child.gameObject);
+
+
+        foreach (PlayerSkill skill in System.Enum.GetValues(typeof(PlayerSkill)))
+        {
+            GameObject rowObj = Instantiate(skillsRowPrefab, rowContainer);
+            InventorySkillRow row = rowObj.GetComponent<InventorySkillRow>();
+            row.SetData(skill);
+        }
     }
 
     public void OnInfoButtonPressed(ItemInstance item)

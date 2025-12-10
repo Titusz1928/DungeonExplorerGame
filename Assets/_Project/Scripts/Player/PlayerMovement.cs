@@ -4,11 +4,11 @@ using UnityEngine.InputSystem;
 public class PlayerMovement : MonoBehaviour
 {
     [Header("Movement Settings")]
-    public float baseSpeed = 5f;
+    public float baseSpeed = 4f;
 
     [Header("Movement Multipliers")]
     public float sneakMultiplier = 0.5f;
-    public float sprintMultiplier = 1.7f;
+    public float sprintMultiplier = 1.2f;
 
     [Header("Mobile Controls")]
     public Joystick joystick;
@@ -20,8 +20,17 @@ public class PlayerMovement : MonoBehaviour
 
     private bool usingJoystick = false;
 
-    private PlayerStateManager state;   // ⭐ Reference to the state manager
+    private PlayerStateManager state;
     private float currentSpeed;
+
+    //for skill levels
+    private Vector3 lastPosition;
+    private float distanceAccumulator = 0f;
+
+    // How often to award XP per meters walked
+    [Header("Xp values")]
+    public float metersPerXP = 10f;
+    public float xpPerTick = 0.5f;
 
     private void Awake()
     {
@@ -45,6 +54,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void Start()
     {
+        lastPosition = transform.position;
+
         UpdateSpeed(state.CurrentMode);
         state.OnMovementModeChanged += UpdateSpeed;  // ⭐ Listen for changes
     }
@@ -54,18 +65,32 @@ public class PlayerMovement : MonoBehaviour
 
     private void UpdateSpeed(MovementMode mode)
     {
+        // --- Get skill levels ---
+        int speedLevel = PlayerSkillManager.Instance.GetLevel(PlayerSkill.Speed);
+        int stealthLevel = PlayerSkillManager.Instance.GetLevel(PlayerSkill.Stealth);
+        int strengthLevel = PlayerSkillManager.Instance.GetLevel(PlayerSkill.Strength);
+
+        // --- Base speed scales WEAKLY with Speed Skill ---
+        float effectiveBaseSpeed = baseSpeed + (speedLevel * 0.03f);
+
+        // --- Sneak scaling (VERY small) ---
+        float effectiveSneakMultiplier = sneakMultiplier + (stealthLevel * 0.01f);
+
+        // --- Sprint scaling (stronger, but safe) ---
+        float effectiveSprintMultiplier = sprintMultiplier + (strengthLevel * 0.05f);
+
         switch (mode)
         {
             case MovementMode.Sneaking:
-                currentSpeed = baseSpeed * sneakMultiplier;
+                currentSpeed = effectiveBaseSpeed * effectiveSneakMultiplier;
                 break;
 
             case MovementMode.Sprinting:
-                currentSpeed = baseSpeed * sprintMultiplier;
+                currentSpeed = effectiveBaseSpeed * effectiveSprintMultiplier;
                 break;
 
             default:
-                currentSpeed = baseSpeed;
+                currentSpeed = effectiveBaseSpeed;
                 break;
         }
     }
@@ -106,6 +131,32 @@ public class PlayerMovement : MonoBehaviour
             animator.SetFloat("LastInputX", moveInput.x);
             animator.SetFloat("LastInputY", moveInput.y);
         }
+
+        // --- XP Gain For Movement ---
+        if (walking)   // use local walking, not previous frame's state
+        {
+            float dist = Vector3.Distance(transform.position, lastPosition);
+            distanceAccumulator += dist;
+
+            if (distanceAccumulator >= metersPerXP)
+            {
+                distanceAccumulator = 0f;
+                //Debug.Log("xp is given!");
+                // XP: Speed
+                PlayerSkillManager.Instance.AddXP(PlayerSkill.Speed, xpPerTick);
+
+                // XP: Stealth
+                if (state.CurrentMode == MovementMode.Sneaking)
+                    PlayerSkillManager.Instance.AddXP(PlayerSkill.Stealth, xpPerTick * 1.2f);
+
+                // XP: Strength
+                if (state.CurrentMode == MovementMode.Sprinting)
+                    PlayerSkillManager.Instance.AddXP(PlayerSkill.Strength, xpPerTick * 0.5f);
+            }
+        }
+
+        // Update last position AFTER xp logic
+        lastPosition = transform.position;
     }
 
     private void FixedUpdate()
