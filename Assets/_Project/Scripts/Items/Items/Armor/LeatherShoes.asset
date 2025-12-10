@@ -22,9 +22,11 @@ MonoBehaviour:
   maxDurability: 100
   slotsCovered: 256
   layer: 0
-  bluntRes: 10
-  pierceRes: 5
-  slashRes: 5
+  defenses:
+  - slot: 256
+    defense:
+      blunt: 10
+      pierce: 5
+      slash: 5
   noise: 10
   conspicuousness: 10
-  holes: 0

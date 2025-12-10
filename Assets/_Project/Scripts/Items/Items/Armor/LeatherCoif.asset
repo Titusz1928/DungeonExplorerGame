@@ -10,33 +10,23 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 98eaaff1cea8c1e448df0fb10bf3a4d9, type: 3}
-  m_Name: LeatherShirt
+  m_Name: LeatherCoif
   m_EditorClassIdentifier: 
-  ID: 7
-  itemName: Leather Shirt
-  icon: {fileID: 21300000, guid: 20662b24153b9e247b80eaaa98d72bb0, type: 3}
+  ID: 13
+  itemName: Leather Coif
+  icon: {fileID: 21300000, guid: fabdcf26a3039e847898480f6b34934d, type: 3}
   category: 4
   isStackable: 0
   maxStackSize: 1
   isBreakable: 1
   maxDurability: 100
-  slotsCovered: 56
+  slotsCovered: 1
   layer: 0
   defenses:
-  - slot: 8
+  - slot: 1
     defense:
-      blunt: 10
-      pierce: 3
-      slash: 3
-  - slot: 16
-    defense:
-      blunt: 10
-      pierce: 3
-      slash: 3
-  - slot: 32
-    defense:
-      blunt: 7
-      pierce: 3
-      slash: 3
-  noise: 10
-  conspicuousness: 10
+      blunt: 5
+      pierce: 2
+      slash: 2
+  noise: 5
+  conspicuousness: 5

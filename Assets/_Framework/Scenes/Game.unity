@@ -424,7 +424,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3623353013685159859, guid: 9b8aeca167b7c244d83797b5d24cf818, type: 3}
       propertyPath: allItems.Array.size
-      value: 10
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 3623353013685159859, guid: 9b8aeca167b7c244d83797b5d24cf818, type: 3}
       propertyPath: 'allItems.Array.data[0]'
@@ -458,6 +458,18 @@ PrefabInstance:
       propertyPath: 'allItems.Array.data[9]'
       value: 
       objectReference: {fileID: 11400000, guid: 760e8a8f012f2e744b78ea5c297866ab, type: 2}
+    - target: {fileID: 3623353013685159859, guid: 9b8aeca167b7c244d83797b5d24cf818, type: 3}
+      propertyPath: 'allItems.Array.data[10]'
+      value: 
+      objectReference: {fileID: 11400000, guid: f28e0592a06d0584e90d100d6d14b6a6, type: 2}
+    - target: {fileID: 3623353013685159859, guid: 9b8aeca167b7c244d83797b5d24cf818, type: 3}
+      propertyPath: 'allItems.Array.data[11]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 38057dbfb64a55f49a19bf1edc6ae5d2, type: 2}
+    - target: {fileID: 3623353013685159859, guid: 9b8aeca167b7c244d83797b5d24cf818, type: 3}
+      propertyPath: 'allItems.Array.data[12]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 660786c249eef234aafe4f02bd12d385, type: 2}
     - target: {fileID: 4484588301191918450, guid: 9b8aeca167b7c244d83797b5d24cf818, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -6212,6 +6224,7 @@ GameObject:
   - component: {fileID: 1481028803}
   - component: {fileID: 1481028805}
   - component: {fileID: 1481028806}
+  - component: {fileID: 1481028807}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -6416,6 +6429,30 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   items: []
   maxSlots: 20
+--- !u!114 &1481028807
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1481028798}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9658c1332584a8b4ba66b08520abbca1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mainHandWeapon:
+    itemSO: {fileID: 0}
+    currentDurability: 0
+    quantity: 0
+    isEquipped: 0
+    holes: 0
+  offHandShield:
+    itemSO: {fileID: 0}
+    currentDurability: 0
+    quantity: 0
+    isEquipped: 0
+    holes: 0
 --- !u!1001 &1488627082
 PrefabInstance:
   m_ObjectHideFlags: 0

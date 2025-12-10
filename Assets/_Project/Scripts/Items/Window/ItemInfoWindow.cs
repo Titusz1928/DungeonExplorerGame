@@ -1,5 +1,6 @@
-using UnityEngine;
+using System.Collections.Generic;
 using TMPro;
+using UnityEngine;
 
 public class ItemInfoWindow : MonoBehaviour
 {
@@ -16,7 +17,7 @@ public class ItemInfoWindow : MonoBehaviour
         AddBasicInfo(instance);
 
         if (instance.itemSO is ArmorItemSO armor)
-            AddArmorInfo(armor);
+            AddArmorInfo(armor, instance);
 
         if (instance.itemSO is ConsumableItemSO consumable)
             AddConsumableInfo(consumable);
@@ -92,25 +93,47 @@ public class ItemInfoWindow : MonoBehaviour
     // ----------------------------
     // ARMOR SPECIFIC INFO
     // ----------------------------
-    private void AddArmorInfo(ArmorItemSO armor)
+    private void AddArmorInfo(ArmorItemSO armor, ItemInstance instance)
     {
         AddRow("Armor Type", armor.layer.ToString());
 
-        // If the armor covers multiple slots, join them as a string
-        string covers = string.Join(", ", armor.slotsCovered);
-        AddRow("Covers", covers);
+        // ----------------------------
+        // Slots Covered
+        // ----------------------------
+        // Convert the Flags enum into readable names
+        List<string> coveredSlots = new List<string>();
 
-        // Defense stats
-        AddRow("Blunt", $"{armor.bluntRes}");
-        AddRow("Pierce", $"{armor.pierceRes}");
-        AddRow("Slash", $"{armor.slashRes}");
+        foreach (ArmorSlot slot in System.Enum.GetValues(typeof(ArmorSlot)))
+        {
+            if (slot != ArmorSlot.None && armor.slotsCovered.HasFlag(slot))
+                coveredSlots.Add(slot.ToString());
+        }
 
-        // Stealth stats
-        AddRow("Noise", $"{armor.noise}");
-        AddRow("Conspicuous",$"{armor.conspicuousness}");
+        AddRow("Covers", string.Join(", ", coveredSlots));
 
-        // Durability / Holes
-        AddRow($"Holes", $"{armor.holes}");
+        // ----------------------------
+        // Defense Per Slot
+        // ----------------------------
+        foreach (var def in armor.defenses)
+        {
+            string slotName = def.slot.ToString();
+
+            AddRow($"{slotName} Blunt", def.defense.blunt.ToString());
+            AddRow($"{slotName} Pierce", def.defense.pierce.ToString());
+            AddRow($"{slotName} Slash", def.defense.slash.ToString());
+        }
+
+        // ----------------------------
+        // Stealth
+        // ----------------------------
+        AddRow("Noise", armor.noise.ToString());
+        AddRow("Conspicuous", armor.conspicuousness.ToString());
+
+        // ----------------------------
+        // Wear & Tear (from instance)
+        // ----------------------------
+        if (instance != null)
+            AddRow("Holes", instance.holes.ToString());
     }
 
     // -------------------------------------

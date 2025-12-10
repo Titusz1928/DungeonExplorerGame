@@ -5,6 +5,13 @@ using UnityEngine.UI;
 
 public class InventoryRow : MonoBehaviour
 {
+    public Image background;   // assign in inspector
+    private static readonly Color equippedColor = new Color32(0xBC, 0xBC, 0xBC, 0xFF);
+    private static readonly Color normalColor = Color.white;
+
+    public TextMeshProUGUI useButtonText;
+
+
 
     [SerializeField] private Image image;
     [SerializeField] private Image durabilityImage;
@@ -25,6 +32,9 @@ public class InventoryRow : MonoBehaviour
 
     public void SetData(ItemInstance instance, InventoryWindow window)
     {
+        background.color = instance.isEquipped ? equippedColor : normalColor;
+
+
         linkedItem = instance;
         parentWindow = window;
 
@@ -55,6 +65,9 @@ public class InventoryRow : MonoBehaviour
         // typeText.text = instance.itemSO.category.ToString();
         //durabilityText.text = instance.currentDurability.ToString();
         amountText.text = instance.quantity.ToString();
+
+        useButtonText.text = instance.isEquipped ? "Unequip" : "Use";
+
 
         infoButton.onClick.RemoveAllListeners();
         infoButton.onClick.AddListener(OnItemInfoPressed);

@@ -10,33 +10,28 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 98eaaff1cea8c1e448df0fb10bf3a4d9, type: 3}
-  m_Name: LeatherShirt
+  m_Name: FancySkullcap
   m_EditorClassIdentifier: 
-  ID: 7
-  itemName: Leather Shirt
-  icon: {fileID: 21300000, guid: 20662b24153b9e247b80eaaa98d72bb0, type: 3}
+  ID: 12
+  itemName: Fancy skullcap
+  icon: {fileID: 21300000, guid: cbdad4b8cff2db44782d8b711fd00794, type: 3}
   category: 4
   isStackable: 0
   maxStackSize: 1
   isBreakable: 1
-  maxDurability: 100
-  slotsCovered: 56
-  layer: 0
+  maxDurability: 220
+  slotsCovered: 1
+  layer: 2
   defenses:
-  - slot: 8
+  - slot: 1
     defense:
-      blunt: 10
-      pierce: 3
-      slash: 3
-  - slot: 16
+      blunt: 16
+      pierce: 11
+      slash: 11
+  - slot: 2
     defense:
-      blunt: 10
-      pierce: 3
-      slash: 3
-  - slot: 32
-    defense:
-      blunt: 7
-      pierce: 3
-      slash: 3
-  noise: 10
-  conspicuousness: 10
+      blunt: 5
+      pierce: 2
+      slash: 2
+  noise: 26
+  conspicuousness: 21

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 [System.Flags]
@@ -23,6 +24,21 @@ public enum ArmorLayer
     Over        // cloak, tabard
 }
 
+[System.Serializable]
+public struct ArmorDefense
+{
+    public float blunt;
+    public float pierce;
+    public float slash;
+}
+
+[System.Serializable]
+public class ArmorSlotDefense
+{
+    public ArmorSlot slot;          // e.g. Torso
+    public ArmorDefense defense;    // blunt, pierce, slash
+}
+
 [CreateAssetMenu(fileName = "NewArmorItem", menuName = "Inventory/Armor Item")]
 public class ArmorItemSO : ItemSO
 {
@@ -30,15 +46,11 @@ public class ArmorItemSO : ItemSO
     public ArmorSlot slotsCovered;
     public ArmorLayer layer;
 
-    [Header("Defense")]
-    public float bluntRes;
-    public float pierceRes;
-    public float slashRes;
+    [Header("Defense Per Body Part")]
+    public List<ArmorSlotDefense> defenses = new();
 
     [Header("Stealth")]
     public float noise;
     public float conspicuousness;
 
-    [Header("Wear & Tear")]
-    public int holes;
 }

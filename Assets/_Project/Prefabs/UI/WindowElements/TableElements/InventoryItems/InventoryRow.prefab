@@ -1297,6 +1297,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 510bd9e064a437c4f9d436b8dc7e8e90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  background: {fileID: 6730388293344441617}
+  useButtonText: {fileID: 1561052073281863198}
   image: {fileID: 2788306270879391524}
   durabilityImage: {fileID: 6004126821392411138}
   amountText: {fileID: 4227613658499179508}
