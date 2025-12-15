@@ -8,6 +8,7 @@ public class InventoryWindow : MonoBehaviour
     //Inventory Items Tab
     [SerializeField] private GameObject itemsRowPrefab;
     [SerializeField] private GameObject itemsTitleRowPrefab;
+    [SerializeField] private GameObject itemsStatsRowPrefab;
 
     //Inventory Equipment Tab
     [SerializeField] private GameObject equipmentTitleRowPrefab;
@@ -107,14 +108,25 @@ public class InventoryWindow : MonoBehaviour
             Destroy(child.gameObject);
 
 
-        if (itemsTitleRowPrefab != null)
+        if (itemsStatsRowPrefab != null)
         {
-            Instantiate(itemsTitleRowPrefab, rowContainer);
+            GameObject rowObj = Instantiate(itemsStatsRowPrefab, rowContainer);
+            ItemStatRow row = rowObj.GetComponent<ItemStatRow>();
+            row.SetData(inventory, this);
         }
         else
         {
-            Debug.LogWarning("titleRowPrefab not assigned! No title row will be created.");
+            Debug.LogWarning("itemsStatsRowPrefab not assigned! No item stat row will be created.");
         }
+
+        //if (itemsTitleRowPrefab != null)
+        //{
+        //    Instantiate(itemsTitleRowPrefab, rowContainer);
+        //}
+        //else
+        //{
+        //    Debug.LogWarning("titleRowPrefab not assigned! No title row will be created.");
+        //}
 
         foreach (ItemInstance instance in inventory.items)
         {

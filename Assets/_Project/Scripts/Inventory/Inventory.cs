@@ -30,6 +30,7 @@ public class Inventory : MonoBehaviour
         // add new slots
         while (amount > 0 && items.Count < maxSlots)
         {
+            Debug.Log(items.Count+" < "+maxSlots);
             int addAmount = itemSO.isStackable ? Mathf.Min(itemSO.maxStackSize, amount) : 1;
 
             items.Add(new ItemInstance(itemSO, addAmount));

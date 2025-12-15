@@ -2283,6 +2283,7 @@ MonoBehaviour:
   rowContainer: {fileID: 1209120336629404312}
   itemsRowPrefab: {fileID: 5837686507565617882, guid: ac5b0a1797ad0564f811f01b72ebd423, type: 3}
   itemsTitleRowPrefab: {fileID: 1026542716532189693, guid: d104084deaddd5f41af65cebf080935b, type: 3}
+  itemsStatsRowPrefab: {fileID: 3053320804439810817, guid: 79421319dec71274dab3ca2e2b3d019f, type: 3}
   equipmentTitleRowPrefab: {fileID: 2832329022155592878, guid: 0e61033603ab8d94892252a901e2c36f, type: 3}
   equipmentRowPrefab: {fileID: 9111370232776084067, guid: a5d35e517977a8e44a0de90853ba75e7, type: 3}
   equipmentStatRowPrefab: {fileID: 4325899575826267039, guid: bb19c90e08e23214cbc93dfe38089e95, type: 3}

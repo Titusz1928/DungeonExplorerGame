@@ -23,14 +23,18 @@ public class PlayerMovement : MonoBehaviour
     private PlayerStateManager state;
     private float currentSpeed;
 
-    //for skill levels
+    //for skill levels and noise
     private Vector3 lastPosition;
-    private float distanceAccumulator = 0f;
+    private float xpDistanceAccumulator = 0f;
+    private float noiseDistanceAccumulator = 0f;
 
     // How often to award XP per meters walked
     [Header("Xp values")]
     public float metersPerXP = 10f;
     public float xpPerTick = 0.5f;
+
+    [Header("Noise Settings")]
+    public float metersPerNoise = 1f;
 
     private void Awake()
     {
@@ -136,22 +140,40 @@ public class PlayerMovement : MonoBehaviour
         if (walking)   // use local walking, not previous frame's state
         {
             float dist = Vector3.Distance(transform.position, lastPosition);
-            distanceAccumulator += dist;
+            xpDistanceAccumulator += dist;
 
-            if (distanceAccumulator >= metersPerXP)
+            if (xpDistanceAccumulator >= metersPerXP)
             {
-                distanceAccumulator = 0f;
-                //Debug.Log("xp is given!");
-                // XP: Speed
+                xpDistanceAccumulator = 0f;
+
+                // --- XP ---
                 PlayerSkillManager.Instance.AddXP(PlayerSkill.Speed, xpPerTick);
 
-                // XP: Stealth
                 if (state.CurrentMode == MovementMode.Sneaking)
                     PlayerSkillManager.Instance.AddXP(PlayerSkill.Stealth, xpPerTick * 1.2f);
 
-                // XP: Strength
                 if (state.CurrentMode == MovementMode.Sprinting)
                     PlayerSkillManager.Instance.AddXP(PlayerSkill.Strength, xpPerTick * 0.5f);
+
+            }
+
+            // --- Noise ---
+            noiseDistanceAccumulator += dist;
+            if (noiseDistanceAccumulator >= metersPerNoise)
+            {
+                noiseDistanceAccumulator = 0f;
+
+                switch (state.CurrentMode)
+                {
+                    case MovementMode.Sneaking:
+                        break;
+                    case MovementMode.Normal:
+                        NoiseManager.Instance.EmitActionNoise(NoiseActionType.Walking, transform.position);
+                        break;
+                    case MovementMode.Sprinting:
+                        NoiseManager.Instance.EmitActionNoise(NoiseActionType.Sprinting, transform.position);
+                        break;
+                }
             }
         }
 

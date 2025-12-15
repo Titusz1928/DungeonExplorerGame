@@ -173,38 +173,58 @@ public class EquipmentManager : MonoBehaviour
 
     public float GetTotalSneak()
     {
-        float totalSneak = 0f;
+        float totalNoise = 0f;
 
-        foreach (var slotDict in equippedArmor.Values)
+        foreach (var slotPair in equippedArmor)
         {
-            foreach (var item in slotDict.Values)
+            float maxNoiseForSlot = 0f;
+
+            foreach (var item in slotPair.Value.Values)
             {
                 if (item.itemSO is ArmorItemSO armor)
                 {
-                    totalSneak += armor.noise; // assuming noise reduces sneak
+                    if (armor.noise > maxNoiseForSlot)
+                        maxNoiseForSlot = armor.noise;
                 }
             }
+
+            totalNoise += maxNoiseForSlot;
         }
 
-        return totalSneak;
+        return totalNoise;
     }
+
+    private static readonly ArmorLayer[] LayerPriority =
+    {
+        ArmorLayer.Under,
+        ArmorLayer.Chainmail,
+        ArmorLayer.Plate,
+        ArmorLayer.Over
+    };
 
     public float GetTotalConspicuousness()
     {
-        float totalConspicuous = 0f;
+        float total = 0f;
 
-        foreach (var slotDict in equippedArmor.Values)
+        foreach (var slotPair in equippedArmor)
         {
-            foreach (var item in slotDict.Values)
+            var layers = slotPair.Value;
+
+            // Find highest equipped layer for this slot
+            for (int i = LayerPriority.Length - 1; i >= 0; i--)
             {
-                if (item.itemSO is ArmorItemSO armor)
+                ArmorLayer layer = LayerPriority[i];
+
+                if (layers.TryGetValue(layer, out ItemInstance item) &&
+                    item.itemSO is ArmorItemSO armor)
                 {
-                    totalConspicuous += armor.conspicuousness;
+                    total += armor.conspicuousness;
+                    break; // 🔑 only top layer counts
                 }
             }
         }
 
-        return totalConspicuous;
+        return total;
     }
 
 }

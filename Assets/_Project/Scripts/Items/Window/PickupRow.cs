@@ -61,24 +61,30 @@ public class PickupRow : MonoBehaviour
     private void OnPickupPressed()
     {
         Inventory inv = window.GetInventory();
+        bool added = false;
 
         if (isFromGround)
         {
-            inv.AddItem(worldItem.itemData, worldItem.quantity);
-            Destroy(worldItem.gameObject);
+            added=inv.AddItem(worldItem.itemData, worldItem.quantity);
+            if(added)
+                Destroy(worldItem.gameObject);
         }
         else
         {
-            inv.AddItem(containerItemSO, 1);
-            parentContainer.RemoveItem(containerItemSO, 1);
+            added = inv.AddItem(containerItemSO, 1);
+            if (added)
+                parentContainer.RemoveItem(containerItemSO, 1);
         }
 
-        window.Refresh();
 
-        // Restore previous tab
-        if (isFromGround || sourceContainer == null)
-            window.ShowGroundItems();
-        else
-            window.ShowContainerItems(sourceContainer);
+        if (added)
+        {
+            window.Refresh();
+            // Restore previous tab
+            if (isFromGround || sourceContainer == null)
+                window.ShowGroundItems();
+            else
+                window.ShowContainerItems(sourceContainer);
+        }
     }
 }

@@ -22,4 +22,4 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 4d9f2f8f6cf7c474db0732b397b95f52, type: 2}
   - {fileID: 11400000, guid: a0a2d8c2d6d1ca241be17e83a67646be, type: 2}
   minItems: 1
-  maxItems: 1
+  maxItems: 6

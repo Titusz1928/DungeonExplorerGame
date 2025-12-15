@@ -1064,6 +1064,8 @@ MonoBehaviour:
   sneakMultiplier: 0.5
   sprintMultiplier: 1.7
   joystick: {fileID: 0}
+  metersPerXP: 10
+  xpPerTick: 0.5
 --- !u!58 &876862356
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -6295,6 +6297,8 @@ MonoBehaviour:
   sneakMultiplier: 0.5
   sprintMultiplier: 1.7
   joystick: {fileID: 5785680797539915954}
+  metersPerXP: 10
+  xpPerTick: 0.5
 --- !u!212 &1481028803
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -6525,6 +6529,57 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c61529d1caed6da4ea5dc99fd024ec3b, type: 3}
+--- !u!1 &1551275350
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1551275351}
+  - component: {fileID: 1551275352}
+  m_Layer: 0
+  m_Name: NoiseManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1551275351
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1551275350}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1551275352
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1551275350}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9a9c4eb6e1471d479f211bf83b1a7c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  walkingNoise: 6
+  sprintingNoise: 14
+  stealthKillNoise: 3
+  doorOpenNoise: 8
+  chestOpenNoise: 5
+  objectBreakNoise: 12
+  debugDrawNoise: 1
 --- !u!1 &1607305787
 GameObject:
   m_ObjectHideFlags: 0
@@ -8431,3 +8486,4 @@ SceneRoots:
   - {fileID: 602009853}
   - {fileID: 341145279}
   - {fileID: 1488627082}
+  - {fileID: 1551275351}

@@ -64,7 +64,7 @@ public class InventoryRow : MonoBehaviour
         //nameText.text = instance.itemSO.itemName;
         // typeText.text = instance.itemSO.category.ToString();
         //durabilityText.text = instance.currentDurability.ToString();
-        amountText.text = instance.quantity.ToString();
+        amountText.text = "x"+instance.quantity.ToString();
 
         useButtonText.text = instance.isEquipped ? "Unequip" : "Use";
 
