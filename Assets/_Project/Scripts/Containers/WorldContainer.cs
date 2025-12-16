@@ -33,22 +33,10 @@ public class WorldContainer : MonoBehaviour
 
     private void GenerateContents()
     {
-        if (containerData == null || containerData.allowedItems.Count == 0)
+        if (containerData == null)
             return;
 
-        int count = Random.Range(containerData.minItems, containerData.maxItems + 1);
-
-        for (int i = 0; i < count; i++)
-        {
-            ItemSO item = containerData.allowedItems[Random.Range(0, containerData.allowedItems.Count)];
-
-            int qty = item.isStackable
-                ? Random.Range(1, item.maxStackSize + 1) // optional randomness
-                : 1;
-
-            AddItemToContainer(item, qty);
-        }
-
+        items = containerData.GenerateLoot();
         initialized = true;
     }
 

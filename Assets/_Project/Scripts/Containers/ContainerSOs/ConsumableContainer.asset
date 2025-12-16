@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72bd071f329f9aa4cbe2de2484fbf429, type: 3}
+  m_Name: ConsumableContainer
+  m_EditorClassIdentifier: 
+  containerName: Food container
+  containerIcon: {fileID: 21300000, guid: 7ef4ea48210a05c4d8c2a3b0804f5916, type: 3}
+  lootGroups:
+  - groupName: Meat
+    possibleItems:
+    - {fileID: 11400000, guid: 540160351e6dc6f41afd0788a9f66776, type: 2}
+    minCount: 0
+    maxCount: 2
+    allowDuplicates: 0
+  - groupName: Fruits
+    possibleItems:
+    - {fileID: 11400000, guid: 2f23002bf368faf46b34646efc3b1c7e, type: 2}
+    - {fileID: 11400000, guid: b4d18e64f56f2f44ab61ef436ddf2aac, type: 2}
+    minCount: 0
+    maxCount: 3
+    allowDuplicates: 1

@@ -26,4 +26,4 @@ MonoBehaviour:
   isGuarding: 0
   guardRadius: 4
   decisionDelay: 7
-  corpseContainer: {fileID: 11400000, guid: 57a033f9903ce3b40b9692a573ec35ca, type: 2}
+  corpseContainer: {fileID: 11400000, guid: 0a2ac101db05dcc429d8180c4ddea5eb, type: 2}

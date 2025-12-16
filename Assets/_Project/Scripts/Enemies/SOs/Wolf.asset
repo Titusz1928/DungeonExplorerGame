@@ -25,5 +25,5 @@ MonoBehaviour:
     m_Bits: 256
   isGuarding: 0
   guardRadius: 4
-  decisionDelay: 0
-  corpseContainer: {fileID: 11400000, guid: b55cfc4825d65be4d9a29d3348a74c3b, type: 2}
+  decisionDelay: 4
+  corpseContainer: {fileID: 11400000, guid: b36f65ce7bcb84b41aa4fec65e836a66, type: 2}

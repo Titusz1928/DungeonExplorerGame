@@ -1,0 +1,66 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72bd071f329f9aa4cbe2de2484fbf429, type: 3}
+  m_Name: FootSoldierEnemy
+  m_EditorClassIdentifier: 
+  containerName: Foot Soldier
+  containerIcon: {fileID: 21300000, guid: 4c71a713737ca7940bb5872e84134ada, type: 3}
+  lootGroups:
+  - groupName: Weapons
+    possibleItems:
+    - {fileID: 11400000, guid: 143d01bc259be3742b7bd3afc5d0606a, type: 2}
+    - {fileID: 11400000, guid: 4d9f2f8f6cf7c474db0732b397b95f52, type: 2}
+    minCount: 1
+    maxCount: 2
+    allowDuplicates: 1
+  - groupName: HeadArmor
+    possibleItems:
+    - {fileID: 11400000, guid: f28e0592a06d0584e90d100d6d14b6a6, type: 2}
+    - {fileID: 11400000, guid: 38057dbfb64a55f49a19bf1edc6ae5d2, type: 2}
+    minCount: 1
+    maxCount: 2
+    allowDuplicates: 0
+  - groupName: HeadUnderArmor
+    possibleItems:
+    - {fileID: 11400000, guid: 660786c249eef234aafe4f02bd12d385, type: 2}
+    minCount: 1
+    maxCount: 2
+    allowDuplicates: 1
+  - groupName: TorsoUnderArmor
+    possibleItems:
+    - {fileID: 11400000, guid: 90fac7911190a574d9814d7cc90ecd47, type: 2}
+    minCount: 1
+    maxCount: 2
+    allowDuplicates: 1
+  - groupName: LegUnderArmor
+    possibleItems:
+    - {fileID: 11400000, guid: fe8efae00a826d74eb594e0cf0c30ea1, type: 2}
+    minCount: 1
+    maxCount: 2
+    allowDuplicates: 1
+  - groupName: FeetUnderArmor
+    possibleItems:
+    - {fileID: 11400000, guid: a0a2d8c2d6d1ca241be17e83a67646be, type: 2}
+    minCount: 1
+    maxCount: 2
+    allowDuplicates: 1
+  - groupName: Possesions
+    possibleItems:
+    - {fileID: 11400000, guid: ac639bed04f7a334da037ba66d46a803, type: 2}
+    - {fileID: 11400000, guid: 2f23002bf368faf46b34646efc3b1c7e, type: 2}
+    - {fileID: 11400000, guid: b4d18e64f56f2f44ab61ef436ddf2aac, type: 2}
+    - {fileID: 11400000, guid: 540160351e6dc6f41afd0788a9f66776, type: 2}
+    - {fileID: 11400000, guid: f6e8527bcc6c84947bd71aa4dbdcbdeb, type: 2}
+    - {fileID: 11400000, guid: 7737775ab8f44f34daeb671a3f314480, type: 2}
+    minCount: 0
+    maxCount: 3
+    allowDuplicates: 1
