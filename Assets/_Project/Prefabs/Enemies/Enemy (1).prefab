@@ -134,7 +134,7 @@ MonoBehaviour:
   maxHP: 0
   currentHP: 0
   strength: 0
-  corpsePrefab: {fileID: 0}
+  corpsePrefab: {fileID: 9150212770442967940, guid: 19abdae32f7b66241bffb19d3caf3bc2, type: 3}
   stateText: {fileID: 1509074161931962164}
 --- !u!61 &8025666956773810978
 BoxCollider2D:

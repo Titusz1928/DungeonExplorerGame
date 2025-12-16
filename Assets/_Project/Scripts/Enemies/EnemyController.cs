@@ -28,6 +28,8 @@ public class EnemyController : MonoBehaviour
 
     Vector2 facingDirection;
 
+    public event System.Action<EnemyController> OnEnemyDeath;
+
     private float stateTimer;
 
     [Header("Behavior Timing")]
@@ -374,6 +376,8 @@ public class EnemyController : MonoBehaviour
 
     void Die()
     {
+        OnEnemyDeath?.Invoke(this);
+
         if (corpsePrefab != null)
         {
             // Spawn the corpse container
