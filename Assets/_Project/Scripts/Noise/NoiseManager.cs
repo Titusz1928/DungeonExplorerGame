@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
@@ -34,6 +35,8 @@ public class NoiseManager : MonoBehaviour
     }
 
     public static NoiseManager Instance;
+
+    public static event Action<NoiseEvent> OnNoiseEmitted;
 
     [Header("Movement Noise")]
     public float walkingNoise = 6f;
@@ -169,7 +172,7 @@ public class NoiseManager : MonoBehaviour
             activeDebugNoises.Add(new DebugNoise(noise));
         }
 
-        // EnemyNoiseSystem.NotifyNoise(noise);
+        OnNoiseEmitted?.Invoke(noise);
     }
 
     float GetBaseActionNoise(NoiseActionType type)

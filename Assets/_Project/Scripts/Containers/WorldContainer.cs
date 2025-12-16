@@ -10,7 +10,7 @@ public class WorldContainer : MonoBehaviour
 
     private bool initialized = false;
 
-    [SerializeField] private SpriteRenderer sr;
+    [SerializeField] public SpriteRenderer sr;
     private Color originalColor = new Color(1f, 1f, 1f);
     public Color highlightColor = new Color(1f, 35f / 255f, 0f); // light yellow glow
 
