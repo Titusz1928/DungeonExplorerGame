@@ -1039,6 +1039,7 @@ MonoBehaviour:
   grid: {fileID: 887156845}
   tileSet: {fileID: 11400000, guid: 74534f5ce8ca22a4d83d12e58b1bce56, type: 2}
   terrainGenerator: {fileID: 556151797}
+  worldObjectSpawner: {fileID: 2040560493}
 --- !u!1 &1286601383
 GameObject:
   m_ObjectHideFlags: 0
@@ -1895,6 +1896,67 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!1 &2040560492
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2040560494}
+  - component: {fileID: 2040560493}
+  m_Layer: 0
+  m_Name: ObjectGenerator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2040560493
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2040560492}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c9b102ef71b61949900eebc285bf589, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  terrainGenerator: {fileID: 556151797}
+  tilemap: {fileID: 2012903304}
+  treePrefab: {fileID: 2841596749734957478, guid: 3dd2d9334f4fc974eb94bfb2a1fdb956, type: 3}
+  bushPrefabs:
+  - {fileID: 140840357100936570, guid: 1b5474bebabcdb84f8cab5a1925f0d3e, type: 3}
+  - {fileID: 4115631954877770597, guid: f9fd33de674c8f14abd82dfdfb64cbe0, type: 3}
+  chestPrefabs:
+  - {fileID: 4817291024831576948, guid: a6a8e99bf87856948ab5d8bb1418ae0c, type: 3}
+  - {fileID: 3700447702039805491, guid: af0e3682b79eaf44eac8658659fe059d, type: 3}
+  enemySpawnPrefabs:
+  - {fileID: 5372181910514710788, guid: 130fbde7bf8522b4e851c18c7c54719b, type: 3}
+  - {fileID: 2507601513756207171, guid: 7f239d06d95e8f54cb3e8db63cd74bf6, type: 3}
+  treeChance: 0.02
+  bushChance: 0.03
+  chestChance: 0.005
+  enemyZoneChance: 0.005
+  worldSize: 1280
+--- !u!4 &2040560494
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2040560492}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 959.01483, y: 1000.0699, z: -6.9436026}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2080344297
 GameObject:
   m_ObjectHideFlags: 0
@@ -2578,3 +2640,4 @@ SceneRoots:
   - {fileID: 427033907}
   - {fileID: 1268511354}
   - {fileID: 556151798}
+  - {fileID: 2040560494}

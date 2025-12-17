@@ -12,6 +12,19 @@ public class EnemySpawnZone : MonoBehaviour
 
     private readonly List<GameObject> aliveEnemies = new();
 
+    void OnEnable()
+    {
+        if (EnemySpawnManager.Instance != null)
+            EnemySpawnManager.Instance.RegisterZone(this);
+    }
+
+    void OnDisable()
+    {
+        if (EnemySpawnManager.Instance != null)
+            EnemySpawnManager.Instance.UnregisterZone(this);
+    }
+
+
     public bool CanSpawnInZone()
     {
         aliveEnemies.RemoveAll(e => e == null);

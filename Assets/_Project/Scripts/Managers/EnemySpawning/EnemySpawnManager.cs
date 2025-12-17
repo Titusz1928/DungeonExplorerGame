@@ -39,7 +39,7 @@ public class EnemySpawnManager : MonoBehaviour
 
     void Start()
     {
-        zones.AddRange(FindObjectsOfType<EnemySpawnZone>());
+        Log("EnemySpawnManager started, waiting for zones...");
 
         Log($"Found {zones.Count} spawn zones");
 
@@ -115,6 +115,20 @@ public class EnemySpawnManager : MonoBehaviour
         }
 
         Log("No valid zone found this tick");
+    }
+
+    public void RegisterZone(EnemySpawnZone zone)
+    {
+        if (!zones.Contains(zone))
+        {
+            zones.Add(zone);
+            Log($"Registered spawn zone: {zone.name}");
+        }
+    }
+
+    public void UnregisterZone(EnemySpawnZone zone)
+    {
+        zones.Remove(zone);
     }
 
     public GameObject SpawnEnemy(int prefabIndex, Vector3 position, Transform parent = null)

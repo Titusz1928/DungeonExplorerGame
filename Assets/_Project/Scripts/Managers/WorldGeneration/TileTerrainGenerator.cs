@@ -55,7 +55,7 @@ public class TileTerrainGenerator : MonoBehaviour
 
     ////////////////////////////////////
 
-    float GetHeight(int x, int y, int worldSize)
+    public float GetHeight(int x, int y, int worldSize)
     {
         float noise = Mathf.PerlinNoise((x + seed) * noiseScale, (y + seed) * noiseScale);
         float island = GetIslandFalloff(x, y, worldSize);

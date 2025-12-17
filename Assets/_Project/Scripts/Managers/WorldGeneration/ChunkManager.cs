@@ -18,6 +18,8 @@ public class ChunkManager : MonoBehaviour
 
     public TileTerrainGenerator terrainGenerator;
 
+    public WorldObjectSpawner worldObjectSpawner;
+
     void Start()
     {
         int worldSize = chunksPerAxis * chunkSize;
@@ -104,6 +106,8 @@ public class ChunkManager : MonoBehaviour
             terrainGenerator.GenerateChunkAsync(tilemap, coord, chunkSize)
         );
         loadedChunks.Add(coord, tilemap);
+
+        worldObjectSpawner.SpawnObjectsInChunk(coord, chunkSize);
     }
 
     void UnloadChunk(Vector2Int coord)
