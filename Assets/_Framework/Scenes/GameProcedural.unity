@@ -1105,6 +1105,50 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1458146982
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1458146984}
+  - component: {fileID: 1458146983}
+  m_Layer: 0
+  m_Name: WorldSaveData
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1458146983
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1458146982}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a00eb087567dfe3429727301cbf81205, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1458146984
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1458146982}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 988.7358, y: 545.6273, z: -1.8060156}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1481028798
 GameObject:
   m_ObjectHideFlags: 0
@@ -1932,8 +1976,8 @@ MonoBehaviour:
   - {fileID: 140840357100936570, guid: 1b5474bebabcdb84f8cab5a1925f0d3e, type: 3}
   - {fileID: 4115631954877770597, guid: f9fd33de674c8f14abd82dfdfb64cbe0, type: 3}
   chestPrefabs:
-  - {fileID: 4817291024831576948, guid: a6a8e99bf87856948ab5d8bb1418ae0c, type: 3}
   - {fileID: 3700447702039805491, guid: af0e3682b79eaf44eac8658659fe059d, type: 3}
+  - {fileID: 4817291024831576948, guid: a6a8e99bf87856948ab5d8bb1418ae0c, type: 3}
   enemySpawnPrefabs:
   - {fileID: 5372181910514710788, guid: 130fbde7bf8522b4e851c18c7c54719b, type: 3}
   - {fileID: 2507601513756207171, guid: 7f239d06d95e8f54cb3e8db63cd74bf6, type: 3}
@@ -2641,3 +2685,4 @@ SceneRoots:
   - {fileID: 1268511354}
   - {fileID: 556151798}
   - {fileID: 2040560494}
+  - {fileID: 1458146984}

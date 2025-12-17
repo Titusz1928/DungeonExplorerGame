@@ -41,7 +41,7 @@ public class EnemySpawnManager : MonoBehaviour
     {
         Log("EnemySpawnManager started, waiting for zones...");
 
-        Log($"Found {zones.Count} spawn zones");
+        Log($"Found {zones.Count} spawn zones"); 
 
         foreach (var z in zones)
             Log($"Zone found: {z.name} at {z.transform.position}");

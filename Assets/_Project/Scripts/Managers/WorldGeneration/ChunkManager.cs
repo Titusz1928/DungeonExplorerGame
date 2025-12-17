@@ -105,9 +105,10 @@ public class ChunkManager : MonoBehaviour
         StartCoroutine(
             terrainGenerator.GenerateChunkAsync(tilemap, coord, chunkSize)
         );
+
         loadedChunks.Add(coord, tilemap);
 
-        worldObjectSpawner.SpawnObjectsInChunk(coord, chunkSize);
+        worldObjectSpawner.SpawnObjectsInChunk(coord, chunkSize, chunkGO.transform);
     }
 
     void UnloadChunk(Vector2Int coord)

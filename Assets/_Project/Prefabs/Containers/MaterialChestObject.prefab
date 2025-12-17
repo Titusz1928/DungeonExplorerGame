@@ -181,4 +181,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   containerData: {fileID: 11400000, guid: 4618c9ca582234a4fb6bb3b81f284bd8, type: 2}
   sr: {fileID: 4733260309647983194}
-  highlightColor: {r: 1, g: 1, b: 0.5, a: 1}
+  highlightColor: {r: 1, g: 0.13725491, b: 0, a: 1}
+  worldCell: {x: 0, y: 0}
+  uniqueId: 

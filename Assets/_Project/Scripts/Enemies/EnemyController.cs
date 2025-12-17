@@ -378,35 +378,44 @@ public class EnemyController : MonoBehaviour
     {
         OnEnemyDeath?.Invoke(this);
 
-        if (corpsePrefab != null)
+        if (corpsePrefab != null && data.corpseContainer != null)
         {
-            // Spawn the corpse container
-            GameObject corpseObj = Instantiate(corpsePrefab, transform.position, Quaternion.identity);
+            Vector3 pos = transform.position;
+            Vector2Int cell = new Vector2Int(
+                Mathf.FloorToInt(pos.x),
+                Mathf.FloorToInt(pos.y)
+            );
 
-            // Ensure the prefab has a WorldContainer
-            WorldContainer worldContainer = corpseObj.GetComponent<WorldContainer>();
-            if (worldContainer == null)
-            {
-                worldContainer = corpseObj.AddComponent<WorldContainer>();
-            }
+            // UNIQUE corpse ID (never reused)
 
-            // Assign the containerSO from the enemySO
-            worldContainer.containerData = data.corpseContainer;
+            GameObject corpseObj = Instantiate(
+                corpsePrefab,
+                new Vector3(cell.x + 0.5f, cell.y + 0.5f, 0f),
+                Quaternion.identity
+            );
 
-            // Ensure there is a SpriteRenderer and assign the sprite
+            WorldContainer container = corpseObj.GetComponent<WorldContainer>();
+            if (container == null)
+                container = corpseObj.AddComponent<WorldContainer>();
+
+            container.containerData = data.corpseContainer;
+
+            // Sprite setup
             SpriteRenderer sr = corpseObj.GetComponent<SpriteRenderer>();
             if (sr == null)
-            {
                 sr = corpseObj.AddComponent<SpriteRenderer>();
-            }
 
-            if (data.corpseContainer != null && data.corpseContainer.containerIcon != null)
-            {
+            if (data.corpseContainer.containerIcon != null)
                 sr.sprite = data.corpseContainer.containerIcon;
-            }
 
-            // Assign this SpriteRenderer to the WorldContainer
-            worldContainer.sr = sr;
+            container.sr = sr;
+
+            //create corspe
+            // Generate a completely unique ID for this corpse
+            string corpseId = $"corpse_{System.Guid.NewGuid()}";
+
+            // Initialize container with unique ID
+            container.Initialize(cell, corpseId);
         }
 
         Destroy(gameObject);

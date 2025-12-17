@@ -149,7 +149,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   containerData: {fileID: 11400000, guid: 819006f568ac3844c835c890a6c7e1c6, type: 2}
   sr: {fileID: 3754147645627568946}
-  highlightColor: {r: 1, g: 1, b: 0.5, a: 1}
+  highlightColor: {r: 1, g: 0.13725491, b: 0, a: 1}
+  worldCell: {x: 0, y: 0}
+  uniqueId: 
 --- !u!1 &4817291024831576948
 GameObject:
   m_ObjectHideFlags: 0
