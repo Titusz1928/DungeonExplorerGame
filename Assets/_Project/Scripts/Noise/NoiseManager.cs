@@ -163,9 +163,7 @@ public class NoiseManager : MonoBehaviour
             gameObject
         );
 
-        Debug.Log(
-            $"[NOISE] Strength: {strength:F2} | Pos: {position} | Source: {gameObject.name}"
-        );
+        //Debug.Log(           $"[NOISE] Strength: {strength:F2} | Pos: {position} | Source: {gameObject.name}");
 
         if (debugDrawNoise)
         {

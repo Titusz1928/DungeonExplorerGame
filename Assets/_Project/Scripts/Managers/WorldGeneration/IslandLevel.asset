@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 665d9b4c2d7bc764fac84261da9d783b, type: 3}
+  m_Name: IslandLevel
+  m_EditorClassIdentifier: 
+  water: {fileID: 11400000, guid: 570372e89dbdb944698b19ef4efe0b91, type: 2}
+  beach: {fileID: 11400000, guid: 8753516f9c9045340b540550a42086f8, type: 2}
+  sand: {fileID: 11400000, guid: 233f653956a7f504686b55b4bf60db50, type: 2}
+  sandyGrass: {fileID: 11400000, guid: f789b12742d24864791cc012d80be371, type: 2}
+  grass: {fileID: 11400000, guid: 502446106ac531045a1be67f9b22e85b, type: 2}

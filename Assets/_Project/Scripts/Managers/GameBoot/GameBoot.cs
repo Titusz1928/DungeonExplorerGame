@@ -59,7 +59,7 @@ public class GameBoot : MonoBehaviour
         yield return StartCoroutine(FadeCanvas(1f, 0f, fadeDuration));
 
         // Load Game scene
-        SceneManagerEX.Instance.LoadScene("Game");
+        SceneManagerEX.Instance.LoadScene("GameProcedural");
     }
 
 

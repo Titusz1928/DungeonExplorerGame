@@ -93,6 +93,10 @@ public class AudioManager : MonoBehaviour
                 if (gameMusic != null)
                     StartCoroutine(FadeToNewTrack(gameMusic));
                 break;
+            case "GameProcedural":
+                if (gameMusic != null)
+                    StartCoroutine(FadeToNewTrack(gameMusic));
+                break;
         }
     }
 
