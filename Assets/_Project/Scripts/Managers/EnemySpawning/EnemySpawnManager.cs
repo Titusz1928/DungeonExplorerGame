@@ -145,16 +145,21 @@ public class EnemySpawnManager : MonoBehaviour
 
         currentEnemyCount++;
 
-        // Track death
-        enemy.GetComponent<EnemyController>()
-             .OnEnemyDeath += HandleEnemyDeath;
+        EnemyController controller = enemy.GetComponent<EnemyController>();
+        controller.OnEnemyDeath += HandleEnemyDeath;
 
         return enemy;
     }
 
+    public void NotifyEnemyRemoved(EnemyController enemy)
+    {
+        currentEnemyCount = Mathf.Max(0, currentEnemyCount - 1);
+        Log($"Enemy removed. Current count: {currentEnemyCount}");
+    }
+
     void HandleEnemyDeath(EnemyController enemy)
     {
-        currentEnemyCount--;
+        NotifyEnemyRemoved(enemy);
     }
 }
 

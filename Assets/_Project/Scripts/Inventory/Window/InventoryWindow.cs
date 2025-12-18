@@ -302,7 +302,7 @@ public class InventoryWindow : MonoBehaviour
                 PlayerStateManager.Instance.addHealth(consumable.healthAmount);
                 PlayerStateManager.Instance.addStamina(consumable.staminaAmount);
 
-                inventory.RemoveItem(item.itemSO);
+                inventory.RemoveItem(item);
 
                 Sprite infoIcon = Resources.Load<Sprite>("UI/Icons/heal");
                 MessageManager.Instance.ShowMessageDirectly(
@@ -411,7 +411,7 @@ public class InventoryWindow : MonoBehaviour
         }
 
         // Remove from inventory
-        inventory.RemoveItem(item.itemSO);
+        inventory.RemoveItem(item);
         Refresh();
 
         // Spawn item in the world

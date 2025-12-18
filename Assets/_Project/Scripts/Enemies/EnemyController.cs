@@ -29,6 +29,7 @@ public class EnemyController : MonoBehaviour
     Vector2 facingDirection;
 
     public event System.Action<EnemyController> OnEnemyDeath;
+    private bool reportedDeath = false;
 
     private float stateTimer;
 
@@ -376,6 +377,11 @@ public class EnemyController : MonoBehaviour
 
     void Die()
     {
+        if (reportedDeath)
+            return;
+
+        reportedDeath = true;
+
         OnEnemyDeath?.Invoke(this);
 
         if (corpsePrefab != null && data.corpseContainer != null)
@@ -419,6 +425,15 @@ public class EnemyController : MonoBehaviour
         }
 
         Destroy(gameObject);
+    }
+
+    void OnDestroy()
+    {
+        // If destroyed without Die() being called (despawn, chunk unload, etc)
+        if (!reportedDeath && EnemySpawnManager.Instance != null)
+        {
+            EnemySpawnManager.Instance.NotifyEnemyRemoved(this);
+        }
     }
 
     // --------------------------------------------------

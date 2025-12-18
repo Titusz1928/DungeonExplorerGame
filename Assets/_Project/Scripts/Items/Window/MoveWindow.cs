@@ -73,7 +73,7 @@ public class MoveWindow : MonoBehaviour
     private void OnContainerSelected(WorldContainer container)
     {
         // 1) Remove 1 item from inventory
-        bool removed = inventory.RemoveItem(movingItem.itemSO, 1);
+        bool removed = inventory.RemoveItem(movingItem, 1);
 
         if (!removed)
         {

@@ -1970,7 +1970,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   terrainGenerator: {fileID: 556151797}
-  tilemap: {fileID: 2012903304}
   treePrefab: {fileID: 2841596749734957478, guid: 3dd2d9334f4fc974eb94bfb2a1fdb956, type: 3}
   bushPrefabs:
   - {fileID: 140840357100936570, guid: 1b5474bebabcdb84f8cab5a1925f0d3e, type: 3}
