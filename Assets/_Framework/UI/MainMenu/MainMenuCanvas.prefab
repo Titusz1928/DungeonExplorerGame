@@ -1408,7 +1408,7 @@ GameObject:
   - component: {fileID: 7455834010766915271}
   - component: {fileID: 6450276300590705071}
   - component: {fileID: 7711514527875129778}
-  - component: {fileID: 2621051980831732638}
+  - component: {fileID: 8383113097117409486}
   m_Layer: 5
   m_Name: StartButton
   m_TagString: Untagged
@@ -1518,7 +1518,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2621051980831732638}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: UI_SceneButton, Assembly-CSharp
         m_MethodName: LoadScene
         m_Mode: 1
@@ -1530,7 +1530,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &2621051980831732638
+--- !u!114 &8383113097117409486
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1539,10 +1539,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 9011184666856147286}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f9ea7c45aaee8454796cc6fd132a6ff6, type: 3}
+  m_Script: {fileID: 11500000, guid: 742628eec2cc0d84fa92c17b00c07f4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneName: Game
+  windowPrefab: {fileID: 0}
 --- !u!1001 &8746476068515239629
 PrefabInstance:
   m_ObjectHideFlags: 0

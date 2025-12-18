@@ -298,6 +298,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 899632935483715550, guid: 1aa0ea3be30d26247a308b849eaa56d3, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 899632935483715550, guid: 1aa0ea3be30d26247a308b849eaa56d3, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 899632935483715550, guid: 1aa0ea3be30d26247a308b849eaa56d3, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 899632935483715550, guid: 1aa0ea3be30d26247a308b849eaa56d3, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1202892505887778121, guid: 1aa0ea3be30d26247a308b849eaa56d3, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -369,6 +385,22 @@ PrefabInstance:
     - target: {fileID: 4522591675542667550, guid: 1aa0ea3be30d26247a308b849eaa56d3, type: 3}
       propertyPath: m_Name
       value: MainMenuCanvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 4658670158240066904, guid: 1aa0ea3be30d26247a308b849eaa56d3, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4658670158240066904, guid: 1aa0ea3be30d26247a308b849eaa56d3, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4658670158240066904, guid: 1aa0ea3be30d26247a308b849eaa56d3, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4658670158240066904, guid: 1aa0ea3be30d26247a308b849eaa56d3, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5927471719543974724, guid: 1aa0ea3be30d26247a308b849eaa56d3, type: 3}
       propertyPath: m_Pivot.x
@@ -474,12 +506,53 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7711514527875129778, guid: 1aa0ea3be30d26247a308b849eaa56d3, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 2134833895705467163}
+    - target: {fileID: 7711514527875129778, guid: 1aa0ea3be30d26247a308b849eaa56d3, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Open
+      objectReference: {fileID: 0}
+    - target: {fileID: 7711514527875129778, guid: 1aa0ea3be30d26247a308b849eaa56d3, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: UI_OpenWindow, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 8081774287062900653, guid: 1aa0ea3be30d26247a308b849eaa56d3, type: 3}
+      propertyPath: key
+      value: play
+      objectReference: {fileID: 0}
+    - target: {fileID: 8383113097117409486, guid: 1aa0ea3be30d26247a308b849eaa56d3, type: 3}
+      propertyPath: windowPrefab
+      value: 
+      objectReference: {fileID: 5603204754528176108, guid: 040162325258e1745b78c2ffa0125ecc, type: 3}
+    - target: {fileID: 9011184666856147286, guid: 1aa0ea3be30d26247a308b849eaa56d3, type: 3}
+      propertyPath: m_Name
+      value: PlayButton
+      objectReference: {fileID: 0}
+    - target: {fileID: 9115980568893646776, guid: 1aa0ea3be30d26247a308b849eaa56d3, type: 3}
+      propertyPath: m_text
+      value: 'PLAY
+
+'
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 793123751529306441, guid: 1aa0ea3be30d26247a308b849eaa56d3, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1aa0ea3be30d26247a308b849eaa56d3, type: 3}
+--- !u!114 &2134833895705467163 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8383113097117409486, guid: 1aa0ea3be30d26247a308b849eaa56d3, type: 3}
+  m_PrefabInstance: {fileID: 2134833895705467162}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 742628eec2cc0d84fa92c17b00c07f4b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

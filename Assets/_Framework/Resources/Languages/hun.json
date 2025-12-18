@@ -1,5 +1,6 @@
 {
   "title": "Game Name",
+  "play": "Játék",
   "newgame": "Új játék",
   "highscores": "Rekordok",
   "settings": "Beállitások",
@@ -30,5 +31,5 @@
   "moveitem": "Move item",
   "debug": "Debug",
   "items": "Items",
-  "pickup": "Pick up",
+  "pickup": "Pick up"
 }

@@ -11,17 +11,19 @@ public static class SaveSystem
     {
         Debug.Log("attempting to save game");
 
-        SaveGame save = new SaveGame
-        {
-            world = WorldSaveData.Instance.BuildWorldSave(),
-            player = PlayerSaveBuilder.Build(),
-            playTime = Time.time,
-            gameSettings = new GameSettingsSave
-            {
-                seed = GameSettings.Instance.seed,
-                difficulty = GameSettings.Instance.difficulty
-            }
-        };
+        // Break these out to see exactly which one crashes
+        var worldData = WorldSaveData.Instance.BuildWorldSave();
+        var playerData = PlayerSaveBuilder.Build();
+        var settingsInstance = GameSettings.Instance; // Check if Instance is the problem
+
+        SaveGame save = new SaveGame();
+        save.world = worldData;
+        save.player = playerData;
+        save.playTime = Time.time;
+
+        save.gameSettings = new GameSettingsSave();
+        save.gameSettings.seed = settingsInstance.seed;
+        save.gameSettings.difficulty = settingsInstance.difficulty;
 
         string json = JsonUtility.ToJson(save, true);
         File.WriteAllText(SavePath, json);
