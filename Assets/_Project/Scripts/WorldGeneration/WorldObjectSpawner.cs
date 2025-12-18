@@ -46,7 +46,7 @@ public class WorldObjectSpawner : MonoBehaviour
         // Otherwise, generate chunk for the first time
         ChunkData newData = new ChunkData() { chunkCoord = chunkCoord };
 
-        Random.InitState(chunkCoord.x * 73856093 ^ chunkCoord.y * 19349663 ^ terrainGenerator.seed);
+        Random.InitState(chunkCoord.x * 73856093 ^ chunkCoord.y * 19349663 ^ GameSettings.Instance.seed);
 
         for (int x = 0; x < chunkSize; x++)
         {

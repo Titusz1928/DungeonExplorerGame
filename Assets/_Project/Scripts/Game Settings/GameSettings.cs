@@ -4,9 +4,12 @@ public class GameSettings : MonoBehaviour
 {
     public static GameSettings Instance;
 
-    [Header("Game Settings")]
+    [Header("World")]
     public int seed;
-    public float difficulty = 1f; // placeholder
+    public bool loadFromSave;
+
+    [Header("Difficulty")]
+    public float difficulty = 1f; //placeholder
 
     private void Awake()
     {

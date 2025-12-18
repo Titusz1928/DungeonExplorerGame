@@ -6,9 +6,6 @@ public class TileTerrainGenerator : MonoBehaviour
 {
     [Header("Noise Settings")]
     public float noiseScale = 0.05f;
-    public GameSettings settings;
-
-    public int seed => settings != null ? settings.seed : 12345;
 
     [Header("Height Thresholds")]
     public float waterLevel = 0.35f;
@@ -59,6 +56,7 @@ public class TileTerrainGenerator : MonoBehaviour
 
     public float GetHeight(int x, int y, int worldSize)
     {
+        int seed = GameSettings.Instance.seed;
         float noise = Mathf.PerlinNoise((x + seed) * noiseScale, (y + seed) * noiseScale);
         float island = GetIslandFalloff(x, y, worldSize);
 
@@ -104,22 +102,23 @@ public class TileTerrainGenerator : MonoBehaviour
 
     //FOR PLAYER SPAWNING
 
-    public Vector2 FindRandomCoastlineSpawn(int worldSize, int marginPercent = 20, int maxAttempts = 10000)
+    public Vector2 FindRandomCoastlineSpawn(int worldSize, int seed, int marginPercent = 20)
     {
+        // Create a private random state just for this calculation
+        System.Random prng = new System.Random(seed);
+
         int margin = worldSize * marginPercent / 100;
-        for (int i = 0; i < maxAttempts; i++)
+        for (int i = 0; i < 10000; i++)
         {
-            int x = Random.Range(margin, worldSize - margin);
-            int y = Random.Range(margin, worldSize - margin);
+            // Use prng instead of Random
+            int x = prng.Next(margin, worldSize - margin);
+            int y = prng.Next(margin, worldSize - margin);
 
             if (IsCoastline(x, y, worldSize))
             {
-                Debug.Log($"Spawn found at ({x},{y})");
                 return new Vector2(x + 0.5f, y + 0.5f);
             }
         }
-
-        Debug.LogWarning("Failed to find coastline spawn, using center.");
         return new Vector2(worldSize / 2f, worldSize / 2f);
     }
 

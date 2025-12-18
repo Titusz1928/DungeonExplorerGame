@@ -24,7 +24,7 @@ public class ChunkManager : MonoBehaviour
     {
         int worldSize = chunksPerAxis * chunkSize;
 
-        Vector2 spawnPos = terrainGenerator.FindRandomCoastlineSpawn(worldSize);
+        Vector2 spawnPos = terrainGenerator.FindRandomCoastlineSpawn(worldSize, GameSettings.Instance.seed);
 
         player.position = spawnPos;
 
