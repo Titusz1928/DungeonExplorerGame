@@ -84,6 +84,11 @@ public class PlayerSkillManager : MonoBehaviour
     public float GetXP(PlayerSkill skill) => skills[skill].currentXP;
     public float GetXPToNext(PlayerSkill skill) => skills[skill].xpToNextLevel;
 
+    public SkillData GetSkillData(PlayerSkill skill)
+    {
+        return skills[skill];
+    }
+
     // ---------------------------------------------------------
     // Debug Console Skill Name Parser
     // ---------------------------------------------------------

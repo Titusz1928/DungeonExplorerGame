@@ -6,7 +6,9 @@ public class TileTerrainGenerator : MonoBehaviour
 {
     [Header("Noise Settings")]
     public float noiseScale = 0.05f;
-    public int seed = 12345;
+    public GameSettings settings;
+
+    public int seed => settings != null ? settings.seed : 12345;
 
     [Header("Height Thresholds")]
     public float waterLevel = 0.35f;

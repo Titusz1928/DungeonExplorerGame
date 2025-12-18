@@ -6,7 +6,7 @@ public class EquipmentManager : MonoBehaviour
     public static EquipmentManager Instance;
 
     // Armor is stored by Slot → Layer → Item
-    private Dictionary<ArmorSlot, Dictionary<ArmorLayer, ItemInstance>> equippedArmor;
+    public Dictionary<ArmorSlot, Dictionary<ArmorLayer, ItemInstance>> equippedArmor;
 
     // Weapons
     public ItemInstance mainHandWeapon;

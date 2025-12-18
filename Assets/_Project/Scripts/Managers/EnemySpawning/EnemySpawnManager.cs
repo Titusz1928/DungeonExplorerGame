@@ -39,12 +39,12 @@ public class EnemySpawnManager : MonoBehaviour
 
     void Start()
     {
-        Log("EnemySpawnManager started, waiting for zones...");
+        //Log("EnemySpawnManager started, waiting for zones...");
 
-        Log($"Found {zones.Count} spawn zones"); 
+        //Log($"Found {zones.Count} spawn zones"); 
 
         foreach (var z in zones)
-            Log($"Zone found: {z.name} at {z.transform.position}");
+            //Log($"Zone found: {z.name} at {z.transform.position}");
 
         InvokeRepeating(nameof(TrySpawnEnemies), 1f, spawnCheckInterval);
     }
@@ -70,51 +70,51 @@ public class EnemySpawnManager : MonoBehaviour
 
     void TrySpawnEnemies()
     {
-        Log("TrySpawnEnemies tick");
+        //Log("TrySpawnEnemies tick");
 
         if (currentEnemyCount >= maxEnemies)
         {
-            Log("Max enemies reached");
+            //Log("Max enemies reached");
             return;
         }
 
         foreach (var zone in zones)
         {
-            Log($"Checking zone {zone.name}");
+            //Log($"Checking zone {zone.name}");
 
             if (!zone.CanSpawnInZone())
             {
-                Log($"Zone {zone.name} is full");
+                //Log($"Zone {zone.name} is full");
                 continue;
             }
 
             Vector3 pos = zone.GetRandomPoint();
-            Log($"Proposed spawn position {pos}");
+            //Log($"Proposed spawn position {pos}");
 
             if (!CanSpawn(pos))
             {
-                Log("CanSpawn() rejected position");
+               // Log("CanSpawn() rejected position");
                 continue;
             }
 
             int enemyIndex = zone.GetRandomEnemyIndex();
-            Log($"Selected enemy prefab index {enemyIndex}");
+           // Log($"Selected enemy prefab index {enemyIndex}");
 
             GameObject enemy = SpawnEnemy(enemyIndex, pos, zone.transform);
 
             if (enemy != null)
             {
-                Log($"Spawned enemy {enemy.name}");
+               // Log($"Spawned enemy {enemy.name}");
                 zone.RegisterEnemy(enemy);
                 return;
             }
             else
             {
-                Log("SpawnEnemy returned null");
+               // Log("SpawnEnemy returned null");
             }
         }
 
-        Log("No valid zone found this tick");
+       // Log("No valid zone found this tick");
     }
 
     public void RegisterZone(EnemySpawnZone zone)
@@ -122,7 +122,7 @@ public class EnemySpawnManager : MonoBehaviour
         if (!zones.Contains(zone))
         {
             zones.Add(zone);
-            Log($"Registered spawn zone: {zone.name}");
+            //Log($"Registered spawn zone: {zone.name}");
         }
     }
 
@@ -154,7 +154,7 @@ public class EnemySpawnManager : MonoBehaviour
     public void NotifyEnemyRemoved(EnemyController enemy)
     {
         currentEnemyCount = Mathf.Max(0, currentEnemyCount - 1);
-        Log($"Enemy removed. Current count: {currentEnemyCount}");
+        //Log($"Enemy removed. Current count: {currentEnemyCount}");
     }
 
     void HandleEnemyDeath(EnemyController enemy)

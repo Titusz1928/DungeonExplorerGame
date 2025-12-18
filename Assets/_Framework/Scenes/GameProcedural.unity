@@ -559,7 +559,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   noiseScale: 0.05
-  seed: 12345
+  settings: {fileID: 0}
   waterLevel: 0.3
   beachLevel: 0.4
   sandLevel: 0.5

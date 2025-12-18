@@ -26,6 +26,57 @@ public class WorldSaveData : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
+    public WorldSave BuildWorldSave()
+    {
+        WorldSave save = new WorldSave();
+
+        // ------------------------
+        // SAVE CHUNKS
+        // ------------------------
+        foreach (var kvp in chunkData)
+        {
+            // ChunkData is already pure data
+            save.chunks.Add(kvp.Value);
+        }
+
+        // ------------------------
+        // SAVE CONTAINERS
+        // ------------------------
+        foreach (var kvp in containerData)
+        {
+            string containerId = kvp.Key;
+            List<(ItemSO item, int qty)> runtimeItems = kvp.Value;
+
+            ContainerSaveData containerSave = new ContainerSaveData
+            {
+                id = containerId,
+                items = new List<ItemSaveEntry>()
+            };
+
+            foreach (var (item, qty) in runtimeItems)
+            {
+                containerSave.items.Add(new ItemSaveEntry
+                {
+                    itemID = item.ID,
+                    quantity = qty,
+                    durability = 0
+                });
+            }
+
+            save.containers[containerId] = containerSave;
+        }
+
+        // ------------------------
+        // ENEMIES (later)
+        // ------------------------
+        // save.enemies will be filled once enemy persistence is implemented
+
+        return save;
+    }
+
+
+
+
     #region Container ID
 
     public string GetOrCreateContainerId(Vector2Int cell, string type)
