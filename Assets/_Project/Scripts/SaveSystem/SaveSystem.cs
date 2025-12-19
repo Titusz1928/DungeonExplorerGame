@@ -30,4 +30,22 @@ public static class SaveSystem
 
         Debug.Log("Game saved");
     }
+
+    public static SaveGame LoadGame()
+    {
+        if (!SaveFileExists()) return null;
+
+        try
+        {
+            string json = File.ReadAllText(SavePath);
+            return JsonUtility.FromJson<SaveGame>(json);
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogError($"Failed to load save: {e.Message}");
+            return null;
+        }
+    }
+
+    public static bool SaveFileExists() => File.Exists(SavePath);
 }

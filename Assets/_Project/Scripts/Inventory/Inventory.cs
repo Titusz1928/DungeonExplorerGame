@@ -65,7 +65,7 @@ public class Inventory : MonoBehaviour
 
         foreach (var item in items)
         {
-            data.items.Add(new ItemSaveEntry
+            data.entries.Add(new ItemSaveEntry
             {
                 itemID = item.itemSO.ID,
                 quantity = item.quantity,
@@ -86,7 +86,7 @@ public class Inventory : MonoBehaviour
 
         items.Clear();
 
-        foreach (var entry in data.items)
+        foreach (var entry in data.entries)
         {
             ItemSO so = ItemDatabase.instance.GetByID(entry.itemID);
 

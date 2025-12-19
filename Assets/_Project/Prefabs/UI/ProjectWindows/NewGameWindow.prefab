@@ -600,9 +600,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: UI_SceneButton, Assembly-CSharp
-        m_MethodName: LoadScene
+      - m_Target: {fileID: 3400788787673429853}
+        m_TargetAssemblyTypeName: GameSessionController, Assembly-CSharp
+        m_MethodName: LoadGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1718,7 +1718,6 @@ GameObject:
   - component: {fileID: 831335162676064482}
   - component: {fileID: 2266658460703373054}
   - component: {fileID: 1830103220709943488}
-  - component: {fileID: 2866267808468689997}
   m_Layer: 5
   m_Name: NewGameButton
   m_TagString: Untagged
@@ -1840,18 +1839,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 2866267808468689997}
-        m_TargetAssemblyTypeName: UI_SceneButton, Assembly-CSharp
-        m_MethodName: LoadScene
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!114 &1830103220709943488
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1872,19 +1859,6 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
---- !u!114 &2866267808468689997
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5201288992055379303}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f9ea7c45aaee8454796cc6fd132a6ff6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sceneName: GameBoot
 --- !u!1 &5326589498526273848
 GameObject:
   m_ObjectHideFlags: 0

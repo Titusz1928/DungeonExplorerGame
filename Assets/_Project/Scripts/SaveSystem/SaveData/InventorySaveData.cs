@@ -4,7 +4,7 @@ using System.Collections.Generic;
 [Serializable]
 public class InventorySaveData
 {
-    public List<ItemSaveEntry> items = new List<ItemSaveEntry>();
+    public List<ItemSaveEntry> entries = new List<ItemSaveEntry>();
 }
 
 [Serializable]

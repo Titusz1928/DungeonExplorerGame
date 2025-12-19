@@ -22,14 +22,47 @@ public class ChunkManager : MonoBehaviour
 
     void Start()
     {
+        FindPersistentReferences();
+
         int worldSize = chunksPerAxis * chunkSize;
 
-        Vector2 spawnPos = terrainGenerator.FindRandomCoastlineSpawn(worldSize, GameSettings.Instance.seed);
+        //Vector2 spawnPos = terrainGenerator.FindRandomCoastlineSpawn(worldSize, GameSettings.Instance.seed);
 
-        player.position = spawnPos;
+        //if (player != null)
+        //{
+        //    player.position = spawnPos;
+        //}
 
         lastPlayerChunk = GetPlayerChunk();
         UpdateChunks(true);
+    }
+
+    private void FindPersistentReferences()
+    {
+        // Find the Player (using the static reference we built earlier)
+        if (player == null)
+        {
+            player = PlayerReference.PlayerTransform;
+
+            // Fallback if PlayerReference isn't ready
+            if (player == null)
+            {
+                GameObject pObj = GameObject.Find("PLAYER");
+                if (pObj != null) player = pObj.transform;
+            }
+        }
+
+        // Find the Terrain Generator
+        if (terrainGenerator == null)
+        {
+            terrainGenerator = FindFirstObjectByType<TileTerrainGenerator>();
+        }
+
+        // Find the Spawner (if it's attached to the Generator)
+        if (worldObjectSpawner == null && terrainGenerator != null)
+        {
+            worldObjectSpawner = terrainGenerator.GetComponent<WorldObjectSpawner>();
+        }
     }
 
     void Update()

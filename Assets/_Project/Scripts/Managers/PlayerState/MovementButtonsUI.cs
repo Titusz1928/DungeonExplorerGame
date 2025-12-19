@@ -12,12 +12,44 @@ public class MovementButtonsUI : MonoBehaviour
 
     private void OnEnable()
     {
-        state.OnMovementModeChanged += UpdateVisuals;
+        // Try to find the player state if it's not assigned
+        if (state == null)
+        {
+            FindPlayerState();
+        }
+
+        // Only subscribe if we successfully found the state
+        if (state != null)
+        {
+            state.OnMovementModeChanged += UpdateVisuals;
+            UpdateVisuals(state.CurrentMode); // Sync UI immediately on enable
+        }
     }
 
     private void OnDisable()
     {
-        state.OnMovementModeChanged -= UpdateVisuals;
+        if (state != null)
+        {
+            state.OnMovementModeChanged -= UpdateVisuals;
+        }
+    }
+
+    private void FindPlayerState()
+    {
+        // Use your existing PlayerReference static property
+        if (PlayerReference.PlayerTransform != null)
+        {
+            state = PlayerReference.PlayerTransform.GetComponent<PlayerStateManager>();
+        }
+        else
+        {
+            // Fallback: If PlayerReference isn't set yet, look for the object by name or tag
+            GameObject player = GameObject.Find("PLAYER");
+            if (player != null)
+            {
+                state = player.GetComponent<PlayerStateManager>();
+            }
+        }
     }
 
     public void OnSneakButtonPressed()

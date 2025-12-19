@@ -23,4 +23,18 @@ public static class SkillSaveBuilder
 
         return save;
     }
+
+    public static void Apply(List<SkillSaveEntry> savedSkills)
+    {
+        if (savedSkills == null) return;
+
+        var skillManager = PlayerSkillManager.Instance;
+
+        foreach (var entry in savedSkills)
+        {
+            // We assume PlayerSkillManager has a method like LoadSkill
+            // to set values directly instead of using AddXP()
+            skillManager.LoadSkillData(entry.skill, entry.level, entry.xp);
+        }
+    }
 }

@@ -6,13 +6,13 @@ public class WorldSaveData : MonoBehaviour
     public static WorldSaveData Instance;
 
     // Containers: key = containerId, value = items
-    private Dictionary<string, List<(ItemSO item, int qty)>> containerData = new();
+    private Dictionary<string, ContainerSaveData> containerData = new();
 
     // Mapping from world coordinates to containerId
     private Dictionary<Vector2Int, string> worldCellToId = new();
 
     // Chunk data: key = chunk coordinates, value = saved objects in chunk
-    private Dictionary<Vector2Int, ChunkData> chunkData = new();
+    private Dictionary<string, ChunkData> chunkData = new();
 
     void Awake()
     {
@@ -42,28 +42,10 @@ public class WorldSaveData : MonoBehaviour
         // ------------------------
         // SAVE CONTAINERS
         // ------------------------
+        // FIXED: Convert Dictionary values into the List
         foreach (var kvp in containerData)
         {
-            string containerId = kvp.Key;
-            List<(ItemSO item, int qty)> runtimeItems = kvp.Value;
-
-            ContainerSaveData containerSave = new ContainerSaveData
-            {
-                id = containerId,
-                items = new List<ItemSaveEntry>()
-            };
-
-            foreach (var (item, qty) in runtimeItems)
-            {
-                containerSave.items.Add(new ItemSaveEntry
-                {
-                    itemID = item.ID,
-                    quantity = qty,
-                    durability = 0
-                });
-            }
-
-            save.containers[containerId] = containerSave;
+            save.containers.Add(kvp.Value);
         }
 
         // ------------------------
@@ -75,7 +57,42 @@ public class WorldSaveData : MonoBehaviour
     }
 
 
+    public void LoadFromWorldSave(WorldSave worldSave)
+    {
+        chunkData.Clear();
+        containerData.Clear();
+        worldCellToId.Clear();
 
+        // 1. Restore Chunks
+        foreach (var chunk in worldSave.chunks)
+        {
+            // Use the string key helper
+            string key = GetChunkKey(chunk.chunkCoord);
+            chunkData[key] = chunk;
+
+            // 2. Re-map Container IDs
+            foreach (var obj in chunk.objects)
+            {
+                if (!string.IsNullOrEmpty(obj.containerId))
+                {
+                    // Use FloorToInt to ensure (417.5, 500.5) becomes (417, 500)
+                    Vector2Int cell = new Vector2Int(Mathf.FloorToInt(obj.position.x), Mathf.FloorToInt(obj.position.y));
+                    worldCellToId[cell] = obj.containerId;
+                }
+            }
+        }
+
+        // 3. Restore Container Data
+        foreach (var savedContainer in worldSave.containers)
+        {
+            if (savedContainer != null)
+            {
+                containerData[savedContainer.id] = savedContainer;
+            }
+        }
+
+        Debug.Log($"Restored {chunkData.Count} chunks.");
+    }
 
     #region Container ID
 
@@ -95,24 +112,88 @@ public class WorldSaveData : MonoBehaviour
 
     public bool HasContainerData(string id) => containerData.ContainsKey(id);
 
-    public List<(ItemSO item, int qty)> GetContainerData(string id) => containerData[id];
-
-    public void SaveContainerData(string id, List<(ItemSO item, int qty)> items)
+    // CHANGED: This now "unwraps" the SaveData back into a runtime List
+    public List<(ItemSO item, int qty)> GetContainerData(string id)
     {
-        containerData[id] = new List<(ItemSO, int)>(items);
+        if (!containerData.TryGetValue(id, out ContainerSaveData savedData))
+            return new List<(ItemSO, int)>();
+
+        List<(ItemSO, int)> runtimeList = new List<(ItemSO, int)>();
+
+        // Access .items (the class) then .items (the list inside the class)
+        foreach (var entry in savedData.items.entries)
+        {
+            ItemSO itemSO = ItemDatabase.instance.GetByID(entry.itemID);
+            if (itemSO != null)
+            {
+                runtimeList.Add((itemSO, entry.quantity));
+            }
+        }
+
+        return runtimeList;
+    }
+
+    // NEW: Helper to check the initialized state from the stored object
+    public bool IsContainerInitialized(string id)
+    {
+        return containerData.ContainsKey(id) && containerData[id].initialized;
+    }
+
+    // CHANGED: This now "wraps" the runtime List into a ContainerSaveData object
+    public void SaveContainerData(string id, List<(ItemSO item, int qty)> items, bool wasopened, bool isInitialized = true)
+    {
+        // 1. Create the container data object
+        ContainerSaveData newData = new ContainerSaveData
+        {
+            id = id,
+            initialized = isInitialized,
+            wasOpened=wasopened,
+            // 2. Initialize the InventorySaveData object (not a List!)
+            items = new InventorySaveData()
+        };
+
+        foreach (var (item, qty) in items)
+        {
+            // 3. Add to the list INSIDE the items object
+            newData.items.entries.Add(new ItemSaveEntry
+            {
+                itemID = item.ID,
+                quantity = qty,
+                durability = 0
+            });
+        }
+
+        containerData[id] = newData;
     }
 
     #endregion
 
     #region Chunk Data
 
-    public bool HasChunkData(Vector2Int chunkCoord) => chunkData.ContainsKey(chunkCoord);
+    private string GetChunkKey(Vector2Int coord) => $"{coord.x}_{coord.y}";
 
-    public ChunkData GetChunkData(Vector2Int chunkCoord) => chunkData[chunkCoord];
+    public bool HasChunkData(Vector2Int chunkCoord)
+    {
+        string key = GetChunkKey(chunkCoord);
+        bool exists = chunkData.ContainsKey(key);
+
+        if (!exists && chunkData.Count > 0)
+        {
+            Debug.Log($"[CHUNK MISS] Looking for {key}. Dictionary has {chunkData.Count} entries.");
+        }
+        return exists;
+    }
+
+    public ChunkData GetChunkData(Vector2Int chunkCoord)
+    {
+        return chunkData[GetChunkKey(chunkCoord)];
+    }
 
     public void SaveChunkData(Vector2Int chunkCoord, ChunkData data)
     {
-        chunkData[chunkCoord] = data;
+        // Ensure the data itself knows its coord before saving
+        data.chunkCoord = chunkCoord;
+        chunkData[GetChunkKey(chunkCoord)] = data;
     }
 
     #endregion

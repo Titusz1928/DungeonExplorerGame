@@ -26,6 +26,8 @@ public class WorldObjectSpawner : MonoBehaviour
 
     void Awake()
     {
+        EnsureReferences();
+
         prefabLookup = new Dictionary<string, GameObject>();
         if (treePrefab != null) prefabLookup[treePrefab.name] = treePrefab;
         foreach (var p in bushPrefabs) prefabLookup[p.name] = p;
@@ -33,17 +35,30 @@ public class WorldObjectSpawner : MonoBehaviour
         foreach (var p in enemySpawnPrefabs) prefabLookup[p.name] = p;
     }
 
+    private void EnsureReferences()
+    {
+        // If the generator is missing, find the persistent one
+        if (terrainGenerator == null)
+        {
+            terrainGenerator = FindFirstObjectByType<TileTerrainGenerator>();
+        }
+    }
+
     public void SpawnObjectsInChunk(Vector2Int chunkCoord, int chunkSize, Transform chunkParent)
     {
         // Check if we already have saved chunk data
         if (WorldSaveData.Instance.HasChunkData(chunkCoord))
         {
+            Debug.Log("[OBJECT SPAWNER] restoring old chunk:"+chunkCoord);
+
             ChunkData data = WorldSaveData.Instance.GetChunkData(chunkCoord);
             SpawnFromChunkData(data, chunkParent);
             return;
         }
 
         // Otherwise, generate chunk for the first time
+        Debug.Log("[OBJECT SPAWNER] creating new chunk:" + chunkCoord);
+
         ChunkData newData = new ChunkData() { chunkCoord = chunkCoord };
 
         Random.InitState(chunkCoord.x * 73856093 ^ chunkCoord.y * 19349663 ^ GameSettings.Instance.seed);
@@ -109,25 +124,22 @@ public class WorldObjectSpawner : MonoBehaviour
         int worldY = chunkCoord.y * 64 + localTileCoord.y;
         Vector3 pos = new Vector3(worldX + 0.5f, worldY + 0.5f, 0f);
 
-        string containerId = null;
-        WorldContainer container = prefab.GetComponentInChildren<WorldContainer>();
-        if (container != null)
-        {
-            containerId = WorldSaveData.Instance.GetOrCreateContainerId(new Vector2Int(worldX, worldY), prefab.name);
-        }
-
-        InstantiateAndRecord(prefab, pos, parent, containerId, chunkData);
+        // REMOVED: Don't generate the ID here! 
+        // Just pass null; the container will generate its own inside Initialize.
+        InstantiateAndRecord(prefab, pos, parent, null, chunkData);
     }
 
     void InstantiateAndRecord(GameObject prefab, Vector3 pos, Transform parent, string containerId, ChunkData chunkData)
     {
         GameObject go = Instantiate(prefab, pos, Quaternion.identity, parent);
+        WorldContainer container = go.GetComponentInChildren<WorldContainer>();
 
-        if (containerId != null)
+        if (container != null)
         {
-            WorldContainer container = go.GetComponentInChildren<WorldContainer>();
-            if (container != null)
-                container.Initialize(new Vector2Int((int)pos.x, (int)pos.y), containerId);
+            Vector2Int cell = new Vector2Int(Mathf.FloorToInt(pos.x), Mathf.FloorToInt(pos.y));
+            // If containerId is null (new spawn), Initialize will generate one and return it
+            container.Initialize(cell, containerId);
+            containerId = container.uniqueId; // Capture the generated ID
         }
 
         chunkData.objects.Add(new SpawnedObjectData

@@ -20,31 +20,38 @@ public class WorldContainer : MonoBehaviour
 
     private bool initialized = false;
 
+    public bool wasOpened=false;
+
     public string uniqueId;
 
     public void Initialize(Vector2Int cell, string id)
     {
-        if (initialized)
-            return;
-
-        if (string.IsNullOrEmpty(id))
-        {
-            Debug.LogError($"[WorldContainer] Missing uniqueId on {name}");
-            return;
-        }
+        if (initialized) return;
 
         worldCell = cell;
-        uniqueId = id;
 
-        if (WorldSaveData.Instance.HasContainerData(uniqueId))
+        // If id is null, we are spawning for the first time. 
+        // Ask WorldSaveData for a stable ID.
+        if (string.IsNullOrEmpty(id))
         {
-            items = WorldSaveData.Instance.GetContainerData(uniqueId);
+            uniqueId = WorldSaveData.Instance.GetOrCreateContainerId(worldCell, name.Replace("(Clone)", ""));
         }
         else
         {
-            Debug.Log("[WORLD CONTAINER] generating items for:" + id);
+            uniqueId = id;
+        }
+
+        // Now check if data exists for this ID
+        if (WorldSaveData.Instance.HasContainerData(uniqueId))
+        {
+            items = WorldSaveData.Instance.GetContainerData(uniqueId);
+            // wasOpened = WorldSaveData.Instance.IsContainerInitialized(uniqueId); // Restore your bool
+        }
+        else
+        {
             GenerateContents();
-            WorldSaveData.Instance.SaveContainerData(uniqueId, items);
+            // Save immediately so the ID and contents are linked
+            WorldSaveData.Instance.SaveContainerData(uniqueId, items,wasOpened, initialized);
         }
 
         initialized = true;
@@ -52,6 +59,8 @@ public class WorldContainer : MonoBehaviour
 
     public void Highlight(bool on)
     {
+        wasOpened = true;
+
         if (sr == null)
         {
             Debug.Log("early return");
@@ -99,7 +108,7 @@ public class WorldContainer : MonoBehaviour
             amount -= stackAmount;
         }
 
-        WorldSaveData.Instance.SaveContainerData(uniqueId,items);
+        WorldSaveData.Instance.SaveContainerData(uniqueId, items, wasOpened, initialized);
     }
 
     public void RemoveItem(ItemSO item, int qty)
@@ -124,7 +133,7 @@ public class WorldContainer : MonoBehaviour
                     items[i] = entry;
                 }
 
-                WorldSaveData.Instance.SaveContainerData(uniqueId, items);
+                WorldSaveData.Instance.SaveContainerData(uniqueId, items, wasOpened, initialized);
                 return;
             }
         }

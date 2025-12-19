@@ -11,7 +11,7 @@ public class PlayerMovement : MonoBehaviour
     public float sprintMultiplier = 1.2f;
 
     [Header("Mobile Controls")]
-    public Joystick joystick;
+    private Joystick joystick;
 
     private Rigidbody2D rb;
     private Vector2 moveInput;
@@ -59,13 +59,38 @@ public class PlayerMovement : MonoBehaviour
     private void Start()
     {
         lastPosition = transform.position;
-
-        UpdateSpeed(state.CurrentMode);
-        state.OnMovementModeChanged += UpdateSpeed;  // ⭐ Listen for changes
+        if (state == null) state = GetComponent<PlayerStateManager>();
+        if (state != null)
+        {
+            UpdateSpeed(state.CurrentMode);
+            state.OnMovementModeChanged += UpdateSpeed;
+        }
+        FindJoystick();
     }
 
-    private void OnEnable() => controls.Enable();
-    private void OnDisable() => controls.Disable();
+    private void OnEnable()
+    {
+        controls.Enable();
+        // Re-link the joystick every time a scene is loaded
+        UnityEngine.SceneManagement.SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        controls.Disable();
+        UnityEngine.SceneManagement.SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(UnityEngine.SceneManagement.Scene scene, UnityEngine.SceneManagement.LoadSceneMode mode)
+    {
+        FindJoystick();
+    }
+
+    private void FindJoystick()
+    {
+        // Look for the Joystick component in the new scene
+        joystick = FindFirstObjectByType<Joystick>();
+    }
 
     private void UpdateSpeed(MovementMode mode)
     {
@@ -110,69 +135,72 @@ public class PlayerMovement : MonoBehaviour
         }
 
         // --- Joystick input ---
-        Vector2 joystickInput = new Vector2(joystick.Horizontal, joystick.Vertical);
-
-        if (joystickInput.magnitude > 0.1f)
+        if (joystick != null)
         {
-            usingJoystick = true;
-            moveInput = joystickInput;
-        }
-        else if (usingJoystick)
-        {
-            usingJoystick = false;
-            moveInput = Vector2.zero;
-        }
+            Vector2 joystickInput = new Vector2(joystick.Horizontal, joystick.Vertical);
 
-        // --- Animator stuff ---
-        bool walking = moveInput.magnitude > 0.1f;
-        state.IsMoving = walking;
-        animator.SetBool("isWalking", walking);
-
-        if (walking)
-        {
-            animator.SetFloat("InputX", moveInput.x);
-            animator.SetFloat("InputY", moveInput.y);
-            animator.SetFloat("LastInputX", moveInput.x);
-            animator.SetFloat("LastInputY", moveInput.y);
-        }
-
-        // --- XP Gain For Movement ---
-        if (walking)   // use local walking, not previous frame's state
-        {
-            float dist = Vector3.Distance(transform.position, lastPosition);
-            xpDistanceAccumulator += dist;
-
-            if (xpDistanceAccumulator >= metersPerXP)
+            if (joystickInput.magnitude > 0.1f)
             {
-                xpDistanceAccumulator = 0f;
-
-                // --- XP ---
-                PlayerSkillManager.Instance.AddXP(PlayerSkill.Speed, xpPerTick);
-
-                if (state.CurrentMode == MovementMode.Sneaking)
-                    PlayerSkillManager.Instance.AddXP(PlayerSkill.Stealth, xpPerTick * 1.2f);
-
-                if (state.CurrentMode == MovementMode.Sprinting)
-                    PlayerSkillManager.Instance.AddXP(PlayerSkill.Strength, xpPerTick * 0.5f);
-
+                usingJoystick = true;
+                moveInput = joystickInput;
+            }
+            else if (usingJoystick)
+            {
+                usingJoystick = false;
+                moveInput = Vector2.zero;
             }
 
-            // --- Noise ---
-            noiseDistanceAccumulator += dist;
-            if (noiseDistanceAccumulator >= metersPerNoise)
-            {
-                noiseDistanceAccumulator = 0f;
+            // --- Animator stuff ---
+            bool walking = moveInput.magnitude > 0.1f;
+            state.IsMoving = walking;
+            animator.SetBool("isWalking", walking);
 
-                switch (state.CurrentMode)
+            if (walking)
+            {
+                animator.SetFloat("InputX", moveInput.x);
+                animator.SetFloat("InputY", moveInput.y);
+                animator.SetFloat("LastInputX", moveInput.x);
+                animator.SetFloat("LastInputY", moveInput.y);
+            }
+
+            // --- XP Gain For Movement ---
+            if (walking)   // use local walking, not previous frame's state
+            {
+                float dist = Vector3.Distance(transform.position, lastPosition);
+                xpDistanceAccumulator += dist;
+
+                if (xpDistanceAccumulator >= metersPerXP)
                 {
-                    case MovementMode.Sneaking:
-                        break;
-                    case MovementMode.Normal:
-                        NoiseManager.Instance.EmitActionNoise(NoiseActionType.Walking, transform.position);
-                        break;
-                    case MovementMode.Sprinting:
-                        NoiseManager.Instance.EmitActionNoise(NoiseActionType.Sprinting, transform.position);
-                        break;
+                    xpDistanceAccumulator = 0f;
+
+                    // --- XP ---
+                    PlayerSkillManager.Instance.AddXP(PlayerSkill.Speed, xpPerTick);
+
+                    if (state.CurrentMode == MovementMode.Sneaking)
+                        PlayerSkillManager.Instance.AddXP(PlayerSkill.Stealth, xpPerTick * 1.2f);
+
+                    if (state.CurrentMode == MovementMode.Sprinting)
+                        PlayerSkillManager.Instance.AddXP(PlayerSkill.Strength, xpPerTick * 0.5f);
+
+                }
+
+                // --- Noise ---
+                noiseDistanceAccumulator += dist;
+                if (noiseDistanceAccumulator >= metersPerNoise)
+                {
+                    noiseDistanceAccumulator = 0f;
+
+                    switch (state.CurrentMode)
+                    {
+                        case MovementMode.Sneaking:
+                            break;
+                        case MovementMode.Normal:
+                            NoiseManager.Instance.EmitActionNoise(NoiseActionType.Walking, transform.position);
+                            break;
+                        case MovementMode.Sprinting:
+                            NoiseManager.Instance.EmitActionNoise(NoiseActionType.Sprinting, transform.position);
+                            break;
+                    }
                 }
             }
         }

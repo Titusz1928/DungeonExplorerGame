@@ -47,4 +47,52 @@ public static class EquipmentSaveBuilder
 
         return save;
     }
+
+    public static void Apply(EquipmentManager eq, EquipmentSave save)
+    {
+        if (eq == null || save == null) return;
+
+        // 1. Restore Main Hand
+        if (save.mainHandItemId != 0)
+        {
+            ItemSO item = ItemDatabase.instance.GetByID(save.mainHandItemId);
+            if (item is WeaponItemSO weaponSO)
+            {
+                // Create the "Instance" box first
+                ItemInstance weaponInstance = new ItemInstance(weaponSO);
+
+                // Now pass the instance to the manager
+                eq.EquipMainHand(weaponInstance);
+            }
+        }
+
+        // 2. Restore Shield
+        if (save.shieldItemId != 0)
+        {
+            ItemSO item = ItemDatabase.instance.GetByID(save.shieldItemId);
+            // Assuming your Shield SO is named ShieldItemSO
+            if (item is ShieldItemSO shieldSO)
+            {
+                ItemInstance shieldInstance = new ItemInstance(shieldSO);
+                eq.EquipShield(shieldInstance);
+            }
+        }
+
+        // 3. Restore Armor
+        if (save.armor != null)
+        {
+            foreach (var slotKvp in save.armor)
+            {
+                foreach (var layerKvp in slotKvp.Value)
+                {
+                    ItemSO item = ItemDatabase.instance.GetByID(layerKvp.Value);
+                    if (item is ArmorItemSO armorSO)
+                    {
+                        ItemInstance armorInstance = new ItemInstance(armorSO);
+                        eq.EquipArmor(armorInstance);
+                    }
+                }
+            }
+        }
+    }
 }

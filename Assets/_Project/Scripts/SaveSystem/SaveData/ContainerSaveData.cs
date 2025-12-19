@@ -4,5 +4,7 @@ using System.Collections.Generic;
 public class ContainerSaveData
 {
     public string id;
-    public List<ItemSaveEntry> items;
+    public InventorySaveData items;
+    public bool initialized;
+    public bool wasOpened;
 }

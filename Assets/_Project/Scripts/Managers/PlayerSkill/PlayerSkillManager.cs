@@ -104,4 +104,24 @@ public class PlayerSkillManager : MonoBehaviour
         }
         return false;
     }
+
+
+    // ---------------------------------------------------------
+    // Loading Data
+    // ---------------------------------------------------------
+    public void LoadSkillData(PlayerSkill skill, int level, float currentXP)
+    {
+        if (skills.ContainsKey(skill))
+        {
+            SkillData data = skills[skill];
+            data.level = level;
+            data.currentXP = currentXP;
+
+            // Very important: update the threshold so the UI/Logic knows 
+            // when the next level-up actually happens.
+            data.RecalculateXPRequirement();
+
+            Debug.Log($"Restored {skill}: Level {level}, XP {currentXP}");
+        }
+    }
 }
