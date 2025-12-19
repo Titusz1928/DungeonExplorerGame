@@ -33,11 +33,17 @@ public class SceneManagerEX : MonoBehaviour
             Destroy(GameBoot.PersistentPlayer);
 
         if (GameBoot.PersistentWorld != null)
-            Destroy(GameBoot.PersistentWorld);
+        {
+
+            if (GameBoot.PersistentWSD != null)
+                Destroy(GameBoot.PersistentWSD);
+        }
+        Destroy(GameBoot.PersistentWorld);
 
         // Reset references so GameBoot knows to recreate them next time
         GameBoot.PersistentPlayer = null;
         GameBoot.PersistentWorld = null;
+        GameBoot.PersistentWSD = null;
     }
 
 

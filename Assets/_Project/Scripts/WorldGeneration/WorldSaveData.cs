@@ -14,6 +14,8 @@ public class WorldSaveData : MonoBehaviour
     // Chunk data: key = chunk coordinates, value = saved objects in chunk
     private Dictionary<string, ChunkData> chunkData = new();
 
+    public bool IsLoaded { get; private set; } = false;
+
     void Awake()
     {
         if (Instance != null)
@@ -24,6 +26,16 @@ public class WorldSaveData : MonoBehaviour
 
         Instance = this;
         DontDestroyOnLoad(gameObject);
+    }
+
+    // Call this if no save file exists to let the game start
+    public void InitializeNewGame()
+    {
+        chunkData.Clear();
+        containerData.Clear();
+        worldCellToId.Clear();
+        IsLoaded = true;
+        Debug.Log("[SAVE SYSTEM] Initialized New Game (No save found).");
     }
 
     public WorldSave BuildWorldSave()
@@ -92,6 +104,9 @@ public class WorldSaveData : MonoBehaviour
         }
 
         Debug.Log($"Restored {chunkData.Count} chunks.");
+
+        IsLoaded = true; // Mark as ready
+        Debug.Log($"Restored {chunkData.Count} chunks. System is now READY.");
     }
 
     #region Container ID

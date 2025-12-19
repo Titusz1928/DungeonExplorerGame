@@ -7,8 +7,10 @@ public class GameBoot : MonoBehaviour
     [Header("Prefabs")]
     public GameObject terrainGeneratorPrefab;
     public GameObject playerPrefab;
+    public GameObject worldSaveData;
 
     public static GameObject PersistentWorld;
+    public static GameObject PersistentWSD;
     public static GameObject PersistentPlayer;
 
     [Header("UI References")]
@@ -57,6 +59,13 @@ public class GameBoot : MonoBehaviour
         Vector2 spawnPos = gen.FindRandomCoastlineSpawn(1280, seed);
 
         PersistentPlayer.transform.position = spawnPos;
+
+        if (WorldSaveData.Instance == null)
+            WorldSaveData.Instance = PersistentWorld.GetComponent<WorldSaveData>();
+
+        // Open the gate for a fresh game
+        WorldSaveData.Instance.InitializeNewGame();
+
         yield return null;
     }
 
@@ -64,56 +73,53 @@ public class GameBoot : MonoBehaviour
     {
         Debug.Log("<color=cyan><b>[LOAD]</b></color> Load process started...");
 
+        // 1. Load data from disk FIRST (before spawning anything)
         SaveGame data = SaveSystem.LoadGame();
         if (data == null)
         {
-            Debug.LogError("<color=red><b>[LOAD ERROR]</b></color> Save file could not be read. Check persistentDataPath.");
+            Debug.LogError("<color=red><b>[LOAD ERROR]</b></color> Save file could not be read.");
             yield return StartCoroutine(HandleNewGame());
             yield break;
         }
 
-        // 1. Restore Global Settings
+        // 2. Restore Global Settings
         GameSettings.Instance.seed = data.gameSettings.seed;
         GameSettings.Instance.difficulty = data.gameSettings.difficulty;
-        Debug.Log($"<color=cyan><b>[LOAD]</b></color> Settings Restored. Seed: {data.gameSettings.seed}");
 
-        // 2. Create the Physical Objects
+        // 3. Create Physical Objects (This spawns WorldSaveData and ChunkManager)
         CreatePersistentObjects(Vector2.zero);
 
-        // FORCE the Instance assignment if Awake hasn't run yet
+        // 4. Ensure Instance is linked immediately
         if (WorldSaveData.Instance == null)
         {
             WorldSaveData.Instance = PersistentWorld.GetComponent<WorldSaveData>();
         }
 
-        // 3. Restore World Save Data
+        // 5. INJECT DATA BEFORE RELEASING CHUNK MANAGER
+        // Calling LoadFromWorldSave sets IsLoaded = true internally.
         if (WorldSaveData.Instance != null)
         {
-            // data.world is the 'WorldSave' object from your JSON
             WorldSaveData.Instance.LoadFromWorldSave(data.world);
-            Debug.Log($"[LOAD] World Data injected into WorldSaveData manager.");
+            Debug.Log($"<color=cyan><b>[LOAD]</b></color> World Data injected. Gate is now OPEN.");
         }
 
-        // 4. Restore Player State
-        // Note: Since data.player.position is a Vector2, we can assign it directly
-        // Inside HandleLoadGame, change step 4 to this:
+        // 6. Restore Player Position and State
         Rigidbody2D rb = PersistentPlayer.GetComponent<Rigidbody2D>();
         if (rb != null)
         {
-            rb.position = data.player.position; // Physics-safe position set
-            rb.linearVelocity = Vector2.zero;   // Stop any carry-over movement
+            // Use rb.position for physics-objects to avoid "teleport jitters"
+            rb.position = data.player.position;
+            rb.linearVelocity = Vector2.zero;
         }
         PersistentPlayer.transform.position = data.player.position;
 
-        // 5. Apply Stats, Inventory, Skills, Equipment
-        Debug.Log("<color=cyan><b>[LOAD]</b></color> Applying Player Statistics...");
+        // 7. Apply Inventory/Stats
         PlayerSaveBuilder.Apply(PersistentPlayer, data.player);
 
-        // 6. Final Verification
-        yield return new WaitForEndOfFrame(); // Wait for one frame to let physics/UI update
-        Debug.Log($"<color=green><b>[LOAD SUCCESS]</b></color> Player HP now: {PersistentPlayer.GetComponent<PlayerStateManager>().health}");
+        // 8. Wait for one frame to allow ChunkManager's Start() to see IsLoaded = true
+        yield return new WaitForEndOfFrame();
 
-        yield return null;
+        Debug.Log($"<color=green><b>[LOAD SUCCESS]</b></color> Game fully restored.");
     }
 
     private void CreatePersistentObjects(Vector2 startPos)
@@ -131,6 +137,14 @@ public class GameBoot : MonoBehaviour
             PersistentPlayer.name = "PLAYER";
             DontDestroyOnLoad(PersistentPlayer);
         }
+
+        if (PersistentWSD == null)
+        {
+            PersistentWSD = Instantiate(worldSaveData);
+            PersistentWSD.name = "WORLD_SAVE_DATA";
+            DontDestroyOnLoad(PersistentWSD);
+        }
+
     }
 
 

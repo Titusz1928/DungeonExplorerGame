@@ -1,4 +1,5 @@
 using UnityEngine;
+using static UnityEngine.Rendering.DebugUI;
 
 public class SaveButtonHandler : MonoBehaviour
 {
@@ -6,6 +7,9 @@ public class SaveButtonHandler : MonoBehaviour
     {
         // Call the static save system
         Debug.Log("save button pressed");
+
+        MessageManager.Instance.ShowMessageDirectly($"Game saved");
+
         SaveSystem.SaveGame();
     }
 }

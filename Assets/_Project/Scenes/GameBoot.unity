@@ -222,6 +222,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   terrainGeneratorPrefab: {fileID: 2760829098709996277, guid: 7a4a907e684690949bfbd4739da64e0d, type: 3}
   playerPrefab: {fileID: 424148272874643181, guid: 5b4d31af06822bc4ea781265b092f547, type: 3}
+  worldSaveData: {fileID: 2931119281576732061, guid: 5575aab7ab69b0d45921f23d4036adfc, type: 3}
   gameBootCanvas: {fileID: 8639939583936374298}
   fadeDuration: 1
 --- !u!1 &1395071598

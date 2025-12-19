@@ -20,7 +20,7 @@ public class ChunkManager : MonoBehaviour
 
     public WorldObjectSpawner worldObjectSpawner;
 
-    void Start()
+    private System.Collections.IEnumerator Start()
     {
         FindPersistentReferences();
 
@@ -32,6 +32,13 @@ public class ChunkManager : MonoBehaviour
         //{
         //    player.position = spawnPos;
         //}
+
+
+        // Wait until WorldSaveData has finished loading the file
+        while (WorldSaveData.Instance != null && !WorldSaveData.Instance.IsLoaded)
+        {
+            yield return null;
+        }
 
         lastPlayerChunk = GetPlayerChunk();
         UpdateChunks(true);
