@@ -50,6 +50,7 @@ public class DebugConsole : MonoBehaviour
         commands["/give"] = CmdGive;
         commands["/heal"] = CmdHealth;
         commands["/xp"] = CmdAddXP;
+        commands["/seed"] = CmdSeed;
         commands["/clear"] = CmdClear;
     }
 
@@ -105,6 +106,11 @@ public class DebugConsole : MonoBehaviour
 
         foreach (Transform child in content)
             Destroy(child.gameObject);
+    }
+
+    private void CmdSeed(string[] args)
+    {
+        AddHistory("world seed: "+GameSettings.Instance.seed);
     }
 
     private void CmdAddXP(string[] args)

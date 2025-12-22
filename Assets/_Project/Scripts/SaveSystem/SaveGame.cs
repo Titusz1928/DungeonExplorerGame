@@ -1,6 +1,10 @@
 [System.Serializable]
-public class GameSettingsSave
+public class WorldMeta
 {
+    public string worldId;
+    public string worldName;
+    public string createdAt;
+    public string updatedAt;
     public int seed;
     public float difficulty;
 }
@@ -11,6 +15,6 @@ public class SaveGame
     public WorldSave world;
     public PlayerSave player;
     public float playTime;
-    public GameSettingsSave gameSettings;
+    public WorldMeta worldMetaData; 
 }
 

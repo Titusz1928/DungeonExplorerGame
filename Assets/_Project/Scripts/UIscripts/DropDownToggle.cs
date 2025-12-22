@@ -1,13 +1,13 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class NewGameDropdown : MonoBehaviour
+public class DropDownToggle : MonoBehaviour
 {
     [Header("State")]
     [SerializeField] private bool isExpanded = false;
 
     [Header("Sections")]
-    [SerializeField] private RectTransform newGameSection;
+    [SerializeField] private RectTransform totalDropdownArea;
     [SerializeField] private RectTransform topSection;
     [SerializeField] private GameObject bottomSection;
 
@@ -18,7 +18,7 @@ public class NewGameDropdown : MonoBehaviour
 
     [Header("Heights")]
     [SerializeField] private float collapsedHeight = 200f;
-    [SerializeField] private float expandedHeight = 800f;
+    [SerializeField] private float expandedHeight = 1000f;
 
     private void Awake()
     {
@@ -42,11 +42,11 @@ public class NewGameDropdown : MonoBehaviour
 
     private void SetSectionHeight()
     {
-        if (newGameSection == null) return;
+        if (totalDropdownArea == null) return;
 
-        Vector2 size = newGameSection.sizeDelta;
+        Vector2 size = totalDropdownArea.sizeDelta;
         size.y = isExpanded ? expandedHeight : collapsedHeight;
-        newGameSection.sizeDelta = size;
+        totalDropdownArea.sizeDelta = size;
     }
 
     private void SetTopSectionAnchors()
@@ -55,7 +55,7 @@ public class NewGameDropdown : MonoBehaviour
 
         if (isExpanded)
         {
-            topSection.anchorMin = new Vector2(0f, 0.75f);
+            topSection.anchorMin = new Vector2(0f, 0.8f);
             topSection.anchorMax = new Vector2(1f, 1f);
         }
         else

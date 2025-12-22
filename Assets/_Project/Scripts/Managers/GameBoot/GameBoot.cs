@@ -31,7 +31,7 @@ public class GameBoot : MonoBehaviour
         }
         else if (GameSettings.Instance.loadFromSave)
         {
-            yield return StartCoroutine(HandleLoadGame());
+            yield return StartCoroutine(HandleLoadGame(GameSettings.Instance.worldId));
         }
         else
         {
@@ -69,12 +69,13 @@ public class GameBoot : MonoBehaviour
         yield return null;
     }
 
-    private IEnumerator HandleLoadGame()
+    private IEnumerator HandleLoadGame(string worldId)
     {
         Debug.Log("<color=cyan><b>[LOAD]</b></color> Load process started...");
 
         // 1. Load data from disk FIRST (before spawning anything)
-        SaveGame data = SaveSystem.LoadGame();
+        SaveGame data = SaveSystem.LoadGame(worldId);
+        //SaveGame data=null;
         if (data == null)
         {
             Debug.LogError("<color=red><b>[LOAD ERROR]</b></color> Save file could not be read.");
@@ -83,8 +84,10 @@ public class GameBoot : MonoBehaviour
         }
 
         // 2. Restore Global Settings
-        GameSettings.Instance.seed = data.gameSettings.seed;
-        GameSettings.Instance.difficulty = data.gameSettings.difficulty;
+        GameSettings.Instance.seed = data.worldMetaData.seed;
+        GameSettings.Instance.difficulty = data.worldMetaData.difficulty;
+        GameSettings.Instance.worldId = data.worldMetaData.worldId;
+        GameSettings.Instance.worldName = data.worldMetaData.worldName;
 
         // 3. Create Physical Objects (This spawns WorldSaveData and ChunkManager)
         CreatePersistentObjects(Vector2.zero);

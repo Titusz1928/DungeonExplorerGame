@@ -4,59 +4,69 @@ using UnityEngine.SceneManagement;
 
 public class GameSessionController : MonoBehaviour
 {
+    // Singleton pattern for easy access from UI entries
+    public static GameSessionController Instance { get; private set; }
+
+    [Header("Settings")]
     [SerializeField] private GameSettingsDefaults defaults;
     [SerializeField] private string gameplaySceneName = "GameBoot";
+
+    [Header("New Game UI")]
     [SerializeField] private TMP_InputField seedInput;
+    [SerializeField] private TMP_InputField nameInput;
+
+    private void Awake()
+    {
+        Instance = this;
+    }
+
+    // --- Entry Points ---
 
     public void StartNewGame()
     {
-        EnsureGameSettings();
+        PrepareSettings();
 
-        // 1. Get the raw string from UI
-        string rawInput = seedInput.text;
-        int finalSeed;
-
-        if (string.IsNullOrWhiteSpace(rawInput))
-        {
-            // Case A: Empty input -> Random seed
-            finalSeed = Random.Range(int.MinValue, int.MaxValue);
-        }
-        else if (int.TryParse(rawInput, out int numericSeed))
-        {
-            // Case B: User typed a valid number -> Use it directly
-            finalSeed = numericSeed;
-        }
-        else
-        {
-            // Case C: User typed text -> Hash it to a number
-            // GetHashCode() returns a deterministic integer for any string
-            finalSeed = rawInput.GetHashCode();
-        }
-
-        // Apply the seed and settings
-        GameSettings.Instance.seed = finalSeed;
+        int finalSeed = ResolveSeedFromInput();
+        GameSettings.Instance.CreateNewWorld(nameInput.text, finalSeed);
         GameSettings.Instance.difficulty = defaults.defaultDifficulty;
-        GameSettings.Instance.loadFromSave = false;
 
-        Debug.Log($"Starting game with seed: {finalSeed}");
-        SceneManager.LoadScene(gameplaySceneName);
+        Launch();
     }
 
-    public void LoadGame()
+    public void LoadExistingWorld(string worldId)
     {
-        EnsureGameSettings();
+        PrepareSettings();
 
+        GameSettings.Instance.worldId = worldId;
         GameSettings.Instance.loadFromSave = true;
 
+        Launch();
+    }
+
+    // --- Helper Logic ---
+
+    private void PrepareSettings()
+    {
+        // Centralized check: ensure GameSettings exists before modifying it
+        if (GameSettings.Instance == null)
+        {
+            new GameObject("GameSettings", typeof(GameSettings));
+        }
+    }
+
+    private void Launch()
+    {
         SceneManager.LoadScene(gameplaySceneName);
     }
 
-    private void EnsureGameSettings()
+    private int ResolveSeedFromInput()
     {
-        if (GameSettings.Instance == null)
-        {
-            GameObject go = new GameObject("GameSettings");
-            go.AddComponent<GameSettings>();
-        }
+        string rawInput = seedInput?.text;
+        if (string.IsNullOrWhiteSpace(rawInput))
+            return Random.Range(int.MinValue, int.MaxValue);
+
+        return int.TryParse(rawInput, out int numericSeed)
+            ? numericSeed
+            : rawInput.GetHashCode();
     }
 }
