@@ -88,6 +88,7 @@ public class GameBoot : MonoBehaviour
         GameSettings.Instance.difficulty = data.worldMetaData.difficulty;
         GameSettings.Instance.worldId = data.worldMetaData.worldId;
         GameSettings.Instance.worldName = data.worldMetaData.worldName;
+        GameSettings.Instance.createdAt = data.worldMetaData.createdAt;
 
         // 3. Create Physical Objects (This spawns WorldSaveData and ChunkManager)
         CreatePersistentObjects(Vector2.zero);

@@ -21,6 +21,9 @@ public class EnemySpawnManager : MonoBehaviour
 
     public bool debugSpawning = true;
 
+    // Keep track of which unique enemies are currently in the world
+    private HashSet<string> activeInstanceIDs = new HashSet<string>();
+
     void Log(string msg)
     {
         if (debugSpawning)
@@ -41,7 +44,7 @@ public class EnemySpawnManager : MonoBehaviour
     {
         Log("EnemySpawnManager started, waiting for zones...");
 
-        Log($"Found {zones.Count} spawn zones"); 
+        Log($"Found {zones.Count} spawn zones");
 
         foreach (var z in zones)
             Log($"Zone found: {z.name} at {z.transform.position}");
@@ -160,6 +163,35 @@ public class EnemySpawnManager : MonoBehaviour
     void HandleEnemyDeath(EnemyController enemy)
     {
         NotifyEnemyRemoved(enemy);
+    }
+
+    public void RestoreEnemy(EnemySaveData data)
+    {
+        // CRITICAL CHECK: If an enemy with this ID already exists, do nothing!
+        if (activeInstanceIDs.Contains(data.instanceID))
+        {
+            return;
+        }
+
+        GameObject prefab = enemyPrefabs.Find(p => p.GetComponent<EnemyController>().data.enemyID == data.enemyID);
+        if (prefab == null) return;
+
+        GameObject enemyGo = Instantiate(prefab, data.position, Quaternion.identity);
+        EnemyController controller = enemyGo.GetComponent<EnemyController>();
+
+        // INJECT the saved ID before the controller's Start() runs
+        controller.instanceID = data.instanceID;
+        activeInstanceIDs.Add(data.instanceID);
+
+        // Apply stats
+        controller.currentHP = data.currentHP;
+        // ...
+
+        currentEnemyCount++;
+        controller.OnEnemyDeath += (e) => {
+            activeInstanceIDs.Remove(e.instanceID);
+            HandleEnemyDeath(e);
+        };
     }
 }
 

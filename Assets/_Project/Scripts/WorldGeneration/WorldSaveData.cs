@@ -51,6 +51,39 @@ public class WorldSaveData : MonoBehaviour
             save.chunks.Add(kvp.Value);
         }
 
+        // 2. Find Enemies
+        EnemyController[] activeEnemies = Object.FindObjectsByType<EnemyController>(FindObjectsSortMode.None);
+
+        foreach (var enemy in activeEnemies)
+        {
+            Vector2Int coord = GetChunkCoordFromPosition(enemy.transform.position);
+
+            // MATCHING THE FORMAT: Use underscore instead of comma
+            string coordKey = $"{coord.x}_{coord.y}";
+
+            // Try to find the chunk; if it doesn't exist, create a new data entry for it
+            if (!chunkData.TryGetValue(coordKey, out ChunkData chunk))
+            {
+                Debug.Log($"[WORLDSAVEDATA]: Creating new chunk entry for {coordKey} to save enemy.");
+                chunk = new ChunkData
+                {
+                    chunkCoord = coord
+                };
+                chunkData.Add(coordKey, chunk);
+            }
+
+            // Add the enemy to the chunk (whether it was existing or just created)
+            chunk.enemies.Add(new EnemySaveData
+            {
+                instanceID = enemy.instanceID,
+                enemyID = enemy.data.enemyID,
+                position = enemy.transform.position,
+                currentHP = enemy.currentHP,
+                currentState = enemy.GetState(),
+                guardCenter = enemy.GetGuardCenter()
+            });
+        }
+
         // ------------------------
         // SAVE CONTAINERS
         // ------------------------
@@ -60,12 +93,15 @@ public class WorldSaveData : MonoBehaviour
             save.containers.Add(kvp.Value);
         }
 
-        // ------------------------
-        // ENEMIES (later)
-        // ------------------------
-        // save.enemies will be filled once enemy persistence is implemented
 
         return save;
+    }
+
+    public Vector2Int GetChunkCoordFromPosition(Vector3 position)
+    {
+        int x = Mathf.FloorToInt(position.x / ChunkManager.getChunkSize());
+        int y = Mathf.FloorToInt(position.y / ChunkManager.getChunkSize());
+        return new Vector2Int(x, y);
     }
 
 

@@ -34,7 +34,8 @@ public static class PlayerSaveBuilder
             {
                 itemID = item.itemSO.ID,
                 quantity = item.quantity,
-                durability = item.currentDurability
+                durability = item.currentDurability,
+                isEquipped = item.isEquipped,
             });
         }
 
@@ -45,7 +46,7 @@ public static class PlayerSaveBuilder
 
         // --------------------
         // SKILLS
-        // --------------------
+        // -------------------- 
         save.skills = SkillSaveBuilder.Build();
 
         return save;
@@ -86,11 +87,12 @@ public static class PlayerSaveBuilder
         }
 
         // 4. EQUIPMENT
-        // Assuming you have an EquipmentManager component
         var equipmentManager = playerObj.GetComponent<EquipmentManager>();
-        if (equipmentManager != null)
+
+        if (equipmentManager != null && inv != null)
         {
-            EquipmentSaveBuilder.Apply(equipmentManager, save.equipment);
+            // Pass 'inv' as a new argument
+            EquipmentSaveBuilder.Apply(equipmentManager, inv, save.equipment);
         }
 
         // 5. SKILLS

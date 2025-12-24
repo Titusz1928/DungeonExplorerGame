@@ -13,4 +13,5 @@ public class ItemSaveEntry
     public int itemID;
     public int quantity;
     public double durability;
+    public bool isEquipped;
 }

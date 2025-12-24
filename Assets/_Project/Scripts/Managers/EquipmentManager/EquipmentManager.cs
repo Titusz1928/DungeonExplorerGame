@@ -53,7 +53,7 @@ public class EquipmentManager : MonoBehaviour
         }
 
         item.isEquipped = true;
-        Debug.Log($"Equipped {armor.itemName}");
+        Debug.Log($"[EQUIPMENT MANAGER]: Equipped {armor.itemName}");
     }
 
     // -----------------------

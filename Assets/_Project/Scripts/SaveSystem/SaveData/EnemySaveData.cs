@@ -3,7 +3,11 @@ using UnityEngine;
 [System.Serializable]
 public class EnemySaveData
 {
-    public string enemyType; // prefab name or ID
+    public string prefabName;
+    public string instanceID;
+    public int enemyID;
     public Vector2 position;
-    public float health;
+    public int currentHP;
+    public EnemyState currentState;
+    public Vector2 guardCenter;
 }

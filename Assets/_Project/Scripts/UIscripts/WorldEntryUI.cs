@@ -55,12 +55,12 @@ public class WorldEntryUI : MonoBehaviour
 
     private string FormatLastPlayed(string iso)
     {
-        if (!DateTime.TryParse(iso, out var date)) return "Last played: Unknown";
+        if (!DateTime.TryParse(iso, out var date)) return "Last save: Unknown";
 
         TimeSpan diff = DateTime.UtcNow - date;
-        if (diff.TotalDays >= 1) return $"Last played: {(int)diff.TotalDays}d ago";
-        if (diff.TotalHours >= 1) return $"Last played: {(int)diff.TotalHours}h ago";
+        if (diff.TotalDays >= 1) return $"Last save: {(int)diff.TotalDays}d ago";
+        if (diff.TotalHours >= 1) return $"Last save: {(int)diff.TotalHours}h ago";
 
-        return "Last played: Recently";
+        return "Last save: Recently";
     }
 }

@@ -90,18 +90,29 @@ public class WorldObjectSpawner : MonoBehaviour
 
     void SpawnFromChunkData(ChunkData data, Transform parent)
     {
+        // 1. Restore Static Objects (Trees, Bushes, Chests)
         foreach (var objData in data.objects)
         {
             if (!prefabLookup.TryGetValue(objData.prefabName, out GameObject prefab))
                 continue;
 
             GameObject go = Instantiate(prefab, objData.position, Quaternion.identity, parent);
+
+            // Handle Containers (Chests/Corpses)
             if (objData.containerId != null)
             {
                 WorldContainer container = go.GetComponentInChildren<WorldContainer>();
                 if (container != null)
                     container.Initialize(new Vector2Int((int)objData.position.x, (int)objData.position.y), objData.containerId);
             }
+        }
+
+        // 2. NEW: Restore Saved Enemies
+        Debug.Log($"[OBJECT SPAWNER] Restoring {data.enemies.Count} enemies in chunk {data.chunkCoord}");
+        foreach (var enemyData in data.enemies)
+        {
+            // We call the manager we built earlier to handle the spawning
+            EnemySpawnManager.Instance.RestoreEnemy(enemyData);
         }
     }
 

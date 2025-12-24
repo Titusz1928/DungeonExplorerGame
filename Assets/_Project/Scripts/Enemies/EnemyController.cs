@@ -15,7 +15,12 @@ public class EnemyController : MonoBehaviour
 {
     public EnemySO data;
 
+    [Header("Persistence")]
+    public string instanceID;
+
+
     [Header("Runtime Stats")]
+    public int uniqueEnemyID;
     public int maxHP;
     public int currentHP;
     public float strength; // derived from HP
@@ -47,6 +52,12 @@ public class EnemyController : MonoBehaviour
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+
+        // Generate a unique ID if this is a brand new enemy
+        if (string.IsNullOrEmpty(instanceID))
+        {
+            instanceID = System.Guid.NewGuid().ToString();
+        }
     }
 
     void Start()
@@ -183,7 +194,7 @@ public class EnemyController : MonoBehaviour
         );
     }
 
-    void SetState(EnemyState newState)
+    public void SetState(EnemyState newState)
     {
         if (state == newState)
             return;
@@ -456,4 +467,9 @@ public class EnemyController : MonoBehaviour
 
         return mean + stdDev * randStdNormal;
     }
+
+    public EnemyState GetState() => state;
+    public Vector2 GetGuardCenter() => guardCenter;
+
+    public void SetGuardCenter(Vector2 newCenter) => guardCenter = newCenter;
 }

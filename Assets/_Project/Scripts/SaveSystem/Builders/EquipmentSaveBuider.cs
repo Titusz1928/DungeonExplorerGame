@@ -29,68 +29,60 @@ public static class EquipmentSaveBuilder
         // --------------------
         // ARMOR (ALL LAYERS)
         // --------------------
+        // Use a HashSet to avoid duplicates if one item covers multiple slots
+        HashSet<int> uniqueArmorIds = new HashSet<int>();
+
         foreach (var slotEntry in eq.equippedArmor)
         {
-            Dictionary<ArmorLayer, int> layerSave = new();
-
             foreach (var layerEntry in slotEntry.Value)
             {
                 if (layerEntry.Value?.itemSO != null)
                 {
-                    layerSave[layerEntry.Key] = layerEntry.Value.itemSO.ID;
+                    uniqueArmorIds.Add(layerEntry.Value.itemSO.ID);
                 }
             }
-
-            if (layerSave.Count > 0)
-                save.armor[slotEntry.Key] = layerSave;
         }
+
+        // Convert the HashSet back to the serializable List
+        save.equippedArmorIds = new List<int>(uniqueArmorIds);
 
         return save;
     }
 
-    public static void Apply(EquipmentManager eq, EquipmentSave save)
+
+    public static void Apply(EquipmentManager eq, Inventory inv, EquipmentSave save)
     {
-        if (eq == null || save == null) return;
+        if (eq == null || save == null || inv == null) return;
+
+        // Helper function to find an unequipped item in inventory by ID
+        ItemInstance FindInInventory(int id)
+        {
+            return inv.items.Find(i => i.itemSO.ID == id && !i.isEquipped);
+        }
 
         // 1. Restore Main Hand
         if (save.mainHandItemId != 0)
         {
-            ItemSO item = ItemDatabase.instance.GetByID(save.mainHandItemId);
-            if (item is WeaponItemSO weaponSO)
-            {
-                // Create the "Instance" box first
-                ItemInstance weaponInstance = new ItemInstance(weaponSO);
-
-                // Now pass the instance to the manager
-                eq.EquipMainHand(weaponInstance);
-            }
+            ItemInstance weapon = FindInInventory(save.mainHandItemId);
+            if (weapon != null) eq.EquipMainHand(weapon);
         }
 
         // 2. Restore Shield
         if (save.shieldItemId != 0)
         {
-            ItemSO item = ItemDatabase.instance.GetByID(save.shieldItemId);
-            // Assuming your Shield SO is named ShieldItemSO
-            if (item is ShieldItemSO shieldSO)
-            {
-                ItemInstance shieldInstance = new ItemInstance(shieldSO);
-                eq.EquipShield(shieldInstance);
-            }
+            ItemInstance shield = FindInInventory(save.shieldItemId);
+            if (shield != null) eq.EquipShield(shield);
         }
 
         // 3. Restore Armor
-        if (save.armor != null)
+        if (save.equippedArmorIds != null)
         {
-            foreach (var slotKvp in save.armor)
+            foreach (int itemId in save.equippedArmorIds)
             {
-                foreach (var layerKvp in slotKvp.Value)
+                ItemInstance armor = FindInInventory(itemId);
+                if (armor != null)
                 {
-                    ItemSO item = ItemDatabase.instance.GetByID(layerKvp.Value);
-                    if (item is ArmorItemSO armorSO)
-                    {
-                        ItemInstance armorInstance = new ItemInstance(armorSO);
-                        eq.EquipArmor(armorInstance);
-                    }
+                    eq.EquipArmor(armor);
                 }
             }
         }

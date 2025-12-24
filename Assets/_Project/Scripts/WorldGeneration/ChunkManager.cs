@@ -7,6 +7,7 @@ public class ChunkManager : MonoBehaviour
     [Header("World Settings")]
     public int chunksPerAxis = 20;
     public int chunkSize = 64;
+    private static int _chunkSize = 64;
 
     [Header("References")]
     public Transform player;
@@ -42,6 +43,11 @@ public class ChunkManager : MonoBehaviour
 
         lastPlayerChunk = GetPlayerChunk();
         UpdateChunks(true);
+    }
+
+    public static int getChunkSize()
+    {
+        return _chunkSize;
     }
 
     private void FindPersistentReferences()

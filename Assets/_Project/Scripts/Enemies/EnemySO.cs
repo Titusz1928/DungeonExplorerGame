@@ -8,6 +8,7 @@ public class EnemySO : ScriptableObject
     public Sprite sprite;
 
     [Header("Stats")]
+    public int enemyID;
     public int maxHealth = 100;
     public float moveSpeed = 2f;
 
