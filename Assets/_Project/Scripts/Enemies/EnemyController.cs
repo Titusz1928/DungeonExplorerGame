@@ -20,7 +20,6 @@ public class EnemyController : MonoBehaviour
 
 
     [Header("Runtime Stats")]
-    public int uniqueEnemyID;
     public int maxHP;
     public int currentHP;
     public float strength; // derived from HP

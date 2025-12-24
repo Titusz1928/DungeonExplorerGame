@@ -49,6 +49,7 @@ public class WorldSaveData : MonoBehaviour
         {
             // ChunkData is already pure data
             save.chunks.Add(kvp.Value);
+            kvp.Value.enemies.Clear();
         }
 
         // 2. Find Enemies
@@ -56,6 +57,9 @@ public class WorldSaveData : MonoBehaviour
 
         foreach (var enemy in activeEnemies)
         {
+            // ONLY save the enemy if it's actually alive!
+            if (enemy.currentHP <= 0) continue;
+
             Vector2Int coord = GetChunkCoordFromPosition(enemy.transform.position);
 
             // MATCHING THE FORMAT: Use underscore instead of comma

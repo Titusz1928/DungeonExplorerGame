@@ -167,26 +167,30 @@ public class EnemySpawnManager : MonoBehaviour
 
     public void RestoreEnemy(EnemySaveData data)
     {
-        // CRITICAL CHECK: If an enemy with this ID already exists, do nothing!
-        if (activeInstanceIDs.Contains(data.instanceID))
-        {
-            return;
-        }
+        // 1. Safety check for null or empty IDs from old saves
+        if (string.IsNullOrEmpty(data.instanceID)) return;
 
+        // 2. Prevent duplicates
+        if (activeInstanceIDs.Contains(data.instanceID)) return;
+
+        // 3. Find prefab
         GameObject prefab = enemyPrefabs.Find(p => p.GetComponent<EnemyController>().data.enemyID == data.enemyID);
         if (prefab == null) return;
 
+        // 4. Instantiate
         GameObject enemyGo = Instantiate(prefab, data.position, Quaternion.identity);
         EnemyController controller = enemyGo.GetComponent<EnemyController>();
 
-        // INJECT the saved ID before the controller's Start() runs
+        // 5. INJECT saved ID
         controller.instanceID = data.instanceID;
-        activeInstanceIDs.Add(data.instanceID);
+        activeInstanceIDs.Add(controller.instanceID);
 
-        // Apply stats
+        // 6. Restore stats
         controller.currentHP = data.currentHP;
-        // ...
+        controller.SetState(data.currentState);
+        controller.SetGuardCenter(data.guardCenter);
 
+        // 7. Register events
         currentEnemyCount++;
         controller.OnEnemyDeath += (e) => {
             activeInstanceIDs.Remove(e.instanceID);
