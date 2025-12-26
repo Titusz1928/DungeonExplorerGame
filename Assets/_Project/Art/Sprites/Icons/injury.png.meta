@@ -1,10 +1,22 @@
 fileFormatVersion: 2
-guid: 6ad84e8ff311a054184ac13bc94a0378
+guid: 5775ba06942b336438d7bdf78975258a
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 8193665943220294642
-    second: appleIcon_0
+      213: 3266029972091439393
+    second: injury_0
+  - first:
+      213: 6449961731700893124
+    second: injury_1
+  - first:
+      213: 6890279306580910912
+    second: injury_2
+  - first:
+      213: 4550454103927620742
+    second: injury_3
+  - first:
+      213: 6241838821156714946
+    second: injury_4
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -51,7 +63,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 32
+  spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -113,13 +125,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: appleIcon_0
+      name: injury_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 10
-        height: 10
+        x: 131
+        y: 269
+        width: 243
+        height: 241
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +140,96 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 2f39cd173cfb5b170800000000000000
-      internalID: 8193665943220294642
+      spriteID: 1290a4894f4435d20800000000000000
+      internalID: 3266029972091439393
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: injury_1
+      rect:
+        serializedVersion: 2
+        x: 308
+        y: 2
+        width: 182
+        height: 277
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4c525e8850ed28950800000000000000
+      internalID: 6449961731700893124
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: injury_2
+      rect:
+        serializedVersion: 2
+        x: 23
+        y: 11
+        width: 135
+        height: 251
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 043eaf7e5803f9f50800000000000000
+      internalID: 6890279306580910912
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: injury_3
+      rect:
+        serializedVersion: 2
+        x: 212
+        y: 117
+        width: 100
+        height: 143
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 684035fe5e5762f30800000000000000
+      internalID: 4550454103927620742
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: injury_4
+      rect:
+        serializedVersion: 2
+        x: 262
+        y: 11
+        width: 75
+        height: 99
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2c9f94056577f9650800000000000000
+      internalID: 6241838821156714946
       vertices: []
       indices: 
       edges: []
@@ -148,7 +248,11 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      appleIcon_0: 8193665943220294642
+      injury_0: 3266029972091439393
+      injury_1: 6449961731700893124
+      injury_2: 6890279306580910912
+      injury_3: 4550454103927620742
+      injury_4: 6241838821156714946
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

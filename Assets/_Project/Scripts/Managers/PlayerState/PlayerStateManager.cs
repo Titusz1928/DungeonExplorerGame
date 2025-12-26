@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 public enum MovementMode { Normal, Sneaking, Sprinting }
 
@@ -28,6 +29,8 @@ public class PlayerStateManager : MonoBehaviour
     public float maxHealth = 100f;
     public Bar healthBar;
     public GameObject healthBarbackground;
+    public GameObject gameOverWindow;
+    private bool isDead = false;
 
     private void Awake()
     {
@@ -41,7 +44,41 @@ public class PlayerStateManager : MonoBehaviour
 
     public void inflictDamage(float amount)
     {
-        health = health - amount;
+        // Subtract damage
+        health -= amount;
+
+        // Clamp health so it doesn't stay as a weird negative number
+        health = Mathf.Max(health, 0);
+
+        // Check for death
+        if (health <= 0 && !isDead)
+        {
+            Die();
+        }
+    }
+
+    private void Die()
+    {
+        isDead = true;
+        Debug.Log("Player has died!");
+
+        // Show the game over UI immediately
+        if (gameOverWindow != null)
+        {
+            WindowManager.Instance.OpenWindow(gameOverWindow);
+        }
+
+        // Start the timer to change the scene
+        StartCoroutine(WaitAndLoadMenu());
+    }
+
+    private IEnumerator WaitAndLoadMenu()
+    {
+        // Wait for 2 seconds
+        yield return new WaitForSeconds(2f);
+
+        // Load the scene using your SceneManagerEX
+        SceneManagerEX.Instance.LoadScene("MainMenu");
     }
 
     public void addHealth(float amount)

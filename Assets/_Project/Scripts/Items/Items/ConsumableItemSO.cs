@@ -5,7 +5,7 @@ public enum ConsumableType
 {
     Food,
     Potion,  
-    Medicine       
+    FirstAid      
 }
 
 [CreateAssetMenu(fileName = "NewConsumableItem", menuName = "Inventory/Consumable Item")]

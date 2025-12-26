@@ -2287,6 +2287,7 @@ MonoBehaviour:
   equipmentTitleRowPrefab: {fileID: 2832329022155592878, guid: 0e61033603ab8d94892252a901e2c36f, type: 3}
   equipmentRowPrefab: {fileID: 9111370232776084067, guid: a5d35e517977a8e44a0de90853ba75e7, type: 3}
   equipmentStatRowPrefab: {fileID: 4325899575826267039, guid: bb19c90e08e23214cbc93dfe38089e95, type: 3}
+  injurySectionPrefab: {fileID: 6567288615750893005, guid: a5bd7a58c325947488974804ebaaa9c1, type: 3}
   skillsRowPrefab: {fileID: 3219620792753365255, guid: 06ef215e0bc4f944c95f26eb0c59fe97, type: 3}
   player: {fileID: 0}
   inventory: {fileID: 0}

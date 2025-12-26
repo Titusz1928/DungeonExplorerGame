@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 6ad84e8ff311a054184ac13bc94a0378
+guid: 7651d59ea6e3d3e4d825393cb978946e
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 8193665943220294642
-    second: appleIcon_0
+      213: 2975573287437273903
+    second: rippedclothe_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,7 +113,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: appleIcon_0
+      name: rippedclothe_0
       rect:
         serializedVersion: 2
         x: 0
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 2f39cd173cfb5b170800000000000000
-      internalID: 8193665943220294642
+      spriteID: f2b07d0c32c5b4920800000000000000
+      internalID: 2975573287437273903
       vertices: []
       indices: 
       edges: []
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      appleIcon_0: 8193665943220294642
+      rippedclothe_0: 2975573287437273903
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

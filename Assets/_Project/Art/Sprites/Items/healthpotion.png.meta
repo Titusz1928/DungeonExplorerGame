@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 6ad84e8ff311a054184ac13bc94a0378
+guid: 4edd998f93326cc4191e90099adf80fa
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 8193665943220294642
-    second: appleIcon_0
+      213: 6791410471410813795
+    second: healthpotion_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,7 +113,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: appleIcon_0
+      name: healthpotion_0
       rect:
         serializedVersion: 2
         x: 0
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 2f39cd173cfb5b170800000000000000
-      internalID: 8193665943220294642
+      spriteID: 36b4f4067dfef3e50800000000000000
+      internalID: 6791410471410813795
       vertices: []
       indices: 
       edges: []
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      appleIcon_0: 8193665943220294642
+      healthpotion_0: 6791410471410813795
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

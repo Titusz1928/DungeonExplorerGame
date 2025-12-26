@@ -15,7 +15,8 @@ public class InventoryWindow : MonoBehaviour
     [SerializeField] private GameObject equipmentRowPrefab;
     [SerializeField] private GameObject equipmentStatRowPrefab;
 
-    //Inventory Skills Tab
+    //Inventory Injuruies & Skills Tab
+    [SerializeField] private GameObject injurySectionPrefab;
     [SerializeField] private GameObject skillsRowPrefab;
 
     [SerializeField] private Transform player;
@@ -60,7 +61,7 @@ public class InventoryWindow : MonoBehaviour
                 buildEquipmentSection();
                 break;
             case 2:
-                buildSkillsSection();
+                buildHealthNSkillsSection();
                 break;
         }
 
@@ -213,7 +214,7 @@ public class InventoryWindow : MonoBehaviour
     }
 
 
-    public void buildSkillsSection()
+    public void buildHealthNSkillsSection()
     {
         if (rowContainer == null)
         {
@@ -221,10 +222,27 @@ public class InventoryWindow : MonoBehaviour
             return;
         }
 
-        // Clear existing rows
         foreach (Transform child in rowContainer)
             Destroy(child.gameObject);
 
+        // 1. Get the Player and InjuryManager
+        if (PlayerStateManager.Instance != null)
+        {
+            GameObject playerObj = PlayerStateManager.Instance.gameObject;
+            InjuryManager injuryManager = playerObj.GetComponent<InjuryManager>();
+
+            // 2. Only create the dropdown if the prefab exists AND there is at least one injury
+            if (injurySectionPrefab != null && injuryManager != null && injuryManager.activeInjuries.Count > 0)
+            {
+                GameObject healthObj = Instantiate(injurySectionPrefab, rowContainer);
+
+                InjuryDropdownUI dropdown = healthObj.GetComponent<InjuryDropdownUI>();
+                if (dropdown != null)
+                {
+                    dropdown.Initialize(playerObj);
+                }
+            }
+        }
 
         foreach (PlayerSkill skill in System.Enum.GetValues(typeof(PlayerSkill)))
         {
@@ -297,20 +315,29 @@ public class InventoryWindow : MonoBehaviour
             // CONSUMABLES
             // --------------------------
             case ConsumableItemSO consumable:
-                Debug.Log($"Using consumable: {consumable.itemName}");
+                // Only allow Food or Potion types here
+                if (consumable.consumableType == ConsumableType.Food || consumable.consumableType == ConsumableType.Potion)
+                {
+                    Debug.Log($"Using consumable: {consumable.itemName}");
 
-                PlayerStateManager.Instance.addHealth(consumable.healthAmount);
-                PlayerStateManager.Instance.addStamina(consumable.staminaAmount);
+                    PlayerStateManager.Instance.addHealth(consumable.healthAmount);
+                    PlayerStateManager.Instance.addStamina(consumable.staminaAmount);
 
-                inventory.RemoveItem(item);
+                    inventory.RemoveItem(item);
 
-                Sprite infoIcon = Resources.Load<Sprite>("UI/Icons/heal");
-                MessageManager.Instance.ShowMessageDirectly(
-                    $"+{consumable.healthAmount} HP   +{consumable.staminaAmount} STAMINA",
-                    infoIcon
-                );
+                    Sprite infoIcon = Resources.Load<Sprite>("UI/Icons/heal");
+                    MessageManager.Instance.ShowMessageDirectly(
+                        $"+{consumable.healthAmount} HP   +{consumable.staminaAmount} STAMINA",
+                        infoIcon
+                    );
 
-                Refresh();
+                    Refresh();
+                }
+                else if (consumable.consumableType == ConsumableType.FirstAid)
+                {
+                    Debug.Log("FirstAid clicked - This should be handled by the Injury System.");
+                    // Optional: Open the health tab or show a message that they need to select an injury
+                }
                 break;
 
 

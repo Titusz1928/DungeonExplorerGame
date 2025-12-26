@@ -19,6 +19,7 @@ GameObject:
   - component: {fileID: 7686506787949112685}
   - component: {fileID: 8233126527854709374}
   - component: {fileID: 5583050241514143450}
+  - component: {fileID: 7110353782940503299}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -295,6 +296,22 @@ MonoBehaviour:
   maxHealth: 100
   healthBar: {fileID: 2485536112441056323}
   healthBarbackground: {fileID: 5069590203795254955}
+  gameOverWindow: {fileID: 417397490327463617, guid: 79734b32f4866bc4882f52e83298f33d, type: 3}
+--- !u!114 &7110353782940503299
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 424148272874643181}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a12d09f4e6a069d4ba6eb14483241057, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  activeInjuries: []
+  bandageMaxDuration: 120
+  isInCombat: 0
 --- !u!1 &4065736833962927886
 GameObject:
   m_ObjectHideFlags: 0

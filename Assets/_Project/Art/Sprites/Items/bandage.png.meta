@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 6ad84e8ff311a054184ac13bc94a0378
+guid: ae278517f0297b7449fb8399cd6901c6
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 8193665943220294642
-    second: appleIcon_0
+      213: 4480434827562053419
+    second: bandage_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,7 +113,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: appleIcon_0
+      name: bandage_0
       rect:
         serializedVersion: 2
         x: 0
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 2f39cd173cfb5b170800000000000000
-      internalID: 8193665943220294642
+      spriteID: b2fef10ccb3bd2e30800000000000000
+      internalID: 4480434827562053419
       vertices: []
       indices: 
       edges: []
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      appleIcon_0: 8193665943220294642
+      bandage_0: 4480434827562053419
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -52,6 +52,10 @@ public class DebugConsole : MonoBehaviour
         commands["/xp"] = CmdAddXP;
         commands["/seed"] = CmdSeed;
         commands["/clear"] = CmdClear;
+
+        // New Injury Testing Commands
+        commands["/injury"] = CmdAddInjury;
+        commands["/combat"] = CmdToggleCombat;
     }
 
     // Called from InputField "On Submit"
@@ -98,6 +102,9 @@ public class DebugConsole : MonoBehaviour
         AddHistory("/heal <amount> - heal player");
         AddHistory("/xp <skillname> <amount> - add xp");
         AddHistory("/clear - clear console");
+        AddHistory("/injury <part> <type> <sev> - spawn injury");
+        AddHistory("/bandage <part> - bandage a body part");
+        AddHistory("/combat - toggle real-time vs turn-based ticks");
     }
 
     private void CmdClear(string[] args)
@@ -106,6 +113,54 @@ public class DebugConsole : MonoBehaviour
 
         foreach (Transform child in content)
             Destroy(child.gameObject);
+    }
+
+    private void CmdAddInjury(string[] args)
+    {
+        // Format: /injury <bodyPart> <type> <severity>
+        // Example: /injury Torso Cut 50
+        if (args.Length < 4)
+        {
+            AddHistory("Usage: /injury <Part> <Type> <Severity>");
+            return;
+        }
+
+        if (Enum.TryParse(args[1], true, out ArmorSlot part) &&
+            Enum.TryParse(args[2], true, out InjuryType type) &&
+            float.TryParse(args[3], out float severity))
+        {
+            var manager = PlayerStateManager.Instance.GetComponent<InjuryManager>();
+            manager.AddInjury(part, type, severity);
+            AddHistory($"Added {type} to {part} with severity {severity}");
+        }
+        else
+        {
+            AddHistory("Invalid parameters. Parts: Torso, Head, Legs... Types: Cut, Stab, Fracture");
+        }
+    }
+
+    //private void CmdApplyBandage(string[] args)
+    //{
+    //    // Format: /bandage <bodyPart>
+    //    if (args.Length < 2)
+    //    {
+    //        AddHistory("Usage: /bandage <Part>");
+    //        return;
+    //    }
+
+    //    if (Enum.TryParse(args[1], true, out ArmorSlot part))
+    //    {
+    //        var manager = PlayerStateManager.Instance.GetComponent<InjuryManager>();
+    //        manager.ApplyBandage(part);
+    //        AddHistory($"Applied bandage to {part}");
+    //    }
+    //}
+
+    private void CmdToggleCombat(string[] args)
+    {
+        var manager = PlayerStateManager.Instance.GetComponent<InjuryManager>();
+        manager.isInCombat = !manager.isInCombat;
+        AddHistory($"Combat mode: {(manager.isInCombat ? "ON (Turn-based)" : "OFF (Real-time)")}");
     }
 
     private void CmdSeed(string[] args)

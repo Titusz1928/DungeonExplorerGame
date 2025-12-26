@@ -45,6 +45,11 @@ public static class PlayerSaveBuilder
         save.equipment = EquipmentSaveBuilder.Build();
 
         // --------------------
+        // INJURIES
+        // --------------------
+        save.injuries = InjurySaveBuilder.Build();
+
+        // --------------------
         // SKILLS
         // -------------------- 
         save.skills = SkillSaveBuilder.Build();
@@ -95,7 +100,10 @@ public static class PlayerSaveBuilder
             EquipmentSaveBuilder.Apply(equipmentManager, inv, save.equipment);
         }
 
-        // 5. SKILLS
+        //5. INJURIES
+        InjurySaveBuilder.Apply(playerObj, save.injuries);
+
+        // 6. SKILLS
         SkillSaveBuilder.Apply(save.skills);
     }
 
