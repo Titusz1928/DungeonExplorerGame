@@ -9,6 +9,11 @@ public class InventoryWindow : MonoBehaviour
     [SerializeField] private GameObject itemsRowPrefab;
     [SerializeField] private GameObject itemsTitleRowPrefab;
     [SerializeField] private GameObject itemsStatsRowPrefab;
+    [SerializeField] private GameObject moveWindow;
+    private ItemInstance pendingMoveItem;
+    [SerializeField] private GameObject itemInfoWindow;
+    private ItemInstance pendinginfoItem;
+    [SerializeField] private GameObject ripClothingWindowPrefab;
 
     //Inventory Equipment Tab
     [SerializeField] private GameObject equipmentTitleRowPrefab;
@@ -22,11 +27,9 @@ public class InventoryWindow : MonoBehaviour
     [SerializeField] private Transform player;
     [SerializeField] private Inventory inventory;
 
-    [SerializeField] private GameObject moveWindow;
-    private ItemInstance pendingMoveItem;
+    
 
-    [SerializeField] private GameObject itemInfoWindow;
-    private ItemInstance pendinginfoItem;
+    
 
 
     private short tabselected;
@@ -335,8 +338,34 @@ public class InventoryWindow : MonoBehaviour
                 }
                 else if (consumable.consumableType == ConsumableType.FirstAid)
                 {
-                    Debug.Log("FirstAid clicked - This should be handled by the Injury System.");
-                    // Optional: Open the health tab or show a message that they need to select an injury
+                    InjuryManager injuryManager = PlayerStateManager.Instance.GetComponent<InjuryManager>();
+                    Injury target = injuryManager.GetFirstTreatableInjury();
+
+                    if (target != null)
+                    {
+                        Debug.Log($"Quick-using First Aid on: {target.bodyPart}");
+
+                        // Apply the bandage using your existing function
+                        injuryManager.ApplyBandage(target);
+
+                        // Remove item from inventory
+                        inventory.RemoveItem(item);
+
+                        // Notify Player
+                        Sprite infoIcon = Resources.Load<Sprite>("UI/Icons/heal"); // Ensure this path exists
+                        MessageManager.Instance.ShowMessageDirectly(
+                            $"Bandaged {target.bodyPart} ({target.type})",
+                            infoIcon
+                        );
+
+                        Refresh();
+                    }
+                    else
+                    {
+                        // Optional: Tell the player they don't need a bandage
+                        MessageManager.Instance.ShowMessageDirectly("No injuries require bandaging.", null);
+                        Debug.Log("FirstAid clicked but no treatable injuries found.");
+                    }
                 }
                 break;
 
@@ -345,43 +374,60 @@ public class InventoryWindow : MonoBehaviour
             // WEAPONS
             // --------------------------
             case WeaponItemSO weapon:
+                if (item.currentDurability <= 0)
+                {
+                    MessageManager.Instance.ShowMessageDirectly($"{weapon.itemName} is broken and cannot be equipped!");
+                    return;
+                }
+
                 EquipmentManager.Instance.EquipMainHand(item);
-
-                MessageManager.Instance.ShowMessageDirectly(
-                    $"Equipped {weapon.itemName}"
-                );
-
+                MessageManager.Instance.ShowMessageDirectly($"Equipped {weapon.itemName}");
                 Refresh();
                 break;
-
 
             // --------------------------
             // SHIELD
             // --------------------------
             case ShieldItemSO shield:
+                if (item.currentDurability <= 0)
+                {
+                    MessageManager.Instance.ShowMessageDirectly($"{shield.itemName} is destroyed!");
+                    return;
+                }
+
                 EquipmentManager.Instance.EquipShield(item);
-
-                MessageManager.Instance.ShowMessageDirectly(
-                    $"Equipped {shield.itemName}"
-                );
-
+                MessageManager.Instance.ShowMessageDirectly($"Equipped {shield.itemName}");
                 Refresh();
                 break;
-
 
             // --------------------------
             // ARMOR
             // --------------------------
             case ArmorItemSO armor:
+                if (item.currentDurability <= 0)
+                {
+                    MessageManager.Instance.ShowMessageDirectly($"{armor.itemName} is too damaged to wear!");
+                    return;
+                }
+
                 EquipmentManager.Instance.EquipArmor(item);
-
-                MessageManager.Instance.ShowMessageDirectly(
-                    $"Equipped {armor.itemName}"
-                );
-
+                MessageManager.Instance.ShowMessageDirectly($"Equipped {armor.itemName}");
                 Refresh();
                 break;
 
+            // --------------------------
+            // SCISSORS (ID 19)
+            // --------------------------
+            case ItemSO genericItem when genericItem.ID == 19:
+                if (item.currentDurability <= 0)
+                {
+                    MessageManager.Instance.ShowMessageDirectly("These scissors are broken and cannot cut anything.");
+                    return;
+                }
+
+                Debug.Log($"Using special item: {genericItem.itemName}");
+                OnRipButtonPressed(item);
+                break;
 
             // --------------------------
             // DEFAULT
@@ -393,7 +439,22 @@ public class InventoryWindow : MonoBehaviour
         }
     }
 
+    public void OnRipButtonPressed(ItemInstance item)
+    {
+        Debug.Log($"Rip Clothing pressed using {item.itemSO.itemName}");
 
+        // 1. Spawn the Window through WindowManager
+        GameObject windowGO = WindowManager.Instance.OpenWindow(ripClothingWindowPrefab);
+
+        // 2. Get the specific RipClothingWindow component
+        RipClothingWindow ripWindowInstance = windowGO.GetComponent<RipClothingWindow>();
+
+        // 3. Initialize the window with the scissors and the current inventory
+        if (ripWindowInstance != null)
+        {
+            ripWindowInstance.OpenRipWindow(item, inventory);
+        }
+    }
 
     public void OnMoveButtonPressed(ItemInstance item)
     {
@@ -437,13 +498,16 @@ public class InventoryWindow : MonoBehaviour
             }
         }
 
-        // Remove from inventory
-        inventory.RemoveItem(item);
-        Refresh();
+        // 1. Determine spawn position (usually slightly in front of player)
+        Vector3 spawnPos = PlayerReference.PlayerTransform.position;
 
-        // Spawn item in the world
-        Vector3 dropPos = player.transform.position + player.transform.forward * 1.5f;
-        ItemSpawner.Instance.SpawnWorldItem(item.itemSO, dropPos, 1);
+        // 2. Spawn the world item with its current durability
+        ItemSpawner.Instance.SpawnWorldItem(item, spawnPos);
+
+        // 3. Remove it from inventory
+        inventory.RemoveItem(item, item.quantity);
+
+        Refresh();
     }
 }
 

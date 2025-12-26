@@ -30,7 +30,7 @@ public class Inventory : MonoBehaviour
         // add new slots
         while (amount > 0 && items.Count < maxSlots)
         {
-            Debug.Log(items.Count+" < "+maxSlots);
+            Debug.Log(items.Count + " < " + maxSlots);
             int addAmount = itemSO.isStackable ? Mathf.Min(itemSO.maxStackSize, amount) : 1;
 
             items.Add(new ItemInstance(itemSO, addAmount));
@@ -38,6 +38,24 @@ public class Inventory : MonoBehaviour
         }
 
         return amount <= 0;
+    }
+
+    public bool AddItemInstance(ItemInstance instance)
+    {
+        // If it's stackable, we should still try to merge it first
+        if (instance.itemSO.isStackable)
+        {
+            return AddItem(instance.itemSO, instance.quantity);
+        }
+
+        // For non-stackable items (like broken scissors), we add the specific instance
+        if (items.Count < maxSlots)
+        {
+            items.Add(instance);
+            return true;
+        }
+
+        return false;
     }
 
     public bool RemoveItem(ItemInstance instance, int amount = 1)

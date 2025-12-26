@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ID: 3
   itemName: Apple
-  icon: {fileID: 8193665943220294642, guid: 6ad84e8ff311a054184ac13bc94a0378, type: 3}
+  icon: {fileID: 21300000, guid: 6ad84e8ff311a054184ac13bc94a0378, type: 3}
   category: 3
   isStackable: 1
   maxStackSize: 10

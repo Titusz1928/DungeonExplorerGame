@@ -34,6 +34,7 @@ public class TreatInjuryWindow : MonoBehaviour
 
     private void PopulateMedicalItems()
     {
+
         List<ItemInstance> items = playerInventory.items;
         List<ItemInstance> medicalItems = new();
 

@@ -128,25 +128,28 @@ public class PickupWindow : MonoBehaviour
     {
         ClearRows();
 
-        // remove highlight from previous
+        // Remove highlight from previous
         if (activeContainer != null)
             activeContainer.Highlight(false);
 
-        // highlight new
+        // Highlight new
         activeContainer = wc;
 
         if (activeContainer != null)
         {
-            Debug.Log("highlighting");
+            Debug.Log("Highlighting container: " + wc.name);
             activeContainer.Highlight(true);
         }
 
-        foreach (var entry in wc.items)
+        // UPDATED: 'entry' is now an ItemInstance object
+        foreach (ItemInstance inst in wc.items)
         {
             GameObject rowObj = Instantiate(rowPrefab, rowContainer);
             PickupRow row = rowObj.GetComponent<PickupRow>();
-            row.SetData(entry.item, entry.qty, wc, this);
-            // this version of SetData will allow “Take” from container
+
+            // CHANGED: Pass the instance directly. 
+            // This matches the new SetData(ItemInstance, WorldContainer, PickupWindow) signature.
+            row.SetData(inst, wc, this);
         }
     }
 

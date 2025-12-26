@@ -168,20 +168,28 @@ public class WorldSaveData : MonoBehaviour
     public bool HasContainerData(string id) => containerData.ContainsKey(id);
 
     // CHANGED: This now "unwraps" the SaveData back into a runtime List
-    public List<(ItemSO item, int qty)> GetContainerData(string id)
+    public List<ItemInstance> GetContainerData(string id)
     {
+        // If no data exists, return an empty list of instances
         if (!containerData.TryGetValue(id, out ContainerSaveData savedData))
-            return new List<(ItemSO, int)>();
+            return new List<ItemInstance>();
 
-        List<(ItemSO, int)> runtimeList = new List<(ItemSO, int)>();
+        List<ItemInstance> runtimeList = new List<ItemInstance>();
 
-        // Access .items (the class) then .items (the list inside the class)
         foreach (var entry in savedData.items.entries)
         {
             ItemSO itemSO = ItemDatabase.instance.GetByID(entry.itemID);
             if (itemSO != null)
             {
-                runtimeList.Add((itemSO, entry.quantity));
+                // Create the instance
+                ItemInstance inst = new ItemInstance(itemSO, entry.quantity);
+
+                // RESTORE the saved state
+                inst.currentDurability = entry.durability;
+                // If your ItemSaveEntry has a 'holes' field, add it here too:
+                // inst.holes = entry.holes; 
+
+                runtimeList.Add(inst);
             }
         }
 
@@ -195,26 +203,24 @@ public class WorldSaveData : MonoBehaviour
     }
 
     // CHANGED: This now "wraps" the runtime List into a ContainerSaveData object
-    public void SaveContainerData(string id, List<(ItemSO item, int qty)> items, bool wasopened, bool isInitialized = true)
+    public void SaveContainerData(string id, List<ItemInstance> items, bool wasopened, bool isInitialized = true)
     {
-        // 1. Create the container data object
         ContainerSaveData newData = new ContainerSaveData
         {
             id = id,
             initialized = isInitialized,
-            wasOpened=wasopened,
-            // 2. Initialize the InventorySaveData object (not a List!)
+            wasOpened = wasopened,
             items = new InventorySaveData()
         };
 
-        foreach (var (item, qty) in items)
+        foreach (var inst in items)
         {
-            // 3. Add to the list INSIDE the items object
             newData.items.entries.Add(new ItemSaveEntry
             {
-                itemID = item.ID,
-                quantity = qty,
-                durability = 0
+                itemID = inst.itemSO.ID,
+                quantity = inst.quantity,
+                durability = inst.currentDurability // NOW SAVING DURABILITY
+                                                    // holes = inst.holes // Uncomment if you added this to ItemSaveEntry
             });
         }
 

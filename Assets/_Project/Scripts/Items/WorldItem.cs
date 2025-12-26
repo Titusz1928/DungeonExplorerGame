@@ -2,15 +2,14 @@ using UnityEngine;
 
 public class WorldItem : MonoBehaviour
 {
-    public ItemSO itemData;
+    public ItemSO itemSO;
     public int quantity = 1;
+    public double currentDurability;
 
-    public void Init(ItemSO data, int qty = 1)
+    public void Initialize(ItemInstance instance)
     {
-        itemData = data;
-        quantity = qty;
-
-        var sr = GetComponent<SpriteRenderer>();
-        sr.sprite = data.icon;
+        itemSO = instance.itemSO;
+        quantity = instance.quantity;
+        currentDurability = instance.currentDurability;
     }
 }

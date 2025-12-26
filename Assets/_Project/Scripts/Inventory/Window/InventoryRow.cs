@@ -15,6 +15,8 @@ public class InventoryRow : MonoBehaviour
 
     [SerializeField] private Image image;
     [SerializeField] private Image durabilityImage;
+    [SerializeField] private Image durabilityImageBackground;
+    [SerializeField] private Image brokenImage;
 
 
     //[SerializeField] private TextMeshProUGUI idText;
@@ -43,7 +45,7 @@ public class InventoryRow : MonoBehaviour
 
         if (!instance.itemSO.isBreakable)
         {
-            durabilityImage.gameObject.SetActive(false);
+            durabilityImageBackground.gameObject.SetActive(false);
         }
         else
         {
@@ -54,10 +56,13 @@ public class InventoryRow : MonoBehaviour
             durabilityImage.fillAmount = fill;
 
             // 2. Change color depending on fill
-            if (fill <= 0.1f)
+            if (fill <= 0.2f)
                 durabilityImage.color = Color.red;     // <10% durability
             else
                 durabilityImage.color = Color.green;   // >10% durability
+
+            if (instance.currentDurability <= 0)
+                brokenImage.gameObject.SetActive(true);
         }
 
         //idText.text = instance.itemSO.ID.ToString();

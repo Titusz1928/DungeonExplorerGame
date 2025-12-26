@@ -11,6 +11,7 @@ public class PickupRow : MonoBehaviour
     private WorldContainer sourceContainer; //for switching to the correct container after refreshing (for example when picking up an item)
 
     private WorldItem worldItem;                 // for ground
+    private ItemInstance linkedInstance;  // For container (FIXED: Added this field)
     private PickupWindow window;
 
     private ItemSO containerItemSO;              // for container
@@ -20,39 +21,44 @@ public class PickupRow : MonoBehaviour
     private bool isFromGround = true;
 
     // ----------------------------------------------------------
-    // GROUND ITEMS
+    // OVERLOAD 1: For items lying on the 2D Floor
     // ----------------------------------------------------------
     public void SetData(WorldItem wi, PickupWindow pw)
     {
         isFromGround = true;
-        sourceContainer = null;
         worldItem = wi;
+        linkedInstance = null; // Clear the other reference
         window = pw;
+        sourceContainer = null;
 
-        nameText.text = wi.itemData.itemName;
+        nameText.text = wi.itemSO.itemName;
         qtyText.text = wi.quantity.ToString();
 
+        SetupButton();
+    }
+
+    private void SetupButton()
+    {
         pickupButton.onClick.RemoveAllListeners();
         pickupButton.onClick.AddListener(OnPickupPressed);
     }
 
     // ----------------------------------------------------------
-    // CONTAINER ITEMS
+    // OVERLOAD 2: For items inside a Chest/Container
     // ----------------------------------------------------------
-    public void SetData(ItemSO item, int qty, WorldContainer container, PickupWindow pw)
+    public void SetData(ItemInstance instance, WorldContainer container, PickupWindow pw)
     {
         isFromGround = false;
-        sourceContainer = container;
-        containerItemSO = item;
-        containerItemQty = qty;
+        linkedInstance = instance;
+        worldItem = null; // Clear the other reference
         parentContainer = container;
+        sourceContainer = container;
         window = pw;
 
-        nameText.text = item.itemName;
-        qtyText.text = qty.ToString();
+        nameText.text = instance.itemSO.itemName;
+        qtyText.text = instance.quantity.ToString();
 
-        pickupButton.onClick.RemoveAllListeners();
-        pickupButton.onClick.AddListener(OnPickupPressed);
+        SetupButton();
     }
 
     // ----------------------------------------------------------
@@ -65,22 +71,34 @@ public class PickupRow : MonoBehaviour
 
         if (isFromGround)
         {
-            added=inv.AddItem(worldItem.itemData, worldItem.quantity);
-            if(added)
+            // GROUND LOGIC: Create a new instance from WorldItem data
+            ItemInstance instanceToPickUp = new ItemInstance(worldItem.itemSO, worldItem.quantity);
+            instanceToPickUp.currentDurability = worldItem.currentDurability;
+
+            added = inv.AddItemInstance(instanceToPickUp);
+
+            if (added)
                 Destroy(worldItem.gameObject);
         }
         else
         {
-            added = inv.AddItem(containerItemSO, 1);
-            if (added)
-                parentContainer.RemoveItem(containerItemSO, 1);
-        }
+            // CONTAINER LOGIC: Use the exact ItemInstance reference from the container
+            // We use AddItemInstance to ensure durability/holes are preserved
+            added = inv.AddItemInstance(linkedInstance);
 
+            if (added)
+            {
+                // We tell the container to remove this specific instance
+                // We pass 1 because typically PickupRow handles items one by one
+                parentContainer.RemoveItem(linkedInstance, 1);
+            }
+        }
 
         if (added)
         {
             window.Refresh();
-            // Restore previous tab
+
+            // Return to the view the player was just looking at
             if (isFromGround || sourceContainer == null)
                 window.ShowGroundItems();
             else

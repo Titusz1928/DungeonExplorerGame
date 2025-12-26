@@ -87,6 +87,13 @@ public class InjuryManager : MonoBehaviour
         }
     }
 
+    public Injury GetFirstTreatableInjury()
+    {
+        // Find the first injury that is NOT bandaged OR has a dirty bandage
+        // We prioritize injuries that are currently draining health
+        return activeInjuries.Find(injury => !injury.isBandaged || injury.bandageDirty);
+    }
+
     public void ApplyBandage(Injury injury)
     {
         // No Find() needed. 'injury' IS the specific instance from the list.

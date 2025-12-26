@@ -72,25 +72,42 @@ public class MoveWindow : MonoBehaviour
 
     private void OnContainerSelected(WorldContainer container)
     {
-        // 1) Remove 1 item from inventory
-        bool removed = inventory.RemoveItem(movingItem, 1);
-
-        if (!removed)
+        // 1) Handle Stack Logic vs Single Item Logic
+        if (movingItem.quantity > 1)
         {
-            Debug.LogWarning("Could not remove item from inventory!");
-            CloseWindow();
-            return;
+            // If it's a stack, we create a "New Instance" for the 1 item being moved
+            ItemInstance oneFromStack = new ItemInstance(movingItem.itemSO, 1);
+            oneFromStack.currentDurability = movingItem.currentDurability;
+
+            // Add the new 1-count instance to container
+            container.AddItemToContainer(oneFromStack);
+
+            // Remove only 1 from the player's inventory stack
+            inventory.RemoveItem(movingItem, 1);
+        }
+        else
+        {
+            // If it's a single item (like Scissors), we move the WHOLE instance
+            // This preserves the EXACT object reference and its durability
+            bool removed = inventory.RemoveItem(movingItem, 1);
+
+            if (removed)
+            {
+                container.AddItemToContainer(movingItem);
+            }
+            else
+            {
+                Debug.LogWarning("Could not remove item from inventory!");
+                CloseWindow();
+                return;
+            }
         }
 
-        // 2) Add 1 item to the container
-        container.AddItemToContainer(movingItem.itemSO, 1);
-
-        // 3) Refresh the inventory UI
-        InventoryWindow invWindow = FindObjectOfType<InventoryWindow>();
+        // 2) Refresh and Close
+        InventoryWindow invWindow = FindFirstObjectByType<InventoryWindow>();
         if (invWindow != null)
             invWindow.Refresh();
 
-        // 4) Close window
         CloseWindow();
     }
 

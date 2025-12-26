@@ -7,7 +7,7 @@ public class WorldContainer : MonoBehaviour
     public ContainerSO containerData;
 
     // Actual stored items (similar structure to inventory)
-    public List<(ItemSO item, int qty)> items = new();
+    public List<ItemInstance> items = new List<ItemInstance>();
 
 
     [SerializeField] public SpriteRenderer sr;
@@ -79,63 +79,52 @@ public class WorldContainer : MonoBehaviour
 
     }
 
-    public void AddItemToContainer(ItemSO item, int amount)
+    public void AddItemToContainer(ItemInstance instance)
     {
-        // Merge into existing stacks
-        if (item.isStackable)
+        // 1. Stacking Logic
+        if (instance.itemSO.isStackable)
         {
-            for (int i = 0; i < items.Count && amount > 0; i++)
+            for (int i = 0; i < items.Count && instance.quantity > 0; i++)
             {
-                if (items[i].item == item && items[i].qty < item.maxStackSize)
+                // CHANGED: Use items[i].itemSO and items[i].quantity
+                if (items[i].itemSO == instance.itemSO && items[i].quantity < instance.itemSO.maxStackSize)
                 {
-                    int space = item.maxStackSize - items[i].qty;
-                    int toAdd = Mathf.Min(space, amount);
+                    int space = instance.itemSO.maxStackSize - items[i].quantity;
+                    int toAdd = Mathf.Min(space, instance.quantity);
 
-                    items[i] = (item, items[i].qty + toAdd);
-                    amount -= toAdd;
+                    items[i].quantity += toAdd;
+                    instance.quantity -= toAdd;
                 }
             }
         }
 
-        // Create new stacks
-        while (amount > 0)
+        // 2. If it's not stackable OR there is remainder left, add the instance
+        if (instance.quantity > 0)
         {
-            int stackAmount = item.isStackable
-                ? Mathf.Min(item.maxStackSize, amount)
-                : 1;
-
-            items.Add((item, stackAmount));
-            amount -= stackAmount;
+            items.Add(instance);
         }
 
+        // 3. Save the state
         WorldSaveData.Instance.SaveContainerData(uniqueId, items, wasOpened, initialized);
     }
 
-    public void RemoveItem(ItemSO item, int qty)
+    public void RemoveItem(ItemInstance instance, int qty)
     {
-        for (int i = 0; i < items.Count; i++)
+        // 1. Check if the instance actually exists in this container
+        if (!items.Contains(instance)) return;
+
+        // 2. Handle quantity reduction
+        if (instance.quantity > qty)
         {
-            if (items[i].item == item)
-            {
-                var entry = items[i];
-
-                // Reduce quantity
-                entry.qty -= qty;
-
-                if (entry.qty <= 0)
-                {
-                    // Remove entry entirely
-                    items.RemoveAt(i);
-                }
-                else
-                {
-                    // Save updated quantity back
-                    items[i] = entry;
-                }
-
-                WorldSaveData.Instance.SaveContainerData(uniqueId, items, wasOpened, initialized);
-                return;
-            }
+            instance.quantity -= qty;
         }
+        else
+        {
+            // If qty is equal or greater, remove the whole object from the list
+            items.Remove(instance);
+        }
+
+        // 3. Save the updated state of the container
+        WorldSaveData.Instance.SaveContainerData(uniqueId, items, wasOpened, initialized);
     }
 }

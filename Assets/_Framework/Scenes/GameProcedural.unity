@@ -129,12 +129,16 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3623353013685159859, guid: 9b8aeca167b7c244d83797b5d24cf818, type: 3}
       propertyPath: allItems.Array.size
-      value: 19
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 3623353013685159859, guid: 9b8aeca167b7c244d83797b5d24cf818, type: 3}
       propertyPath: 'allItems.Array.data[18]'
       value: 
       objectReference: {fileID: 11400000, guid: fad8b2e070088704aa404e9f0a79fe40, type: 2}
+    - target: {fileID: 3623353013685159859, guid: 9b8aeca167b7c244d83797b5d24cf818, type: 3}
+      propertyPath: 'allItems.Array.data[19]'
+      value: 
+      objectReference: {fileID: 11400000, guid: e0dc017858f21b2468ecbc40b93f5e19, type: 2}
     - target: {fileID: 4484588301191918450, guid: 9b8aeca167b7c244d83797b5d24cf818, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

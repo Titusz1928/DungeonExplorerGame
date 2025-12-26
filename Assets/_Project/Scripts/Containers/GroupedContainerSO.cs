@@ -6,9 +6,9 @@ public class GroupedContainerSO : ContainerSO
 {
     public List<LootGroup> lootGroups;
 
-    public override List<(ItemSO item, int qty)> GenerateLoot()
+    public override List<ItemInstance> GenerateLoot()
     {
-        var result = new List<(ItemSO, int)>();
+        var result = new List<ItemInstance>();
 
         foreach (var group in lootGroups)
         {
@@ -16,7 +16,6 @@ public class GroupedContainerSO : ContainerSO
                 continue;
 
             int count = Random.Range(group.minCount, group.maxCount + 1);
-
             var available = new List<ItemSO>(group.possibleItems);
 
             for (int i = 0; i < count && available.Count > 0; i++)
@@ -28,7 +27,8 @@ public class GroupedContainerSO : ContainerSO
                     ? Random.Range(1, item.maxStackSize + 1)
                     : 1;
 
-                result.Add((item, qty));
+                // CHANGED: Create a new ItemInstance instead of a tuple
+                result.Add(new ItemInstance(item, qty));
 
                 if (!group.allowDuplicates)
                     available.RemoveAt(index);

@@ -7,5 +7,5 @@ public abstract class ContainerSO : ScriptableObject
     public Sprite containerIcon;
 
     // This method defines HOW loot is generated
-    public abstract List<(ItemSO item, int qty)> GenerateLoot();
+    public abstract List<ItemInstance> GenerateLoot();
 }
