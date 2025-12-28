@@ -84,7 +84,23 @@ public class InventoryRow : MonoBehaviour
         moveButton.onClick.AddListener(OnMovePressed);
 
         dropButton.onClick.RemoveAllListeners();
-        dropButton.onClick.AddListener(OnDropPressed);
+        // Get or Add the LongPress component
+        LongPressButton lp = dropButton.GetComponent<LongPressButton>();
+        if (lp == null) lp = dropButton.gameObject.AddComponent<LongPressButton>();
+
+        lp.onShortClick.RemoveAllListeners();
+        lp.onLongPress.RemoveAllListeners();
+
+        // Short click: Drop just 1
+        lp.onShortClick.AddListener(() => parentWindow.OnDropButtonPressed(linkedItem, false));
+
+        // Long press: Open the quantity window
+        lp.onLongPress.AddListener(() => {
+            if (linkedItem.quantity > 1)
+                parentWindow.OnDropButtonPressed(linkedItem, true); // true = show window
+            else
+                parentWindow.OnDropButtonPressed(linkedItem, false); // only 1 anyway
+        });
     }
 
     private void OnItemInfoPressed()
@@ -100,10 +116,5 @@ public class InventoryRow : MonoBehaviour
     private void OnMovePressed()
     {
         parentWindow.OnMoveButtonPressed(linkedItem);
-    }
-
-    private void OnDropPressed()
-    {
-        parentWindow.OnDropButtonPressed(linkedItem);
     }
 }

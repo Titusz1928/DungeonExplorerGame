@@ -78,7 +78,16 @@ public class PickupRow : MonoBehaviour
             added = inv.AddItemInstance(instanceToPickUp);
 
             if (added)
-                Destroy(worldItem.gameObject);
+            {
+                // 2. Reduce the quantity on the ground
+                worldItem.quantity -= 1;
+
+                // 3. If no more items are left, destroy the physical object
+                if (worldItem.quantity <= 0)
+                {
+                    Destroy(worldItem.gameObject); // Important: Destroy the GameObject, not the script
+                }
+            }
         }
         else
         {

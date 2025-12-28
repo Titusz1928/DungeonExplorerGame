@@ -40,17 +40,18 @@ public class Inventory : MonoBehaviour
         return amount <= 0;
     }
 
-    public bool AddItemInstance(ItemInstance instance)
+    public bool AddItemInstance(ItemInstance instance, int amount = 1)
     {
-        // If it's stackable, we should still try to merge it first
         if (instance.itemSO.isStackable)
         {
-            return AddItem(instance.itemSO, instance.quantity);
+            // Try to add/merge only the specified amount
+            return AddItem(instance.itemSO, amount);
         }
 
-        // For non-stackable items (like broken scissors), we add the specific instance
+        // For non-stackable items, we add the instance itself
         if (items.Count < maxSlots)
         {
+            // If we are moving a non-stackable item, we usually move the whole instance
             items.Add(instance);
             return true;
         }

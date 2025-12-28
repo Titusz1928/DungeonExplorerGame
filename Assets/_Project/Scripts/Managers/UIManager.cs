@@ -1,38 +1,73 @@
 using UnityEngine;
-using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
     public static UIManager Instance;
 
-    public static MovementButtonsUI sprintButton;
+    [Header("Canvases")]
+    [SerializeField] private Canvas generalCanvas; // Your exploration/main UI
+    [SerializeField] private Canvas battleCanvas;  // Your turn-based combat UI
 
     [Header("Gameplay UI Elements")]
     public GameObject joystickUI;
 
-    private int windowCount = 0; // Tracks how many windows are open
+    private int windowCount = 0;
 
     public bool IsWindowOpen => windowCount > 0;
+    public bool IsInBattle { get; private set; } // Tracks current state
 
     private void Awake()
     {
         if (Instance == null) Instance = this;
         else Destroy(gameObject);
+
+        // Initialization: Start in Exploration mode
+        InitializeUI();
     }
+
+    private void InitializeUI()
+    {
+        IsInBattle = false;
+        generalCanvas.enabled = true;
+        battleCanvas.enabled = false;
+        UpdateJoystickVisibility();
+    }
+
+    // --- State Switching ---
+
+    public void EnterBattleState()
+    {
+        IsInBattle = true;
+        generalCanvas.enabled = false; // Or keep true if you want background UI
+        battleCanvas.enabled = true;
+        UpdateJoystickVisibility();
+    }
+
+    public void ExitBattleState()
+    {
+        IsInBattle = false;
+        generalCanvas.enabled = true;
+        battleCanvas.enabled = false;
+        UpdateJoystickVisibility();
+    }
+
+    // --- Window Logic ---
 
     public void SetWindowState(bool opening)
     {
-        if (opening)
-            windowCount++;
-        else
-            windowCount--;
-
-        // Safety: don't let it drop below 0
+        windowCount = opening ? windowCount + 1 : windowCount - 1;
         windowCount = Mathf.Max(0, windowCount);
 
-        // Toggle gameplay UI (joystick, etc.)
-        if (joystickUI != null)
-            joystickUI.SetActive(!IsWindowOpen);
+        UpdateJoystickVisibility();
     }
 
+    private void UpdateJoystickVisibility()
+    {
+        if (joystickUI == null) return;
+
+        // The joystick should ONLY be active if:
+        // 1. No windows are open AND 2. We are NOT in a battle
+        bool shouldShowJoystick = !IsWindowOpen && !IsInBattle;
+        joystickUI.SetActive(shouldShowJoystick);
+    }
 }

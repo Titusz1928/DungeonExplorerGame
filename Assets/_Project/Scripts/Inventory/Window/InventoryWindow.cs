@@ -13,6 +13,8 @@ public class InventoryWindow : MonoBehaviour
     private ItemInstance pendingMoveItem;
     [SerializeField] private GameObject itemInfoWindow;
     private ItemInstance pendinginfoItem;
+    [SerializeField] private GameObject dropWindow;
+    private ItemInstance pendingDropItem;
     [SerializeField] private GameObject ripClothingWindowPrefab;
 
     //Inventory Equipment Tab
@@ -474,40 +476,66 @@ public class InventoryWindow : MonoBehaviour
 
 
 
-    public void OnDropButtonPressed(ItemInstance item)
+    public void OnDropButtonPressed(ItemInstance item, bool showWindow)
     {
-        if (inventory == null) return;
-
-        // ---------------------------
-        // UNEQUIP IF NECESSARY
-        // ---------------------------
-        if (item.isEquipped)
+        if (showWindow && item.quantity > 1)
         {
-            switch (item.itemSO)
-            {
-                case ShieldItemSO shield:
-                    EquipmentManager.Instance.UnequipShield(item);
-                    break;
-                case ArmorItemSO armor:
-                    EquipmentManager.Instance.UnequipArmor(item);
-                    break;
-                case WeaponItemSO weapon:
-                    EquipmentManager.Instance.UnequipMainHand(item);
-                    break;
+            // 1) Logic to open your DropWindow prefab (similar to MoveWindow)
+            // Pass 'item' to it so it can set the slider max
+            Debug.Log("Opening Drop Quantity Window...");
 
-            }
+            pendingDropItem = item;
+
+            // Spawn MoveWindow through WindowManager
+            GameObject windowGO = WindowManager.Instance.OpenWindow(dropWindow);
+
+            // Get MoveWindow component from the instantiated window
+            DropWindow dropWindowInstance = windowGO.GetComponent<DropWindow>();
+
+            // Tell the window which item is being moved
+            dropWindowInstance.OpenDropWindow(item, inventory, player);
         }
+        else
+        {
 
-        // 1. Determine spawn position (usually slightly in front of player)
-        Vector3 spawnPos = PlayerReference.PlayerTransform.position;
+            if (inventory == null) return;
 
-        // 2. Spawn the world item with its current durability
-        ItemSpawner.Instance.SpawnWorldItem(item, spawnPos);
+            // ---------------------------
+            // UNEQUIP IF NECESSARY
+            // ---------------------------
+            if (item.isEquipped)
+            {
+                switch (item.itemSO)
+                {
+                    case ShieldItemSO shield:
+                        EquipmentManager.Instance.UnequipShield(item);
+                        break;
+                    case ArmorItemSO armor:
+                        EquipmentManager.Instance.UnequipArmor(item);
+                        break;
+                    case WeaponItemSO weapon:
+                        EquipmentManager.Instance.UnequipMainHand(item);
+                        break;
 
-        // 3. Remove it from inventory
-        inventory.RemoveItem(item, item.quantity);
+                }
+            }
 
-        Refresh();
+            // 1. Determine spawn position
+            Vector3 spawnPos = PlayerReference.PlayerTransform.position;
+
+            // 2. CREATE A TEMPORARY INSTANCE FOR THE GROUND
+            // We create a "copy" that only represents the 1 item being dropped.
+            ItemInstance singleDrop = new ItemInstance(item.itemSO, 1);
+            singleDrop.currentDurability = item.currentDurability;
+
+            // 3. Spawn using the temporary "single" instance
+            ItemSpawner.Instance.SpawnWorldItem(singleDrop, spawnPos);
+
+            // 4. Remove exactly 1 from the inventory stack
+            inventory.RemoveItem(item, 1);
+
+            Refresh();
+        }
     }
 }
 

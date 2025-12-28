@@ -12,8 +12,9 @@ GameObject:
   - component: {fileID: 4670578865149857965}
   - component: {fileID: 669915090997715149}
   - component: {fileID: 2151132954324190760}
+  - component: {fileID: 6307479747509845183}
   m_Layer: 5
-  m_Name: TabbleButton
+  m_Name: TableButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -119,6 +120,25 @@ MonoBehaviour:
   m_Interactable: 1
   m_TargetGraphic: {fileID: 669915090997715149}
   m_OnClick:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &6307479747509845183
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1269105670656894899}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b91263b568a3b2343bbfc817afe620e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  holdThreshold: 0.5
+  onShortClick:
+    m_PersistentCalls:
+      m_Calls: []
+  onLongPress:
     m_PersistentCalls:
       m_Calls: []
 --- !u!1 &1370764450280001661
@@ -634,7 +654,7 @@ GameObject:
   - component: {fileID: 873578941959761373}
   - component: {fileID: 5343243147359318472}
   m_Layer: 5
-  m_Name: TabbleButton
+  m_Name: TableButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -791,7 +811,7 @@ GameObject:
   - component: {fileID: 8651227656780355373}
   - component: {fileID: 4914900174370871341}
   m_Layer: 5
-  m_Name: TabbleButton
+  m_Name: TableButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

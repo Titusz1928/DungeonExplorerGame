@@ -13,9 +13,9 @@ GameObject:
   - component: {fileID: 6711880562568102783}
   - component: {fileID: 5551496610413226990}
   - component: {fileID: 8025666956773810978}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Enemy (1)
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -131,6 +131,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: 750ab15325ac97a4e81c7a16cd569d45, type: 2}
+  instanceID: 
   maxHP: 0
   currentHP: 0
   strength: 0
@@ -194,7 +195,7 @@ GameObject:
   - component: {fileID: 4509820380623653757}
   - component: {fileID: 1420884250510817260}
   - component: {fileID: 1509074161931962164}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: StatusText
   m_TagString: Untagged
   m_Icon: {fileID: 0}

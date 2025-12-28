@@ -220,4 +220,29 @@ public class PlayerMovement : MonoBehaviour
         // --- Move player with state-based speed ---
         rb.MovePosition(rb.position + moveInput * currentSpeed * Time.fixedDeltaTime);
     }
+
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        // 1. Check if we are already in a battle or a menu is open
+        if (UIManager.Instance.IsInBattle || UIManager.Instance.IsWindowOpen)
+            return;
+
+        // 2. Check if the thing we hit is actually an enemy
+        if (collision.gameObject.CompareTag("Enemy"))
+        {
+            StartBattle(collision.gameObject);
+        }
+    }
+
+    private void StartBattle(GameObject enemy)
+    {
+        Debug.Log("Starting Battle with: " + enemy.name);
+
+        // Tell the UI to switch to Battle Mode (disables joystick, etc.)
+        UIManager.Instance.EnterBattleState();
+
+        // Handle the enemy (Destroy it, hide it, or pass its data to the Battle System)
+        // For now, we'll just destroy it like your previous code
+        Destroy(enemy);
+    }
 }

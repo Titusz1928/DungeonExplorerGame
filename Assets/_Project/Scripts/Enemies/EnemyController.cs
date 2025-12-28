@@ -125,6 +125,10 @@ public class EnemyController : MonoBehaviour
 
     void Update()
     {
+        //CHECK IF THERE IS A BATTLE OR NOT
+        if (UIManager.Instance.IsInBattle)
+            return;
+
         CheckVision();
 
         if (isWaiting)

@@ -2286,6 +2286,7 @@ MonoBehaviour:
   itemsStatsRowPrefab: {fileID: 3053320804439810817, guid: 79421319dec71274dab3ca2e2b3d019f, type: 3}
   moveWindow: {fileID: 308496514790383259, guid: 5b91e86f46bec5f44b1c38a3eda441c6, type: 3}
   itemInfoWindow: {fileID: 901217986341495110, guid: d058aa12f9e6c384fa2a468e90bc6b4f, type: 3}
+  dropWindow: {fileID: 6198396304338092009, guid: f4945996d3b4bb2488cd62a93ffd41c7, type: 3}
   ripClothingWindowPrefab: {fileID: 5373515816587953541, guid: 8acf06290c2a48e4baebe2ae2d5763f4, type: 3}
   equipmentTitleRowPrefab: {fileID: 2832329022155592878, guid: 0e61033603ab8d94892252a901e2c36f, type: 3}
   equipmentRowPrefab: {fileID: 9111370232776084067, guid: a5d35e517977a8e44a0de90853ba75e7, type: 3}
