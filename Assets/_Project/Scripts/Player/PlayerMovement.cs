@@ -1,5 +1,7 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.InputSystem;
+using System.Linq;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -236,13 +238,57 @@ public class PlayerMovement : MonoBehaviour
 
     private void StartBattle(GameObject enemy)
     {
-        Debug.Log("Starting Battle with: " + enemy.name);
+        EnemyController mainEnemy = enemy.GetComponent<EnemyController>();
+        if (mainEnemy == null) return;
 
-        // Tell the UI to switch to Battle Mode (disables joystick, etc.)
+        // 1. Switch UI to Battle Mode
         UIManager.Instance.EnterBattleState();
 
-        // Handle the enemy (Destroy it, hide it, or pass its data to the Battle System)
-        // For now, we'll just destroy it like your previous code
+        // 2. Find all enemies within 15 units
+        float searchRadius = 15f;
+        Collider2D[] hitColliders = Physics2D.OverlapCircleAll(transform.position, searchRadius);
+
+        List<EnemyController> potentialHelpers = new List<EnemyController>();
+
+        foreach (var hit in hitColliders)
+        {
+            // Skip the enemy we actually bumped into (he's already the main target)
+            if (hit.gameObject == enemy) continue;
+
+            if (hit.CompareTag("Enemy"))
+            {
+                EnemyController ec = hit.GetComponent<EnemyController>();
+                if (ec != null)
+                {
+                    // 3. Filter by State: Investigating, Searching, or Chasing
+                    EnemyState s = ec.GetState();
+                    if (s == EnemyState.Investigating || s == EnemyState.Searching || s == EnemyState.Chasing)
+                    {
+                        potentialHelpers.Add(ec);
+                    }
+                }
+            }
+        }
+
+        // 4. Sort by distance and take only the 5 closest
+        List<EnemyController> finalHelpers = potentialHelpers
+            .OrderBy(e => Vector2.Distance(transform.position, e.transform.position))
+            .Take(5)
+            .ToList();
+
+        // 5. Send to BattleManager
+        BattleManager.Instance.StartBattle(mainEnemy, finalHelpers);
+
+        // 6. Handle exploration world cleanup
+        // Instead of just Destroying, we usually disable them so we can return to them if we flee
+        //mainEnemy.gameObject.SetActive(false);
+        //foreach (var helper in finalHelpers)
+        //{
+        //    helper.gameObject.SetActive(false);
+        //}
+
         Destroy(enemy);
+
+
     }
 }

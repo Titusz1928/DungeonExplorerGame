@@ -91,9 +91,9 @@ public class EnemyController : MonoBehaviour
     void ApplyVisuals()
     {
         SpriteRenderer sr = GetComponent<SpriteRenderer>();
-        if (sr != null && data.sprite != null)
+        if (sr != null && data.worldsprite != null)
         {
-            sr.sprite = data.sprite;
+            sr.sprite = data.worldsprite;
         }
     }
 
@@ -242,6 +242,12 @@ public class EnemyController : MonoBehaviour
 
     void FixedUpdate()
     {
+        // Stop physics movement if in battle
+        if (UIManager.Instance.IsInBattle)
+        {
+            rb.linearVelocity = Vector2.zero; // Stop any sliding/drifting
+            return;
+        }
         MoveTowardsTarget();
     }
 

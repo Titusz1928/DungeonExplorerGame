@@ -5,7 +5,10 @@ public class EnemySO : ScriptableObject
 {
     [Header("Visual")]
     public string enemyName;
-    public Sprite sprite;
+    public Sprite worldsprite;
+    public Sprite battlesprite;
+    public float spriteSizeX;
+    public float spriteSizeY;
 
     [Header("Stats")]
     public int enemyID;
