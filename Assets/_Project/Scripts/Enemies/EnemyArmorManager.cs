@@ -48,18 +48,14 @@ public class EnemyArmorManager : MonoBehaviour
         }
     }
 
-    public float GetProtection(string partName, DamageType type)
+    public double GetProtection(string partName, DamageType type)
     {
-        float totalProtection = 0;
-
-        // 1. Find the anatomy part
+        double totalProtection = 0;
         var part = controller.data.anatomy.Find(p => p.partName == partName);
         if (part == null) return 0;
 
-        // 2. Add Natural Defense
         totalProtection += GetValueFromDefense(part.naturalDefense, type);
 
-        // 3. Add Armor Defense from all layers covering this slot
         if (equippedArmor.TryGetValue(part.associatedSlot, out var layers))
         {
             foreach (var layerPair in layers)
@@ -71,15 +67,12 @@ public class EnemyArmorManager : MonoBehaviour
                 if (slotDef != null)
                 {
                     float baseVal = GetValueFromDefense(slotDef.defense, type);
-                    // Use condition/durability multiplier
-                    totalProtection += baseVal * (float)item.currentDurability;
-
-                    // Degrade armor on hit
-                    item.currentDurability = Mathf.Max(0, (float)item.currentDurability - 0.01f);
+                    // Protection scales based on durability percentage (0.0 to 1.0)
+                    double durabilityPercent = (double)item.currentDurability / armorSO.maxDurability;
+                    totalProtection += baseVal * durabilityPercent;
                 }
             }
         }
-
         return totalProtection;
     }
 

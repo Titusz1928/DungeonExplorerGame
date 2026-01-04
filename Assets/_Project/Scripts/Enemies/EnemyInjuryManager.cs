@@ -8,7 +8,6 @@ public class EnemyInjuryManager : MonoBehaviour
 
     [Header("Settings")]
     public float bandageMaxDuration = 120f;
-    public bool isInCombat = false;
 
     private void Start()
     {
@@ -17,8 +16,7 @@ public class EnemyInjuryManager : MonoBehaviour
 
     private void Update()
     {
-        // Enemies also process injuries in real-time (e.g., bleeding while chasing)
-        if (!isInCombat)
+        if (UIManager.Instance != null && !UIManager.Instance.IsInBattle)
         {
             ProcessInjuries(Time.deltaTime);
         }
@@ -26,9 +24,9 @@ public class EnemyInjuryManager : MonoBehaviour
 
     public void OnTurnEnded()
     {
-        if (isInCombat)
+        // Use the central UI state like the player does
+        if (UIManager.Instance != null && UIManager.Instance.IsInBattle)
         {
-            // 1 turn = 10 seconds of bleeding
             ProcessInjuries(10f);
         }
     }

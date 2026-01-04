@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ID: 23
   itemName: Chainmail
-  icon: {fileID: -2449109698028390309, guid: 6fd7fb585a3e1974d95a600b45443a29, type: 3}
+  icon: {fileID: 21300000, guid: 6fd7fb585a3e1974d95a600b45443a29, type: 3}
   category: 4
   isStackable: 0
   maxStackSize: 1

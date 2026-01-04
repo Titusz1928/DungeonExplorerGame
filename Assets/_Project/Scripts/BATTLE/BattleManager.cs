@@ -115,10 +115,9 @@ public class BattleManager : MonoBehaviour
 
     private IEnumerator ExecuteBattleTurn()
     {
-        // 1. Safety Check: Make sure we actually have enemies
         if (activeCombatants.Count == 0 || activeCombatants.All(e => e == null))
         {
-            Debug.LogError("Battle attempted with no active combatants!");
+            UIManager.Instance.ExitBattleState();
             yield break;
         }
 
@@ -127,21 +126,17 @@ public class BattleManager : MonoBehaviour
 
         // --- 1. PLAYER'S TURN ---
         EnemyController target = GetTargetedEnemy();
-
-        // Safety: Ensure target exists and is alive
-        if (target != null && target.GetComponent<EnemyStats>() != null && target.GetComponent<EnemyStats>().currentHP > 0)
+        if (target != null && target.GetComponent<EnemyStats>().currentHP > 0)
         {
             yield return StartCoroutine(ResolveAttack(null, target));
-
             UpdateEnemySprites();
 
-            if (CheckBattleEnd())
+            if (IsBattleWon())
             {
-                // We MUST reset these before quitting the coroutine
+                yield return StartCoroutine(EndBattleSequence());
                 isProcessingTurn = false;
-                yield break;
+                yield break; // Exit entirely
             }
-
             yield return new WaitForSeconds(1.0f);
         }
 
@@ -149,36 +144,56 @@ public class BattleManager : MonoBehaviour
         var currentEnemies = new List<EnemyController>(activeCombatants);
         foreach (var enemy in currentEnemies)
         {
-            if (enemy == null) continue;
-
-            var eStats = enemy.GetComponent<EnemyStats>();
-            if (eStats == null || eStats.currentHP <= 0) continue;
+            if (enemy == null || enemy.GetComponent<EnemyStats>().currentHP <= 0) continue;
 
             yield return StartCoroutine(ResolveAttack(enemy, null));
 
             if (PlayerStateManager.Instance.isDead)
             {
                 yield return StartCoroutine(HandlePlayerDefeat());
-                isProcessingTurn = false; // Reset before exit
+                isProcessingTurn = false;
                 yield break;
             }
-
             yield return new WaitForSeconds(1.0f);
         }
 
-        // --- 3. END OF TURN ---
+        // --- 3. END OF TURN (BLEEDING) ---
         logText.text = "End of round. Injuries are bleeding...";
+        yield return new WaitForSeconds(1.0f);
 
-        // Trigger Injury processing for the turn
-        // Access the manager on the player and trigger the turn-tick
-        InjuryManager im = PlayerStateManager.Instance.GetComponent<InjuryManager>();
-        if (im != null)
+        // Process Player Bleed
+        InjuryManager pim = PlayerStateManager.Instance.GetComponent<InjuryManager>();
+        if (pim != null) pim.OnTurnEnded();
+
+        // Process Enemy Bleed
+        foreach (var enemy in activeCombatants)
         {
-            im.OnTurnEnded();
+            if (enemy != null && enemy.GetComponent<EnemyStats>().currentHP > 0)
+            {
+                var eim = enemy.GetComponent<EnemyInjuryManager>();
+                if (eim != null) eim.OnTurnEnded();
+            }
         }
 
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(1.0f);
+        UpdateEnemySprites();
 
+        // FINAL CHECK: Did anyone bleed to death?
+        if (PlayerStateManager.Instance.isDead)
+        {
+            yield return StartCoroutine(HandlePlayerDefeat());
+            isProcessingTurn = false;
+            yield break;
+        }
+
+        if (IsBattleWon())
+        {
+            yield return StartCoroutine(EndBattleSequence());
+            isProcessingTurn = false;
+            yield break;
+        }
+
+        // --- 4. START NEW ROUND ---
         logText.text = "Your Turn";
         isProcessingTurn = false;
         endTurnButton.interactable = true;
@@ -197,13 +212,23 @@ public class BattleManager : MonoBehaviour
         return false;
     }
 
+    private bool IsBattleWon()
+    {
+        return !activeCombatants.Any(e => e != null && e.GetComponent<EnemyStats>().currentHP > 0);
+    }
+
     private IEnumerator EndBattleSequence()
     {
+        // Ensure button is off so player can't click during sequence
+        endTurnButton.interactable = false;
+
         logText.text = "<color=green>Victory! All enemies defeated.</color>";
-        yield return new WaitForSeconds(2.0f);
+        yield return new WaitForSeconds(2.5f);
 
         UIManager.Instance.ExitBattleState();
-        Debug.Log("Battle Ended.");
+
+        // Optional: Give XP or Loot here
+        Debug.Log("Battle Ended Successfully.");
     }
 
     private void UpdateEnemySprites()
@@ -303,21 +328,18 @@ public class BattleManager : MonoBehaviour
             yield break;
         }
 
-        // 3. Prepare Damage Data (Includes Natural Damage & Strength)
+        // 3. Prepare Damage Data
         WeaponItemSO weapon = GetEquippedWeapon(attacker);
         DamageType dType;
         double baseDamage;
 
         if (playerAttacking)
         {
-            // Player Damage Logic
             baseDamage = (weapon != null) ? weapon.damageAmount : 5.0;
             dType = (weapon != null) ? weapon.damageType : DamageType.Blunt;
-            // Optional: Add Player Strength here if you have a PlayerStats script
         }
         else
         {
-            // Enemy Damage Logic
             EnemyStats stats = attacker.GetComponent<EnemyStats>();
             if (weapon != null)
             {
@@ -326,16 +348,12 @@ public class BattleManager : MonoBehaviour
             }
             else
             {
-                // Use Natural Damage from EnemySO if no weapon is held
-                baseDamage = 5.0; // Default base for natural attacks
+                baseDamage = 5.0;
                 dType = attacker.data.naturalDamageType;
             }
-
-            // Apply Enemy Strength Modifier
             baseDamage += stats.strength;
         }
 
-        // Add Randomness (90% to 110% variance)
         double rawDamage = baseDamage * Random.Range(0.9f, 1.1f);
 
         // 4. Identify Target Body Part
@@ -353,50 +371,48 @@ public class BattleManager : MonoBehaviour
             slot = randomPart.associatedSlot;
         }
 
-        // 5. Calculate Protection & Difference
+        // 5. Calculate Protection
         double protection = playerAttacking
             ? defender.GetComponent<EnemyArmorManager>().GetProtection(partName, dType)
             : EquipmentManager.Instance.GetTotalDefenseForSlot(slot).GetTypedDefense(dType);
 
         double damageDifference = rawDamage - protection;
         double finalDamage = 0;
-
-        // 6. Tiered Injury & Damage Logic
-        // Blunt weapons need a higher damage margin to cause an injury
         float injuryThreshold = (dType == DamageType.Blunt) ? 8.0f : 3.0f;
 
+        // 6. Tiered Injury & Damage Logic
         if (damageDifference > injuryThreshold)
         {
-            // TIER A: SEVERE HIT (Damage > Protection + Threshold)
+            // TIER A: SEVERE HIT
             finalDamage = damageDifference;
-            float severity = 20f + (float)(damageDifference * 2.0); // e.g., 20 overkill = 2.0 severity
+            float severity = 20f + (float)(damageDifference * 2.0);
 
             if (!playerAttacking)
             {
                 PlayerStateManager.Instance.GetComponent<InjuryManager>().AddInjury(slot, GetInjuryType(dType), severity);
-                logText.text = $"<color=red>CRITICAL!</color> The {attackerName} dealt {finalDamage:F1} damage and caused a {GetInjuryType(dType)}!";
+                logText.text = $"<color=red>CRITICAL!</color> The {attackerName} hit your {partName} for {finalDamage:F1} and caused a {GetInjuryType(dType)}!";
             }
             else
             {
-                // Player deals critical to enemy (even if enemies don't have an injury system yet, we show the log)
-                logText.text = $"<color=orange>Brutal Hit!</color> You struck the {targetName}'s {partName} for {finalDamage:F1} damage!";
+                defender.GetComponent<EnemyInjuryManager>().AddInjury(slot, GetInjuryType(dType), severity);
+                logText.text = $"<color=orange>Brutal Hit!</color> You struck the {targetName}'s {partName} for {finalDamage:F1} damage and caused a {GetInjuryType(dType)}!";
             }
         }
         else if (damageDifference > 0)
         {
-            // TIER B: SUCCESSFUL HIT, NO INJURY (Damage > Protection, but below threshold)
+            // TIER B: SUCCESSFUL HIT
             finalDamage = damageDifference;
             logText.text = playerAttacking
                 ? $"You hit the {targetName}'s {partName} for {finalDamage:F1} damage."
-                : $"The strike landed! You took {finalDamage:F1} damage, but your armor prevented a wound.";
+                : $"The strike landed! You took {finalDamage:F1} damage to your {partName}, but your armor prevented a wound.";
         }
         else if (damageDifference > -5.0)
         {
-            // TIER C: BRUISE / BLUNT FORCE (Damage slightly below protection)
-            finalDamage = Random.Range(1f, 3f); // Minimal chip damage
+            // TIER C: BRUISE
+            finalDamage = Random.Range(1f, 3f);
             logText.text = playerAttacking
                 ? $"Your blow was mostly deflected by the {targetName}'s armor."
-                : $"The {attackerName} hit your {partName}! Your armor held, but you're bruised.";
+                : $"The {attackerName} hit your {partName}! Your armor held, but you're bruised ({finalDamage:F1} dmg).";
         }
         else
         {
@@ -404,23 +420,29 @@ public class BattleManager : MonoBehaviour
             finalDamage = 0;
             logText.text = playerAttacking
                 ? $"The {targetName}'s armor is too thick!"
-                : $"Your armor completely absorbed the impact.";
+                : $"Your armor completely absorbed the {attackerName}'s impact.";
         }
 
-        // 7. Apply Durability & Final HP Changes
+        // 7. Apply Armor Wear and Final HP Changes
         if (!playerAttacking)
         {
-            ApplyArmorWear(slot, finalDamage > 0, dType);
+            // Target is Player
+            ApplyArmorWear(null, slot, finalDamage > 0, dType);
             PlayerStateManager.Instance.inflictDamage((float)finalDamage);
         }
         else
         {
+            // Target is Enemy
+            ApplyArmorWear(defender, slot, finalDamage > 0, dType);
+            defender.GetComponent<EnemyStats>().TakeDamage(finalDamage);
+
+            // Weapon Durability (Player only)
             if (EquipmentManager.Instance.mainHandWeapon != null)
             {
                 var weaponInstance = EquipmentManager.Instance.mainHandWeapon;
                 weaponInstance.currentDurability = System.Math.Max(0, weaponInstance.currentDurability - 1);
             }
-            defender.GetComponent<EnemyStats>().TakeDamage(finalDamage);
+
             PlayerSkillManager.Instance.AddXP(PlayerSkill.WeaponHandling, 15f);
         }
     }
@@ -448,12 +470,22 @@ public class BattleManager : MonoBehaviour
         return validSlots[Random.Range(0, validSlots.Count)];
     }
 
-    private void ApplyArmorWear(ArmorSlot slot, bool isSuccessfulHit, DamageType dType)
+    private void ApplyArmorWear(EnemyController enemy, ArmorSlot slot, bool isSuccessfulHit, DamageType dType)
     {
-        // We only care about player armor for now as requested
-        if (!EquipmentManager.Instance.equippedArmor.ContainsKey(slot)) return;
+        // Get the correct armor dictionary based on whether target is player or enemy
+        Dictionary<ArmorLayer, ItemInstance> armorLayers;
 
-        var armorLayers = EquipmentManager.Instance.equippedArmor[slot];
+        if (enemy == null) // Player
+        {
+            if (!EquipmentManager.Instance.equippedArmor.ContainsKey(slot)) return;
+            armorLayers = EquipmentManager.Instance.equippedArmor[slot];
+        }
+        else // Enemy
+        {
+            EnemyArmorManager eArmor = enemy.GetComponent<EnemyArmorManager>();
+            if (!eArmor.equippedArmor.ContainsKey(slot)) return;
+            armorLayers = eArmor.equippedArmor[slot];
+        }
 
         foreach (var kvp in armorLayers)
         {
@@ -465,32 +497,19 @@ public class BattleManager : MonoBehaviour
 
             if (isSuccessfulHit)
             {
-                // RULE: 10% reduction + guaranteed hole for Pierce/Slash
                 if (dType == DamageType.Pierce || dType == DamageType.Slash)
                 {
                     durabilityLoss += so.maxDurability * 0.10;
                     item.holes++;
-                    Debug.Log($"[Durability] {so.itemName} got a hole from a {dType} strike!");
                 }
-
-                // RULE: Extra point of loss per hole
                 durabilityLoss += (1 + item.holes);
 
-                // RULE: Chance for a new hole based on wear (60% dur = 40% hole chance)
-                double durPercent = item.currentDurability / so.maxDurability;
-                if (UnityEngine.Random.value > durPercent)
-                {
+                if (UnityEngine.Random.value > (item.currentDurability / so.maxDurability))
                     item.holes++;
-                    Debug.Log($"[Durability] {so.itemName} cracked! New hole formed.");
-                }
             }
-            else
+            else if (UnityEngine.Random.value <= 0.5f)
             {
-                // RULE: Unsuccessful strike (Blocked) -> 50% chance to lose 1 dur
-                if (UnityEngine.Random.value <= 0.5f)
-                {
-                    durabilityLoss += 1;
-                }
+                durabilityLoss += 1;
             }
 
             item.currentDurability = System.Math.Max(0, item.currentDurability - durabilityLoss);
