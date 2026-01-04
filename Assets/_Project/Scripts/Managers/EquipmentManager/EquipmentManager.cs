@@ -148,26 +148,24 @@ public class EquipmentManager : MonoBehaviour
     {
         ArmorDefense total = new ArmorDefense();
 
-        foreach (ArmorLayer layer in System.Enum.GetValues(typeof(ArmorLayer)))
+        foreach (var layerPair in equippedArmor[slot])
         {
-            if (layer == ArmorLayer.Under || layer == ArmorLayer.Chainmail || layer == ArmorLayer.Plate || layer == ArmorLayer.Over)
+            ItemInstance armorItem = layerPair.Value;
+            if (armorItem.itemSO is ArmorItemSO armorSO)
             {
-                if (equippedArmor[slot].TryGetValue(layer, out ItemInstance armorItem))
+                var slotDefense = armorSO.defenses.Find(d => d.slot == slot);
+                if (slotDefense.slot != ArmorSlot.None)
                 {
-                    if (armorItem.itemSO is ArmorItemSO armorSO)
-                    {
-                        var slotDefense = armorSO.defenses.Find(d => d.slot == slot);
-                        if (slotDefense.slot != ArmorSlot.None)
-                        {
-                            total.blunt += slotDefense.defense.blunt;
-                            total.pierce += slotDefense.defense.pierce;
-                            total.slash += slotDefense.defense.slash;
-                        }
-                    }
+                    // 1. Calculate durability percentage (0.0 to 1.0)
+                    double durabilityPercent = armorItem.currentDurability / armorSO.maxDurability;
+
+                    // 2. Scale protection (e.g., 50% durability = 50% protection)
+                    total.blunt += (float)(slotDefense.defense.blunt * durabilityPercent);
+                    total.pierce += (float)(slotDefense.defense.pierce * durabilityPercent);
+                    total.slash += (float)(slotDefense.defense.slash * durabilityPercent);
                 }
             }
         }
-
         return total;
     }
 

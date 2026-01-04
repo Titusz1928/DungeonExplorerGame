@@ -19,11 +19,6 @@ public class EnemyController : MonoBehaviour
     public string instanceID;
 
 
-    [Header("Runtime Stats")]
-    public int maxHP;
-    public int currentHP;
-    public float strength; // derived from HP
-
     private EnemyState state;
     private Rigidbody2D rb;
 
@@ -45,6 +40,9 @@ public class EnemyController : MonoBehaviour
     [Header("Corpse")]
     [SerializeField] private GameObject corpsePrefab;
 
+    private EnemyArmorManager armorManager;
+    private EnemyInjuryManager injuryManager;
+
     [Header("Debug")]
     [SerializeField] private TMPro.TextMeshPro stateText;
 
@@ -57,16 +55,31 @@ public class EnemyController : MonoBehaviour
         {
             instanceID = System.Guid.NewGuid().ToString();
         }
+
+        injuryManager = GetComponent<EnemyInjuryManager>();
     }
 
     void Start()
     {
         guardCenter = transform.position;
 
+        EnemyStats stats = GetComponent<EnemyStats>();
+        if (stats != null)
+        {
+            stats.Initialize(this);
+        }
+        else
+        {
+            Debug.LogWarning($"{name} is missing EnemyStats component!");
+        }
+
+        armorManager = GetComponent<EnemyArmorManager>();
+        if (armorManager == null) armorManager = gameObject.AddComponent<EnemyArmorManager>();
+        armorManager.Initialize(this);
+
         if (stateText != null)
             stateText.text = state.ToString();
 
-        GenerateStats();
         ApplyVisuals();
 
         SetState(
@@ -97,27 +110,6 @@ public class EnemyController : MonoBehaviour
         }
     }
 
-    // --------------------------------------------------
-    // STAT GENERATION
-    // --------------------------------------------------
-
-    void GenerateStats()
-    {
-        // HP variance
-        float hpRoll = Random.Range(0.9f, 1.1f);
-        maxHP = Mathf.RoundToInt(data.maxHealth * hpRoll);
-        currentHP = maxHP;
-
-        strength = (float)maxHP / data.maxHealth;
-
-        // Decision delay variance (90–110%)
-        float delayRoll = Random.Range(0.9f, 1.1f);
-        decisionDelayMean = data.decisionDelay * delayRoll;
-
-        Debug.Log(
-            $"{name} | HP: {currentHP} | Strength: {strength:F2} | ThinkDelay: {decisionDelayMean:F2}"
-        );
-    }
 
     // --------------------------------------------------
     // UPDATE LOOP
@@ -371,31 +363,23 @@ public class EnemyController : MonoBehaviour
         currentTarget = guardCenter + Random.insideUnitCircle * data.guardRadius;
     }
 
-    // --------------------------------------------------
-    // DAMAGE / DEATH (stub for later)
-    // --------------------------------------------------
 
-    public void TakeDamage(int damage)
+    public void TickInjuries()
     {
-        currentHP -= damage;
-
-        if (currentHP <= 0)
-        {
-            Die();
-        }
+        if (injuryManager != null) injuryManager.OnTurnEnded();
     }
 
-    void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (!collision.gameObject.CompareTag("Player"))
-            return;
+    //void OnCollisionEnter2D(Collision2D collision)
+    //{
+    //    if (!collision.gameObject.CompareTag("Player"))
+    //        return;
 
-        // TEMP DEV BEHAVIOR
-        Debug.Log("enemy dies");
-        Die();
-    }
+    //    // TEMP DEV BEHAVIOR
+    //    Debug.Log("enemy dies");
+    //    //Die();
+    //}
 
-    void Die()
+    public void Die()
     {
         if (reportedDeath)
             return;
@@ -424,7 +408,7 @@ public class EnemyController : MonoBehaviour
             if (container == null)
                 container = corpseObj.AddComponent<WorldContainer>();
 
-            container.containerData = data.corpseContainer;
+            container.SetInventory(armorManager.rawInventory, data.corpseContainer);
 
             // Sprite setup
             SpriteRenderer sr = corpseObj.GetComponent<SpriteRenderer>();

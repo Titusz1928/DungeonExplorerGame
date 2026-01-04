@@ -14,9 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyName: Solider
   worldsprite: {fileID: 21300000, guid: 59176c9d20f2271468165fee7ba6f11d, type: 3}
-  battlesprite: {fileID: 2138454942684218044, guid: 92f30058b5e5a84498fdc070cb7a0342, type: 3}
-  spriteSizeX: 0.6
-  spriteSizeY: 0.6
+  battlesprite: {fileID: 21300000, guid: 1f57ea03ab096a948bb8c56247513929, type: 3}
   enemyID: 2
   maxHealth: 110
   moveSpeed: 2
@@ -31,3 +29,59 @@ MonoBehaviour:
   guardRadius: 4
   decisionDelay: 8
   corpseContainer: {fileID: 11400000, guid: dddcbb3a355d138439150416caa86042, type: 2}
+  anatomy:
+  - partName: Head
+    associatedSlot: 1
+    naturalDefense:
+      blunt: 2
+      pierce: 2
+      slash: 2
+  - partName: Face
+    associatedSlot: 2
+    naturalDefense:
+      blunt: 2
+      pierce: 2
+      slash: 2
+  - partName: Neck
+    associatedSlot: 4
+    naturalDefense:
+      blunt: 2
+      pierce: 2
+      slash: 2
+  - partName: Torso
+    associatedSlot: 8
+    naturalDefense:
+      blunt: 2
+      pierce: 2
+      slash: 2
+  - partName: Shoulders
+    associatedSlot: 16
+    naturalDefense:
+      blunt: 2
+      pierce: 2
+      slash: 2
+  - partName: Arms
+    associatedSlot: 32
+    naturalDefense:
+      blunt: 2
+      pierce: 2
+      slash: 2
+  - partName: Hands
+    associatedSlot: 64
+    naturalDefense:
+      blunt: 2
+      pierce: 2
+      slash: 2
+  - partName: Legs
+    associatedSlot: 128
+    naturalDefense:
+      blunt: 2
+      pierce: 2
+      slash: 2
+  - partName: Feet
+    associatedSlot: 256
+    naturalDefense:
+      blunt: 2
+      pierce: 2
+      slash: 2
+  naturalDamageType: 1

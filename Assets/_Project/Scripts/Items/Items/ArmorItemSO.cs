@@ -30,6 +30,14 @@ public struct ArmorDefense
     public float blunt;
     public float pierce;
     public float slash;
+
+    public float GetTypedDefense(DamageType type) => type switch
+    {
+        DamageType.Blunt => blunt,
+        DamageType.Pierce => pierce,
+        DamageType.Slash => slash,
+        _ => 0
+    };
 }
 
 [System.Serializable]

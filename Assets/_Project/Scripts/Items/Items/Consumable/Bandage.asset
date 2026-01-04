@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17b9229988c98aa4ca485cfc6bab493c, type: 3}
   m_Name: Bandage
   m_EditorClassIdentifier: 
-  ID: 16
+  ID: 17
   itemName: Bandage
   icon: {fileID: 21300000, guid: ae278517f0297b7449fb8399cd6901c6, type: 3}
   category: 3

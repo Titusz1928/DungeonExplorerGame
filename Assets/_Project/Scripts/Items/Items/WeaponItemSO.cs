@@ -2,7 +2,7 @@ using UnityEngine;
 
 
 public enum WeaponType
-{   
+{
     Bow,
     Knife,
     ShortSword,
@@ -12,16 +12,21 @@ public enum WeaponType
     Spear
 }
 
+public enum DamageType
+{
+    Pierce,
+    Blunt,
+    Slash
+}
+
+
 [CreateAssetMenu(fileName = "NewWeaponItem", menuName = "Inventory/Weapon Item")]
 public class WeaponItemSO : ItemSO
 {
     [Header("Type")]
     public WeaponType weaponType;
 
-    [Header("Properties")]
-    public float pierceDamage;
-    public float bluntDamage;
-    public float slashDamage;
-
-
+    [Header("Damage")]
+    public DamageType damageType;
+    public double damageAmount;
 }

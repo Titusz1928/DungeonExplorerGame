@@ -57,32 +57,31 @@ public class WorldSaveData : MonoBehaviour
 
         foreach (var enemy in activeEnemies)
         {
+            // Access the Stats component instead of the Controller for HP
+            EnemyStats stats = enemy.GetComponent<EnemyStats>();
+
+            // Safety check: if for some reason the enemy has no stats, we skip or assume it's alive
+            if (stats == null) continue;
+
             // ONLY save the enemy if it's actually alive!
-            if (enemy.currentHP <= 0) continue;
+            if (stats.currentHP <= 0) continue;
 
             Vector2Int coord = GetChunkCoordFromPosition(enemy.transform.position);
-
-            // MATCHING THE FORMAT: Use underscore instead of comma
             string coordKey = $"{coord.x}_{coord.y}";
 
-            // Try to find the chunk; if it doesn't exist, create a new data entry for it
             if (!chunkData.TryGetValue(coordKey, out ChunkData chunk))
             {
-                Debug.Log($"[WORLDSAVEDATA]: Creating new chunk entry for {coordKey} to save enemy.");
-                chunk = new ChunkData
-                {
-                    chunkCoord = coord
-                };
+                chunk = new ChunkData { chunkCoord = coord };
                 chunkData.Add(coordKey, chunk);
             }
 
-            // Add the enemy to the chunk (whether it was existing or just created)
+            // Add the enemy to the chunk
             chunk.enemies.Add(new EnemySaveData
             {
                 instanceID = enemy.instanceID,
                 enemyID = enemy.data.enemyID,
                 position = enemy.transform.position,
-                currentHP = enemy.currentHP,
+                currentHP = stats.currentHP, // Updated to use stats
                 currentState = enemy.GetState(),
                 guardCenter = enemy.GetGuardCenter()
             });

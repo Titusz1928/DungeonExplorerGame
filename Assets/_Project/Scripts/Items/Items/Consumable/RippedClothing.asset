@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17b9229988c98aa4ca485cfc6bab493c, type: 3}
   m_Name: RippedClothing
   m_EditorClassIdentifier: 
-  ID: 17
+  ID: 18
   itemName: Ripped Clothing
   icon: {fileID: 21300000, guid: 7651d59ea6e3d3e4d825393cb978946e, type: 3}
   category: 3

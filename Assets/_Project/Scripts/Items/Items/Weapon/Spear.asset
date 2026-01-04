@@ -21,6 +21,5 @@ MonoBehaviour:
   isBreakable: 1
   maxDurability: 50
   weaponType: 6
-  pierceDamage: 40
-  bluntDamage: 15
-  slashDamage: 10
+  damageType: 0
+  damageAmount: 20

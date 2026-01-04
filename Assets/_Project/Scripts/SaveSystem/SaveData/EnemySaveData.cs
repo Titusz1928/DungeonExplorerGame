@@ -7,7 +7,7 @@ public class EnemySaveData
     public string instanceID;
     public int enemyID;
     public Vector2 position;
-    public int currentHP;
+    public double currentHP;
     public EnemyState currentState;
     public Vector2 guardCenter;
 }

@@ -142,10 +142,8 @@ public class ItemInfoWindow : MonoBehaviour
     private void AddWeaponInfo(WeaponItemSO weapon)
     {
         AddRow("Weapon Type", weapon.weaponType.ToString());
-
-        AddRow("Pierce Damage", weapon.pierceDamage.ToString());
-        AddRow("Blunt Damage", weapon.bluntDamage.ToString());
-        AddRow("Slash Damage", weapon.slashDamage.ToString());
+        AddRow("Damage Type", weapon.damageType.ToString());
+        AddRow("Damage", weapon.damageAmount.ToString("F2"));
     }
 
     // -------------------------------------

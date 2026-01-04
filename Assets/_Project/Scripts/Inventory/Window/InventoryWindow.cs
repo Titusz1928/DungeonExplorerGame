@@ -418,9 +418,9 @@ public class InventoryWindow : MonoBehaviour
                 break;
 
             // --------------------------
-            // SCISSORS (ID 19)
+            // SCISSORS (ID 20)
             // --------------------------
-            case ItemSO genericItem when genericItem.ID == 19:
+            case ItemSO genericItem when genericItem.ID == 20:
                 if (item.currentDurability <= 0)
                 {
                     MessageManager.Instance.ShowMessageDirectly("These scissors are broken and cannot cut anything.");

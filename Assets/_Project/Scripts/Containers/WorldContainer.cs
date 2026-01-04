@@ -22,6 +22,8 @@ public class WorldContainer : MonoBehaviour
 
     public bool wasOpened=false;
 
+    private bool isPrepopulated = false;
+
     public string uniqueId;
 
     public void Initialize(Vector2Int cell, string id)
@@ -49,12 +51,23 @@ public class WorldContainer : MonoBehaviour
         }
         else
         {
-            GenerateContents();
+            if (!isPrepopulated)
+            {
+                GenerateContents();
+            }
             // Save immediately so the ID and contents are linked
             WorldSaveData.Instance.SaveContainerData(uniqueId, items,wasOpened, initialized);
         }
 
         initialized = true;
+    }
+
+    // NEW FUNCTION: Call this BEFORE Initialize
+    public void SetInventory(List<ItemInstance> preGeneratedItems, ContainerSO metadata)
+    {
+        items = new List<ItemInstance>(preGeneratedItems);
+        containerData = metadata; // <--- This fixes the UI NullReference!
+        isPrepopulated = true;
     }
 
     public void Highlight(bool on)

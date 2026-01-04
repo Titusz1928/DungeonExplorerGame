@@ -19,7 +19,7 @@ public class EnemySpawnManager : MonoBehaviour
     private List<EnemySpawnZone> zones = new();
 
 
-    public bool debugSpawning = true;
+    public bool debugSpawning = false;
 
     // Keep track of which unique enemies are currently in the world
     private HashSet<string> activeInstanceIDs = new HashSet<string>();
@@ -167,30 +167,32 @@ public class EnemySpawnManager : MonoBehaviour
 
     public void RestoreEnemy(EnemySaveData data)
     {
-        // 1. Safety check for null or empty IDs from old saves
         if (string.IsNullOrEmpty(data.instanceID)) return;
-
-        // 2. Prevent duplicates
         if (activeInstanceIDs.Contains(data.instanceID)) return;
 
-        // 3. Find prefab
         GameObject prefab = enemyPrefabs.Find(p => p.GetComponent<EnemyController>().data.enemyID == data.enemyID);
         if (prefab == null) return;
 
-        // 4. Instantiate
         GameObject enemyGo = Instantiate(prefab, data.position, Quaternion.identity);
         EnemyController controller = enemyGo.GetComponent<EnemyController>();
 
-        // 5. INJECT saved ID
+        // 1. Inject saved ID
         controller.instanceID = data.instanceID;
         activeInstanceIDs.Add(controller.instanceID);
 
-        // 6. Restore stats
-        controller.currentHP = data.currentHP;
+        // 2. Restore Combat Stats via the new EnemyStats component
+        EnemyStats stats = enemyGo.GetComponent<EnemyStats>();
+        if (stats == null) stats = enemyGo.AddComponent<EnemyStats>();
+
+        // We manually initialize with the controller and set the saved HP
+        stats.Initialize(controller);
+        stats.currentHP = data.currentHP;
+
+        // 3. Restore AI State
         controller.SetState(data.currentState);
         controller.SetGuardCenter(data.guardCenter);
 
-        // 7. Register events
+        // 4. Register events
         currentEnemyCount++;
         controller.OnEnemyDeath += (e) => {
             activeInstanceIDs.Remove(e.instanceID);

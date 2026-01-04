@@ -128,7 +128,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        if (UIManager.Instance != null && UIManager.Instance.IsWindowOpen)
+        if (UIManager.Instance != null && (UIManager.Instance.IsWindowOpen || UIManager.Instance.IsInBattle))
         {
             moveInput = Vector2.zero;
             usingJoystick = false;
@@ -213,7 +213,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (UIManager.Instance != null && UIManager.Instance.IsWindowOpen)
+        if (UIManager.Instance != null && (UIManager.Instance.IsWindowOpen || UIManager.Instance.IsInBattle))
         {
             rb.linearVelocity = Vector2.zero;
             return;
@@ -242,10 +242,12 @@ public class PlayerMovement : MonoBehaviour
         if (mainEnemy == null) return;
 
         // 1. Switch UI to Battle Mode
+        WindowManager.Instance.CloseAllWindows();
+
         UIManager.Instance.EnterBattleState();
 
         // 2. Find all enemies within 15 units
-        float searchRadius = 15f;
+        float searchRadius = 10f;
         Collider2D[] hitColliders = Physics2D.OverlapCircleAll(transform.position, searchRadius);
 
         List<EnemyController> potentialHelpers = new List<EnemyController>();
@@ -287,7 +289,7 @@ public class PlayerMovement : MonoBehaviour
         //    helper.gameObject.SetActive(false);
         //}
 
-        Destroy(enemy);
+        //Destroy(enemy);
 
 
     }

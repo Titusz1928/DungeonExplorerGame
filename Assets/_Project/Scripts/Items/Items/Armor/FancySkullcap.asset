@@ -20,7 +20,7 @@ MonoBehaviour:
   maxStackSize: 1
   isBreakable: 1
   maxDurability: 220
-  slotsCovered: 1
+  slotsCovered: 3
   layer: 2
   defenses:
   - slot: 1

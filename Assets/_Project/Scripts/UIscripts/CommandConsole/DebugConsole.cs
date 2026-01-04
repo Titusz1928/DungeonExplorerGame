@@ -55,7 +55,6 @@ public class DebugConsole : MonoBehaviour
 
         // New Injury Testing Commands
         commands["/injury"] = CmdAddInjury;
-        commands["/combat"] = CmdToggleCombat;
     }
 
     // Called from InputField "On Submit"
@@ -156,12 +155,12 @@ public class DebugConsole : MonoBehaviour
     //    }
     //}
 
-    private void CmdToggleCombat(string[] args)
-    {
-        var manager = PlayerStateManager.Instance.GetComponent<InjuryManager>();
-        manager.isInCombat = !manager.isInCombat;
-        AddHistory($"Combat mode: {(manager.isInCombat ? "ON (Turn-based)" : "OFF (Real-time)")}");
-    }
+    //private void CmdToggleCombat(string[] args)
+    //{
+    //    var manager = PlayerStateManager.Instance.GetComponent<InjuryManager>();
+    //    manager.isInCombat = !manager.isInCombat;
+    //    AddHistory($"Combat mode: {(manager.isInCombat ? "ON (Turn-based)" : "OFF (Real-time)")}");
+    //}
 
     private void CmdSeed(string[] args)
     {

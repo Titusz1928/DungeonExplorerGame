@@ -8,6 +8,8 @@ public class ContainerTab : MonoBehaviour
     //[SerializeField] private TMP_Text labelText;
     [SerializeField] private Button button;
 
+    [SerializeField] private Sprite fallbackIcon;
+
     private WorldContainer container;
     private PickupWindow window;
     private bool isGroundTab = false;
@@ -37,7 +39,17 @@ public class ContainerTab : MonoBehaviour
         window = pw;
 
         //labelText.text = wc.containerData.containerName;
-        iconImage.sprite = wc.containerData.containerIcon;
+        // Safety Check: Use a fallback if containerData is missing
+        if (wc.containerData != null)
+        {
+            // labelText.text = wc.containerData.containerName;
+            iconImage.sprite = wc.containerData.containerIcon;
+        }
+        else
+        {
+            Debug.LogWarning($"Container UI for {wc.name} is missing ContainerSO!");
+            iconImage.sprite = fallbackIcon; // Optional: set a default "Bag" icon
+        }
 
         button.onClick.RemoveAllListeners();
         button.onClick.AddListener(() =>

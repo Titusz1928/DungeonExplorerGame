@@ -13,6 +13,9 @@ GameObject:
   - component: {fileID: 6711880562568102783}
   - component: {fileID: 5551496610413226990}
   - component: {fileID: 8025666956773810978}
+  - component: {fileID: 8696083331196400227}
+  - component: {fileID: 5153375573794999056}
+  - component: {fileID: 2227622901324164513}
   m_Layer: 6
   m_Name: Enemy (1)
   m_TagString: Enemy
@@ -132,9 +135,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: 750ab15325ac97a4e81c7a16cd569d45, type: 2}
   instanceID: 
-  maxHP: 0
-  currentHP: 0
-  strength: 0
   corpsePrefab: {fileID: 9150212770442967940, guid: 19abdae32f7b66241bffb19d3caf3bc2, type: 3}
   stateText: {fileID: 1509074161931962164}
 --- !u!61 &8025666956773810978
@@ -183,6 +183,49 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.5, y: 0.1}
   m_EdgeRadius: 0
+--- !u!114 &8696083331196400227
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2761600742887566349}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe05f6728d82e2843aa084abda220110, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHP: 0
+  currentHP: 0
+  strength: 0
+--- !u!114 &5153375573794999056
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2761600742887566349}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02a53e370c41ac64d91c7c764b939560, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rawInventory: []
+--- !u!114 &2227622901324164513
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2761600742887566349}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b191e7819f951e4aab6abfda9c48bd9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  activeInjuries: []
+  bandageMaxDuration: 120
+  isInCombat: 0
 --- !u!1 &9059564959446322663
 GameObject:
   m_ObjectHideFlags: 0

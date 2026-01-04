@@ -13,6 +13,9 @@ GameObject:
   - component: {fileID: 212695298029582651}
   - component: {fileID: 7879882661619934010}
   - component: {fileID: 8000733219126947761}
+  - component: {fileID: 858360082064643150}
+  - component: {fileID: -300006040056238295}
+  - component: {fileID: 7209538504670229748}
   m_Layer: 6
   m_Name: Enemy
   m_TagString: Enemy
@@ -132,9 +135,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: d620827bc469e5046acb2040b7049160, type: 2}
   instanceID: 
-  maxHP: 0
-  currentHP: 0
-  strength: 0
   corpsePrefab: {fileID: 9150212770442967940, guid: 19abdae32f7b66241bffb19d3caf3bc2, type: 3}
   stateText: {fileID: 6884867380946839316}
 --- !u!61 &8000733219126947761
@@ -183,6 +183,49 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.5, y: 0.1}
   m_EdgeRadius: 0
+--- !u!114 &858360082064643150
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1695210619344033248}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe05f6728d82e2843aa084abda220110, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHP: 0
+  currentHP: 0
+  strength: 0
+--- !u!114 &-300006040056238295
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1695210619344033248}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02a53e370c41ac64d91c7c764b939560, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rawInventory: []
+--- !u!114 &7209538504670229748
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1695210619344033248}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b191e7819f951e4aab6abfda9c48bd9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  activeInjuries: []
+  bandageMaxDuration: 120
+  isInCombat: 0
 --- !u!1 &8086788854575911363
 GameObject:
   m_ObjectHideFlags: 0

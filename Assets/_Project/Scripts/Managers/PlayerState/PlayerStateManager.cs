@@ -30,7 +30,7 @@ public class PlayerStateManager : MonoBehaviour
     public Bar healthBar;
     public GameObject healthBarbackground;
     public GameObject gameOverWindow;
-    private bool isDead = false;
+    public bool isDead = false;
 
     private void Awake()
     {

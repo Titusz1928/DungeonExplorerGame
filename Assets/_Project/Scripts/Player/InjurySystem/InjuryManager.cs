@@ -8,7 +8,6 @@ public class InjuryManager : MonoBehaviour
 
     [Header("Settings")]
     public float bandageMaxDuration = 120f; // 2 minutes or 20 turns?
-    public bool isInCombat = false;
 
     private void Start()
     {
@@ -17,17 +16,19 @@ public class InjuryManager : MonoBehaviour
 
     private void Update()
     {
+        // 1. Use the UIManager's central state
         // Only run real-time logic if NOT in combat
-        if (!isInCombat)
+        if (UIManager.Instance != null && !UIManager.Instance.IsInBattle)
         {
             ProcessInjuries(Time.deltaTime);
         }
     }
 
-    // Call this from your CombatManager when a turn ends
+    // Call this from BattleManager at the end of ExecuteBattleTurn
     public void OnTurnEnded()
     {
-        if (isInCombat)
+        // 2. Extra safety check to ensure we only tick turn-damage during battle
+        if (UIManager.Instance != null && UIManager.Instance.IsInBattle)
         {
             // Treat 1 turn as 10 seconds of "real-time" for balance
             ProcessInjuries(10f);
@@ -55,7 +56,6 @@ public class InjuryManager : MonoBehaviour
                 if (injury.bandageLifetime <= 0)
                 {
                     injury.bandageDirty = true;
-                    Debug.Log($"Bandage on {injury.bodyPart} is now dirty!");
                 }
             }
 

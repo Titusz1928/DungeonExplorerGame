@@ -14,9 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyName: Wolf
   worldsprite: {fileID: 21300000, guid: 62c76a894fc8440489a1352b8ba035fe, type: 3}
-  battlesprite: {fileID: 21300000, guid: 62c76a894fc8440489a1352b8ba035fe, type: 3}
-  spriteSizeX: 0.6
-  spriteSizeY: 0.6
+  battlesprite: {fileID: 21300000, guid: 045daa0bcf4216a4b83167cbff575399, type: 3}
   enemyID: 3
   maxHealth: 80
   moveSpeed: 3
@@ -31,3 +29,28 @@ MonoBehaviour:
   guardRadius: 4
   decisionDelay: 4
   corpseContainer: {fileID: 11400000, guid: b36f65ce7bcb84b41aa4fec65e836a66, type: 2}
+  anatomy:
+  - partName: Head
+    associatedSlot: 0
+    naturalDefense:
+      blunt: 5
+      pierce: 5
+      slash: 5
+  - partName: Torso
+    associatedSlot: 8
+    naturalDefense:
+      blunt: 5
+      pierce: 5
+      slash: 5
+  - partName: Arms
+    associatedSlot: 32
+    naturalDefense:
+      blunt: 5
+      pierce: 5
+      slash: 5
+  - partName: Legs
+    associatedSlot: 128
+    naturalDefense:
+      blunt: 5
+      pierce: 5
+      slash: 5

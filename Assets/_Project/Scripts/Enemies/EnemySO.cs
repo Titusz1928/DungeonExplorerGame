@@ -1,4 +1,13 @@
+using System.Collections.Generic;
 using UnityEngine;
+
+[System.Serializable]
+public class EnemyBodyPart
+{
+    public string partName; // e.g., "Thorax", "Left Wing", "Head"
+    public ArmorSlot associatedSlot; // Links this part to the Armor Item system
+    public ArmorDefense naturalDefense; // Base resistance (hide, scales, etc.)
+}
 
 [CreateAssetMenu(menuName = "Enemies/Enemy Data")]
 public class EnemySO : ScriptableObject
@@ -7,8 +16,6 @@ public class EnemySO : ScriptableObject
     public string enemyName;
     public Sprite worldsprite;
     public Sprite battlesprite;
-    public float spriteSizeX;
-    public float spriteSizeY;
 
     [Header("Stats")]
     public int enemyID;
@@ -35,6 +42,8 @@ public class EnemySO : ScriptableObject
     [Header("Loot")]
     public ContainerSO corpseContainer; // your existing container system
 
-
+    [Header("Anatomy & Natural Resistance")]
+    public List<EnemyBodyPart> anatomy = new();
+    public DamageType naturalDamageType;
 }
 
