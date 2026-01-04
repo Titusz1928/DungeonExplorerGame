@@ -65,6 +65,8 @@ public class BattleManager : MonoBehaviour
         }
 
         UpdateTargetVisuals();
+        BattleUIManager.Instance.RefreshAll();
+
         Debug.Log($"Battle started. Target: {activeCombatants[targetedEnemyIndex].data.enemyName}");
     }
 
@@ -124,6 +126,9 @@ public class BattleManager : MonoBehaviour
         isProcessingTurn = true;
         endTurnButton.interactable = false;
 
+        // Initial refresh at start of turn
+        BattleUIManager.Instance.RefreshAll();
+
         // --- 1. PLAYER'S TURN ---
         EnemyController target = GetTargetedEnemy();
         if (target != null && target.GetComponent<EnemyStats>().currentHP > 0)
@@ -177,6 +182,7 @@ public class BattleManager : MonoBehaviour
 
         yield return new WaitForSeconds(1.0f);
         UpdateEnemySprites();
+        BattleUIManager.Instance.RefreshAll();
 
         // FINAL CHECK: Did anyone bleed to death?
         if (PlayerStateManager.Instance.isDead)
@@ -199,18 +205,6 @@ public class BattleManager : MonoBehaviour
         endTurnButton.interactable = true;
     }
 
-    private bool CheckBattleEnd()
-    {
-        // Check if any enemy has HP > 0
-        bool anyAlive = activeCombatants.Any(e => e != null && e.GetComponent<EnemyStats>().currentHP > 0);
-
-        if (!anyAlive)
-        {
-            StartCoroutine(EndBattleSequence());
-            return true;
-        }
-        return false;
-    }
 
     private bool IsBattleWon()
     {
@@ -312,6 +306,16 @@ public class BattleManager : MonoBehaviour
         // 2. Perform Accuracy Roll
         bool didHit = Random.value <= hitChance;
 
+        // NEW: Check for Shield Block (Defender)
+        bool wasBlocked = false;
+        if (didHit && HasShieldEquipped(defender))
+        {
+            if (Random.value <= 0.15f)
+            { // 15% Block Chance
+                wasBlocked = true;
+            }
+        }
+
         string attackerName = playerAttacking ? "You" : attacker.data.enemyName;
         string targetName = playerAttacking ? defender.data.enemyName : "you";
 
@@ -325,6 +329,13 @@ public class BattleManager : MonoBehaviour
         if (!didHit)
         {
             logText.text = playerAttacking ? "You swung wide and missed!" : $"You dodged the {attackerName}'s attack!";
+            yield break;
+        }
+
+        if (wasBlocked)
+        {
+            logText.text = playerAttacking ? $"The {targetName} <color=blue>BLOCKED</color> your strike with their shield!" : $"You <color=blue>BLOCKED</color> the attack!";
+            // Optional: Damage shield durability here
             yield break;
         }
 
@@ -390,12 +401,12 @@ public class BattleManager : MonoBehaviour
             if (!playerAttacking)
             {
                 PlayerStateManager.Instance.GetComponent<InjuryManager>().AddInjury(slot, GetInjuryType(dType), severity);
-                logText.text = $"<color=red>CRITICAL!</color> The {attackerName} hit your {partName} for {finalDamage:F1} and caused a {GetInjuryType(dType)}!";
+                logText.text = $"<color=red>CRITICAL!</color> The {attackerName} hit your {partName} and caused a {GetInjuryType(dType)}!";
             }
             else
             {
                 defender.GetComponent<EnemyInjuryManager>().AddInjury(slot, GetInjuryType(dType), severity);
-                logText.text = $"<color=orange>Brutal Hit!</color> You struck the {targetName}'s {partName} for {finalDamage:F1} damage and caused a {GetInjuryType(dType)}!";
+                logText.text = $"<color=orange>Brutal Hit!</color> You struck the {targetName}'s {partName} and caused a {GetInjuryType(dType)}!";
             }
         }
         else if (damageDifference > 0)
@@ -403,8 +414,8 @@ public class BattleManager : MonoBehaviour
             // TIER B: SUCCESSFUL HIT
             finalDamage = damageDifference;
             logText.text = playerAttacking
-                ? $"You hit the {targetName}'s {partName} for {finalDamage:F1} damage."
-                : $"The strike landed! You took {finalDamage:F1} damage to your {partName}, but your armor prevented a wound.";
+                ? $"You hit the {targetName}'s {partName}"
+                : $"The strike landedbut your armor prevented a wound.";
         }
         else if (damageDifference > -5.0)
         {
@@ -412,7 +423,7 @@ public class BattleManager : MonoBehaviour
             finalDamage = Random.Range(1f, 3f);
             logText.text = playerAttacking
                 ? $"Your blow was mostly deflected by the {targetName}'s armor."
-                : $"The {attackerName} hit your {partName}! Your armor held, but you're bruised ({finalDamage:F1} dmg).";
+                : $"The {attackerName} hit your {partName}! Your armor held, but you're bruised.";
         }
         else
         {
@@ -445,6 +456,8 @@ public class BattleManager : MonoBehaviour
 
             PlayerSkillManager.Instance.AddXP(PlayerSkill.WeaponHandling, 15f);
         }
+
+        BattleUIManager.Instance.RefreshAll();
     }
 
     // --- HELPERS ---
@@ -457,6 +470,23 @@ public class BattleManager : MonoBehaviour
         var inv = enemy.GetComponent<EnemyArmorManager>().rawInventory;
         var weapon = inv.Find(i => i.itemSO is WeaponItemSO);
         return (WeaponItemSO)weapon?.itemSO;
+    }
+
+    // Helper to check for shields on either Player or Enemy
+    private bool HasShieldEquipped(EnemyController entity)
+    {
+        if (entity == null) // Checking Player
+        {
+            // Check if player has an item in the off-hand that is a shield
+            var offhand = EquipmentManager.Instance.offHandShield; // Adjust to your variable name
+            return offhand != null && offhand.itemSO is ShieldItemSO shield;
+        }
+        else // Checking Enemy
+        {
+            var inv = entity.GetComponent<EnemyArmorManager>().rawInventory;
+            var shield = inv.Find(i => i.itemSO is ShieldItemSO);
+            return (ShieldItemSO)shield?.itemSO;
+        }
     }
 
     private ArmorSlot GetRandomPlayerSlot()
@@ -514,6 +544,12 @@ public class BattleManager : MonoBehaviour
 
             item.currentDurability = System.Math.Max(0, item.currentDurability - durabilityLoss);
         }
+    }
+
+    // Add this inside BattleManager.cs
+    public List<EnemyController> GetActiveCombatants()
+    {
+        return activeCombatants;
     }
 
     // Helper to check if it's a single flag (1, 2, 4, 8...) and not a combination

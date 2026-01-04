@@ -60,6 +60,12 @@ public class GameBoot : MonoBehaviour
 
         PersistentPlayer.transform.position = spawnPos;
 
+        PlayerStartingItems starter = PersistentPlayer.GetComponent<PlayerStartingItems>();
+        if (starter != null)
+        {
+            starter.GiveItemsToPlayer(PersistentPlayer);
+        }
+
         if (WorldSaveData.Instance == null)
             WorldSaveData.Instance = PersistentWorld.GetComponent<WorldSaveData>();
 

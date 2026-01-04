@@ -20,6 +20,7 @@ GameObject:
   - component: {fileID: 8233126527854709374}
   - component: {fileID: 5583050241514143450}
   - component: {fileID: 7110353782940503299}
+  - component: {fileID: 3089705144922253291}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -297,6 +298,7 @@ MonoBehaviour:
   healthBar: {fileID: 2485536112441056323}
   healthBarbackground: {fileID: 5069590203795254955}
   gameOverWindow: {fileID: 417397490327463617, guid: 79734b32f4866bc4882f52e83298f33d, type: 3}
+  isDead: 0
 --- !u!114 &7110353782940503299
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -311,7 +313,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   activeInjuries: []
   bandageMaxDuration: 120
-  isInCombat: 0
+--- !u!114 &3089705144922253291
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 424148272874643181}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 288810f0d4a2b5640bd4fd156c30f061, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  loadout:
+  - item: {fileID: 11400000, guid: 4d9f2f8f6cf7c474db0732b397b95f52, type: 2}
+    amount: 1
+  - item: {fileID: 11400000, guid: fe8efae00a826d74eb594e0cf0c30ea1, type: 2}
+    amount: 1
+  - item: {fileID: 11400000, guid: 90fac7911190a574d9814d7cc90ecd47, type: 2}
+    amount: 1
+  - item: {fileID: 11400000, guid: a0a2d8c2d6d1ca241be17e83a67646be, type: 2}
+    amount: 1
 --- !u!1 &4065736833962927886
 GameObject:
   m_ObjectHideFlags: 0

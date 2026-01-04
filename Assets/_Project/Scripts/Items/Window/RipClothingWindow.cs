@@ -71,7 +71,7 @@ public class RipClothingWindow : MonoBehaviour
         if (!removed) return;
 
         // 2. Add 3 Ripped Clothing (Bandages) - ID 17
-        ItemSO bandageSO = ItemDatabase.instance.GetByID(17);
+        ItemSO bandageSO = ItemDatabase.instance.GetByID(18);
         if (bandageSO != null)
         {
             inventory.AddItem(bandageSO, 3);
