@@ -5,6 +5,7 @@ using System.Linq;
 public class BattleUIManager : MonoBehaviour
 {
     public static BattleUIManager Instance;
+    [SerializeField] private InjuryDatabase injuryDatabase;
 
     [Header("Slots")]
     [SerializeField] private List<BattleEnemyUISlot> uiSlots;
@@ -64,5 +65,33 @@ public class BattleUIManager : MonoBehaviour
         // 5. Update Bars (Horizontal Fill)
         slot.lowEstimateBar.fillAmount = (float)(lowEst / stats.maxHP);
         slot.highEstimateBar.fillAmount = (float)(highEst / stats.maxHP);
+
+        RefreshInjuries(slot, enemy, iqLevel);
+    }
+
+    private void RefreshInjuries(BattleEnemyUISlot slot, EnemyController enemy, int iqLevel)
+    {
+        // 1. Clear existing rows
+        foreach (Transform child in slot.injuryIconContainer) Destroy(child.gameObject);
+
+        var injuryManager = enemy.GetComponent<EnemyInjuryManager>();
+        if (injuryManager == null || injuryManager.activeInjuries.Count == 0) return;
+
+        List<Injury> injuries = injuryManager.activeInjuries;
+        Transform currentRow = null;
+
+        for (int i = 0; i < injuries.Count; i++)
+        {
+            // 2. Create a new row every 4 items
+            if (i % 4 == 0)
+            {
+                GameObject rowObj = Instantiate(slot.rowPrefab, slot.injuryIconContainer);
+                currentRow = rowObj.transform;
+            }
+
+            // 3. Instantiate the cell
+            GameObject cellObj = Instantiate(slot.cellPrefab, currentRow);
+            cellObj.GetComponent<BattleInjuryCell>().Setup(injuries[i], injuryDatabase);
+        }
     }
 }

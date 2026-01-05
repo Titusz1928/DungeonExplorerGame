@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7cbc2fbfd23dc57459bf709bd110ed26, type: 3}
+  m_Name: InjuryDatabase
+  m_EditorClassIdentifier: 
+  cutIcon: {fileID: 21300000, guid: f1ac378789cdfb4488fb43764342c554, type: 3}
+  stabIcon: {fileID: 21300000, guid: 85fad555f5c084e45b4138faf07a80a1, type: 3}
+  fractureIcon: {fileID: 21300000, guid: f12e3ef737e3db94f95e4a340a7f8409, type: 3}
+  unknownIcon: {fileID: 21300000, guid: dd0d8456abee0804eacb7b6b5d0401bd, type: 3}
+  bodyPartSprites:
+  - slot: 1
+    sprite: {fileID: 21300000, guid: 6b352f42740436449b5301db5865a0b9, type: 3}
+  - slot: 2
+    sprite: {fileID: 21300000, guid: d4d125968bdefea4bbe9ebae6ba56476, type: 3}
+  - slot: 4
+    sprite: {fileID: 21300000, guid: 420551317398c734596a1b00e16826a7, type: 3}
+  - slot: 8
+    sprite: {fileID: 21300000, guid: 68d22472d142e534da40741ff0d6989a, type: 3}
+  - slot: 16
+    sprite: {fileID: 21300000, guid: 526f3e3551fd1f04699d8ae77a8b2b21, type: 3}
+  - slot: 32
+    sprite: {fileID: 21300000, guid: c38483041b564994693fde7f1927065a, type: 3}
+  - slot: 64
+    sprite: {fileID: 21300000, guid: 331facc79e094364b859d418d889b9ce, type: 3}
+  - slot: 128
+    sprite: {fileID: 21300000, guid: aecd98be874a22945b0b264e7ca8ab5f, type: 3}
+  - slot: 256
+    sprite: {fileID: 21300000, guid: bca7557ef41748b44bec3d7b4f8dda6b, type: 3}

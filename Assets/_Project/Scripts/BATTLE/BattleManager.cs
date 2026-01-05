@@ -303,6 +303,8 @@ public class BattleManager : MonoBehaviour
             hitChance = Mathf.Clamp(hitChance, 0f, 0.95f);
         }
 
+        hitChance -= GetInjuryAccuracyPenalty(attacker);
+
         // 2. Perform Accuracy Roll
         bool didHit = Random.value <= hitChance;
 
@@ -365,7 +367,8 @@ public class BattleManager : MonoBehaviour
             baseDamage += stats.strength;
         }
 
-        double rawDamage = baseDamage * Random.Range(0.9f, 1.1f);
+        double rawDamage = baseDamage * GetInjuryDamageMultiplier(attacker);
+        rawDamage *= Random.Range(0.9f, 1.1f);
 
         // 4. Identify Target Body Part
         string partName;
@@ -544,6 +547,63 @@ public class BattleManager : MonoBehaviour
 
             item.currentDurability = System.Math.Max(0, item.currentDurability - durabilityLoss);
         }
+    }
+
+    private float GetInjuryAccuracyPenalty(EnemyController entity)
+    {
+        float penalty = 0f;
+        List<Injury> activeInjuries;
+
+        if (entity == null) // Player
+        {
+            var pim = PlayerStateManager.Instance.GetComponent<InjuryManager>();
+            // Ignore injuries that are bandaged for accuracy penalties
+            activeInjuries = pim.activeInjuries.FindAll(i => !i.isBandaged);
+        }
+        else // Enemy
+        {
+            activeInjuries = entity.GetComponent<EnemyInjuryManager>().activeInjuries;
+        }
+
+        foreach (var injury in activeInjuries)
+        {
+            // Arms, Hands, and Head hurt accuracy the most
+            if (injury.bodyPart == ArmorSlot.Arms || injury.bodyPart == ArmorSlot.Hands)
+                penalty += 0.10f;
+            else if (injury.bodyPart == ArmorSlot.Head)
+                penalty += 0.05f;
+            else
+                penalty += 0.02f; // Minor penalty for other body parts (pain/distraction)
+        }
+
+        return penalty;
+    }
+
+    private float GetInjuryDamageMultiplier(EnemyController entity)
+    {
+        float multiplier = 1.0f;
+        List<Injury> activeInjuries;
+
+        if (entity == null) // Player
+        {
+            var pim = PlayerStateManager.Instance.GetComponent<InjuryManager>();
+            activeInjuries = pim.activeInjuries.FindAll(i => !i.isBandaged);
+        }
+        else
+        {
+            activeInjuries = entity.GetComponent<EnemyInjuryManager>().activeInjuries;
+        }
+
+        foreach (var injury in activeInjuries)
+        {
+            // Only Arms and Hands reduce physical damage output
+            if (injury.bodyPart == ArmorSlot.Arms || injury.bodyPart == ArmorSlot.Hands)
+            {
+                multiplier -= 0.15f; // 15% less damage per arm/hand injury
+            }
+        }
+
+        return Mathf.Max(0.5f, multiplier); // Cap damage reduction at 50%
     }
 
     // Add this inside BattleManager.cs
