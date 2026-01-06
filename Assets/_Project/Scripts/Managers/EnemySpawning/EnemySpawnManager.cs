@@ -9,7 +9,7 @@ public class EnemySpawnManager : MonoBehaviour
     public List<GameObject> enemyPrefabs;
 
     [Header("Limits")]
-    public int maxEnemies = 10;
+    public int maxEnemies = 20;
     public float minSpawnDistanceFromPlayer = 30f;
 
     private int currentEnemyCount;

@@ -2,15 +2,45 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
 
+public enum BattleTab { Log, Player }
+
 public class BattleUIManager : MonoBehaviour
 {
+
     public static BattleUIManager Instance;
     [SerializeField] private InjuryDatabase injuryDatabase;
+
+    [Header("Windows")]
+    [SerializeField] public GameObject treatInjuryWindow;
+
+    [Header("Tab Panels")]
+    [SerializeField] private GameObject logPanel;
+    [SerializeField] private GameObject playerPanel;
 
     [Header("Slots")]
     [SerializeField] private List<BattleEnemyUISlot> uiSlots;
 
     private void Awake() => Instance = this;
+
+    public void SwitchToLogTab() => ShowTab(BattleTab.Log);
+    public void SwitchToPlayerTab() => ShowTab(BattleTab.Player);
+
+    private void ShowTab(BattleTab tab)
+    {
+        // Disable all first
+        logPanel.SetActive(false);
+        playerPanel.SetActive(false);
+
+        switch (tab)
+        {
+            case BattleTab.Log:
+                logPanel.SetActive(true);
+                break;
+            case BattleTab.Player:
+                playerPanel.SetActive(true);
+                break;
+        }
+    }
 
     public void RefreshAll()
     {

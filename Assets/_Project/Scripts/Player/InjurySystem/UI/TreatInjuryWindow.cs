@@ -11,6 +11,7 @@ public class TreatInjuryWindow : MonoBehaviour
     [SerializeField] private GameObject cellPrefab;
     [SerializeField] private TextMeshProUGUI headerText;
 
+
     private ArmorSlot targetLocation;
     private Inventory playerInventory;
     private Injury targetInjury;
@@ -94,10 +95,29 @@ public class TreatInjuryWindow : MonoBehaviour
             manager.ApplyBandage(targetInjury);
         }
 
+        if (UIManager.Instance.IsInBattle)
+        {
+            BattleManager.Instance.SetPendingAction(PlayerActionType.Treatment);
+            // Automatically start the turn processing so the player doesn't have to click "End Turn" 
+            // after using an item (Standard for many RPGs)
+            BattleManager.Instance.OnEndTurnPressed();
+        }
+
         playerInventory.RemoveItem(item, 1);
 
-        InventoryWindow invWindow = FindFirstObjectByType<InventoryWindow>();
-        if (invWindow != null) invWindow.Refresh();
+        InjuryDropdownUI[] injuryUIs = FindObjectsByType<InjuryDropdownUI>(FindObjectsSortMode.None);
+        foreach (var ui in injuryUIs)
+        {
+            // Only refresh if the UI is currently being shown to the player
+            if (ui.gameObject.activeInHierarchy)
+            {
+                // We use a public Toggle/Refresh method here
+                // Note: You might want to make RefreshInjuries() public in the other script
+                ui.RefreshInjuries(); // Turning it off/on or calling a public Refresh
+
+            }
+        }
+
 
         CloseWindow();
     }

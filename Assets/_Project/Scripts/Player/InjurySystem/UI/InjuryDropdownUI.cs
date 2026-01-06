@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -18,7 +19,15 @@ public class InjuryDropdownUI : MonoBehaviour
     [SerializeField] private Sprite collapseIcon;
 
     [Header("Settings")]
-    [SerializeField] private float headerHeight = 200f;
+    [SerializeField] private float explorationHeaderHeight = 200f;
+    [SerializeField] private float battleHeaderHeight = 100f;
+
+    // Helper property to get the correct height based on the mode
+    private float CurrentHeaderHeight => isBattleUI ? battleHeaderHeight : explorationHeaderHeight;
+
+    [Header("Battle Settings")]
+    [SerializeField] private bool isBattleUI = false;
+    [SerializeField] private GameObject battleInjuryRowPrefab; // The more compact version
 
     private bool isExpanded = false;
 
@@ -42,7 +51,7 @@ public class InjuryDropdownUI : MonoBehaviour
         else CloseSection();
     }
 
-    private void RefreshInjuries()
+    public void RefreshInjuries()
     {
         // If player is null, try to find the Instance dynamically
         if (player == null)
@@ -71,10 +80,33 @@ public class InjuryDropdownUI : MonoBehaviour
         injuryListContainer.SetActive(true);
         expandCollapseIcon.sprite = collapseIcon;
 
+        GameObject prefabToUse = (isBattleUI && battleInjuryRowPrefab != null)
+                             ? battleInjuryRowPrefab
+                             : injuryRowPrefab;
+
         foreach (var injury in injuries)
         {
-            GameObject entry = Instantiate(injuryRowPrefab, injuryListParent);
-            entry.GetComponent<InjuryRowPrefab>().SetData(injury);
+            GameObject entry = Instantiate(prefabToUse, injuryListParent);
+
+            // Try to get the standard component
+            var standardRow = entry.GetComponent<InjuryRowPrefab>();
+            if (standardRow != null)
+            {
+                standardRow.SetData(injury);
+            }
+            else
+            {
+                // If that fails, try to get the battle component
+                var battleRow = entry.GetComponent<BattlePlayerInjuryRowPrefab>();
+                if (battleRow != null)
+                {
+                    battleRow.SetData(injury);
+                }
+                else
+                {
+                    Debug.LogError($"[InjuryUI] Prefab {entry.name} is missing an injury row script!");
+                }
+            }
         }
 
         // Wait a frame or force canvas update so UI elements calculate their sizes
@@ -84,7 +116,7 @@ public class InjuryDropdownUI : MonoBehaviour
         LayoutRebuilder.ForceRebuildLayoutImmediate(injuryListParent.GetComponent<RectTransform>());
 
         float listHeight = LayoutUtility.GetPreferredHeight(injuryListParent.GetComponent<RectTransform>());
-        sectionRoot.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, headerHeight + listHeight);
+        sectionRoot.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, CurrentHeaderHeight + listHeight);
 
         // Tell the Skill Row Container to adjust its layout
         RebuildParentLayout();
@@ -95,7 +127,7 @@ public class InjuryDropdownUI : MonoBehaviour
         isExpanded = false;
         injuryListContainer.SetActive(false);
         expandCollapseIcon.sprite = expandIcon;
-        sectionRoot.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, headerHeight);
+        sectionRoot.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, CurrentHeaderHeight);
 
         RebuildParentLayout();
     }

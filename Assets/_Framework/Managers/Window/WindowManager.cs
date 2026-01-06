@@ -26,6 +26,12 @@ public class WindowManager : MonoBehaviour
 
     public GameObject OpenWindow(GameObject windowPrefab)
     {
+        if (uiRoot == null)
+        {
+            Debug.LogError("WindowManager: No uiRoot registered! Cannot spawn window.");
+            return null;
+        }
+
         GameObject window = Instantiate(windowPrefab, uiRoot);
         windowStack.Push(window);
 

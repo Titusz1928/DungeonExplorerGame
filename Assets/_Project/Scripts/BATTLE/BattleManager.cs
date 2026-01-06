@@ -5,6 +5,8 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+public enum PlayerActionType { Attack, Treatment }
+
 public class BattleManager : MonoBehaviour
 {
     public static BattleManager Instance;
@@ -17,6 +19,8 @@ public class BattleManager : MonoBehaviour
     private List<EnemyController> activeCombatants = new List<EnemyController>();
     private int targetedEnemyIndex = 0;
     private bool isProcessingTurn = false;
+
+    private PlayerActionType pendingAction = PlayerActionType.Attack;
 
     private void Awake()
     {
@@ -100,6 +104,13 @@ public class BattleManager : MonoBehaviour
         return activeCombatants[targetedEnemyIndex];
     }
 
+    public void SetPendingAction(PlayerActionType action)
+    {
+        pendingAction = action;
+        // Optional: Log it so the player knows the turn plan changed
+        logText.text = action == PlayerActionType.Treatment ? "Prepared to treat injury..." : "Targeting enemy...";
+    }
+
 
     public void OnEndTurnPressed()
     {
@@ -117,6 +128,8 @@ public class BattleManager : MonoBehaviour
 
     private IEnumerator ExecuteBattleTurn()
     {
+        BattleUIManager.Instance.SwitchToLogTab();
+
         if (activeCombatants.Count == 0 || activeCombatants.All(e => e == null))
         {
             UIManager.Instance.ExitBattleState();
@@ -130,19 +143,31 @@ public class BattleManager : MonoBehaviour
         BattleUIManager.Instance.RefreshAll();
 
         // --- 1. PLAYER'S TURN ---
-        EnemyController target = GetTargetedEnemy();
-        if (target != null && target.GetComponent<EnemyStats>().currentHP > 0)
+        if (pendingAction == PlayerActionType.Treatment)
         {
-            yield return StartCoroutine(ResolveAttack(null, target));
-            UpdateEnemySprites();
-
-            if (IsBattleWon())
-            {
-                yield return StartCoroutine(EndBattleSequence());
-                isProcessingTurn = false;
-                yield break; // Exit entirely
-            }
+            logText.text = "You focus on treating your wounds...";
+            pendingAction = PlayerActionType.Attack;
+            
             yield return new WaitForSeconds(1.0f);
+            // Treatment was already applied in the Window, 
+            // so we just skip the attack phase here.
+        }
+        else
+        {
+            EnemyController target = GetTargetedEnemy();
+            if (target != null && target.GetComponent<EnemyStats>().currentHP > 0)
+            {
+                yield return StartCoroutine(ResolveAttack(null, target));
+                UpdateEnemySprites();
+
+                if (IsBattleWon())
+                {
+                    yield return StartCoroutine(EndBattleSequence());
+                    isProcessingTurn = false;
+                    yield break; // Exit entirely
+                }
+                yield return new WaitForSeconds(1.0f);
+            }
         }
 
         // --- 2. ENEMIES' TURN ---
@@ -260,33 +285,29 @@ public class BattleManager : MonoBehaviour
     {
         logText.text = "<color=red>You have been defeated...</color>";
 
-        // 1. Get the prefab from PlayerStateManager
+        // 1. Get the prefab
         GameObject gameOverPrefab = PlayerStateManager.Instance.gameOverWindow;
 
         if (gameOverPrefab != null)
         {
-            // 2. Instantiate it as a child of THIS object (the BattleCanvas)
-            // This ensures it inherits the canvas scaling and positioning
-            GameObject windowInstance = Instantiate(gameOverPrefab, this.transform);
+            // 2. Open via WindowManager
+            // Because UIManager.EnterBattleState already registered 'battleWindowRoot',
+            // this will spawn in the correct canvas automatically.
+            WindowManager.Instance.OpenWindow(gameOverPrefab);
 
-            // Optional: Ensure it spans the whole screen or centers correctly
-            RectTransform rt = windowInstance.GetComponent<RectTransform>();
-            if (rt != null)
-            {
-                rt.localPosition = Vector3.zero; // Center it
-            }
-
-            Debug.Log("Game Over window spawned under BattleCanvas.");
+            Debug.Log("Game Over window opened via WindowManager in Battle Root.");
         }
         else
         {
-            Debug.LogError("No Game Over prefab found in PlayerStateManager!");
+            Debug.LogError("No Game Over prefab found!");
         }
 
-        // Wait for the player to process the defeat text
-        yield return new WaitForSeconds(2.0f);
+        // 3. Pause for the player to see the log message
+        yield return new WaitForSeconds(2.5f);
 
-        UIManager.Instance.ExitBattleState();
+        // Note: Usually, the Game Over window buttons (like "Exit to Menu") 
+        // will handle the SceneManager call, but if you want to force it:
+        //UIManager.Instance.ExitBattleState();
         SceneManagerEX.Instance.LoadScene("MainMenu");
     }
 

@@ -4,6 +4,10 @@ public class UIManager : MonoBehaviour
 {
     public static UIManager Instance;
 
+    [Header("Window Roots")]
+    [SerializeField] private Transform generalWindowRoot; // In GeneralCanvas
+    [SerializeField] private Transform battleWindowRoot;  // In BattleCanvas
+
     [Header("Canvases")]
     [SerializeField] private Canvas generalCanvas; // Your exploration/main UI
     [SerializeField] private Canvas battleCanvas;  // Your turn-based combat UI
@@ -40,6 +44,9 @@ public class UIManager : MonoBehaviour
         IsInBattle = true;
         generalCanvas.enabled = false; // Or keep true if you want background UI
         battleCanvas.enabled = true;
+
+        WindowManager.Instance.RegisterUIRoot(battleWindowRoot);
+
         UpdateJoystickVisibility();
     }
 
@@ -48,6 +55,9 @@ public class UIManager : MonoBehaviour
         IsInBattle = false;
         generalCanvas.enabled = true;
         battleCanvas.enabled = false;
+
+        WindowManager.Instance.RegisterUIRoot(generalWindowRoot);
+
         UpdateJoystickVisibility();
     }
 

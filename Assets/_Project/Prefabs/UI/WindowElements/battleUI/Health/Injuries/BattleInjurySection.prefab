@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 4765503020185301692}
   - component: {fileID: 4014134669144853938}
   - component: {fileID: 7726922267418682069}
+  - component: {fileID: 5732283823798929274}
   m_Layer: 5
   m_Name: BattleInjurySection
   m_TagString: Untagged
@@ -39,7 +40,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 200}
+  m_SizeDelta: {x: 0, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3963403836481631414
 CanvasRenderer:
@@ -69,8 +70,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 0}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -149,6 +150,30 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &5732283823798929274
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 613905585451859369}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f13bca78d1e71894bb1c22d0dc2f58ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 0}
+  injuryListContainer: {fileID: 1406088653004892781}
+  injuryListParent: {fileID: 1075956059205706136}
+  sectionRoot: {fileID: 4370193786024389086}
+  injuryRowPrefab: {fileID: 5889596139483283851, guid: e195ef5a57bda4045a0e0a3ad25df038, type: 3}
+  expandCollapseIcon: {fileID: 6397755309324737772}
+  expandIcon: {fileID: 21300000, guid: 300db7337c53f8a4fadeacdf4940f4ca, type: 3}
+  collapseIcon: {fileID: 21300000, guid: f90694948cf60074094c57fcf8daafe5, type: 3}
+  explorationHeaderHeight: 200
+  battleHeaderHeight: 100
+  isBattleUI: 1
+  battleInjuryRowPrefab: {fileID: 61244109730276884, guid: 2cd9ab20d8f6d0b45908446b3923ed44, type: 3}
 --- !u!1 &674009619993148823
 GameObject:
   m_ObjectHideFlags: 0
@@ -243,8 +268,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 70
-  m_fontSizeBase: 70
+  m_fontSize: 50
+  m_fontSizeBase: 50
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -305,7 +330,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1075956059205706136
 RectTransform:
   m_ObjectHideFlags: 0
@@ -320,10 +345,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 4370193786024389086}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 470}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 301.43335, y: -335}
+  m_SizeDelta: {x: 602.8667, y: 470}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &5050879840778259928
 MonoBehaviour:
@@ -423,9 +448,9 @@ RectTransform:
   m_Father: {fileID: 4784224786305397963}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 194.00134, y: 0}
-  m_SizeDelta: {x: 200, y: 0}
+  m_AnchorMax: {x: 0.2, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5805870542327185643
 CanvasRenderer:
@@ -517,10 +542,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 4784224786305397963}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 1, y: 0}
+  m_AnchorMin: {x: 0.8, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -200, y: 0}
-  m_SizeDelta: {x: 400, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1248568575296330664
 CanvasRenderer:
@@ -599,7 +624,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 200}
+  m_SizeDelta: {x: 0, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &95892579529795906
 MonoBehaviour:
@@ -645,7 +670,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 5732283823798929274}
         m_TargetAssemblyTypeName: InjuryDropdownUI, Assembly-CSharp
         m_MethodName: Toggle
         m_Mode: 1
