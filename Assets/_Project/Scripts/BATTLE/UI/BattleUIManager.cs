@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine.UI;
 
 public enum BattleTab { Log, Player }
 
@@ -20,7 +21,15 @@ public class BattleUIManager : MonoBehaviour
     [Header("Slots")]
     [SerializeField] private List<BattleEnemyUISlot> uiSlots;
 
+    [Header("Skip Log UI")]
+    [SerializeField] private Image skipLogButtonBg;
+
     private void Awake() => Instance = this;
+
+    private void Start()
+    {
+        UpdateSkipLogVisuals();
+    }
 
     public void SwitchToLogTab() => ShowTab(BattleTab.Log);
     public void SwitchToPlayerTab() => ShowTab(BattleTab.Player);
@@ -123,5 +132,24 @@ public class BattleUIManager : MonoBehaviour
             GameObject cellObj = Instantiate(slot.cellPrefab, currentRow);
             cellObj.GetComponent<BattleInjuryCell>().Setup(injuries[i], injuryDatabase);
         }
+    }
+
+    public void ToggleSkipLog()
+    {
+        // Toggle the logic state in the Manager
+        BattleManager.Instance.isSkipLogEnabled = !BattleManager.Instance.isSkipLogEnabled;
+
+        // Update the visual transparency
+        UpdateSkipLogVisuals();
+    }
+
+    private void UpdateSkipLogVisuals()
+    {
+        if (skipLogButtonBg == null) return;
+
+        Color c = skipLogButtonBg.color;
+        // If enabled: Full alpha (1). If disabled: Transparent (0).
+        c.a = BattleManager.Instance.isSkipLogEnabled ? 1f : 0f;
+        skipLogButtonBg.color = c;
     }
 }

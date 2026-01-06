@@ -56,6 +56,46 @@ public class EquipmentManager : MonoBehaviour
         Debug.Log($"[EQUIPMENT MANAGER]: Equipped {armor.itemName}");
     }
 
+    public void Equip(ItemInstance item)
+    {
+        if (item == null) return;
+
+        // Route based on the ScriptableObject type
+        if (item.itemSO is WeaponItemSO)
+        {
+            EquipMainHand(item);
+        }
+        else if (item.itemSO is ShieldItemSO)
+        {
+            EquipShield(item);
+        }
+        else if (item.itemSO is ArmorItemSO)
+        {
+            EquipArmor(item);
+        }
+    }
+
+
+    public void Unequip(ItemInstance item)
+    {
+        if (item == null) return;
+
+        // Route based on the ScriptableObject type
+        if (item.itemSO is WeaponItemSO)
+        {
+            UnequipMainHand(item);
+        }
+        else if (item.itemSO is ShieldItemSO)
+        {
+            UnequipShield(item);
+        }
+        else if (item.itemSO is ArmorItemSO)
+        {
+            UnequipArmor(item);
+        }
+    }
+
+
     // -----------------------
     // UNEQUIPPING ARMOR
     // -----------------------

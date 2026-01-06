@@ -2,7 +2,8 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ConsumableRowPrefab : MonoBehaviour
+// Added the interface implementation here
+public class ConsumableRowPrefab : MonoBehaviour, IItemRow
 {
     [Header("UI Elements")]
     [SerializeField] private Image iconImage;
@@ -11,6 +12,7 @@ public class ConsumableRowPrefab : MonoBehaviour
 
     private ItemInstance linkedItem;
 
+    // This now correctly satisfies the IItemRow interface
     public void SetData(ItemInstance instance)
     {
         linkedItem = instance;
@@ -24,7 +26,6 @@ public class ConsumableRowPrefab : MonoBehaviour
 
     private void OnUseClicked()
     {
-        // Use the item via a centralized logic (we'll define this below)
         ConsumableUseHandler.UseItem(linkedItem);
     }
 }

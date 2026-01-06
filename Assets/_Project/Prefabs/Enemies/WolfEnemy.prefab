@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: -6515099015365991250}
   - component: {fileID: 1237306858338301631}
   - component: {fileID: 5827782660048418199}
+  - component: {fileID: -8642828943071276565}
   m_Layer: 6
   m_Name: WolfEnemy
   m_TagString: Enemy
@@ -225,7 +226,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   activeInjuries: []
   bandageMaxDuration: 120
-  isInCombat: 0
+--- !u!114 &-8642828943071276565
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 501290945532828953}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b746f1884a2466408a1fc7cba694f7d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  despawnDistance: 120
+  checkInterval: 5
 --- !u!1 &3651724807336438380
 GameObject:
   m_ObjectHideFlags: 0

@@ -95,14 +95,6 @@ public class TreatInjuryWindow : MonoBehaviour
             manager.ApplyBandage(targetInjury);
         }
 
-        if (UIManager.Instance.IsInBattle)
-        {
-            BattleManager.Instance.SetPendingAction(PlayerActionType.Treatment);
-            // Automatically start the turn processing so the player doesn't have to click "End Turn" 
-            // after using an item (Standard for many RPGs)
-            BattleManager.Instance.OnEndTurnPressed();
-        }
-
         playerInventory.RemoveItem(item, 1);
 
         InjuryDropdownUI[] injuryUIs = FindObjectsByType<InjuryDropdownUI>(FindObjectsSortMode.None);
@@ -118,6 +110,13 @@ public class TreatInjuryWindow : MonoBehaviour
             }
         }
 
+        if (UIManager.Instance.IsInBattle)
+        {
+            BattleManager.Instance.SetPendingAction(PlayerActionType.Treatment);
+            // Automatically start the turn processing so the player doesn't have to click "End Turn" 
+            // after using an item (Standard for many RPGs)
+            BattleManager.Instance.OnEndTurnPressed();
+        }
 
         CloseWindow();
     }

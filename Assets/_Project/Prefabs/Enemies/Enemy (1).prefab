@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 8696083331196400227}
   - component: {fileID: 5153375573794999056}
   - component: {fileID: 2227622901324164513}
+  - component: {fileID: 3290446810657087188}
   m_Layer: 6
   m_Name: Enemy (1)
   m_TagString: Enemy
@@ -225,7 +226,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   activeInjuries: []
   bandageMaxDuration: 120
-  isInCombat: 0
+--- !u!114 &3290446810657087188
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2761600742887566349}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b746f1884a2466408a1fc7cba694f7d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  despawnDistance: 120
+  checkInterval: 5
 --- !u!1 &9059564959446322663
 GameObject:
   m_ObjectHideFlags: 0

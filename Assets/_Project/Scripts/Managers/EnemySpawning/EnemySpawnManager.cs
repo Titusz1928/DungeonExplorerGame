@@ -9,8 +9,9 @@ public class EnemySpawnManager : MonoBehaviour
     public List<GameObject> enemyPrefabs;
 
     [Header("Limits")]
-    public int maxEnemies = 20;
-    public float minSpawnDistanceFromPlayer = 30f;
+    public int maxEnemies = 30;
+    public float minSpawnDistanceFromPlayer = 25f;
+    public float maxSpawnDistanceToPlayer = 90;
 
     private int currentEnemyCount;
 
@@ -73,51 +74,56 @@ public class EnemySpawnManager : MonoBehaviour
 
     void TrySpawnEnemies()
     {
-        Log("TrySpawnEnemies tick");
+        if (currentEnemyCount >= maxEnemies) return;
 
-        if (currentEnemyCount >= maxEnemies)
+        // 1. Create a copy of the zones list and shuffle it
+        List<EnemySpawnZone> shuffledZones = new List<EnemySpawnZone>(zones);
+        ShuffleList(shuffledZones);
+
+        // 2. We can try to spawn more than one enemy per tick if we are way under the limit
+        int spawnsNeeded = Mathf.Min(5, maxEnemies - currentEnemyCount);
+        int spawnsCount = 0;
+
+        foreach (var zone in shuffledZones)
         {
-            Log("Max enemies reached");
-            return;
-        }
+            if (spawnsCount >= spawnsNeeded) break;
 
-        foreach (var zone in zones)
-        {
-            Log($"Checking zone {zone.name}");
-
-            if (!zone.CanSpawnInZone())
+            // NEW: Check if the zone is within a "Relevant Range"
+            // No point spawning in a zone 500m away if the player is at 0,0,0
+            if (PlayerReference.PlayerTransform != null)
             {
-                Log($"Zone {zone.name} is full");
-                continue;
+                float distToZone = Vector3.Distance(PlayerReference.PlayerTransform.position, zone.transform.position);
+                if (distToZone > maxSpawnDistanceToPlayer + zone.radius) continue;
             }
+
+            if (!zone.CanSpawnInZone()) continue;
 
             Vector3 pos = zone.GetRandomPoint();
-            Log($"Proposed spawn position {pos}");
 
-            if (!CanSpawn(pos))
-            {
-                Log("CanSpawn() rejected position");
-                continue;
-            }
+            if (!CanSpawn(pos)) continue;
 
             int enemyIndex = zone.GetRandomEnemyIndex();
-            Log($"Selected enemy prefab index {enemyIndex}");
-
             GameObject enemy = SpawnEnemy(enemyIndex, pos, zone.transform);
 
             if (enemy != null)
             {
-                Log($"Spawned enemy {enemy.name}");
                 zone.RegisterEnemy(enemy);
-                return;
-            }
-            else
-            {
-                Log("SpawnEnemy returned null");
+                spawnsCount++;
+                Log($"Spawned {enemy.name} at {pos}. Total this tick: {spawnsCount}");
             }
         }
+    }
 
-        Log("No valid zone found this tick");
+    // Simple Fisher-Yates shuffle algorithm
+    private void ShuffleList<T>(List<T> list)
+    {
+        for (int i = 0; i < list.Count; i++)
+        {
+            T temp = list[i];
+            int randomIndex = Random.Range(i, list.Count);
+            list[i] = list[randomIndex];
+            list[randomIndex] = temp;
+        }
     }
 
     public void RegisterZone(EnemySpawnZone zone)
@@ -163,6 +169,20 @@ public class EnemySpawnManager : MonoBehaviour
     void HandleEnemyDeath(EnemyController enemy)
     {
         NotifyEnemyRemoved(enemy);
+    }
+
+    public void HandleEnemyDespawn(EnemyController enemy)
+    {
+        // 1. Clear from the unique ID tracker so it can be re-spawned/re-stored later
+        if (!string.IsNullOrEmpty(enemy.instanceID))
+        {
+            activeInstanceIDs.Remove(enemy.instanceID);
+        }
+
+        // 2. Reduce the global count
+        NotifyEnemyRemoved(enemy);
+
+        Log($"Despawned {enemy.name}. Current total: {currentEnemyCount}");
     }
 
     public void RestoreEnemy(EnemySaveData data)

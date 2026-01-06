@@ -17,7 +17,7 @@ public class WorldObjectSpawner : MonoBehaviour
     public float treeChance = 0.02f;
     public float bushChance = 0.03f;
     public float chestChance = 0.005f;
-    public float enemyZoneChance = 0.005f;
+    public float enemyZoneChance = 0.002f;
 
     public int worldSize = 1280;
 

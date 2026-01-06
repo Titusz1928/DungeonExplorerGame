@@ -5,7 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public enum PlayerActionType { Attack, Treatment }
+public enum PlayerActionType { Attack, Treatment, EquipmentChange }
 
 public class BattleManager : MonoBehaviour
 {
@@ -15,6 +15,11 @@ public class BattleManager : MonoBehaviour
     [SerializeField] private List<Image> enemySlots; // The Image objects
     [SerializeField] private TMP_Text logText;
     [SerializeField] private Button endTurnButton;
+
+    [Header("Log Speed Settings")]
+    public bool isSkipLogEnabled = false;
+    private float NormalWait = 1.0f;
+    private float SkipWait = 0.1f;
 
     private List<EnemyController> activeCombatants = new List<EnemyController>();
     private int targetedEnemyIndex = 0;
@@ -107,8 +112,14 @@ public class BattleManager : MonoBehaviour
     public void SetPendingAction(PlayerActionType action)
     {
         pendingAction = action;
-        // Optional: Log it so the player knows the turn plan changed
-        logText.text = action == PlayerActionType.Treatment ? "Prepared to treat injury..." : "Targeting enemy...";
+
+        // Optional: Log it so the player knows what they just did
+        logText.text = action switch
+        {
+            PlayerActionType.Treatment => "Prepared to use medical items...",
+            PlayerActionType.EquipmentChange => "Preparing to swap gear...",
+            _ => "Targeting enemy..."
+        };
     }
 
 
@@ -143,32 +154,46 @@ public class BattleManager : MonoBehaviour
         BattleUIManager.Instance.RefreshAll();
 
         // --- 1. PLAYER'S TURN ---
-        if (pendingAction == PlayerActionType.Treatment)
+        switch (pendingAction)
         {
-            logText.text = "You focus on treating your wounds...";
-            pendingAction = PlayerActionType.Attack;
-            
-            yield return new WaitForSeconds(1.0f);
-            // Treatment was already applied in the Window, 
-            // so we just skip the attack phase here.
-        }
-        else
-        {
-            EnemyController target = GetTargetedEnemy();
-            if (target != null && target.GetComponent<EnemyStats>().currentHP > 0)
-            {
-                yield return StartCoroutine(ResolveAttack(null, target));
-                UpdateEnemySprites();
+            case PlayerActionType.Treatment:
+                logText.text = "You focus on treating your wounds...";
+                yield return GetWait(1.2f);
+                // Note: The logic (healing/bandaging) already happened in the UI script
+                break;
 
-                if (IsBattleWon())
+            case PlayerActionType.EquipmentChange:
+                logText.text = "You spend the moment adjusting your equipment...";
+                yield return GetWait(1.2f);
+                // Note: The equip/unequip already happened in EquipmentRowPrefab
+                break;
+
+            case PlayerActionType.Attack:
+            default:
+                EnemyController target = GetTargetedEnemy();
+                if (target != null && target.GetComponent<EnemyStats>().currentHP > 0)
                 {
-                    yield return StartCoroutine(EndBattleSequence());
-                    isProcessingTurn = false;
-                    yield break; // Exit entirely
+                    yield return StartCoroutine(ResolveAttack(null, target));
+                    UpdateEnemySprites();
+
+                    if (IsBattleWon())
+                    {
+                        yield return StartCoroutine(EndBattleSequence());
+                        isProcessingTurn = false;
+                        yield break;
+                    }
+                    yield return GetWait();
                 }
-                yield return new WaitForSeconds(1.0f);
-            }
+                else
+                {
+                    logText.text = "No target selected!";
+                    yield return GetWait();
+                }
+                break;
         }
+
+        // Reset the action to Attack for the next turn
+        pendingAction = PlayerActionType.Attack;
 
         // --- 2. ENEMIES' TURN ---
         var currentEnemies = new List<EnemyController>(activeCombatants);
@@ -184,12 +209,12 @@ public class BattleManager : MonoBehaviour
                 isProcessingTurn = false;
                 yield break;
             }
-            yield return new WaitForSeconds(1.0f);
+            yield return GetWait();
         }
 
         // --- 3. END OF TURN (BLEEDING) ---
         logText.text = "End of round. Injuries are bleeding...";
-        yield return new WaitForSeconds(1.0f);
+        yield return GetWait();
 
         // Process Player Bleed
         InjuryManager pim = PlayerStateManager.Instance.GetComponent<InjuryManager>();
@@ -205,7 +230,7 @@ public class BattleManager : MonoBehaviour
             }
         }
 
-        yield return new WaitForSeconds(1.0f);
+        yield return GetWait();
         UpdateEnemySprites();
         BattleUIManager.Instance.RefreshAll();
 
@@ -347,7 +372,7 @@ public class BattleManager : MonoBehaviour
         else
             logText.text = $"The {attackerName} lunges at you...";
 
-        yield return new WaitForSeconds(1f);
+        yield return GetWait();
 
         if (!didHit)
         {
@@ -642,4 +667,10 @@ public class BattleManager : MonoBehaviour
         DamageType.Pierce => InjuryType.Stab,
         _ => InjuryType.Fracture
     };
+
+    // Helper property to get the current wait duration
+    private WaitForSeconds GetWait(float customNormal = 1.0f)
+    {
+        return new WaitForSeconds(isSkipLogEnabled ? SkipWait : customNormal);
+    }
 }

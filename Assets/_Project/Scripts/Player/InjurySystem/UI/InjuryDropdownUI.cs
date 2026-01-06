@@ -53,6 +53,13 @@ public class InjuryDropdownUI : MonoBehaviour
 
     public void RefreshInjuries()
     {
+        // SAFETY: If it's closed, just ensure visuals match and bail.
+        if (!isExpanded)
+        {
+            CloseSection();
+            return;
+        }
+
         // If player is null, try to find the Instance dynamically
         if (player == null)
         {
@@ -68,6 +75,8 @@ public class InjuryDropdownUI : MonoBehaviour
         }
 
         ClearList();
+
+
 
         var injuries = player.GetComponent<InjuryManager>().activeInjuries;
 

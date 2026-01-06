@@ -53,14 +53,19 @@ public static class ConsumableUseHandler
 
     private static void HandlePostUseRefreshes()
     {
-        // Refresh all Dropdowns (Injuries and Consumables)
+        // 1. Refresh Injury Dropdowns (These stay specific as they use Injury data)
         foreach (var ui in Object.FindObjectsByType<InjuryDropdownUI>(FindObjectsSortMode.None))
+        {
             if (ui.gameObject.activeInHierarchy) ui.RefreshInjuries();
+        }
 
-        foreach (var ui in Object.FindObjectsByType<ConsumableDropdownUI>(FindObjectsSortMode.None))
-            if (ui.gameObject.activeInHierarchy) ui.RefreshConsumables();
+        // 2. Refresh ALL Category Dropdowns (Consumables, Weapons, Shields, etc.)
+        foreach (var ui in Object.FindObjectsByType<CategoryDropdownUI>(FindObjectsSortMode.None))
+        {
+            if (ui.gameObject.activeInHierarchy) ui.Refresh();
+        }
 
-        // Refresh main Inventory window if open
+        // 3. Refresh main Inventory window if open
         var invWindow = Object.FindFirstObjectByType<InventoryWindow>();
         if (invWindow != null) invWindow.Refresh();
     }

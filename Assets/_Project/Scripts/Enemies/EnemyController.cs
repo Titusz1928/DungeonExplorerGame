@@ -46,6 +46,11 @@ public class EnemyController : MonoBehaviour
     [Header("Debug")]
     [SerializeField] private TMPro.TextMeshPro stateText;
 
+    public EnemyState getState()
+    {
+        return state;
+    }
+
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
