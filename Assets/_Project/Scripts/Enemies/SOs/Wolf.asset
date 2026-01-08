@@ -17,7 +17,7 @@ MonoBehaviour:
   battlesprite: {fileID: 21300000, guid: 045daa0bcf4216a4b83167cbff575399, type: 3}
   enemyID: 3
   maxHealth: 80
-  moveSpeed: 3
+  moveSpeed: 4
   hearRange: 10
   aggression: 0.5
   visionRange: 8
@@ -36,21 +36,26 @@ MonoBehaviour:
       blunt: 5
       pierce: 5
       slash: 5
+    bleedMultiplier: 2
   - partName: Torso
     associatedSlot: 8
     naturalDefense:
       blunt: 5
       pierce: 5
       slash: 5
+    bleedMultiplier: 1.5
   - partName: Arms
     associatedSlot: 32
     naturalDefense:
       blunt: 5
       pierce: 5
       slash: 5
+    bleedMultiplier: 0.7
   - partName: Legs
     associatedSlot: 128
     naturalDefense:
       blunt: 5
       pierce: 5
       slash: 5
+    bleedMultiplier: 0.8
+  naturalDamageType: 0

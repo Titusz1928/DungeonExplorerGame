@@ -25,6 +25,10 @@ public class BattleManager : MonoBehaviour
     private int targetedEnemyIndex = 0;
     private bool isProcessingTurn = false;
 
+    [Header("Targeting Data")]
+    private string currentTargetPartName;
+    private ArmorSlot currentTargetSlot;
+
     private PlayerActionType pendingAction = PlayerActionType.Attack;
 
     private void Awake()
@@ -47,6 +51,12 @@ public class BattleManager : MonoBehaviour
 
         // Reset targeting to the first enemy
         targetedEnemyIndex = 0;
+
+        // 2. NEW: Roll the initial target part for the first enemy
+        if (activeCombatants.Count > 0)
+        {
+            RollTargetPart(activeCombatants[targetedEnemyIndex]);
+        }
 
         for (int i = 0; i < enemySlots.Count; i++)
         {
@@ -86,6 +96,8 @@ public class BattleManager : MonoBehaviour
         targetedEnemyIndex = index;
         Debug.Log($"New Target Selected: {activeCombatants[targetedEnemyIndex].data.enemyName}");
 
+        RollTargetPart(activeCombatants[targetedEnemyIndex]);
+
         UpdateTargetVisuals();
     }
 
@@ -93,12 +105,44 @@ public class BattleManager : MonoBehaviour
     {
         for (int i = 0; i < enemySlots.Count; i++)
         {
-            // Find the child named "border"
-            Transform border = enemySlots[i].transform.Find("Border");
-            if (border != null)
+            // SAFETY 1: Check if the slot itself exists in the list
+            if (enemySlots[i] == null)
             {
-                // Only show border if this slot is the targeted index AND the slot is active
-                border.gameObject.SetActive(i == targetedEnemyIndex && enemySlots[i].gameObject.activeSelf);
+                Debug.LogWarning($"BattleManager: Slot at index {i} is null!");
+                continue;
+            }
+
+            Transform border = enemySlots[i].transform.Find("Border");
+            Transform bodypartselector = enemySlots[i].transform.Find("TargetBodypartSelector");
+
+            bool isThisTarget = (i == targetedEnemyIndex && enemySlots[i].gameObject.activeSelf);
+
+            // Update Border
+            if (border != null) border.gameObject.SetActive(isThisTarget);
+
+            // Update Selector
+            if (bodypartselector != null)
+            {
+                bodypartselector.gameObject.SetActive(isThisTarget);
+
+                if (isThisTarget)
+                {
+                    TMPro.TextMeshProUGUI partText = bodypartselector.GetComponentInChildren<TMPro.TextMeshProUGUI>();
+
+                    if (partText != null)
+                    {
+                        // SAFETY 2: Ensure we actually have a part name before converting to Upper
+                        if (!string.IsNullOrEmpty(currentTargetPartName))
+                        {
+                            partText.text = currentTargetPartName.ToUpper();
+                        }
+                        else
+                        {
+                            partText.text = "???"; // Fallback
+                            Debug.LogWarning("BattleManager: currentTargetPartName is null or empty!");
+                        }
+                    }
+                }
             }
         }
     }
@@ -306,6 +350,17 @@ public class BattleManager : MonoBehaviour
         }
     }
 
+    public void RollTargetPart(EnemyController defender)
+    {
+        if (defender == null) return;
+
+        // Pick random part from the enemy's unique anatomy
+        var randomPart = defender.data.anatomy[Random.Range(0, defender.data.anatomy.Count)];
+
+        currentTargetPartName = randomPart.partName;
+        currentTargetSlot = randomPart.associatedSlot;
+    }
+
     private IEnumerator HandlePlayerDefeat()
     {
         logText.text = "<color=red>You have been defeated...</color>";
@@ -419,16 +474,18 @@ public class BattleManager : MonoBehaviour
         // 4. Identify Target Body Part
         string partName;
         ArmorSlot slot;
+
         if (!playerAttacking)
         {
+            // ENEMIES: Still roll randomly when they hit the player
             slot = GetRandomPlayerSlot();
             partName = slot.ToString().ToLower();
         }
         else
         {
-            var randomPart = defender.data.anatomy[Random.Range(0, defender.data.anatomy.Count)];
-            partName = randomPart.partName;
-            slot = randomPart.associatedSlot;
+            // PLAYER: Use the data we already "Locked In" via the UI
+            slot = currentTargetSlot;
+            partName = currentTargetPartName;
         }
 
         // 5. Calculate Protection
@@ -450,12 +507,32 @@ public class BattleManager : MonoBehaviour
             if (!playerAttacking)
             {
                 PlayerStateManager.Instance.GetComponent<InjuryManager>().AddInjury(slot, GetInjuryType(dType), severity);
-                logText.text = $"<color=red>CRITICAL!</color> The {attackerName} hit your {partName} and caused a {GetInjuryType(dType)}!";
+
+                // Check if the player's hit part is high-danger
+                string bloodText = "";
+                if (slot == ArmorSlot.Neck || slot == ArmorSlot.Head || slot == ArmorSlot.Torso)
+                {
+                    bloodText = " <color=red>The wound is bleeding heavily!</color>";
+                }
+
+                logText.text = $"<color=red>CRITICAL!</color> The {attackerName} hit your {partName} and caused a {GetInjuryType(dType)}!{bloodText}";
             }
             else
             {
+                // 1. Add the injury to the enemy
                 defender.GetComponent<EnemyInjuryManager>().AddInjury(slot, GetInjuryType(dType), severity);
-                logText.text = $"<color=orange>Brutal Hit!</color> You struck the {targetName}'s {partName} and caused a {GetInjuryType(dType)}!";
+
+                // 2. Check for profound bleeding text
+                string bleedNote = "";
+                var partData = defender.data.anatomy.Find(p => p.associatedSlot == slot);
+
+                // If the multiplier is high (e.g., > 1.2), add the flavor text
+                if (partData != null && partData.bleedMultiplier > 1.2f)
+                {
+                    bleedNote = " <color=#FF3333>It's bleeding profusely!</color>";
+                }
+
+                logText.text = $"<color=orange>Brutal Hit!</color> You struck the {targetName}'s {partName} and caused a {GetInjuryType(dType)}!{bleedNote}";
             }
         }
         else if (damageDifference > 0)

@@ -84,9 +84,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e2e6ae3bae72c540b69d5f78caf26e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseSpeed: 5
+  baseSpeed: 3.5
   sneakMultiplier: 0.5
-  sprintMultiplier: 1.7
+  sprintMultiplier: 1.2
   metersPerXP: 10
   xpPerTick: 0.5
   metersPerNoise: 1

@@ -155,6 +155,32 @@ public class EnemyController : MonoBehaviour
         }
     }
 
+    //!!!!!!
+    //FOR FUTURE ENEMY INJURY SPEED PENALTIES
+    //public float GetEffectiveSpeed()
+    //{
+    //    float speedModifier = 1.0f;
+
+    //    if (injuryManager != null)
+    //    {
+    //        foreach (var injury in injuryManager.activeInjuries)
+    //        {
+    //            // Check for leg/feet injuries
+    //            if (injury.bodyPart == ArmorSlot.Legs || injury.bodyPart == ArmorSlot.Feet)
+    //            {
+    //                // Severity 100 on legs reduces enemy speed by 40%
+    //                float penalty = (injury.severity / 100f) * 0.4f;
+    //                speedModifier -= penalty;
+    //            }
+    //        }
+    //    }
+
+    //    // Ensure enemies don't stop moving entirely (min 25% speed)
+    //    speedModifier = Mathf.Max(0.25f, speedModifier);
+
+    //    return data.moveSpeed * speedModifier;
+    //}
+
     void OnNoiseHeard(NoiseEvent noise)
     {
         // Ignore own noise if needed later

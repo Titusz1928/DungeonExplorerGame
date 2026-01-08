@@ -6,7 +6,7 @@ using System.Linq;
 public class PlayerMovement : MonoBehaviour
 {
     [Header("Movement Settings")]
-    public float baseSpeed = 4f;
+    public float baseSpeed = 3.5f;
 
     [Header("Movement Multipliers")]
     public float sneakMultiplier = 0.5f;
@@ -94,21 +94,38 @@ public class PlayerMovement : MonoBehaviour
         joystick = FindFirstObjectByType<Joystick>();
     }
 
-    private void UpdateSpeed(MovementMode mode)
+    public void UpdateSpeed(MovementMode mode)
     {
-        // --- Get skill levels ---
+        // 1. Get skill levels
         int speedLevel = PlayerSkillManager.Instance.GetLevel(PlayerSkill.Speed);
         int stealthLevel = PlayerSkillManager.Instance.GetLevel(PlayerSkill.Stealth);
         int strengthLevel = PlayerSkillManager.Instance.GetLevel(PlayerSkill.Strength);
 
-        // --- Base speed scales WEAKLY with Speed Skill ---
+        // 2. Calculate initial base and multipliers
         float effectiveBaseSpeed = baseSpeed + (speedLevel * 0.03f);
-
-        // --- Sneak scaling (VERY small) ---
         float effectiveSneakMultiplier = sneakMultiplier + (stealthLevel * 0.01f);
-
-        // --- Sprint scaling (stronger, but safe) ---
         float effectiveSprintMultiplier = sprintMultiplier + (strengthLevel * 0.05f);
+
+        // 3. --- CALCULATE INJURY PENALTY ---
+        float speedModifier = 1.0f;
+        var injuryManager = GetComponent<InjuryManager>();
+
+        if (injuryManager != null)
+        {
+            foreach (var injury in injuryManager.activeInjuries)
+            {
+                // If the injury is on a "walking" part
+                if (injury.bodyPart == ArmorSlot.Legs || injury.bodyPart == ArmorSlot.Feet)
+                {
+                    // Example: A severity 100 injury on legs reduces speed by 40% (0.4)
+                    // We use Mathf.Clamp to ensure we don't go below 0 speed
+                    float penalty = (injury.severity / 100f) * 0.4f;
+                    speedModifier -= penalty;
+                }
+            }
+        }
+        // Cap the modifier so the player can always at least move a little (e.g., 20% speed)
+        speedModifier = Mathf.Max(0.2f, speedModifier);
 
         switch (mode)
         {

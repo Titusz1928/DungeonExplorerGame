@@ -60,9 +60,22 @@ public class EnemyInjuryManager : MonoBehaviour
         stats.TakeDamage(damage);
     }
 
-    public void AddInjury(ArmorSlot part, InjuryType type, float severity)
+    public void AddInjury(ArmorSlot slot, InjuryType type, float severity)
     {
-        activeInjuries.Add(new Injury(part, type, severity));
-        Debug.Log($"{name} suffered a {type} to the {part}!");
+        float multiplier = 1.0f;
+
+        // Look up the specific body part in the EnemySO data to get the multiplier
+        if (stats != null && stats.GetController().data != null)
+        {
+            var partData = stats.GetController().data.anatomy.Find(p => p.associatedSlot == slot);
+            if (partData != null)
+            {
+                multiplier = partData.bleedMultiplier;
+            }
+        }
+
+        // Pass the multiplier into the new Injury
+        activeInjuries.Add(new Injury(slot, type, severity, multiplier));
+        Debug.Log($"{name} suffered a {type} to the {slot} (Bleed Mod: {multiplier}x)!");
     }
 }

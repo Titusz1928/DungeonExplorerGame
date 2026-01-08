@@ -42,4 +42,9 @@ public class EnemyStats : MonoBehaviour
             controller.Die();
         }
     }
+
+    public EnemyController GetController()
+    {
+        return controller;
+    }
 }

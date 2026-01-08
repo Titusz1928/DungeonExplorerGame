@@ -17,6 +17,7 @@ public static class InjurySaveBuilder
                 type = injury.type,
                 severity = injury.severity,
                 healingRate = injury.healingRate,
+                bleedMultiplier = injury.bleedMultiplier,
                 isBandaged = injury.isBandaged,
                 bandageLifetime = injury.bandageLifetime,
                 bandageDirty = injury.bandageDirty
@@ -38,7 +39,7 @@ public static class InjurySaveBuilder
         foreach (var entry in save.injuries)
         {
             // Reconstruct the Injury object from save data
-            Injury injury = new Injury(entry.bodyPart, entry.type, entry.severity)
+            Injury injury = new Injury(entry.bodyPart, entry.type, entry.severity, entry.bleedMultiplier)
             {
                 healingRate = entry.healingRate,
                 isBandaged = entry.isBandaged,

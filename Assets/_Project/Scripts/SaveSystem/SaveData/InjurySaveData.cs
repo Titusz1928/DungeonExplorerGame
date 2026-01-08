@@ -6,6 +6,7 @@ public class InjurySaveEntry
     public ArmorSlot bodyPart;
     public InjuryType type;
     public float severity;
+    public float bleedMultiplier;
     public float healingRate;
     public bool isBandaged;
     public float bandageLifetime;

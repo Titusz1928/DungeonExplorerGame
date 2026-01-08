@@ -6,6 +6,20 @@ public class InjuryManager : MonoBehaviour
     public List<Injury> activeInjuries = new List<Injury>();
     private PlayerStateManager playerState;
 
+    // A static map of how dangerous bleeding is for each player body part
+    private static readonly Dictionary<ArmorSlot, float> PlayerBleedMultipliers = new Dictionary<ArmorSlot, float>
+    {
+        { ArmorSlot.Head, 2.5f },
+        { ArmorSlot.Face, 2.0f },
+        { ArmorSlot.Neck, 3.0f }, // High danger!
+        { ArmorSlot.Torso, 1.8f },
+        { ArmorSlot.Shoulders, 1.0f },
+        { ArmorSlot.Arms, 0.8f },
+        { ArmorSlot.Hands, 0.6f },
+        { ArmorSlot.Legs, 0.9f },
+        { ArmorSlot.Feet, 0.5f }
+    };
+
     [Header("Settings")]
     public float bandageMaxDuration = 120f; // 2 minutes or 20 turns?
 
@@ -75,7 +89,19 @@ public class InjuryManager : MonoBehaviour
 
     public void AddInjury(ArmorSlot part, InjuryType type, float severity)
     {
-        activeInjuries.Add(new Injury(part, type, severity));
+        // Look up the multiplier for the player's anatomy
+        float multiplier = 1.0f;
+        if (PlayerBleedMultipliers.TryGetValue(part, out float mappedMultiplier))
+        {
+            multiplier = mappedMultiplier;
+        }
+
+        // Pass the multiplier to the Injury constructor
+        activeInjuries.Add(new Injury(part, type, severity, multiplier));
+
+        GetComponent<PlayerMovement>()?.UpdateSpeed(GetComponent<PlayerStateManager>().CurrentMode);
+
+        Debug.Log($"Player suffered a {type} to the {part}. Bleed Multiplier: {multiplier}x");
     }
 
     public void RemoveInjury(Injury injury)
