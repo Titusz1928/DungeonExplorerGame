@@ -37,6 +37,7 @@ MonoBehaviour:
       pierce: 2
       slash: 2
     bleedMultiplier: 2.5
+    partClickSprite: {fileID: 21300000, guid: d37c4df65241e9844a21168821a9f381, type: 3}
   - partName: Face
     associatedSlot: 2
     naturalDefense:
@@ -44,6 +45,7 @@ MonoBehaviour:
       pierce: 2
       slash: 2
     bleedMultiplier: 2
+    partClickSprite: {fileID: 21300000, guid: a371457b6343918459db9785577bd7d2, type: 3}
   - partName: Neck
     associatedSlot: 4
     naturalDefense:
@@ -51,6 +53,7 @@ MonoBehaviour:
       pierce: 2
       slash: 2
     bleedMultiplier: 3
+    partClickSprite: {fileID: 21300000, guid: 764789dba62ff5b448f61290ca0bfdf0, type: 3}
   - partName: Torso
     associatedSlot: 8
     naturalDefense:
@@ -58,6 +61,7 @@ MonoBehaviour:
       pierce: 2
       slash: 2
     bleedMultiplier: 1.8
+    partClickSprite: {fileID: 21300000, guid: a25f0c0218e6a3e49a45daf25b817abf, type: 3}
   - partName: Shoulders
     associatedSlot: 16
     naturalDefense:
@@ -65,6 +69,7 @@ MonoBehaviour:
       pierce: 2
       slash: 2
     bleedMultiplier: 1
+    partClickSprite: {fileID: 21300000, guid: 4c93a1a58fb0b524b951d8aecd03e187, type: 3}
   - partName: Arms
     associatedSlot: 32
     naturalDefense:
@@ -72,6 +77,7 @@ MonoBehaviour:
       pierce: 2
       slash: 2
     bleedMultiplier: 0.8
+    partClickSprite: {fileID: 21300000, guid: 2a51052dc4c64fc4f86a3a391be6ab18, type: 3}
   - partName: Hands
     associatedSlot: 64
     naturalDefense:
@@ -79,6 +85,7 @@ MonoBehaviour:
       pierce: 2
       slash: 2
     bleedMultiplier: 0.6
+    partClickSprite: {fileID: 21300000, guid: 3d5bca336aa14dc4e8017f1e3d8bc460, type: 3}
   - partName: Legs
     associatedSlot: 128
     naturalDefense:
@@ -86,6 +93,7 @@ MonoBehaviour:
       pierce: 2
       slash: 2
     bleedMultiplier: 0.9
+    partClickSprite: {fileID: 21300000, guid: 7b41ac6ba131b4f47a093936073fbba6, type: 3}
   - partName: Feet
     associatedSlot: 256
     naturalDefense:
@@ -93,4 +101,5 @@ MonoBehaviour:
       pierce: 2
       slash: 2
     bleedMultiplier: 0.5
+    partClickSprite: {fileID: 21300000, guid: 5d5dbe0308301cd44a5c050f2c067a1e, type: 3}
   naturalDamageType: 1

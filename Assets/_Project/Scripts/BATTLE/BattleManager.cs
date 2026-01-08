@@ -22,7 +22,7 @@ public class BattleManager : MonoBehaviour
     private float SkipWait = 0.1f;
 
     private List<EnemyController> activeCombatants = new List<EnemyController>();
-    private int targetedEnemyIndex = 0;
+    public int targetedEnemyIndex = 0;
     private bool isProcessingTurn = false;
 
     [Header("Targeting Data")]
@@ -92,6 +92,12 @@ public class BattleManager : MonoBehaviour
     public void OnEnemyClicked(int index)
     {
         if (index >= activeCombatants.Count) return;
+
+        // NEW: Close any open anatomy overlays before changing targets
+        if (BattleUIManager.Instance != null)
+        {
+            BattleUIManager.Instance.HideAnatomyOverlay();
+        }
 
         targetedEnemyIndex = index;
         Debug.Log($"New Target Selected: {activeCombatants[targetedEnemyIndex].data.enemyName}");
@@ -348,6 +354,17 @@ public class BattleManager : MonoBehaviour
                 return;
             }
         }
+    }
+
+    // Inside BattleManager.cs
+    public void ManualTargetPart(ArmorSlot slot, string partName)
+    {
+        currentTargetSlot = slot;
+        currentTargetPartName = partName;
+
+        // Refresh the text label to show the manual selection
+        UpdateTargetVisuals();
+        Debug.Log($"Manually targeted: {partName}");
     }
 
     public void RollTargetPart(EnemyController defender)

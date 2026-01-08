@@ -24,6 +24,9 @@ public class BattleUIManager : MonoBehaviour
     [Header("Skip Log UI")]
     [SerializeField] private Image skipLogButtonBg;
 
+    [Header("Anatomy Settings")]
+    [SerializeField] private GameObject partButtonPrefab;
+
     private void Awake() => Instance = this;
 
     private void Start()
@@ -151,5 +154,100 @@ public class BattleUIManager : MonoBehaviour
         // If enabled: Full alpha (1). If disabled: Transparent (0).
         c.a = BattleManager.Instance.isSkipLogEnabled ? 1f : 0f;
         skipLogButtonBg.color = c;
+    }
+
+    public void ToggleAnatomyOverlay()
+    {
+        int targetIndex = BattleManager.Instance.targetedEnemyIndex;
+        var combatants = BattleManager.Instance.GetActiveCombatants();
+
+        if (targetIndex < 0 || targetIndex >= combatants.Count) return;
+
+        BattleEnemyUISlot slotUI = uiSlots[targetIndex];
+
+
+        Button mainSlotButton = slotUI.GetComponent<Button>();
+        if (mainSlotButton == null) mainSlotButton = slotUI.GetComponentInParent<Button>();
+
+        // 1. If it's already active, hide it and stop
+        if (slotUI.anatomyOverlayRoot.activeSelf)
+        {
+            HideAnatomyOverlay();
+            if (mainSlotButton != null) mainSlotButton.interactable = true;
+            return;
+        }
+
+        // 2. Otherwise, hide all others first (clean slate)
+        HideAnatomyOverlay();
+
+        if (mainSlotButton != null)
+        {
+            mainSlotButton.enabled = false;
+            if (mainSlotButton.targetGraphic != null)
+                mainSlotButton.targetGraphic.raycastTarget = false; // MOUSE PASSES THROUGH NOW
+        }
+
+        // 3. Show this specific one
+        EnemyController currentEnemy = combatants[targetIndex];
+        slotUI.anatomyOverlayRoot.SetActive(true);
+
+        // 4. Clear and rebuild buttons
+        foreach (Transform child in slotUI.anatomyButtonContainer) Destroy(child.gameObject);
+
+        foreach (var part in currentEnemy.data.anatomy)
+        {
+            if (part.partClickSprite == null) continue;
+
+            GameObject btnObj = Instantiate(partButtonPrefab, slotUI.anatomyButtonContainer);
+            btnObj.GetComponent<BodyPartTargetButton>().Setup(part);
+        }
+    }
+
+    public void ShowAnatomyOverlay()
+    {
+        int targetIndex = BattleManager.Instance.targetedEnemyIndex;
+        var combatants = BattleManager.Instance.GetActiveCombatants();
+
+        if (targetIndex < 0 || targetIndex >= combatants.Count) return;
+
+        EnemyController currentEnemy = combatants[targetIndex];
+        BattleEnemyUISlot slotUI = uiSlots[targetIndex];
+
+        // 1. Show the root panel
+        slotUI.anatomyOverlayRoot.SetActive(true);
+
+        // 2. Clear old buttons
+        foreach (Transform child in slotUI.anatomyButtonContainer) Destroy(child.gameObject);
+
+        // 3. Spawn new custom-shaped buttons from EnemySO
+        foreach (var part in currentEnemy.data.anatomy)
+        {
+            if (part.partClickSprite == null) continue;
+
+            GameObject btnObj = Instantiate(partButtonPrefab, slotUI.anatomyButtonContainer);
+            btnObj.GetComponent<BodyPartTargetButton>().Setup(part);
+        }
+    }
+
+    public void HideAnatomyOverlay()
+    {
+        foreach (var slot in uiSlots)
+        {
+            if (slot.anatomyOverlayRoot != null)
+            {
+                slot.anatomyOverlayRoot.SetActive(false);
+
+                Button mainSlotButton = slot.GetComponent<Button>();
+                if (mainSlotButton == null) mainSlotButton = slot.GetComponentInParent<Button>();
+
+                if (mainSlotButton != null)
+                {
+                    mainSlotButton.enabled = true;
+                    // 2. Re-enable raycast so we can click the enemy again normally
+                    if (mainSlotButton.targetGraphic != null)
+                        mainSlotButton.targetGraphic.raycastTarget = true;
+                }
+            }
+        }
     }
 }

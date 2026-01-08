@@ -10,7 +10,7 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("Movement Multipliers")]
     public float sneakMultiplier = 0.5f;
-    public float sprintMultiplier = 1.2f;
+    public float sprintMultiplier = 1.5f;
 
     [Header("Mobile Controls")]
     private Joystick joystick;
@@ -141,6 +141,8 @@ public class PlayerMovement : MonoBehaviour
                 currentSpeed = effectiveBaseSpeed;
                 break;
         }
+
+        currentSpeed *= speedModifier;
     }
 
     private void Update()

@@ -8,6 +8,7 @@ public class EnemyBodyPart
     public ArmorSlot associatedSlot; // Links this part to the Armor Item system
     public ArmorDefense naturalDefense; // Base resistance (hide, scales, etc.)
     [Range(0.1f, 5f)] public float bleedMultiplier = 1.0f;
+    public Sprite partClickSprite;
 }
 
 [CreateAssetMenu(menuName = "Enemies/Enemy Data")]

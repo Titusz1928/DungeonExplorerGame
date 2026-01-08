@@ -37,6 +37,7 @@ MonoBehaviour:
       pierce: 5
       slash: 5
     bleedMultiplier: 2
+    partClickSprite: {fileID: 21300000, guid: 65547f3d22b7e434c9942a623d621b72, type: 3}
   - partName: Torso
     associatedSlot: 8
     naturalDefense:
@@ -44,6 +45,7 @@ MonoBehaviour:
       pierce: 5
       slash: 5
     bleedMultiplier: 1.5
+    partClickSprite: {fileID: 21300000, guid: 4472f8fbfd013ce408ae177d9d44346b, type: 3}
   - partName: Arms
     associatedSlot: 32
     naturalDefense:
@@ -51,6 +53,7 @@ MonoBehaviour:
       pierce: 5
       slash: 5
     bleedMultiplier: 0.7
+    partClickSprite: {fileID: 21300000, guid: 6c005f004536f274c8170d77e9d910c6, type: 3}
   - partName: Legs
     associatedSlot: 128
     naturalDefense:
@@ -58,4 +61,5 @@ MonoBehaviour:
       pierce: 5
       slash: 5
     bleedMultiplier: 0.8
+    partClickSprite: {fileID: 21300000, guid: 3c5a6d95d921ce346ac514b977a08e3b, type: 3}
   naturalDamageType: 0
