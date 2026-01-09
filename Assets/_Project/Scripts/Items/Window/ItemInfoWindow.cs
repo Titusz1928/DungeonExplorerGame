@@ -25,6 +25,9 @@ public class ItemInfoWindow : MonoBehaviour
         if (instance.itemSO is WeaponItemSO weapon)
             AddWeaponInfo(weapon);
 
+        if (instance.itemSO is DocumentSO document)
+            AddDocumentInfo(document);
+
         //if (instance.itemSO is ConsumableItemSO consumable)
         //    AddConsumableInfo(consumable);
 
@@ -155,5 +158,13 @@ public class ItemInfoWindow : MonoBehaviour
 
         AddRow("Health Restore", c.healthAmount.ToString());
         AddRow("Stamina Restore", c.staminaAmount.ToString());
+    }
+
+    // -------------------------------------
+    //  DOCUMENT INFO
+    // -------------------------------------
+    private void AddDocumentInfo(DocumentSO d)
+    {
+        AddRow("Number of pages", d.papers.Count.ToString());
     }
 }

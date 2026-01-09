@@ -13,4 +13,6 @@ public class PlayerSave
     public EquipmentSave equipment;
     public InjurySaveData injuries;
     public List<SkillSaveEntry> skills;
+
+    public KnowledgeSaveData knowledge;
 }

@@ -54,6 +54,11 @@ public static class PlayerSaveBuilder
         // -------------------- 
         save.skills = SkillSaveBuilder.Build();
 
+        // --------------------
+        // KNOWLEDGE
+        // --------------------
+        save.knowledge = KnowledgeSaveBuilder.Build();
+
         return save;
     }
 
@@ -105,6 +110,12 @@ public static class PlayerSaveBuilder
 
         // 6. SKILLS
         SkillSaveBuilder.Apply(save.skills);
+
+        // 7. KNOWLEDGE
+        if (save.knowledge != null)
+        {
+            KnowledgeSaveBuilder.Apply(save.knowledge);
+        }
     }
 
 }

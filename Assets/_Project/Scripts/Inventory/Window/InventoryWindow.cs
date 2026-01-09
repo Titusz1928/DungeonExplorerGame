@@ -16,6 +16,7 @@ public class InventoryWindow : MonoBehaviour
     [SerializeField] private GameObject dropWindow;
     private ItemInstance pendingDropItem;
     [SerializeField] private GameObject ripClothingWindowPrefab;
+    [SerializeField] private GameObject DocumentWindowPrefab;
 
     //Inventory Equipment Tab
     [SerializeField] private GameObject equipmentTitleRowPrefab;
@@ -28,11 +29,6 @@ public class InventoryWindow : MonoBehaviour
 
     [SerializeField] private Transform player;
     [SerializeField] private Inventory inventory;
-
-    
-
-    
-
 
     private short tabselected;
 
@@ -371,6 +367,13 @@ public class InventoryWindow : MonoBehaviour
                 }
                 break;
 
+            // --------------------------
+            //  DOCUMENTS
+            // --------------------------
+            case DocumentSO document:
+                OnDocumentUsed(item);
+                break;
+
 
             // --------------------------
             // WEAPONS
@@ -438,6 +441,21 @@ public class InventoryWindow : MonoBehaviour
                 Debug.Log($"Item cannot be used: {so.itemName}");
                 MessageManager.Instance.ShowMessageDirectly($"{so.itemName} cannot be used");
                 break;
+        }
+    }
+
+    public void OnDocumentUsed(ItemInstance item)
+    {
+        // 1. Spawn the Window
+        GameObject windowGo = WindowManager.Instance.OpenWindow(DocumentWindowPrefab);
+
+        // 2. Get the Component
+        DocumentWindow docWindowInstance = windowGo.GetComponent<DocumentWindow>();
+
+        // 3. Initialize
+        if (docWindowInstance != null)
+        {
+            docWindowInstance.OpenDocument(item);
         }
     }
 

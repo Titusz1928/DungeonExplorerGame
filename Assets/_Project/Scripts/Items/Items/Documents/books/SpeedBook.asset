@@ -1,0 +1,94 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 570008980ef35c6499786c5f390305c8, type: 3}
+  m_Name: SpeedBook
+  m_EditorClassIdentifier: 
+  ID: 30
+  itemName: Book of Speed
+  icon: {fileID: 21300000, guid: 868667bbca1bad4489f610167bb7b293, type: 3}
+  category: 5
+  isStackable: 0
+  maxStackSize: 1
+  isBreakable: 0
+  maxDurability: 0
+  docType: 0
+  papers:
+  - frontSide:
+      pageID: 15
+      background: {fileID: 21300000, guid: 59506e69deb47bf4cb1857a4d304d703, type: 3}
+      defaultText: 
+      givesXP: 1
+      xpAmount: 500
+      skillType: 5
+    backSide:
+      pageID: 16
+      background: {fileID: 21300000, guid: cd8cbfd14b3d8f24499fc6dfeb36dce3, type: 3}
+      defaultText: 
+      givesXP: 0
+      xpAmount: 0
+      skillType: 0
+  - frontSide:
+      pageID: 17
+      background: {fileID: 21300000, guid: 58900a3556622f64d991d846e0183b04, type: 3}
+      defaultText: 
+      givesXP: 1
+      xpAmount: 500
+      skillType: 0
+    backSide:
+      pageID: 18
+      background: {fileID: 21300000, guid: 9f68ff18b42780c47bf92f590b3c2c18, type: 3}
+      defaultText: 
+      givesXP: 0
+      xpAmount: 0
+      skillType: 0
+  - frontSide:
+      pageID: 19
+      background: {fileID: 21300000, guid: 06d795439c675584d85e2229acb4b705, type: 3}
+      defaultText: 
+      givesXP: 1
+      xpAmount: 500
+      skillType: 0
+    backSide:
+      pageID: 20
+      background: {fileID: 21300000, guid: e69fb7926d5df474bb9205b182664fcb, type: 3}
+      defaultText: 
+      givesXP: 0
+      xpAmount: 0
+      skillType: 0
+  - frontSide:
+      pageID: 21
+      background: {fileID: 21300000, guid: 454a41aa03dccdb45a5d6dddb4b03f45, type: 3}
+      defaultText: 
+      givesXP: 0
+      xpAmount: 0
+      skillType: 0
+    backSide:
+      pageID: 22
+      background: {fileID: 21300000, guid: 08a386ebfd33a884aba9161e2b04b04c, type: 3}
+      defaultText: 
+      givesXP: 0
+      xpAmount: 0
+      skillType: 0
+  - frontSide:
+      pageID: 23
+      background: {fileID: 21300000, guid: da90cac5c5b03794a95278b4da550342, type: 3}
+      defaultText: 
+      givesXP: 1
+      xpAmount: 500
+      skillType: 0
+    backSide:
+      pageID: 24
+      background: {fileID: 21300000, guid: 46948c27ec1ade24d8693ff5e30abb84, type: 3}
+      defaultText: 
+      givesXP: 0
+      xpAmount: 0
+      skillType: 0

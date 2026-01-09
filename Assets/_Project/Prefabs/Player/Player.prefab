@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 5583050241514143450}
   - component: {fileID: 7110353782940503299}
   - component: {fileID: 3089705144922253291}
+  - component: {fileID: 8844041159767768493}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -245,12 +246,14 @@ MonoBehaviour:
     quantity: 0
     isEquipped: 0
     holes: 0
+    paperInstances: []
   offHandShield:
     itemSO: {fileID: 0}
     currentDurability: 0
     quantity: 0
     isEquipped: 0
     holes: 0
+    paperInstances: []
 --- !u!114 &7686506787949112685
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -334,6 +337,20 @@ MonoBehaviour:
     amount: 1
   - item: {fileID: 11400000, guid: a0a2d8c2d6d1ca241be17e83a67646be, type: 2}
     amount: 1
+  - item: {fileID: 11400000, guid: 8056afdf35385504fbf9df9319656fa8, type: 2}
+    amount: 1
+--- !u!114 &8844041159767768493
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 424148272874643181}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe5754dbfd6dd1349b0dc3fa9df36151, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4065736833962927886
 GameObject:
   m_ObjectHideFlags: 0

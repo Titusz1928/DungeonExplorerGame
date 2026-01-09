@@ -1,0 +1,66 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 570008980ef35c6499786c5f390305c8, type: 3}
+  m_Name: TestBook2
+  m_EditorClassIdentifier: 
+  ID: 26
+  itemName: Book of tests 2
+  icon: {fileID: 21300000, guid: 868667bbca1bad4489f610167bb7b293, type: 3}
+  category: 5
+  isStackable: 0
+  maxStackSize: 1
+  isBreakable: 0
+  maxDurability: 0
+  docType: 0
+  papers:
+  - frontSide:
+      pageID: 7
+      background: {fileID: 317338702034444816, guid: ae5962c4b2a5e954bb346189f8a6e14c, type: 3}
+      defaultText: 
+      givesXP: 0
+      xpAmount: 0
+      skillType: 0
+    backSide:
+      pageID: 8
+      background: {fileID: 317338702034444816, guid: ae5962c4b2a5e954bb346189f8a6e14c, type: 3}
+      defaultText: 
+      givesXP: 0
+      xpAmount: 0
+      skillType: 0
+  - frontSide:
+      pageID: 9
+      background: {fileID: 4530630851297379013, guid: 0e5781764642a7a418d06164fb10270d, type: 3}
+      defaultText: 
+      givesXP: 0
+      xpAmount: 0
+      skillType: 0
+    backSide:
+      pageID: 10
+      background: {fileID: -209068954078576295, guid: 59831b69a3732a04993b5363e83f1e01, type: 3}
+      defaultText: 
+      givesXP: 0
+      xpAmount: 0
+      skillType: 0
+  - frontSide:
+      pageID: 11
+      background: {fileID: 703052551824236591, guid: 9e53b5550d9e76a4691561294f8ee620, type: 3}
+      defaultText: 
+      givesXP: 0
+      xpAmount: 0
+      skillType: 0
+    backSide:
+      pageID: 12
+      background: {fileID: -8663785597061142708, guid: e68ae690974479049aeb6f14e4ae85dc, type: 3}
+      defaultText: 
+      givesXP: 0
+      xpAmount: 0
+      skillType: 0
