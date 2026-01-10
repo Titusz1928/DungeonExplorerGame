@@ -80,7 +80,8 @@ public class BattleUIManager : MonoBehaviour
         EnemyStats stats = enemy.GetComponent<EnemyStats>();
 
         // 1. Calculate Variance (e.g., 40% at lvl 0, 2% at lvl 100)
-        double varianceMultiplier = Mathf.Lerp(0.4f, 0.02f, iqLevel / 100f);
+        float decayRate = 0.15f; // Adjust this to make it faster/slower
+        double varianceMultiplier = 0.02f + (0.38f * Mathf.Exp(-decayRate * iqLevel));
         double varianceAmount = stats.maxHP * varianceMultiplier;
 
         // 2. Define the Range

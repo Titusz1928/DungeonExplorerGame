@@ -61,4 +61,7 @@ public class ArmorItemSO : ItemSO
     public float noise;
     public float conspicuousness;
 
+    [Header("Audio")]
+    public AudioClip useSound;
+
 }

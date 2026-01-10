@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 08a386ebfd33a884aba9161e2b04b04c
+guid: 1d674a310a16c4949bdc5fef8e0cd076
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -3166935958918114531
-    second: bookofspeed8_0
+      213: 2613470235031706022
+    second: bookofcombat1_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,7 +113,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: bookofspeed8_0
+      name: bookofcombat1_0
       rect:
         serializedVersion: 2
         x: 0
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: d1356464688cc04d0800000000000000
-      internalID: -3166935958918114531
+      spriteID: 6a91f1ef459e44420800000000000000
+      internalID: 2613470235031706022
       vertices: []
       indices: 
       edges: []
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      bookofspeed8_0: -3166935958918114531
+      bookofcombat1_0: 2613470235031706022
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

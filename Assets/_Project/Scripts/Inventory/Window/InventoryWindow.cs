@@ -324,6 +324,8 @@ public class InventoryWindow : MonoBehaviour
                     PlayerStateManager.Instance.addHealth(consumable.healthAmount);
                     PlayerStateManager.Instance.addStamina(consumable.staminaAmount);
 
+                    AudioManager.Instance.PlaySFX(consumable.useSound);
+
                     inventory.RemoveItem(item);
 
                     Sprite infoIcon = Resources.Load<Sprite>("UI/Icons/heal");
@@ -331,6 +333,7 @@ public class InventoryWindow : MonoBehaviour
                         $"+{consumable.healthAmount} HP   +{consumable.staminaAmount} STAMINA",
                         infoIcon
                     );
+
 
                     Refresh();
                 }

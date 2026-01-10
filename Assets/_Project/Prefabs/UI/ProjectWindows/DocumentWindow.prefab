@@ -467,6 +467,7 @@ MonoBehaviour:
   backgroundImage: {fileID: 1092720304711779851}
   bookBackgroundSprite: {fileID: -8344919582485811522, guid: f7fd1843cd509954f85e94e40e743aeb, type: 3}
   defaultFirstPage: {fileID: -8503723766178847664, guid: 48b0cc93d771cd04ba1e6418f8995d5a, type: 3}
+  pageTurnSound: {fileID: 8300000, guid: 9da4f5143b991514db46975283543ca3, type: 3}
 --- !u!1 &6937616236986296317
 GameObject:
   m_ObjectHideFlags: 0

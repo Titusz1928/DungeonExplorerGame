@@ -38,6 +38,8 @@ public class EquipmentManager : MonoBehaviour
             return;
         }
 
+        AudioManager.Instance.PlaySFX(armor.useSound);
+
         foreach (ArmorSlot slot in GetSlotsFromFlags(armor.slotsCovered))
         {
             // Each slot can have 1 item per layer
@@ -103,6 +105,8 @@ public class EquipmentManager : MonoBehaviour
     {
         ArmorItemSO armor = item.itemSO as ArmorItemSO;
         if (armor == null) return;
+
+        AudioManager.Instance.PlaySFX(armor.useSound);
 
         foreach (ArmorSlot slot in GetSlotsFromFlags(armor.slotsCovered))
         {

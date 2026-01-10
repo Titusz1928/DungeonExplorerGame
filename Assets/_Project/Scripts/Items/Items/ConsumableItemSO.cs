@@ -18,4 +18,7 @@ public class ConsumableItemSO : ItemSO
     public float healthAmount;
     public float staminaAmount;
 
+    [Header("Audio")]
+    public AudioClip useSound;
+
 }

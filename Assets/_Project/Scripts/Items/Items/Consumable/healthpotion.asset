@@ -23,3 +23,4 @@ MonoBehaviour:
   consumableType: 1
   healthAmount: 90
   staminaAmount: 90
+  useSound: {fileID: 8300000, guid: 1a6ae5d6fce144c4282940b4023e4832, type: 3}

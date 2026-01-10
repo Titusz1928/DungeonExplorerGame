@@ -15,6 +15,7 @@ MonoBehaviour:
   enemyName: Solider
   worldsprite: {fileID: 21300000, guid: cedc5b5714aad43488fa9a7bbd8c65a1, type: 3}
   battlesprite: {fileID: 21300000, guid: 4dd9ce7ec3b4552468cdd48a188e61cc, type: 3}
+  attackSound: {fileID: 8300000, guid: be90123d0c4c93040825fdfe6611039c, type: 3}
   enemyID: 1
   maxHealth: 100
   moveSpeed: 3.5

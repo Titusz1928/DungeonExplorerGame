@@ -1,0 +1,97 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 570008980ef35c6499786c5f390305c8, type: 3}
+  m_Name: BattleIQBook
+  m_EditorClassIdentifier: 
+  ID: 32
+  itemName: Book of combat
+  icon: {fileID: 21300000, guid: 868667bbca1bad4489f610167bb7b293, type: 3}
+  category: 5
+  isStackable: 0
+  maxStackSize: 1
+  isBreakable: 0
+  maxDurability: 0
+  docType: 0
+  papers:
+  - frontSide:
+      pageID: 25
+      background: {fileID: 21300000, guid: 1d674a310a16c4949bdc5fef8e0cd076, type: 3}
+      defaultText: 
+      givesXP: 1
+      xpAmount: 300
+      skillType: 5
+    backSide:
+      pageID: 26
+      background: {fileID: 21300000, guid: f9fbf11cdd7884149ab4649aca13bc7f, type: 3}
+      defaultText: 
+      givesXP: 0
+      xpAmount: 0
+      skillType: 0
+  - frontSide:
+      pageID: 27
+      background: {fileID: 21300000, guid: 3f4d45d305e49a7469f22157b6bd59ed, type: 3}
+      defaultText: 
+      givesXP: 0
+      xpAmount: 0
+      skillType: 0
+    backSide:
+      pageID: 28
+      background: {fileID: 21300000, guid: f58fe6ad91976b04484c8cfee0fea1fe, type: 3}
+      defaultText: 
+      givesXP: 1
+      xpAmount: 5000
+      skillType: 4
+  - frontSide:
+      pageID: 29
+      background: {fileID: 21300000, guid: a677fff6206414544805faad052689fb, type: 3}
+      defaultText: 
+      givesXP: 0
+      xpAmount: 0
+      skillType: 0
+    backSide:
+      pageID: 30
+      background: {fileID: 21300000, guid: 0c36f670c41f7734780450032ee2f20b, type: 3}
+      defaultText: 
+      givesXP: 1
+      xpAmount: 300
+      skillType: 7
+  - frontSide:
+      pageID: 31
+      background: {fileID: 0}
+      defaultText: Aim for enemy weakspots, these spots are less armored areas and
+        ones that can cause heavy bleeding. If your enemy is already injured it is
+        advised to just wait until your opponent collapses, do not risk showing your
+        weakspots while attacking.
+      givesXP: 1
+      xpAmount: 300
+      skillType: 7
+    backSide:
+      pageID: 32
+      background: {fileID: 21300000, guid: b388e6c9cbdca804fa888f92e2e2f111, type: 3}
+      defaultText: 
+      givesXP: 0
+      xpAmount: 0
+      skillType: 0
+  - frontSide:
+      pageID: 33
+      background: {fileID: 21300000, guid: c718ec2c95e9d9849a55f18d1164f818, type: 3}
+      defaultText: 
+      givesXP: 0
+      xpAmount: 0
+      skillType: 0
+    backSide:
+      pageID: 34
+      background: {fileID: 21300000, guid: 2505a2a24c42542439aef1731adf2bb7, type: 3}
+      defaultText: 
+      givesXP: 0
+      xpAmount: 0
+      skillType: 0

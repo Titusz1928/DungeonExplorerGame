@@ -507,6 +507,7 @@ MonoBehaviour:
   rowPrefab: {fileID: 5801355314003239274, guid: 3718601bbdd08464f80f9c5b6d7ebcb1, type: 3}
   cellPrefab: {fileID: 3185845855006728191, guid: 3dcf35897ada4f14faa8b7e06e606561, type: 3}
   headerText: {fileID: 7562945131329205418}
+  ripClothingAudio: {fileID: 8300000, guid: 8633a4f7f23baea4499f7f37c1632547, type: 3}
 --- !u!1 &5982843229983882908
 GameObject:
   m_ObjectHideFlags: 0

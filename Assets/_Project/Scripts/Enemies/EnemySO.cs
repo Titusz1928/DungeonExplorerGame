@@ -19,6 +19,9 @@ public class EnemySO : ScriptableObject
     public Sprite worldsprite;
     public Sprite battlesprite;
 
+    [Header("Audio")]
+    public AudioClip attackSound;
+
     [Header("Stats")]
     public int enemyID;
     public int maxHealth = 100;

@@ -31,7 +31,7 @@ MonoBehaviour:
       skillType: 5
     backSide:
       pageID: 16
-      background: {fileID: 21300000, guid: cd8cbfd14b3d8f24499fc6dfeb36dce3, type: 3}
+      background: {fileID: 21300000, guid: f9fbf11cdd7884149ab4649aca13bc7f, type: 3}
       defaultText: 
       givesXP: 0
       xpAmount: 0
@@ -45,7 +45,7 @@ MonoBehaviour:
       skillType: 0
     backSide:
       pageID: 18
-      background: {fileID: 21300000, guid: 9f68ff18b42780c47bf92f590b3c2c18, type: 3}
+      background: {fileID: 21300000, guid: a677fff6206414544805faad052689fb, type: 3}
       defaultText: 
       givesXP: 0
       xpAmount: 0
@@ -66,14 +66,14 @@ MonoBehaviour:
       skillType: 0
   - frontSide:
       pageID: 21
-      background: {fileID: 21300000, guid: 454a41aa03dccdb45a5d6dddb4b03f45, type: 3}
+      background: {fileID: 21300000, guid: c718ec2c95e9d9849a55f18d1164f818, type: 3}
       defaultText: 
       givesXP: 0
       xpAmount: 0
       skillType: 0
     backSide:
       pageID: 22
-      background: {fileID: 21300000, guid: 08a386ebfd33a884aba9161e2b04b04c, type: 3}
+      background: {fileID: 21300000, guid: b388e6c9cbdca804fa888f92e2e2f111, type: 3}
       defaultText: 
       givesXP: 0
       xpAmount: 0
@@ -87,7 +87,7 @@ MonoBehaviour:
       skillType: 0
     backSide:
       pageID: 24
-      background: {fileID: 21300000, guid: 46948c27ec1ade24d8693ff5e30abb84, type: 3}
+      background: {fileID: 21300000, guid: 3f4d45d305e49a7469f22157b6bd59ed, type: 3}
       defaultText: 
       givesXP: 0
       xpAmount: 0

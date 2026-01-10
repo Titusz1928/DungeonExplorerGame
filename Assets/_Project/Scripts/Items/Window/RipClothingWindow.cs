@@ -10,6 +10,8 @@ public class RipClothingWindow : MonoBehaviour
     [SerializeField] private GameObject cellPrefab;
     [SerializeField] private TextMeshProUGUI headerText;
 
+    [SerializeField] private AudioClip ripClothingAudio;
+
     private ItemInstance scissorInstance;
     private Inventory inventory;
 
@@ -89,6 +91,8 @@ public class RipClothingWindow : MonoBehaviour
         {
             MessageManager.Instance.ShowMessageDirectly("Created 3 Ripped Clothing");
         }
+
+        AudioManager.Instance.PlaySFX(ripClothingAudio);
 
         // 4. Refresh and Close
         InventoryWindow invWindow = FindFirstObjectByType<InventoryWindow>();

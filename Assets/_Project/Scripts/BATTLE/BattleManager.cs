@@ -411,6 +411,7 @@ public class BattleManager : MonoBehaviour
     private IEnumerator ResolveAttack(EnemyController attacker, EnemyController defender)
     {
         bool playerAttacking = attacker == null;
+        WeaponItemSO weapon = GetEquippedWeapon(attacker);
 
         // 1. Calculate Hit Chance
         float hitChance = 0.5f;
@@ -440,9 +441,17 @@ public class BattleManager : MonoBehaviour
         string targetName = playerAttacking ? defender.data.enemyName : "you";
 
         if (playerAttacking)
+        {
+            AudioClip attacksound = weapon.attackSound;
+            AudioManager.Instance.PlaySFX(attacksound);
             logText.text = $"You attempt to strike the {targetName}...";
+        }
         else
+        {
+            AudioClip attacksound = attacker.data.attackSound;
+            AudioManager.Instance.PlaySFX(attacksound);
             logText.text = $"The {attackerName} lunges at you...";
+        }
 
         yield return GetWait();
 
@@ -455,12 +464,15 @@ public class BattleManager : MonoBehaviour
         if (wasBlocked)
         {
             logText.text = playerAttacking ? $"The {targetName} <color=blue>BLOCKED</color> your strike with their shield!" : $"You <color=blue>BLOCKED</color> the attack!";
+
+            AudioClip injury = Resources.Load<AudioClip>("Audio/SFX/characters/enemies/attack/block");
+            AudioManager.Instance.PlaySFX(injury);
+
             // Optional: Damage shield durability here
             yield break;
         }
 
         // 3. Prepare Damage Data
-        WeaponItemSO weapon = GetEquippedWeapon(attacker);
         DamageType dType;
         double baseDamage;
 
@@ -533,6 +545,9 @@ public class BattleManager : MonoBehaviour
                 }
 
                 logText.text = $"<color=red>CRITICAL!</color> The {attackerName} hit your {partName} and caused a {GetInjuryType(dType)}!{bloodText}";
+
+                AudioClip injury = Resources.Load<AudioClip>("Audio/SFX/characters/enemies/attack/injury");
+                AudioManager.Instance.PlaySFX(injury);
             }
             else
             {
@@ -550,6 +565,9 @@ public class BattleManager : MonoBehaviour
                 }
 
                 logText.text = $"<color=orange>Brutal Hit!</color> You struck the {targetName}'s {partName} and caused a {GetInjuryType(dType)}!{bleedNote}";
+
+                AudioClip injury = Resources.Load<AudioClip>("Audio/SFX/characters/enemies/attack/injury");
+                AudioManager.Instance.PlaySFX(injury);
             }
         }
         else if (damageDifference > 0)

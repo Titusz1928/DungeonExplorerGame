@@ -23,6 +23,9 @@ public class DocumentWindow : MonoBehaviour
     public Sprite defaultFirstPage;
     // Add more sprites here as you get the art (scrollBackground, etc.)
 
+    [Header("Audio")]
+    public AudioClip pageTurnSound;
+
     private ItemInstance currentItem;
     private DocumentSO docData;
 
@@ -104,6 +107,8 @@ public class DocumentWindow : MonoBehaviour
         // Bounds check
         if (nextIndex < 0 || nextIndex > docData.papers.Count) return;
 
+        AudioManager.Instance.PlaySFX(pageTurnSound);
+
         currentPaperIndex = nextIndex;
         UpdateBookDisplay();
     }
@@ -161,6 +166,8 @@ public class DocumentWindow : MonoBehaviour
     #region Single Page Logic
     public void ToggleFlip()
     {
+        AudioManager.Instance.PlaySFX(pageTurnSound);
+
         showingFront = !showingFront;
         UpdateSingleDisplay();
     }

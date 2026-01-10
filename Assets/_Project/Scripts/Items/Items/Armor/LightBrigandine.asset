@@ -30,3 +30,4 @@ MonoBehaviour:
       slash: 15
   noise: 15
   conspicuousness: 15
+  useSound: {fileID: 8300000, guid: 46ef98116bd677641ad41d144124786a, type: 3}

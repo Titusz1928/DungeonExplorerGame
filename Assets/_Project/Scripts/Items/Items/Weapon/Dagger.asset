@@ -23,3 +23,4 @@ MonoBehaviour:
   weaponType: 1
   damageType: 2
   damageAmount: 10
+  attackSound: {fileID: 8300000, guid: be90123d0c4c93040825fdfe6611039c, type: 3}
