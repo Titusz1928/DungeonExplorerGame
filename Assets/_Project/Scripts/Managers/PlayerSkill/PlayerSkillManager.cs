@@ -127,7 +127,7 @@ public class PlayerSkillManager : MonoBehaviour
     public void SetSkillLevelInitial(PlayerSkill skill, int level)
     {
         if (level <= 0) return;
-
+    
         SkillData data = skills[skill];
         data.level = level;
         data.currentXP = 0;

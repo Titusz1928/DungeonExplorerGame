@@ -615,7 +615,7 @@ public class BattleManager : MonoBehaviour
                 weaponInstance.currentDurability = System.Math.Max(0, weaponInstance.currentDurability - 1);
             }
 
-            PlayerSkillManager.Instance.AddXP(PlayerSkill.WeaponHandling, 15f);
+            PlayerSkillManager.Instance.AddXP(PlayerSkill.WeaponHandling, 5f);
         }
 
         BattleUIManager.Instance.RefreshAll();
