@@ -1,5 +1,13 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
+
+[System.Serializable]
+public struct SkillStartEntry
+{
+    public PlayerSkill skill;
+    public int level;
+}
 
 public class GameSettings : MonoBehaviour
 {
@@ -16,6 +24,8 @@ public class GameSettings : MonoBehaviour
 
     [Header("Difficulty")]
     public float difficulty = 1f; //placeholder
+
+    public List<SkillStartEntry> startingSkills = new List<SkillStartEntry>();
 
     private void Awake()
     {

@@ -66,6 +66,17 @@ public class GameBoot : MonoBehaviour
             starter.GiveItemsToPlayer(PersistentPlayer);
         }
 
+        // APPLY STARTING SKILLS
+        var skillManager = PersistentPlayer.GetComponent<PlayerSkillManager>();
+        if (skillManager != null)
+        {
+            foreach (var entry in GameSettings.Instance.startingSkills)
+            {
+                // No loop needed! We set the level once.
+                skillManager.SetSkillLevelInitial(entry.skill, entry.level);
+            }
+        }
+
         if (WorldSaveData.Instance == null)
             WorldSaveData.Instance = PersistentWorld.GetComponent<WorldSaveData>();
 

@@ -18,7 +18,7 @@ public class DropDownToggle : MonoBehaviour
 
     [Header("Heights")]
     [SerializeField] private float collapsedHeight = 200f;
-    [SerializeField] private float expandedHeight = 1000f;
+    [SerializeField] private float expandedHeight = 1800f;
 
     private void Awake()
     {
@@ -55,7 +55,7 @@ public class DropDownToggle : MonoBehaviour
 
         if (isExpanded)
         {
-            topSection.anchorMin = new Vector2(0f, 0.8f);
+            topSection.anchorMin = new Vector2(0f, 0.888f);
             topSection.anchorMax = new Vector2(1f, 1f);
         }
         else

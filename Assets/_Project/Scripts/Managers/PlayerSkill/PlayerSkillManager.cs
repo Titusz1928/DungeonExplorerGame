@@ -6,7 +6,6 @@ public enum PlayerSkill
     Speed,
     Strength,
     Stealth,
-    Conspicuousness,
     BattleIQ,
     IQ,
     Charisma,
@@ -123,5 +122,15 @@ public class PlayerSkillManager : MonoBehaviour
 
             Debug.Log($"Restored {skill}: Level {level}, XP {currentXP}");
         }
+    }
+
+    public void SetSkillLevelInitial(PlayerSkill skill, int level)
+    {
+        if (level <= 0) return;
+
+        SkillData data = skills[skill];
+        data.level = level;
+        data.currentXP = 0;
+        data.RecalculateXPRequirement();
     }
 }
