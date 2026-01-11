@@ -28,7 +28,7 @@ MonoBehaviour:
       defaultText: 
       givesXP: 1
       xpAmount: 500
-      skillType: 5
+      skillType: 4
     backSide:
       pageID: 16
       background: {fileID: 21300000, guid: f9fbf11cdd7884149ab4649aca13bc7f, type: 3}

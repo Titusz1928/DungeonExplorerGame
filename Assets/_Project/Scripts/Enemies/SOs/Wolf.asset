@@ -32,7 +32,7 @@ MonoBehaviour:
   corpseContainer: {fileID: 11400000, guid: b36f65ce7bcb84b41aa4fec65e836a66, type: 2}
   anatomy:
   - partName: Head
-    associatedSlot: 0
+    associatedSlot: 1
     naturalDefense:
       blunt: 5
       pierce: 5
