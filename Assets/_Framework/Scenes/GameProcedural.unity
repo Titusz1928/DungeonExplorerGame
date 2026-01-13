@@ -794,6 +794,7 @@ GameObject:
   - component: {fileID: 1996022301}
   - component: {fileID: 1996022304}
   - component: {fileID: 1996022305}
+  - component: {fileID: 1996022306}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -934,6 +935,22 @@ MonoBehaviour:
   target: {fileID: 0}
   smoothSpeed: 0.125
   offset: {x: 0, y: 0, z: -10}
+--- !u!114 &1996022306
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1996022300}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56666c5a40171f54783dd416a44f42bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EventMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_MaxRayIntersections: 0
 --- !u!1 &2012903301
 GameObject:
   m_ObjectHideFlags: 0
@@ -1270,9 +1287,33 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3752532639335915930, guid: 7a5f726c6f739be4e940bf55eb38a607, type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 1996022302}
+    - target: {fileID: 3752532639335915930, guid: 7a5f726c6f739be4e940bf55eb38a607, type: 3}
+      propertyPath: m_RenderMode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3752532639335915930, guid: 7a5f726c6f739be4e940bf55eb38a607, type: 3}
+      propertyPath: m_PlaneDistance
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 3786488559028603314, guid: 7a5f726c6f739be4e940bf55eb38a607, type: 3}
+      propertyPath: m_BlockingObjects
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 3850463169246405320, guid: 7a5f726c6f739be4e940bf55eb38a607, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5256658025447584019, guid: 7a5f726c6f739be4e940bf55eb38a607, type: 3}
+      propertyPath: m_RaycastTarget
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5256658026491449679, guid: 7a5f726c6f739be4e940bf55eb38a607, type: 3}
+      propertyPath: m_RaycastTarget
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5344790457711631823, guid: 7a5f726c6f739be4e940bf55eb38a607, type: 3}
       propertyPath: m_AnchorMax.y
@@ -1358,6 +1399,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8573538932650675998, guid: 7a5f726c6f739be4e940bf55eb38a607, type: 3}
+      propertyPath: mainCamera
+      value: 
+      objectReference: {fileID: 1996022302}
     - target: {fileID: 8918243084854007795, guid: 7a5f726c6f739be4e940bf55eb38a607, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 

@@ -257,4 +257,25 @@ public class WorldSaveData : MonoBehaviour
     }
 
     #endregion
+
+
+    public void UpdateObjectPrefabInChunk(Vector3 position, string newPrefabName)
+    {
+        Vector2Int chunkCoord = GetChunkCoordFromPosition(position);
+        string key = GetChunkKey(chunkCoord);
+
+        if (chunkData.TryGetValue(key, out ChunkData data))
+        {
+            // Find the object in this chunk that matches the position
+            // We use a small epsilon (0.1f) in case of float precision errors
+            SpawnedObjectData objectToUpdate = data.objects.Find(obj =>
+                Vector2.Distance(obj.position, position) < 0.1f);
+
+            if (objectToUpdate != null)
+            {
+                objectToUpdate.prefabName = newPrefabName;
+                Debug.Log($"[SAVE SYSTEM] Updated {position} to {newPrefabName} in Chunk {key}");
+            }
+        }
+    }
 }
