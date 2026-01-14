@@ -77,7 +77,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 5
   m_Sprite: {fileID: 21300000, guid: 4c71a713737ca7940bb5872e84134ada, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -148,8 +148,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   containerData: {fileID: 11400000, guid: 0a2ac101db05dcc429d8180c4ddea5eb, type: 2}
+  items: []
   sr: {fileID: 4391797383497203349}
   highlightColor: {r: 1, g: 0.13725491, b: 0, a: 1}
+  worldCell: {x: 0, y: 0}
+  wasOpened: 0
+  uniqueId: 
 --- !u!1 &6512612604678412029
 GameObject:
   m_ObjectHideFlags: 0
