@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72bd071f329f9aa4cbe2de2484fbf429, type: 3}
+  m_Name: WeaponRack
+  m_EditorClassIdentifier: 
+  containerName: Weapon rack
+  containerIcon: {fileID: 21300000, guid: ac4cb4f36362c1a41b7a03c893333b61, type: 3}
+  lootGroups:
+  - groupName: Weapons
+    possibleItems:
+    - {fileID: 11400000, guid: 72f0d417d13b2ce43bc9548d930f303f, type: 2}
+    - {fileID: 11400000, guid: 4d9f2f8f6cf7c474db0732b397b95f52, type: 2}
+    - {fileID: 11400000, guid: 6428c48ca13eac847a601a11f7932f4f, type: 2}
+    minCount: 0
+    maxCount: 2
+    allowDuplicates: 1
+  - groupName: Armor
+    possibleItems:
+    - {fileID: 11400000, guid: fedcad1edf284714d9b38088a039211e, type: 2}
+    - {fileID: 11400000, guid: e656ae18ee8464d4eb8568683e8b6eb2, type: 2}
+    - {fileID: 11400000, guid: 0a0b4ea6d195fd84aaa2e15a1eebfac3, type: 2}
+    - {fileID: 11400000, guid: 38057dbfb64a55f49a19bf1edc6ae5d2, type: 2}
+    - {fileID: 11400000, guid: f28e0592a06d0584e90d100d6d14b6a6, type: 2}
+    - {fileID: 11400000, guid: 660786c249eef234aafe4f02bd12d385, type: 2}
+    minCount: 0
+    maxCount: 1
+    allowDuplicates: 0

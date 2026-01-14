@@ -77,7 +77,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 5
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -148,5 +148,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   containerData: {fileID: 0}
+  items: []
   sr: {fileID: 0}
   highlightColor: {r: 1, g: 0.13725491, b: 0, a: 1}
+  worldCell: {x: 0, y: 0}
+  wasOpened: 0
+  uniqueId: 

@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 916411805173909448}
   - component: {fileID: 6980817776069038797}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: TreeA2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -96,7 +96,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4798378205902674744}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: TreeObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -131,7 +131,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4617420000931031155}
   - component: {fileID: 3287989998478438742}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: TreeCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -209,7 +209,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7833178794981514217}
   - component: {fileID: 7211929449757363292}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: TreeA1
   m_TagString: Untagged
   m_Icon: {fileID: 0}

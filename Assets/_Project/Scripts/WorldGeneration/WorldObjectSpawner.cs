@@ -21,6 +21,10 @@ public class WorldObjectSpawner : MonoBehaviour
 
     public int worldSize = 1280;
 
+    //[Header("House Settings")]
+    //public GameObject housePrefab;
+    //public float houseChance = 0.00005f; // Much rarer than trees
+
     // Lookup for prefab by name
     private Dictionary<string, GameObject> prefabLookup;
 
@@ -30,6 +34,7 @@ public class WorldObjectSpawner : MonoBehaviour
 
         prefabLookup = new Dictionary<string, GameObject>();
         if (treePrefab != null) prefabLookup[treePrefab.name] = treePrefab;
+        //if (housePrefab != null) prefabLookup[housePrefab.name] = housePrefab;
         foreach (var p in bushPrefabs) prefabLookup[p.name] = p;
         foreach (var p in chestPrefabs) prefabLookup[p.name] = p;
         foreach (var p in enemySpawnPrefabs) prefabLookup[p.name] = p;
@@ -75,6 +80,17 @@ public class WorldObjectSpawner : MonoBehaviour
                     continue;
 
                 Vector3 pos = new Vector3(worldX + 0.5f, worldY + 0.5f, 0f);
+
+                // 1. TRY SPAWN HOUSE FIRST (Priority)
+                //if (housePrefab != null && Random.value < houseChance)
+                //{
+                //    GameObject houseGo = InstantiateAndRecord(housePrefab, pos, chunkParent, null, newData);
+                //    HouseVisibility hv = houseGo.GetComponent<HouseVisibility>();
+                //    if (hv != null) spawnedHousesInThisChunk.Add(hv);
+
+                //    // If a house spawns here, don't spawn a tree/bush on the same tile
+                //    continue;
+                //}
 
                 TrySpawn(treePrefab, treeChance, pos, chunkParent, newData);
                 TrySpawnRandom(bushPrefabs, bushChance, chunkCoord, new Vector2Int(x, y), chunkParent, newData);
