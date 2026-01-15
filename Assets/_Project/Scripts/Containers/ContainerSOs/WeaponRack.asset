@@ -20,7 +20,7 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 72f0d417d13b2ce43bc9548d930f303f, type: 2}
     - {fileID: 11400000, guid: 4d9f2f8f6cf7c474db0732b397b95f52, type: 2}
     - {fileID: 11400000, guid: 6428c48ca13eac847a601a11f7932f4f, type: 2}
-    minCount: 0
+    minCount: 1
     maxCount: 2
     allowDuplicates: 1
   - groupName: Armor
@@ -31,6 +31,6 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 38057dbfb64a55f49a19bf1edc6ae5d2, type: 2}
     - {fileID: 11400000, guid: f28e0592a06d0584e90d100d6d14b6a6, type: 2}
     - {fileID: 11400000, guid: 660786c249eef234aafe4f02bd12d385, type: 2}
-    minCount: 0
+    minCount: 1
     maxCount: 1
     allowDuplicates: 0

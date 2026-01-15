@@ -14,5 +14,7 @@ public class SpawnedObjectData
 {
     public string prefabName;
     public Vector2 position;
-    public string containerId; // null if object has no container
+    public List<string> containerIds = new List<string>(); // null if object has no container
+
+    public List<int> hiddenObjectIndices = new List<int>();
 }

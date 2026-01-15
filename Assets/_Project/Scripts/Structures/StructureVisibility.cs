@@ -1,5 +1,6 @@
-using UnityEngine;
+using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class HouseVisibility : MonoBehaviour
 {
@@ -30,10 +31,17 @@ public class HouseVisibility : MonoBehaviour
         GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
         if (playerObj != null) player = playerObj.transform;
 
-        //if (clearObstaclesOnStart)
-        //{
-        //    ClearObstacles();
-        //}
+        // Safety net for manually placed houses
+        if (clearObstaclesOnStart)
+        {
+            StartCoroutine(DelayedClear());
+        }
+    }
+
+    private IEnumerator DelayedClear()
+    {
+        yield return new WaitForEndOfFrame();
+        ClearObstacles();
     }
 
     void Update()
@@ -62,29 +70,29 @@ public class HouseVisibility : MonoBehaviour
         else ApplyNormal();
     }
 
-    //private void ClearObstacles()
-    //{
-    //    Vector2 center = (Vector2)transform.position + floorOffset;
-    //    Vector2 size = new Vector2(width, height);
+    public void ClearObstacles()
+    {
+        Vector2 center = (Vector2)transform.position + floorOffset;
+        Vector2 size = new Vector2(width, height);
 
-    //    Collider2D[] hits = Physics2D.OverlapBoxAll(center, size, 0f, obstaclesLayerMask);
+        Collider2D[] hits = Physics2D.OverlapBoxAll(center, size, 0f, obstaclesLayerMask);
 
-    //    foreach (Collider2D hit in hits)
-    //    {
-    //        // 1. Is it the player? Skip.
-    //        if (hit.CompareTag("Player")) continue;
+        foreach (Collider2D hit in hits)
+        {
+            // 1. Is it the player? Skip.
+            if (hit.CompareTag("Player")) continue;
 
-    //        // 2. Is it part of THIS house (walls, floor, roof)? Skip.
-    //        if (hit.transform.IsChildOf(this.transform)) continue;
+            // 2. Is it part of THIS house (walls, floor, roof)? Skip.
+            if (hit.transform.IsChildOf(this.transform)) continue;
 
-    //        // 3. Is it specifically inside the "Inside Objects" folder? Skip.
-    //        if (insideObjects != null && hit.transform.IsChildOf(insideObjects.transform)) continue;
+            // 3. Is it specifically inside the "Inside Objects" folder? Skip.
+            if (insideObjects != null && hit.transform.IsChildOf(insideObjects.transform)) continue;
 
-    //        // 4. If we got here, it's a stray tree/rock. Kill it.
-    //        Debug.Log($"[House] Clearing intersecting object: {hit.name}");
-    //        Destroy(hit.gameObject);
-    //    }
-    //}
+            // 4. If we got here, it's a stray tree/rock. Kill it.
+            Debug.Log($"[House] Clearing intersecting object: {hit.name}");
+            Destroy(hit.gameObject);
+        }
+    }
 
     private void ApplyInside()
     {

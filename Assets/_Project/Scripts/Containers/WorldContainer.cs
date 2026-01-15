@@ -47,7 +47,7 @@ public class WorldContainer : MonoBehaviour
         if (WorldSaveData.Instance.HasContainerData(uniqueId))
         {
             items = WorldSaveData.Instance.GetContainerData(uniqueId);
-            // wasOpened = WorldSaveData.Instance.IsContainerInitialized(uniqueId); // Restore your bool
+            wasOpened = WorldSaveData.Instance.IsContainerInitialized(uniqueId); // Restore your bool
         }
         else
         {

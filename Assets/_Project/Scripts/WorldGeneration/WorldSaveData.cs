@@ -114,26 +114,8 @@ public class WorldSaveData : MonoBehaviour
         containerData.Clear();
         worldCellToId.Clear();
 
-        // 1. Restore Chunks
-        foreach (var chunk in worldSave.chunks)
-        {
-            // Use the string key helper
-            string key = GetChunkKey(chunk.chunkCoord);
-            chunkData[key] = chunk;
-
-            // 2. Re-map Container IDs
-            foreach (var obj in chunk.objects)
-            {
-                if (!string.IsNullOrEmpty(obj.containerId))
-                {
-                    // Use FloorToInt to ensure (417.5, 500.5) becomes (417, 500)
-                    Vector2Int cell = new Vector2Int(Mathf.FloorToInt(obj.position.x), Mathf.FloorToInt(obj.position.y));
-                    worldCellToId[cell] = obj.containerId;
-                }
-            }
-        }
-
-        // 3. Restore Container Data
+        // 1. Restore Container Data FIRST
+        // We do this first so that when objects look up IDs, the data is already there
         foreach (var savedContainer in worldSave.containers)
         {
             if (savedContainer != null)
@@ -142,10 +124,49 @@ public class WorldSaveData : MonoBehaviour
             }
         }
 
-        Debug.Log($"Restored {chunkData.Count} chunks.");
+        // 2. Restore Chunks and Re-map IDs
+        foreach (var chunk in worldSave.chunks)
+        {
+            string key = GetChunkKey(chunk.chunkCoord);
+            chunkData[key] = chunk;
 
-        IsLoaded = true; // Mark as ready
-        Debug.Log($"Restored {chunkData.Count} chunks. System is now READY.");
+            foreach (var obj in chunk.objects)
+            {
+                // If the list is null or empty, skip
+                if (obj.containerIds == null || obj.containerIds.Count == 0) continue;
+
+                // Handle mapping
+                if (obj.containerIds.Count == 1)
+                {
+                    // Simple case: Single chest/object
+                    Vector2Int cell = new Vector2Int(Mathf.FloorToInt(obj.position.x), Mathf.FloorToInt(obj.position.y));
+                    worldCellToId[cell] = obj.containerIds[0];
+                }
+                else
+                {
+
+                    foreach (string id in obj.containerIds)
+                    {
+                        RegisterIdToCellFromIdString(id);
+                    }
+                }
+            }
+        }
+
+        IsLoaded = true;
+        Debug.Log($"Restored {chunkData.Count} chunks and {containerData.Count} containers. System is READY.");
+    }
+
+    private void RegisterIdToCellFromIdString(string id)
+    {
+        string[] parts = id.Split('_');
+        if (parts.Length >= 3)
+        {
+            if (int.TryParse(parts[1], out int x) && int.TryParse(parts[2], out int y))
+            {
+                worldCellToId[new Vector2Int(x, y)] = id;
+            }
+        }
     }
 
     #region Container ID
@@ -204,6 +225,7 @@ public class WorldSaveData : MonoBehaviour
     // CHANGED: This now "wraps" the runtime List into a ContainerSaveData object
     public void SaveContainerData(string id, List<ItemInstance> items, bool wasopened, bool isInitialized = true)
     {
+        Debug.Log("[CONTAINER DATA] saving for: "+id);
         ContainerSaveData newData = new ContainerSaveData
         {
             id = id,

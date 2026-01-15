@@ -12,18 +12,17 @@ public class WorldObjectSpawner : MonoBehaviour
     public GameObject[] bushPrefabs;
     public GameObject[] chestPrefabs;
     public GameObject[] enemySpawnPrefabs;
+    public GameObject housePrefab;
 
     [Header("Spawn Settings")]
     public float treeChance = 0.02f;
     public float bushChance = 0.03f;
     public float chestChance = 0.005f;
     public float enemyZoneChance = 0.002f;
+    public float houseChance = 0.000005f;
 
     public int worldSize = 1280;
 
-    //[Header("House Settings")]
-    //public GameObject housePrefab;
-    //public float houseChance = 0.00005f; // Much rarer than trees
 
     // Lookup for prefab by name
     private Dictionary<string, GameObject> prefabLookup;
@@ -34,7 +33,7 @@ public class WorldObjectSpawner : MonoBehaviour
 
         prefabLookup = new Dictionary<string, GameObject>();
         if (treePrefab != null) prefabLookup[treePrefab.name] = treePrefab;
-        //if (housePrefab != null) prefabLookup[housePrefab.name] = housePrefab;
+        if (housePrefab != null) prefabLookup[housePrefab.name] = housePrefab;
         foreach (var p in bushPrefabs) prefabLookup[p.name] = p;
         foreach (var p in chestPrefabs) prefabLookup[p.name] = p;
         foreach (var p in enemySpawnPrefabs) prefabLookup[p.name] = p;
@@ -81,17 +80,6 @@ public class WorldObjectSpawner : MonoBehaviour
 
                 Vector3 pos = new Vector3(worldX + 0.5f, worldY + 0.5f, 0f);
 
-                // 1. TRY SPAWN HOUSE FIRST (Priority)
-                //if (housePrefab != null && Random.value < houseChance)
-                //{
-                //    GameObject houseGo = InstantiateAndRecord(housePrefab, pos, chunkParent, null, newData);
-                //    HouseVisibility hv = houseGo.GetComponent<HouseVisibility>();
-                //    if (hv != null) spawnedHousesInThisChunk.Add(hv);
-
-                //    // If a house spawns here, don't spawn a tree/bush on the same tile
-                //    continue;
-                //}
-
                 TrySpawn(treePrefab, treeChance, pos, chunkParent, newData);
                 TrySpawnRandom(bushPrefabs, bushChance, chunkCoord, new Vector2Int(x, y), chunkParent, newData);
                 TrySpawnRandom(chestPrefabs, chestChance, chunkCoord, new Vector2Int(x, y), chunkParent, newData);
@@ -99,6 +87,42 @@ public class WorldObjectSpawner : MonoBehaviour
             }
         }
 
+        // --- PASS 2: HOUSES (Limit: 2) ---
+        int housesSpawned = 0;
+        const int maxHousesPerChunk = 1;
+
+        // Use a bool to break out of the nested loop entirely
+        bool limitReached = false;
+
+        for (int x = 0; x < chunkSize && !limitReached; x++)
+        {
+            for (int y = 0; y < chunkSize; y++)
+            {
+                int worldX = chunkCoord.x * chunkSize + x;
+                int worldY = chunkCoord.y * chunkSize + y;
+                float height = terrainGenerator.GetHeight(worldX, worldY, worldSize);
+
+                if (height < terrainGenerator.sandyGrassLevel) continue;
+
+                if (Random.value < houseChance)
+                {
+                    Vector3 pos = new Vector3(worldX + 0.5f, worldY + 0.5f, 0f);
+                    GameObject houseGo = InstantiateAndRecord(housePrefab, pos, chunkParent, null, newData);
+
+                    HouseVisibility hv = houseGo.GetComponent<HouseVisibility>();
+                    if (hv != null) hv.ClearObstacles();
+
+                    housesSpawned++;
+                    if (housesSpawned >= maxHousesPerChunk)
+                    {
+                        limitReached = true;
+                        break;
+                    }
+                }
+            }
+        }
+
+        //Debug.Log($"[SPAWNER] Chunk {chunkCoord} complete. House Attempts: {houseAttempts} | Spawned: {housesSpawned}");
         WorldSaveData.Instance.SaveChunkData(chunkCoord, newData);
     }
 
@@ -106,7 +130,6 @@ public class WorldObjectSpawner : MonoBehaviour
 
     void SpawnFromChunkData(ChunkData data, Transform parent)
     {
-        // 1. Restore Static Objects (Trees, Bushes, Chests)
         foreach (var objData in data.objects)
         {
             if (!prefabLookup.TryGetValue(objData.prefabName, out GameObject prefab))
@@ -114,12 +137,25 @@ public class WorldObjectSpawner : MonoBehaviour
 
             GameObject go = Instantiate(prefab, objData.position, Quaternion.identity, parent);
 
-            // Handle Containers (Chests/Corpses)
-            if (objData.containerId != null)
+            // Get the containers in the same order they were recorded
+            WorldContainer[] containers = go.GetComponentsInChildren<WorldContainer>();
+
+            for (int i = 0; i < containers.Length; i++)
             {
-                WorldContainer container = go.GetComponentInChildren<WorldContainer>();
-                if (container != null)
-                    container.Initialize(new Vector2Int((int)objData.position.x, (int)objData.position.y), objData.containerId);
+                // Safety check: make sure we have a saved ID for this container index
+                if (i < objData.containerIds.Count)
+                {
+                    Vector2Int cell = new Vector2Int(Mathf.FloorToInt(containers[i].transform.position.x), Mathf.FloorToInt(containers[i].transform.position.y));
+
+                    // Pass the SAVED ID back to the container
+                    containers[i].Initialize(cell, objData.containerIds[i]);
+                }
+
+                StructureVisualVariator variator = go.GetComponent<StructureVisualVariator>();
+                if (variator != null && objData.hiddenObjectIndices != null)
+                {
+                    variator.ApplyVariation(objData.hiddenObjectIndices);
+                }
             }
         }
 
@@ -156,25 +192,42 @@ public class WorldObjectSpawner : MonoBehaviour
         InstantiateAndRecord(prefab, pos, parent, null, chunkData);
     }
 
-    void InstantiateAndRecord(GameObject prefab, Vector3 pos, Transform parent, string containerId, ChunkData chunkData)
+    GameObject InstantiateAndRecord(GameObject prefab, Vector3 pos, Transform parent, string singleId, ChunkData chunkData)
     {
         GameObject go = Instantiate(prefab, pos, Quaternion.identity, parent);
-        WorldContainer container = go.GetComponentInChildren<WorldContainer>();
 
-        if (container != null)
+        // 1. Find all containers inside (works for 1 chest or 10 cupboards in a house)
+        WorldContainer[] containers = go.GetComponentsInChildren<WorldContainer>();
+        List<string> savedIds = new List<string>();
+
+        foreach (var container in containers)
         {
-            Vector2Int cell = new Vector2Int(Mathf.FloorToInt(pos.x), Mathf.FloorToInt(pos.y));
-            // If containerId is null (new spawn), Initialize will generate one and return it
-            container.Initialize(cell, containerId);
-            containerId = container.uniqueId; // Capture the generated ID
+            Vector2Int cell = new Vector2Int(Mathf.FloorToInt(container.transform.position.x), Mathf.FloorToInt(container.transform.position.y));
+
+            // Initialize it (this generates the uniqueId if it doesn't have one)
+            container.Initialize(cell, null);
+
+            // Record the ID that was just generated
+            savedIds.Add(container.uniqueId);
         }
 
+        StructureVisualVariator variator = go.GetComponent<StructureVisualVariator>();
+        List<int> hiddenIndices = new List<int>();
+        if (variator != null)
+        {
+            hiddenIndices = variator.GenerateVariation();
+        }
+
+        // 2. Save the object data including the list of IDs
         chunkData.objects.Add(new SpawnedObjectData
         {
             prefabName = prefab.name,
             position = pos,
-            containerId = containerId
+            containerIds = savedIds,
+            hiddenObjectIndices = hiddenIndices
         });
+
+        return go;
     }
 
     #endregion
