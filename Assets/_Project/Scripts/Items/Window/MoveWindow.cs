@@ -97,7 +97,7 @@ public class MoveWindow : MonoBehaviour
         foreach (var hit in hits)
         {
             WorldContainer wc = hit.GetComponentInParent<WorldContainer>();
-            if (wc != null)
+            if (wc != null && !containers.Contains(wc))
                 containers.Add(wc);
         }
 

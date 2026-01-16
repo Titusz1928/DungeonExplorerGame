@@ -17,9 +17,14 @@ MonoBehaviour:
   icon: {fileID: 21300000, guid: 6ad84e8ff311a054184ac13bc94a0378, type: 3}
   category: 3
   isStackable: 1
-  maxStackSize: 10
+  maxStackSize: 15
   isBreakable: 0
   maxDurability: 0
+  isFuel: 0
+  fuelValue: 0
+  isCookable: 1
+  cookTimeRequired: 30
+  cookedResultSO: {fileID: 11400000, guid: fad8b2e070088704aa404e9f0a79fe40, type: 2}
   consumableType: 0
   healthAmount: 10
   staminaAmount: 10

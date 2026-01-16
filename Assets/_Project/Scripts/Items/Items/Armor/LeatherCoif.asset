@@ -20,6 +20,11 @@ MonoBehaviour:
   maxStackSize: 1
   isBreakable: 1
   maxDurability: 100
+  isFuel: 1
+  fuelValue: 3
+  isCookable: 0
+  cookTimeRequired: 0
+  cookedResultSO: {fileID: 0}
   slotsCovered: 1
   layer: 0
   defenses:

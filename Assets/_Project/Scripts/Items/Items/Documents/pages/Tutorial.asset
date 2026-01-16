@@ -20,6 +20,11 @@ MonoBehaviour:
   maxStackSize: 1
   isBreakable: 0
   maxDurability: 0
+  isFuel: 1
+  fuelValue: 5
+  isCookable: 0
+  cookTimeRequired: 0
+  cookedResultSO: {fileID: 0}
   docType: 1
   papers:
   - frontSide:

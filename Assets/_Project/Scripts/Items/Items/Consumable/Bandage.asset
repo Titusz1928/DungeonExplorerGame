@@ -20,6 +20,11 @@ MonoBehaviour:
   maxStackSize: 10
   isBreakable: 0
   maxDurability: 0
+  isFuel: 1
+  fuelValue: 5
+  isCookable: 0
+  cookTimeRequired: 0
+  cookedResultSO: {fileID: 0}
   consumableType: 2
   healthAmount: 0
   staminaAmount: 0

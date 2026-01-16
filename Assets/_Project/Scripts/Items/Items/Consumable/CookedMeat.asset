@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 17b9229988c98aa4ca485cfc6bab493c, type: 3}
-  m_Name: WolfMeat
+  m_Name: CookedMeat
   m_EditorClassIdentifier: 
-  ID: 14
-  itemName: Wolf meat
-  icon: {fileID: 21300000, guid: b5d9d9abc926bcd46a2ab3e217350292, type: 3}
+  ID: 35
+  itemName: Cooked Meat
+  icon: {fileID: 21300000, guid: 61389a638d6e7a44288c8644a6bc9539, type: 3}
   category: 3
   isStackable: 1
   maxStackSize: 10
@@ -24,8 +24,8 @@ MonoBehaviour:
   fuelValue: 0
   isCookable: 1
   cookTimeRequired: 30
-  cookedResultSO: {fileID: 11400000, guid: a8673783dd24f4b49a144e5d5cf36329, type: 2}
+  cookedResultSO: {fileID: 11400000, guid: 10de2efc737ae3b458fe6a0a686f6ab6, type: 2}
   consumableType: 0
-  healthAmount: 10
-  staminaAmount: 1
+  healthAmount: 30
+  staminaAmount: 30
   useSound: {fileID: 8300000, guid: a8038562c1317a641bee02b085ad5c0b, type: 3}

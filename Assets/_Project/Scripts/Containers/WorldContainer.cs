@@ -20,7 +20,7 @@ public class WorldContainer : MonoBehaviour
 
     private bool initialized = false;
 
-    public bool wasOpened=false;
+    public bool wasOpened = false;
 
     private bool isPrepopulated = false;
 
@@ -56,7 +56,7 @@ public class WorldContainer : MonoBehaviour
                 GenerateContents();
             }
             // Save immediately so the ID and contents are linked
-            WorldSaveData.Instance.SaveContainerData(uniqueId, items,wasOpened, initialized);
+            WorldSaveData.Instance.SaveContainerData(uniqueId, items, wasOpened, initialized);
         }
 
         initialized = true;
@@ -138,6 +138,11 @@ public class WorldContainer : MonoBehaviour
         }
 
         // 3. Save the updated state of the container
+        WorldSaveData.Instance.SaveContainerData(uniqueId, items, wasOpened, initialized);
+    }
+
+    public void SaveState()
+    {
         WorldSaveData.Instance.SaveContainerData(uniqueId, items, wasOpened, initialized);
     }
 }

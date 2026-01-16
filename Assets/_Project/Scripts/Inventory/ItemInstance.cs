@@ -23,6 +23,8 @@ public class ItemInstance
     public int quantity;
     public bool isEquipped;
 
+    public float cookingProgress;
+
     // Armor-only dynamic stat
     public int holes = 0;
 

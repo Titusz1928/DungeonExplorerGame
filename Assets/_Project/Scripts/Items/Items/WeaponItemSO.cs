@@ -28,7 +28,7 @@ public class WeaponItemSO : ItemSO
 
     [Header("Damage")]
     public DamageType damageType;
-    public double damageAmount;
+    public float damageAmount;
 
     [Header("Audio")]
     public AudioClip attackSound;
