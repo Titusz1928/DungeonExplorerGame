@@ -2,24 +2,31 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HouseVisibility : MonoBehaviour
+public class StructureVisibility : MonoBehaviour
 {
+    [System.Serializable]
+    public struct VisibilityZone
+    {
+        public Vector2 offset;
+        public Vector2 size;
+    }
+
     [Header("Component References")]
     public GameObject roofObject;
-    public Renderer northWall;
-    public Renderer southWall;
-    public Renderer westWall;
-    public Renderer eastWall;
+    public List<Renderer> northWalls = new();
+    public List<Renderer> southWalls = new();
+    public List<Renderer> westWalls = new();
+    public List<Renderer> eastWalls = new();
+    public List<Renderer> floors = new();
     public Renderer floor;
+
     public GameObject interiorBlackout;
     public GameObject insideObjects;
 
-    [Header("Coordinate Zones")]
-    public Vector2 floorOffset;      // Offset for the interior/green box
-    public Vector2 northZoneOffset;  // Offset for the behind/yellow box
-    public float width = 6f;
-    public float height = 2f;
-    public float northZoneHeight = 3f;
+    [Header("Coordinate Zones (Lists)")]
+    public List<VisibilityZone> insideZones = new();
+    public List<VisibilityZone> northZones = new();
+    public List<VisibilityZone> clearZones = new();
 
     private Transform player;
 
@@ -48,21 +55,31 @@ public class HouseVisibility : MonoBehaviour
     {
         if (player == null) return;
 
-        // 1. Calculate relative positions for BOTH zones independently
-        Vector3 insideCenter = transform.position + (Vector3)floorOffset;
-        Vector3 relInside = player.position - insideCenter;
+        bool isInside = false;
+        bool isBehind = false;
 
-        Vector3 behindCenter = transform.position + (Vector3)northZoneOffset;
-        Vector3 relBehind = player.position - behindCenter;
+        // 1. Check if player is in ANY Inside Zone
+        foreach (var zone in insideZones)
+        {
+            if (IsPointInZone(player.position, zone))
+            {
+                isInside = true;
+                break;
+            }
+        }
 
-        // 2. Zone Detection
-        // Is player inside the Green Box?
-        bool isInside = Mathf.Abs(relInside.x) < (width / 2) &&
-                        Mathf.Abs(relInside.y) < (height / 2);
-
-        // Is player inside the Yellow Box?
-        bool isBehind = Mathf.Abs(relBehind.x) < (width / 2) &&
-                        Mathf.Abs(relBehind.y) < (northZoneHeight / 2);
+        // 2. Check if player is in ANY North Zone (Only if not inside)
+        if (!isInside)
+        {
+            foreach (var zone in northZones)
+            {
+                if (IsPointInZone(player.position, zone))
+                {
+                    isBehind = true;
+                    break;
+                }
+            }
+        }
 
         // 3. Apply Logic
         if (isInside) ApplyInside();
@@ -70,27 +87,41 @@ public class HouseVisibility : MonoBehaviour
         else ApplyNormal();
     }
 
+    private bool IsPointInZone(Vector2 point, VisibilityZone zone)
+    {
+        Vector2 center = (Vector2)transform.position + zone.offset;
+        return Mathf.Abs(point.x - center.x) < (zone.size.x / 2f) &&
+               Mathf.Abs(point.y - center.y) < (zone.size.y / 2f);
+    }
+
     public void ClearObstacles()
     {
-        Vector2 center = (Vector2)transform.position + floorOffset;
-        Vector2 size = new Vector2(width, height);
+        // Use a HashSet to ensure we don't process the same obstacle twice 
+        // if clear zones overlap
+        HashSet<Collider2D> uniqueHits = new HashSet<Collider2D>();
 
-        Collider2D[] hits = Physics2D.OverlapBoxAll(center, size, 0f, obstaclesLayerMask);
-
-        foreach (Collider2D hit in hits)
+        foreach (var zone in clearZones)
         {
-            // 1. Is it the player? Skip.
+            Vector2 center = (Vector2)transform.position + zone.offset;
+            Collider2D[] hits = Physics2D.OverlapBoxAll(center, zone.size, 0f, obstaclesLayerMask);
+            foreach (var hit in hits) uniqueHits.Add(hit);
+        }
+
+        foreach (Collider2D hit in uniqueHits)
+        {
             if (hit.CompareTag("Player")) continue;
-
-            // 2. Is it part of THIS house (walls, floor, roof)? Skip.
             if (hit.transform.IsChildOf(this.transform)) continue;
-
-            // 3. Is it specifically inside the "Inside Objects" folder? Skip.
             if (insideObjects != null && hit.transform.IsChildOf(insideObjects.transform)) continue;
 
-            // 4. If we got here, it's a stray tree/rock. Kill it.
-            Debug.Log($"[House] Clearing intersecting object: {hit.name}");
-            Destroy(hit.gameObject);
+            GameObject objectToDestroy = hit.transform.parent != null ? hit.transform.parent.gameObject : hit.gameObject;
+
+            if (objectToDestroy.name.Contains("Chunk") || objectToDestroy.name.Contains("Grid")) continue;
+
+            Vector3 obstaclePos = objectToDestroy.transform.position;
+            WorldSaveData.Instance.RemoveObjectFromChunk(obstaclePos);
+
+            Debug.Log($"[House] Clearing: {objectToDestroy.name}");
+            Destroy(objectToDestroy);
         }
     }
 
@@ -101,12 +132,11 @@ public class HouseVisibility : MonoBehaviour
         if (insideObjects) insideObjects.SetActive(true);
 
         // This will make the wall invisible, but the COLLIDER stays active!
-        if (southWall) SetAlpha(southWall, 0f);
-
-        SetAlpha(northWall, 1f);
-        SetAlpha(westWall, 0.3f);
-        SetAlpha(eastWall, 0.3f);
-        SetAlpha(floor, 1f);
+        SetAlpha(southWalls, 0f);
+        SetAlpha(northWalls, 1f);
+        SetAlpha(westWalls, 0.3f);
+        SetAlpha(eastWalls, 0.3f);
+        SetAlpha(floors, 1f);
     }
 
     private void ApplyBehind()
@@ -115,12 +145,11 @@ public class HouseVisibility : MonoBehaviour
         if (insideObjects) insideObjects.SetActive(false);
 
         SetAlpha(roofObject, 0f);
-        SetAlpha(northWall, 0.5f);
-
-        SetAlpha(westWall, 0f);
-        SetAlpha(eastWall, 0f);
-        SetAlpha(floor, 0f);
-        SetAlpha(southWall, 1f);
+        SetAlpha(northWalls, 0.5f);
+        SetAlpha(westWalls, 0f);
+        SetAlpha(eastWalls, 0f);
+        SetAlpha(floors, 0f);
+        SetAlpha(southWalls, 1f);
     }
 
     private void ApplyNormal()
@@ -129,11 +158,21 @@ public class HouseVisibility : MonoBehaviour
         if (interiorBlackout) interiorBlackout.SetActive(true);
         if (insideObjects) insideObjects.SetActive(false);
 
-        SetAlpha(northWall, 1f);
-        SetAlpha(southWall, 1f);
-        SetAlpha(westWall, 1f);
-        SetAlpha(eastWall, 1f);
-        SetAlpha(floor, 1f);
+        SetAlpha(northWalls, 1f);
+        SetAlpha(southWalls, 1f);
+        SetAlpha(westWalls, 1f);
+        SetAlpha(eastWalls, 1f);
+        SetAlpha(floors, 1f);
+    }
+
+    // --- NEW HELPER FOR LISTS ---
+    private void SetAlpha(List<Renderer> rendererList, float alpha)
+    {
+        if (rendererList == null) return;
+        foreach (Renderer r in rendererList)
+        {
+            SetAlpha(r, alpha);
+        }
     }
 
     // --- LOGIC FOR GAMEOBJECTS ---
@@ -212,14 +251,28 @@ public class HouseVisibility : MonoBehaviour
 
     void OnDrawGizmos()
     {
-        // GREEN BOX: Floor Area
-        Vector3 insideCenter = transform.position + (Vector3)floorOffset;
+        // Draw Inside Zones
         Gizmos.color = Color.green;
-        Gizmos.DrawWireCube(insideCenter, new Vector3(width, height, 0));
+        foreach (var zone in insideZones)
+        {
+            Vector3 center = transform.position + (Vector3)zone.offset;
+            Gizmos.DrawWireCube(center, new Vector3(zone.size.x, zone.size.y, 0));
+        }
 
-        // YELLOW BOX: Detection Area behind the house
-        Vector3 behindCenter = transform.position + (Vector3)northZoneOffset;
+        // Draw North Zones
         Gizmos.color = Color.yellow;
-        Gizmos.DrawWireCube(behindCenter, new Vector3(width, northZoneHeight, 0));
+        foreach (var zone in northZones)
+        {
+            Vector3 center = transform.position + (Vector3)zone.offset;
+            Gizmos.DrawWireCube(center, new Vector3(zone.size.x, zone.size.y, 0));
+        }
+
+        // Draw Clear Zones
+        Gizmos.color = Color.red;
+        foreach (var zone in clearZones)
+        {
+            Vector3 center = transform.position + (Vector3)zone.offset;
+            Gizmos.DrawWireCube(center, new Vector3(zone.size.x, zone.size.y, 0));
+        }
     }
 }

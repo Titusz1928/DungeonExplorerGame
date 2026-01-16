@@ -10,18 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 72bd071f329f9aa4cbe2de2484fbf429, type: 3}
-  m_Name: MaterialContainer
+  m_Name: Stove
   m_EditorClassIdentifier: 
-  containerName: Material container
-  containerIcon: {fileID: 21300000, guid: 7ef4ea48210a05c4d8c2a3b0804f5916, type: 3}
+  containerName: Stove
+  containerIcon: {fileID: 21300000, guid: d4fca8d67aed8824a999523607acbd0b, type: 3}
   lootGroups:
-  - groupName: contents
+  - groupName: Fuel
     possibleItems:
-    - {fileID: 11400000, guid: ac639bed04f7a334da037ba66d46a803, type: 2}
     - {fileID: 11400000, guid: c5e7a0b6e42edce42bb54e0532b5343f, type: 2}
-    - {fileID: 11400000, guid: 7737775ab8f44f34daeb671a3f314480, type: 2}
-    - {fileID: 11400000, guid: f6e8527bcc6c84947bd71aa4dbdcbdeb, type: 2}
-    - {fileID: 11400000, guid: e4f50bd1f60936c4ba6f97885255be2c, type: 2}
+    - {fileID: 11400000, guid: 10de2efc737ae3b458fe6a0a686f6ab6, type: 2}
     minCount: 1
-    maxCount: 3
+    maxCount: 5
     allowDuplicates: 1

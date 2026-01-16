@@ -2,6 +2,13 @@
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
+[System.Serializable]
+public struct StructureSpawnInfo
+{
+    public GameObject prefab;
+    [Range(0, 100)] public float weight; // Higher weight = more common
+}
+
 public class WorldObjectSpawner : MonoBehaviour
 {
     [Header("References")]
@@ -12,7 +19,8 @@ public class WorldObjectSpawner : MonoBehaviour
     public GameObject[] bushPrefabs;
     public GameObject[] chestPrefabs;
     public GameObject[] enemySpawnPrefabs;
-    public GameObject housePrefab;
+
+    public StructureSpawnInfo[] structures;
 
     [Header("Spawn Settings")]
     public float treeChance = 0.02f;
@@ -33,10 +41,15 @@ public class WorldObjectSpawner : MonoBehaviour
 
         prefabLookup = new Dictionary<string, GameObject>();
         if (treePrefab != null) prefabLookup[treePrefab.name] = treePrefab;
-        if (housePrefab != null) prefabLookup[housePrefab.name] = housePrefab;
         foreach (var p in bushPrefabs) prefabLookup[p.name] = p;
         foreach (var p in chestPrefabs) prefabLookup[p.name] = p;
         foreach (var p in enemySpawnPrefabs) prefabLookup[p.name] = p;
+
+        // Populate structures into lookup
+        foreach (var s in structures)
+        {
+            if (s.prefab != null) prefabLookup[s.prefab.name] = s.prefab;
+        }
     }
 
     private void EnsureReferences()
@@ -53,7 +66,7 @@ public class WorldObjectSpawner : MonoBehaviour
         // Check if we already have saved chunk data
         if (WorldSaveData.Instance.HasChunkData(chunkCoord))
         {
-            Debug.Log("[OBJECT SPAWNER] restoring old chunk:"+chunkCoord);
+            Debug.Log("[OBJECT SPAWNER] restoring old chunk:" + chunkCoord);
 
             ChunkData data = WorldSaveData.Instance.GetChunkData(chunkCoord);
             SpawnFromChunkData(data, chunkParent);
@@ -106,24 +119,42 @@ public class WorldObjectSpawner : MonoBehaviour
 
                 if (Random.value < houseChance)
                 {
-                    Vector3 pos = new Vector3(worldX + 0.5f, worldY + 0.5f, 0f);
-                    GameObject houseGo = InstantiateAndRecord(housePrefab, pos, chunkParent, null, newData);
+                    GameObject structurePrefab = GetRandomStructurePrefab();
+                    if (structurePrefab == null) continue;
 
-                    HouseVisibility hv = houseGo.GetComponent<HouseVisibility>();
-                    if (hv != null) hv.ClearObstacles();
+                    Vector3 pos = new Vector3(worldX + 0.5f, worldY + 0.5f, 0f);
+                    GameObject go = InstantiateAndRecord(structurePrefab, pos, chunkParent, null, newData);
+
+                    StructureVisibility sv = go.GetComponent<StructureVisibility>();
+                    if (sv != null) sv.ClearObstacles();
 
                     housesSpawned++;
-                    if (housesSpawned >= maxHousesPerChunk)
-                    {
-                        limitReached = true;
-                        break;
-                    }
+                    limitReached = true;
+                    break;
                 }
             }
         }
 
         //Debug.Log($"[SPAWNER] Chunk {chunkCoord} complete. House Attempts: {houseAttempts} | Spawned: {housesSpawned}");
         WorldSaveData.Instance.SaveChunkData(chunkCoord, newData);
+    }
+
+    private GameObject GetRandomStructurePrefab()
+    {
+        if (structures == null || structures.Length == 0) return null;
+
+        float totalWeight = 0;
+        foreach (var s in structures) totalWeight += s.weight;
+
+        float roll = Random.Range(0f, totalWeight);
+        float cumulative = 0;
+
+        foreach (var s in structures)
+        {
+            cumulative += s.weight;
+            if (roll <= cumulative) return s.prefab;
+        }
+        return structures[0].prefab;
     }
 
     #region Spawning Helpers

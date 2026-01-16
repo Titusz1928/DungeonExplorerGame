@@ -17,8 +17,8 @@ MonoBehaviour:
   lootGroups:
   - groupName: Weapons
     possibleItems:
-    - {fileID: 11400000, guid: 143d01bc259be3742b7bd3afc5d0606a, type: 2}
     - {fileID: 11400000, guid: 4d9f2f8f6cf7c474db0732b397b95f52, type: 2}
+    - {fileID: 11400000, guid: 834eb2359fd44ac47b346bb7f2234438, type: 2}
     minCount: 1
     maxCount: 2
     allowDuplicates: 1

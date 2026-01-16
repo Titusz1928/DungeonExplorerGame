@@ -225,7 +225,7 @@ public class WorldSaveData : MonoBehaviour
     // CHANGED: This now "wraps" the runtime List into a ContainerSaveData object
     public void SaveContainerData(string id, List<ItemInstance> items, bool wasopened, bool isInitialized = true)
     {
-        Debug.Log("[CONTAINER DATA] saving for: "+id);
+        Debug.Log("[CONTAINER DATA] saving for: " + id);
         ContainerSaveData newData = new ContainerSaveData
         {
             id = id,
@@ -297,6 +297,24 @@ public class WorldSaveData : MonoBehaviour
             {
                 objectToUpdate.prefabName = newPrefabName;
                 Debug.Log($"[SAVE SYSTEM] Updated {position} to {newPrefabName} in Chunk {key}");
+            }
+        }
+    }
+
+    public void RemoveObjectFromChunk(Vector3 position)
+    {
+        Vector2Int chunkCoord = GetChunkCoordFromPosition(position);
+        string key = GetChunkKey(chunkCoord);
+
+        if (chunkData.TryGetValue(key, out ChunkData data))
+        {
+            // Remove any object that is within 0.1 units of the target position
+            int removedCount = data.objects.RemoveAll(obj =>
+                Vector2.Distance(obj.position, position) < 0.1f);
+
+            if (removedCount > 0)
+            {
+                Debug.Log($"[SAVE SYSTEM] Removed {removedCount} object(s) at {position} from Chunk {key}");
             }
         }
     }

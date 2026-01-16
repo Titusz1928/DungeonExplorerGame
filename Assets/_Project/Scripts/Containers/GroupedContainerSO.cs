@@ -23,6 +23,16 @@ public class GroupedContainerSO : ContainerSO
                 int index = Random.Range(0, available.Count);
                 ItemSO item = available[index];
 
+                // --- ADD THIS SAFETY CHECK ---
+                if (item == null)
+                {
+                    Debug.LogWarning($"[LootGen] A null item was found in a LootGroup on {this.name}!");
+                    available.RemoveAt(index); // Remove it so we don't try again
+                    i--; // Adjust index to try the loop iteration again
+                    continue;
+                }
+                // -----------------------------
+
                 int qty = item.isStackable
                     ? Random.Range(1, item.maxStackSize + 1)
                     : 1;

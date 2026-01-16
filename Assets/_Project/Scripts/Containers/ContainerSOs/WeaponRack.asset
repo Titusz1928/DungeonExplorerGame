@@ -20,6 +20,7 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 72f0d417d13b2ce43bc9548d930f303f, type: 2}
     - {fileID: 11400000, guid: 4d9f2f8f6cf7c474db0732b397b95f52, type: 2}
     - {fileID: 11400000, guid: 6428c48ca13eac847a601a11f7932f4f, type: 2}
+    - {fileID: 11400000, guid: 834eb2359fd44ac47b346bb7f2234438, type: 2}
     minCount: 1
     maxCount: 2
     allowDuplicates: 1
