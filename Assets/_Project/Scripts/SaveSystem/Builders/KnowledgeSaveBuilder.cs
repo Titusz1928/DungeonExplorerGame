@@ -10,6 +10,7 @@ public static class KnowledgeSaveBuilder
         {
             // Convert the HashSet to a List for the save file
             data.readPageIDs = KnowledgeManager.Instance.GetReadPageIDs();
+            data.knownRecipeIDs = KnowledgeManager.Instance.GetKnownRecipeIDs();
         }
 
         return data;
@@ -20,6 +21,6 @@ public static class KnowledgeSaveBuilder
         if (data == null || KnowledgeManager.Instance == null) return;
 
         // Pass the list back to the manager to rebuild the HashSet
-        KnowledgeManager.Instance.LoadReadPages(data.readPageIDs);
+        KnowledgeManager.Instance.LoadKnowledge(data.readPageIDs, data.knownRecipeIDs);
     }
 }

@@ -328,6 +328,25 @@ public class InventoryWindow : MonoBehaviour
 
                     inventory.RemoveItem(item);
 
+                    // 2. Add the empty container back
+                    if (consumable.returnItem != null)
+                    {
+                        bool added = inventory.AddItem(consumable.returnItem, 1);
+                        if (!added)
+                        {
+                            // Hardcore mechanic: If inventory is full, the container is "dropped" (lost)
+                            MessageManager.Instance.ShowMessageDirectly("Inventory full! Discarded empty container.", null);
+
+
+                            Vector3 spawnPos = PlayerReference.PlayerTransform.position;
+
+                            ItemInstance singleDrop = new ItemInstance(consumable.returnItem, 1);
+                            singleDrop.currentDurability = item.currentDurability;
+
+                            ItemSpawner.Instance.SpawnWorldItem(singleDrop, spawnPos);
+                        }
+                    }
+
                     Sprite infoIcon = Resources.Load<Sprite>("UI/Icons/heal");
                     MessageManager.Instance.ShowMessageDirectly(
                         $"+{consumable.healthAmount} HP   +{consumable.staminaAmount} STAMINA",

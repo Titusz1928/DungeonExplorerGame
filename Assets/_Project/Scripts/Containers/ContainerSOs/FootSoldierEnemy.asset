@@ -61,6 +61,7 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 540160351e6dc6f41afd0788a9f66776, type: 2}
     - {fileID: 11400000, guid: f6e8527bcc6c84947bd71aa4dbdcbdeb, type: 2}
     - {fileID: 11400000, guid: 7737775ab8f44f34daeb671a3f314480, type: 2}
+    - {fileID: 11400000, guid: 0d1af5b99f1836343b0d356da8f486a4, type: 2}
     minCount: 0
     maxCount: 3
     allowDuplicates: 1

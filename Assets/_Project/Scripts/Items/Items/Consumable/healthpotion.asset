@@ -20,7 +20,13 @@ MonoBehaviour:
   maxStackSize: 1
   isBreakable: 0
   maxDurability: 0
+  isFuel: 0
+  fuelValue: 0
+  isCookable: 0
+  cookTimeRequired: 0
+  cookedResultSO: {fileID: 0}
   consumableType: 1
   healthAmount: 90
   staminaAmount: 90
+  returnItem: {fileID: 11400000, guid: d547e7bee9e53d8469ae9486797959c9, type: 2}
   useSound: {fileID: 8300000, guid: 1a6ae5d6fce144c4282940b4023e4832, type: 3}

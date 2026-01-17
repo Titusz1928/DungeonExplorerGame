@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6f45f3e2a77f3f4eb17e18eefde75b5, type: 3}
+  m_Name: Pot
+  m_EditorClassIdentifier: 
+  ID: 40
+  itemName: Empty pot
+  icon: {fileID: 21300000, guid: c8f6a1b659e2ead4e8fd82a8154fc7e7, type: 3}
+  category: 1
+  isStackable: 1
+  maxStackSize: 5
+  isBreakable: 0
+  maxDurability: 0
+  isFuel: 0
+  fuelValue: 0
+  isCookable: 0
+  cookTimeRequired: 0
+  cookedResultSO: {fileID: 0}

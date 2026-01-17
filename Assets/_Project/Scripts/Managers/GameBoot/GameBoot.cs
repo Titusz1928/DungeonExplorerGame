@@ -77,6 +77,14 @@ public class GameBoot : MonoBehaviour
             }
         }
 
+        // --- APPLY STARTING KNOWLEDGE ---
+        // Hardcoding recipe ID 2 as known from the start
+        if (KnowledgeManager.Instance != null)
+        {
+            KnowledgeManager.Instance.UnlockRecipe(2);
+            Debug.Log("HandleNewGame: Granted starting recipe ID 2.");
+        }
+
         if (WorldSaveData.Instance == null)
             WorldSaveData.Instance = PersistentWorld.GetComponent<WorldSaveData>();
 

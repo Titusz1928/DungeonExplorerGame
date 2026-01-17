@@ -21,6 +21,10 @@ public class PageSideSO
     public bool givesXP;
     public int xpAmount;
     public PlayerSkill skillType;
+
+    [Header("Crafting Unlock")]
+    [Tooltip("Set to 0 if this page unlocks no recipe.")]
+    public int recipeIDToUnlock;
 }
 
 [System.Serializable]

@@ -495,13 +495,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactText: Stove
-  interactionRange: 2
+  interactionRange: 1
   interactionCanvas: {fileID: 531488655533388484}
   interactButton: {fileID: 8553417971273133003}
   cookingWindowPrefab: {fileID: 2629293837924998068, guid: a808e07ff7fd71946a47717fd9d37b16, type: 3}
   isOnFire: 0
   remainingFuelTime: 0
   maxFuelCapacity: 360
+  inventoryUpdated: 0
   StationNotOnFireSprite: {fileID: 21300000, guid: d4fca8d67aed8824a999523607acbd0b, type: 3}
   StationOnFireSprite: {fileID: 21300000, guid: 89889b23ae8e2c541a933d96dd5c5bfc, type: 3}
 --- !u!114 &7388787761984962634

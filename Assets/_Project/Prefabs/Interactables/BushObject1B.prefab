@@ -225,7 +225,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactText: Interact
-  interactionRange: 2
+  interactionRange: 1
   interactionCanvas: {fileID: 2142737803805336200}
   interactButton: {fileID: 8722819596724292225}
   berryItemID: 8

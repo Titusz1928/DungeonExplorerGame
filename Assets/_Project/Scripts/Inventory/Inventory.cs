@@ -115,4 +115,64 @@ public class Inventory : MonoBehaviour
             items.Add(inst);
         }
     }
+
+    // --- CRAFTING HELPERS ---
+
+    /// <summary>
+    /// Checks if the inventory contains the total required quantity for all ingredients.
+    /// </summary>
+    public bool HasIngredients(List<IngredientSlot> ingredients)
+    {
+        foreach (var req in ingredients)
+        {
+            int totalFound = 0;
+            foreach (var item in items)
+            {
+                if (item.itemSO == req.item)
+                {
+                    totalFound += item.quantity;
+                }
+            }
+
+            if (totalFound < req.quantity)
+            {
+                return false; // Missing enough of this specific ingredient
+            }
+        }
+        return true;
+    }
+
+    /// <summary>
+    /// Deducts the specified ingredients from the inventory. 
+    /// Should only be called AFTER HasIngredients returns true.
+    /// </summary>
+    public void RemoveIngredients(List<IngredientSlot> ingredients)
+    {
+        foreach (var req in ingredients)
+        {
+            int amountToRemove = req.quantity;
+
+            // Iterate backwards so we can safely remove empty stacks from the list
+            for (int i = items.Count - 1; i >= 0; i--)
+            {
+                if (items[i].itemSO == req.item)
+                {
+                    if (items[i].quantity > amountToRemove)
+                    {
+                        // This stack has more than we need; just subtract
+                        items[i].quantity -= amountToRemove;
+                        amountToRemove = 0;
+                    }
+                    else
+                    {
+                        // This stack is exactly what we need or less; remove the whole stack
+                        amountToRemove -= items[i].quantity;
+                        items.RemoveAt(i);
+                    }
+                }
+
+                if (amountToRemove <= 0) break; // We found enough for this ingredient
+            }
+        }
+    }
 }
