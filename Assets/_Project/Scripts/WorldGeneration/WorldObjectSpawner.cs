@@ -9,6 +9,14 @@ public struct StructureSpawnInfo
     [Range(0, 100)] public float weight; // Higher weight = more common
 }
 
+[System.Serializable]
+public struct FixedStructureSpawn
+{
+    public string name;
+    public GameObject prefab;
+    public Vector2Int worldPos;
+}
+
 public class WorldObjectSpawner : MonoBehaviour
 {
     [Header("References")]
@@ -35,6 +43,9 @@ public class WorldObjectSpawner : MonoBehaviour
     // Lookup for prefab by name
     private Dictionary<string, GameObject> prefabLookup;
 
+    [Header("Fixed Points of Interest")]
+    public List<FixedStructureSpawn> fixedStructures = new List<FixedStructureSpawn>();
+
     void Awake()
     {
         EnsureReferences();
@@ -49,6 +60,15 @@ public class WorldObjectSpawner : MonoBehaviour
         foreach (var s in structures)
         {
             if (s.prefab != null) prefabLookup[s.prefab.name] = s.prefab;
+        }
+
+        // 3. ADD THIS: Fixed Structures <--- The missing piece!
+        foreach (var fs in fixedStructures)
+        {
+            if (fs.prefab != null && !prefabLookup.ContainsKey(fs.prefab.name))
+            {
+                prefabLookup[fs.prefab.name] = fs.prefab;
+            }
         }
     }
 
@@ -100,43 +120,71 @@ public class WorldObjectSpawner : MonoBehaviour
             }
         }
 
-        // --- PASS 2: HOUSES (Limit: 2) ---
-        int housesSpawned = 0;
-        const int maxHousesPerChunk = 1;
+        // --- PASS 2: STRUCTURES ---
+        SpawnRandomStructures(chunkCoord, chunkSize, chunkParent, newData);
 
-        // Use a bool to break out of the nested loop entirely
+        // --- PASS 3: FIXED STRUCTURES ---
+        SpawnFixedStructures(chunkCoord, chunkSize, chunkParent, newData);
+
+        //Debug.Log($"[SPAWNER] Chunk {chunkCoord} complete. House Attempts: {houseAttempts} | Spawned: {housesSpawned}");
+        WorldSaveData.Instance.SaveChunkData(chunkCoord, newData);
+    }
+
+    private void SpawnFixedStructures(Vector2Int chunkCoord, int chunkSize, Transform chunkParent, ChunkData newData)
+    {
+        int startX = chunkCoord.x * chunkSize;
+        int endX = startX + chunkSize;
+        int startY = chunkCoord.y * chunkSize;
+        int endY = startY + chunkSize;
+
+        foreach (var fixedSpawn in fixedStructures)
+        {
+            // Check if this fixed position is inside the current chunk boundaries
+            if (fixedSpawn.worldPos.x >= startX && fixedSpawn.worldPos.x < endX &&
+                fixedSpawn.worldPos.y >= startY && fixedSpawn.worldPos.y < endY)
+            {
+                Vector3 pos = new Vector3(fixedSpawn.worldPos.x + 0.5f, fixedSpawn.worldPos.y + 0.5f, 0f);
+
+
+                // 2. Spawn the fixed structure
+                GameObject go = InstantiateAndRecord(fixedSpawn.prefab, pos, chunkParent, null, newData);
+
+                // 3. Clear the physical objects (the stuff currently in the scene)
+                StructureVisibility sv = go.GetComponent<StructureVisibility>();
+                if (sv != null) sv.ClearObstacles();
+
+                Debug.Log($"[SPAWNER] Spawned fixed structure: {fixedSpawn.name} at {fixedSpawn.worldPos}");
+            }
+        }
+    }
+
+
+    private void SpawnRandomStructures(Vector2Int chunkCoord, int chunkSize, Transform chunkParent, ChunkData newData)
+    {
         bool limitReached = false;
-
         for (int x = 0; x < chunkSize && !limitReached; x++)
         {
             for (int y = 0; y < chunkSize; y++)
             {
                 int worldX = chunkCoord.x * chunkSize + x;
                 int worldY = chunkCoord.y * chunkSize + y;
-                float height = terrainGenerator.GetHeight(worldX, worldY, worldSize);
-
-                if (height < terrainGenerator.sandyGrassLevel) continue;
+                if (terrainGenerator.GetHeight(worldX, worldY, worldSize) < terrainGenerator.sandyGrassLevel) continue;
 
                 if (Random.value < houseChance)
                 {
-                    GameObject structurePrefab = GetRandomStructurePrefab();
-                    if (structurePrefab == null) continue;
+                    GameObject prefab = GetRandomStructurePrefab();
+                    if (prefab == null) continue;
 
                     Vector3 pos = new Vector3(worldX + 0.5f, worldY + 0.5f, 0f);
-                    GameObject go = InstantiateAndRecord(structurePrefab, pos, chunkParent, null, newData);
+                    GameObject go = InstantiateAndRecord(prefab, pos, chunkParent, null, newData);
 
                     StructureVisibility sv = go.GetComponent<StructureVisibility>();
                     if (sv != null) sv.ClearObstacles();
-
-                    housesSpawned++;
                     limitReached = true;
                     break;
                 }
             }
         }
-
-        //Debug.Log($"[SPAWNER] Chunk {chunkCoord} complete. House Attempts: {houseAttempts} | Spawned: {housesSpawned}");
-        WorldSaveData.Instance.SaveChunkData(chunkCoord, newData);
     }
 
     private GameObject GetRandomStructurePrefab()

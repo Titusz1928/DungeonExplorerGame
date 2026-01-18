@@ -1,0 +1,106 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b1e37684c770eb341945c7a9ab73a317, type: 3}
+  m_Name: GuardBoss
+  m_EditorClassIdentifier: 
+  enemyName: The guard
+  worldsprite: {fileID: 21300000, guid: ba6cc273583b81a43be6bf531261c1b9, type: 3}
+  battlesprite: {fileID: 21300000, guid: 8c9be625ef7ae6d4d9cfebb36d66a32d, type: 3}
+  attackSound: {fileID: 8300000, guid: 589e208220240fa41a3f11cd2d2504c5, type: 3}
+  enemyID: 4
+  maxHealth: 300
+  moveSpeed: 2
+  hearRange: 6
+  aggression: 0.5
+  visionRange: 4
+  visionAngle: 60
+  visionBlockers:
+    serializedVersion: 2
+    m_Bits: 256
+  isGuarding: 1
+  guardRadius: 20
+  decisionDelay: 15
+  corpseContainer: {fileID: 11400000, guid: 094efc80aef49c3418ae44d5ac176045, type: 2}
+  anatomy:
+  - partName: Head
+    associatedSlot: 1
+    naturalDefense:
+      blunt: 2
+      pierce: 2
+      slash: 2
+    bleedMultiplier: 2.5
+    partClickSprite: {fileID: 21300000, guid: d37c4df65241e9844a21168821a9f381, type: 3}
+  - partName: Face
+    associatedSlot: 2
+    naturalDefense:
+      blunt: 2
+      pierce: 2
+      slash: 2
+    bleedMultiplier: 2
+    partClickSprite: {fileID: 21300000, guid: a371457b6343918459db9785577bd7d2, type: 3}
+  - partName: Neck
+    associatedSlot: 4
+    naturalDefense:
+      blunt: 2
+      pierce: 2
+      slash: 2
+    bleedMultiplier: 3
+    partClickSprite: {fileID: 21300000, guid: 764789dba62ff5b448f61290ca0bfdf0, type: 3}
+  - partName: Torso
+    associatedSlot: 8
+    naturalDefense:
+      blunt: 2
+      pierce: 2
+      slash: 2
+    bleedMultiplier: 1.8
+    partClickSprite: {fileID: 21300000, guid: a25f0c0218e6a3e49a45daf25b817abf, type: 3}
+  - partName: Shoulders
+    associatedSlot: 16
+    naturalDefense:
+      blunt: 2
+      pierce: 2
+      slash: 2
+    bleedMultiplier: 1
+    partClickSprite: {fileID: 21300000, guid: 4c93a1a58fb0b524b951d8aecd03e187, type: 3}
+  - partName: Arms
+    associatedSlot: 32
+    naturalDefense:
+      blunt: 2
+      pierce: 2
+      slash: 2
+    bleedMultiplier: 0.8
+    partClickSprite: {fileID: 21300000, guid: 2a51052dc4c64fc4f86a3a391be6ab18, type: 3}
+  - partName: Hands
+    associatedSlot: 64
+    naturalDefense:
+      blunt: 2
+      pierce: 2
+      slash: 2
+    bleedMultiplier: 0.6
+    partClickSprite: {fileID: 21300000, guid: 3d5bca336aa14dc4e8017f1e3d8bc460, type: 3}
+  - partName: Legs
+    associatedSlot: 128
+    naturalDefense:
+      blunt: 2
+      pierce: 2
+      slash: 2
+    bleedMultiplier: 0.9
+    partClickSprite: {fileID: 21300000, guid: 7b41ac6ba131b4f47a093936073fbba6, type: 3}
+  - partName: Feet
+    associatedSlot: 256
+    naturalDefense:
+      blunt: 2
+      pierce: 2
+      slash: 2
+    bleedMultiplier: 0.5
+    partClickSprite: {fileID: 21300000, guid: 5d5dbe0308301cd44a5c050f2c067a1e, type: 3}
+  naturalDamageType: 1

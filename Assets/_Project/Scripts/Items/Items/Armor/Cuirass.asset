@@ -10,29 +10,29 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 98eaaff1cea8c1e448df0fb10bf3a4d9, type: 3}
-  m_Name: LegGuards
+  m_Name: Cuirass
   m_EditorClassIdentifier: 
-  ID: 22
-  itemName: Leg guards
-  icon: {fileID: 21300000, guid: fd07e781d35f57c40b4fa725b5ffdd15, type: 3}
+  ID: 49
+  itemName: Cuirass
+  icon: {fileID: 21300000, guid: 1b7b62c50d2e44f4ba7f8d237120616f, type: 3}
   category: 4
   isStackable: 0
   maxStackSize: 1
   isBreakable: 1
-  maxDurability: 80
+  maxDurability: 120
   isFuel: 0
   fuelValue: 0
   isCookable: 0
   cookTimeRequired: 0
   cookedResultSO: {fileID: 0}
-  slotsCovered: 128
+  slotsCovered: 8
   layer: 2
   defenses:
-  - slot: 128
+  - slot: 8
     defense:
-      blunt: 10
-      pierce: 10
-      slash: 8
-  noise: 15
-  conspicuousness: 15
+      blunt: 20
+      pierce: 25
+      slash: 25
+  noise: 20
+  conspicuousness: 20
   useSound: {fileID: 8300000, guid: 5beb1d6848e535a4eb7b4d3974b1b7cf, type: 3}

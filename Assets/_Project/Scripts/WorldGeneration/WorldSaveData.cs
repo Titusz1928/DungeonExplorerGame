@@ -40,63 +40,78 @@ public class WorldSaveData : MonoBehaviour
 
     public WorldSave BuildWorldSave()
     {
+        //Debug.Log("[SAVE SYSTEM] Starting BuildWorldSave...");
         WorldSave save = new WorldSave();
 
-        // ------------------------
-        // SAVE CHUNKS
-        // ------------------------
+        // 1. Prepare Chunks
         foreach (var kvp in chunkData)
         {
-            // ChunkData is already pure data
-            save.chunks.Add(kvp.Value);
+            // We clear the enemy list before repopulating it with currently active enemies
             kvp.Value.enemies.Clear();
         }
 
-        // 2. Find Enemies
+        // 2. Find and Categorize Enemies
         EnemyController[] activeEnemies = Object.FindObjectsByType<EnemyController>(FindObjectsSortMode.None);
+        //Debug.Log($"[SAVE SYSTEM] Found {activeEnemies.Length} active EnemyControllers in scene.");
 
         foreach (var enemy in activeEnemies)
         {
-            // Access the Stats component instead of the Controller for HP
             EnemyStats stats = enemy.GetComponent<EnemyStats>();
+            if (stats == null)
+            {
+                //Debug.LogWarning($"[SAVE SYSTEM] Enemy {enemy.name} at {enemy.transform.position} missing EnemyStats! Skipping.");
+                continue;
+            }
 
-            // Safety check: if for some reason the enemy has no stats, we skip or assume it's alive
-            if (stats == null) continue;
-
-            // ONLY save the enemy if it's actually alive!
-            if (stats.currentHP <= 0) continue;
+            if (stats.currentHP <= 0)
+            {
+                //Debug.Log($"[SAVE SYSTEM] Enemy {enemy.name} is dead (HP: {stats.currentHP}). Not saving.");
+                continue;
+            }
 
             Vector2Int coord = GetChunkCoordFromPosition(enemy.transform.position);
             string coordKey = $"{coord.x}_{coord.y}";
 
             if (!chunkData.TryGetValue(coordKey, out ChunkData chunk))
             {
+                //Debug.Log($"[SAVE SYSTEM] Enemy {enemy.name} is in a new/unsaved chunk {coordKey}. Creating ChunkData.");
                 chunk = new ChunkData { chunkCoord = coord };
                 chunkData.Add(coordKey, chunk);
             }
 
-            // Add the enemy to the chunk
-            chunk.enemies.Add(new EnemySaveData
+            EnemySaveData data = new EnemySaveData
             {
                 instanceID = enemy.instanceID,
                 enemyID = enemy.data.enemyID,
                 position = enemy.transform.position,
-                currentHP = stats.currentHP, // Updated to use stats
+                currentHP = stats.currentHP,
                 currentState = enemy.GetState(),
                 guardCenter = enemy.GetGuardCenter()
-            });
+            };
+
+            chunk.enemies.Add(data);
+            //Debug.Log($"[SAVE SYSTEM] Saved Enemy: {enemy.name} (ID: {enemy.data.enemyID}) to Chunk: {coordKey} at Pos: {data.position}");
         }
 
-        // ------------------------
-        // SAVE CONTAINERS
-        // ------------------------
-        // FIXED: Convert Dictionary values into the List
+        // 3. FINAL COMPILATION
+        // IMPORTANT: We iterate through chunkData AFTER the enemy loop to ensure 
+        // enemies added to new chunks are included in the final save file.
+        foreach (var kvp in chunkData)
+        {
+            save.chunks.Add(kvp.Value);
+            if (kvp.Value.enemies.Count > 0)
+            {
+                //Debug.Log($"[SAVE SYSTEM] Chunk {kvp.Key} finalized with {kvp.Value.enemies.Count} enemies.");
+            }
+        }
+
+        // 4. Save Containers
         foreach (var kvp in containerData)
         {
             save.containers.Add(kvp.Value);
         }
 
-
+        //Debug.Log($"[SAVE SYSTEM] BuildWorldSave Complete. Total Chunks: {save.chunks.Count}, Total Containers: {save.containers.Count}");
         return save;
     }
 

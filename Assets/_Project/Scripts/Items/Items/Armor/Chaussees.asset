@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 98eaaff1cea8c1e448df0fb10bf3a4d9, type: 3}
-  m_Name: LegGuards
+  m_Name: Chaussees
   m_EditorClassIdentifier: 
-  ID: 22
-  itemName: Leg guards
-  icon: {fileID: 21300000, guid: fd07e781d35f57c40b4fa725b5ffdd15, type: 3}
-  category: 4
+  ID: 50
+  itemName: Chausses
+  icon: {fileID: 21300000, guid: 0d55f482ed33d734badbf710d7aec4fc, type: 3}
+  category: 0
   isStackable: 0
   maxStackSize: 1
   isBreakable: 1
@@ -30,9 +30,9 @@ MonoBehaviour:
   defenses:
   - slot: 128
     defense:
-      blunt: 10
-      pierce: 10
-      slash: 8
-  noise: 15
-  conspicuousness: 15
+      blunt: 15
+      pierce: 15
+      slash: 15
+  noise: 20
+  conspicuousness: 20
   useSound: {fileID: 8300000, guid: 5beb1d6848e535a4eb7b4d3974b1b7cf, type: 3}

@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 98eaaff1cea8c1e448df0fb10bf3a4d9, type: 3}
-  m_Name: LegGuards
+  m_Name: Bascinet
   m_EditorClassIdentifier: 
-  ID: 22
-  itemName: Leg guards
-  icon: {fileID: 21300000, guid: fd07e781d35f57c40b4fa725b5ffdd15, type: 3}
+  ID: 52
+  itemName: Bascinet
+  icon: {fileID: 21300000, guid: 7d98b179da8f3b44e9fc2b0ba25483ab, type: 3}
   category: 4
   isStackable: 0
   maxStackSize: 1
@@ -25,14 +25,19 @@ MonoBehaviour:
   isCookable: 0
   cookTimeRequired: 0
   cookedResultSO: {fileID: 0}
-  slotsCovered: 128
+  slotsCovered: 3
   layer: 2
   defenses:
-  - slot: 128
+  - slot: 2
     defense:
       blunt: 10
       pierce: 10
-      slash: 8
-  noise: 15
-  conspicuousness: 15
+      slash: 10
+  - slot: 1
+    defense:
+      blunt: 25
+      pierce: 20
+      slash: 20
+  noise: 30
+  conspicuousness: 30
   useSound: {fileID: 8300000, guid: 5beb1d6848e535a4eb7b4d3974b1b7cf, type: 3}

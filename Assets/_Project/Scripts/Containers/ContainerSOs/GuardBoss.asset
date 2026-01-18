@@ -10,20 +10,26 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 72bd071f329f9aa4cbe2de2484fbf429, type: 3}
-  m_Name: FootSoldierEnemy2
+  m_Name: GuardBoss
   m_EditorClassIdentifier: 
-  containerName: Foot Soldier
-  containerIcon: {fileID: 21300000, guid: 4c71a713737ca7940bb5872e84134ada, type: 3}
+  containerName: Guard boss
+  containerIcon: {fileID: 21300000, guid: 543c4a40ea91b1448956af76ee534f5c, type: 3}
   lootGroups:
   - groupName: Weapons
     possibleItems:
-    - {fileID: 11400000, guid: 72f0d417d13b2ce43bc9548d930f303f, type: 2}
+    - {fileID: 11400000, guid: 43b4c8b47ba65fc4eb3c5d8e9e70abea, type: 2}
     minCount: 1
     maxCount: 1
     allowDuplicates: 1
   - groupName: HeadArmor
     possibleItems:
-    - {fileID: 11400000, guid: 38057dbfb64a55f49a19bf1edc6ae5d2, type: 2}
+    - {fileID: 11400000, guid: bef664faa2a5c2341b616a1aaead6481, type: 2}
+    minCount: 1
+    maxCount: 1
+    allowDuplicates: 0
+  - groupName: Headchainmail
+    possibleItems:
+    - {fileID: 11400000, guid: fdaa2d5560dc77340ace6323b07be173, type: 2}
     minCount: 1
     maxCount: 1
     allowDuplicates: 0
@@ -35,7 +41,13 @@ MonoBehaviour:
     allowDuplicates: 0
   - groupName: TorsoPlate
     possibleItems:
-    - {fileID: 11400000, guid: e656ae18ee8464d4eb8568683e8b6eb2, type: 2}
+    - {fileID: 11400000, guid: 290cd27c86859664c9bddb992c6ccc94, type: 2}
+    minCount: 1
+    maxCount: 1
+    allowDuplicates: 0
+  - groupName: TorsoChainmail
+    possibleItems:
+    - {fileID: 11400000, guid: fedcad1edf284714d9b38088a039211e, type: 2}
     minCount: 1
     maxCount: 1
     allowDuplicates: 0
@@ -47,7 +59,13 @@ MonoBehaviour:
     allowDuplicates: 0
   - groupName: Gloves
     possibleItems:
-    - {fileID: 11400000, guid: 6fc7951db1446e544b837203988a6586, type: 2}
+    - {fileID: 11400000, guid: 1c9a41740f53b6c4fb552fc2f21ead1f, type: 2}
+    minCount: 1
+    maxCount: 1
+    allowDuplicates: 0
+  - groupName: LegPlate
+    possibleItems:
+    - {fileID: 11400000, guid: b88b45fd244e5104081569fc282d391d, type: 2}
     minCount: 1
     maxCount: 1
     allowDuplicates: 0
@@ -57,15 +75,9 @@ MonoBehaviour:
     minCount: 1
     maxCount: 1
     allowDuplicates: 0
-  - groupName: LegPlate
-    possibleItems:
-    - {fileID: 11400000, guid: 0a0b4ea6d195fd84aaa2e15a1eebfac3, type: 2}
-    minCount: 1
-    maxCount: 1
-    allowDuplicates: 0
   - groupName: FeetUnderArmor
     possibleItems:
-    - {fileID: 11400000, guid: a0a2d8c2d6d1ca241be17e83a67646be, type: 2}
+    - {fileID: 11400000, guid: 07b884edc2a782f4da7d0b7ee45bdeed, type: 2}
     minCount: 1
     maxCount: 1
     allowDuplicates: 0
@@ -81,9 +93,3 @@ MonoBehaviour:
     minCount: 1
     maxCount: 3
     allowDuplicates: 1
-  - groupName: Shields
-    possibleItems:
-    - {fileID: 11400000, guid: 760e8a8f012f2e744b78ea5c297866ab, type: 2}
-    minCount: 1
-    maxCount: 1
-    allowDuplicates: 0
