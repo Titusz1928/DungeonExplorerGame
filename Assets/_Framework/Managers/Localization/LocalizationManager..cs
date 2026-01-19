@@ -12,7 +12,7 @@ public class LocalizationManager : MonoBehaviour
     public string resourcesFolder = "Languages";
 
     [Tooltip("Language codes, must match filenames inside Resources/Languages (without extension). Order should match your dropdown indices.")]
-    public string[] languageCodes = new string[] { "hun", "eng","spa","rom" };
+    public string[] languageCodes = new string[] { "eng", "spa","hun","rom" };
 
     [Tooltip("Key used in PlayerPrefs for saving selected language index")]
     public string prefsKey = "languageIndex";

@@ -245,6 +245,7 @@ MonoBehaviour:
     currentDurability: 0
     quantity: 0
     isEquipped: 0
+    cookingProgress: 0
     holes: 0
     paperInstances: []
   offHandShield:
@@ -252,6 +253,7 @@ MonoBehaviour:
     currentDurability: 0
     quantity: 0
     isEquipped: 0
+    cookingProgress: 0
     holes: 0
     paperInstances: []
 --- !u!114 &7686506787949112685
@@ -427,7 +429,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 5
   m_Sprite: {fileID: -936391155374616946, guid: ae9a45af3f3d70b478d06f58e9e1d0de, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -527,7 +529,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 5
   m_Sprite: {fileID: -5736523614110399638, guid: 2dbc161d413f5d241a204654bc557326, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -615,7 +617,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 5
   m_Sprite: {fileID: 3530284968271910283, guid: 389bfb39f9e38284084cfdfe68554824, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -715,7 +717,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 5
   m_Sprite: {fileID: 7938985572653032484, guid: 0b808b7acb810a742a584b4f84383ff5, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

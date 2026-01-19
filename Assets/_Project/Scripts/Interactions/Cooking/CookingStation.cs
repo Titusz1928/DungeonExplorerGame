@@ -20,6 +20,9 @@ public class CookingStation : Interactable
     public Sprite StationNotOnFireSprite;
     public Sprite StationOnFireSprite;
 
+    [Header("Visual Effects")]
+    public ParticleSystem fireParticles;
+
     protected override void Start()
     {
         base.Start();
@@ -43,12 +46,29 @@ public class CookingStation : Interactable
         }
     }
 
-    // Logic to swap the sprite based on state
+    // Logic to swap the sprite and toggle particles based on state
     public void UpdateWorldVisuals()
     {
-        if (worldSpriteRenderer == null) return;
+        // 1. Handle Sprite Swap
+        if (worldSpriteRenderer != null)
+        {
+            worldSpriteRenderer.sprite = isOnFire ? StationOnFireSprite : StationNotOnFireSprite;
+        }
 
-        worldSpriteRenderer.sprite = isOnFire ? StationOnFireSprite : StationNotOnFireSprite;
+        // 2. Handle Particles
+        if (fireParticles != null)
+        {
+            if (isOnFire)
+            {
+                // Play particles if they aren't already playing
+                if (!fireParticles.isPlaying) fireParticles.Play();
+            }
+            else
+            {
+                // Stop particles
+                fireParticles.Stop();
+            }
+        }
     }
 
     private void HandleBurning()

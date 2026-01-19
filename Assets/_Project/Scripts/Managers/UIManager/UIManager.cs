@@ -12,6 +12,11 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Canvas generalCanvas; // Your exploration/main UI
     [SerializeField] private Canvas battleCanvas;  // Your turn-based combat UI
 
+    [Header("Camera Settings")]
+    [SerializeField] private Camera mainCamera; // Drag your Main Camera here
+    [SerializeField] private float minZoom = 3f;
+    [SerializeField] private float maxZoom = 7f;
+
     [Header("Gameplay UI Elements")]
     public GameObject joystickUI;
 
@@ -79,5 +84,26 @@ public class UIManager : MonoBehaviour
         // 1. No windows are open AND 2. We are NOT in a battle
         bool shouldShowJoystick = !IsWindowOpen && !IsInBattle;
         joystickUI.SetActive(shouldShowJoystick);
+    }
+
+
+    // --- Zoom Functions for Buttons ---
+
+    public void ZoomIn()
+    {
+        if (mainCamera == null) return;
+
+        // Orthographic: Smaller size = Closer/Zoomed In
+        float newSize = mainCamera.orthographicSize - 1f;
+        mainCamera.orthographicSize = Mathf.Clamp(newSize, minZoom, maxZoom);
+    }
+
+    public void ZoomOut()
+    {
+        if (mainCamera == null) return;
+
+        // Orthographic: Larger size = Further/Zoomed Out
+        float newSize = mainCamera.orthographicSize + 1f;
+        mainCamera.orthographicSize = Mathf.Clamp(newSize, minZoom, maxZoom);
     }
 }

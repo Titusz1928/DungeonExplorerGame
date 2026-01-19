@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 4c71a713737ca7940bb5872e84134ada
+guid: 3581794ca71ebe04cadc5c600bb385ec
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 2800113436405040004
-    second: enemy_corpse_0
+      213: 427318244677728147
+    second: spearsoldier_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: enemy_corpse_0
+      name: spearsoldier_0
       rect:
         serializedVersion: 2
-        x: 0
+        x: 3
         y: 0
-        width: 32
-        height: 16
+        width: 21
+        height: 31
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 48388b3b5500cd620800000000000000
-      internalID: 2800113436405040004
+      spriteID: 3973f04fda32ee500800000000000000
+      internalID: 427318244677728147
       vertices: []
       indices: 
       edges: []
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      enemy_corpse_0: 2800113436405040004
+      spearsoldier_0: 427318244677728147
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

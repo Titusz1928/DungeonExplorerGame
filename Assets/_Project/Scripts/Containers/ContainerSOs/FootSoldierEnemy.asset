@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: FootSoldierEnemy
   m_EditorClassIdentifier: 
   containerName: Foot Soldier
-  containerIcon: {fileID: 21300000, guid: 4c71a713737ca7940bb5872e84134ada, type: 3}
+  containerIcon: {fileID: 21300000, guid: e6885f052c782c04d910b80f80f641a7, type: 3}
   lootGroups:
   - groupName: Weapons
     possibleItems:
