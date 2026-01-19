@@ -76,40 +76,72 @@ public class EnemySpawnManager : MonoBehaviour
     {
         if (currentEnemyCount >= maxEnemies) return;
 
-        // 1. Create a copy of the zones list and shuffle it
-        List<EnemySpawnZone> shuffledZones = new List<EnemySpawnZone>(zones);
-        ShuffleList(shuffledZones);
+        List<EnemySpawnZone> priorityZones = zones.FindAll(z => (z is BossSpawnZone b && b.isPriority));
+        List<EnemySpawnZone> normalZones = zones.FindAll(z => !(z is BossSpawnZone b && b.isPriority));
 
-        // 2. We can try to spawn more than one enemy per tick if we are way under the limit
+        // DEBUG: See how many boss zones we actually have
+        if (priorityZones.Count > 0)
+        {
+            Debug.Log($"[SPAWN DEBUG] Found {priorityZones.Count} Boss Zones in the registry.");
+            foreach (var bz in priorityZones)
+            {
+                Debug.Log($"[SPAWN DEBUG] Boss Zone at: {bz.transform.position} | Name: {bz.gameObject.name}");
+            }
+        }
+
+        ShuffleList(normalZones);
+        List<EnemySpawnZone> finalOrder = new List<EnemySpawnZone>();
+        finalOrder.AddRange(priorityZones);
+        finalOrder.AddRange(normalZones);
+
         int spawnsNeeded = Mathf.Min(5, maxEnemies - currentEnemyCount);
         int spawnsCount = 0;
 
-        foreach (var zone in shuffledZones)
+        foreach (var zone in finalOrder)
         {
             if (spawnsCount >= spawnsNeeded) break;
 
-            // NEW: Check if the zone is within a "Relevant Range"
-            // No point spawning in a zone 500m away if the player is at 0,0,0
             if (PlayerReference.PlayerTransform != null)
             {
                 float distToZone = Vector3.Distance(PlayerReference.PlayerTransform.position, zone.transform.position);
-                if (distToZone > maxSpawnDistanceToPlayer + zone.radius) continue;
+                float maxDist = (zone is BossSpawnZone) ? maxSpawnDistanceToPlayer * 1.5f : maxSpawnDistanceToPlayer;
+
+                if (distToZone > maxDist + zone.radius) continue;
+                if (distToZone < minSpawnDistanceFromPlayer) continue;
             }
 
-            if (!zone.CanSpawnInZone()) continue;
+            // DEBUG: See if the zone is rejecting the spawn
+            if (!zone.CanSpawnInZone())
+            {
+                if (zone is BossSpawnZone) Debug.Log($"[SPAWN DEBUG] Boss Zone at {zone.transform.position} blocked spawn (CanSpawnInZone was false).");
+                continue;
+            }
 
             Vector3 pos = zone.GetRandomPoint();
-
             if (!CanSpawn(pos)) continue;
 
             int enemyIndex = zone.GetRandomEnemyIndex();
-            GameObject enemy = SpawnEnemy(enemyIndex, pos, zone.transform);
+            GameObject enemy = SpawnEnemy(enemyIndex, pos, null);
 
             if (enemy != null)
             {
-                zone.RegisterEnemy(enemy);
+                string zoneType = zone is BossSpawnZone ? "BOSS ZONE" : "REGULAR ZONE";
+                Debug.Log($"[SPAWN DEBUG] Successfully spawned {enemy.name} from {zoneType} at {zone.transform.position}");
+
+                if (zone is BossSpawnZone bossZone)
+                {
+                    bossZone.OnSuccessfulSpawn(enemy);
+                }
+                else
+                {
+                    // If a regular zone just spawned a boss, we need to know!
+                    if (enemy.GetComponent<EnemyController>().IsBoss)
+                    {
+                        Debug.LogError($"[CRITICAL] Regular SpawnZone at {zone.transform.position} is spawning a BOSS! Check its allowedEnemyIndices.");
+                    }
+                    zone.RegisterEnemy(enemy);
+                }
                 spawnsCount++;
-                Log($"Spawned {enemy.name} at {pos}. Total this tick: {spawnsCount}");
             }
         }
     }
@@ -214,10 +246,25 @@ public class EnemySpawnManager : MonoBehaviour
 
         // 4. Register events
         currentEnemyCount++;
-        controller.OnEnemyDeath += (e) => {
+        controller.OnEnemyDeath += (e) =>
+        {
             activeInstanceIDs.Remove(e.instanceID);
             HandleEnemyDeath(e);
         };
+    }
+
+    public GameObject SpawnBossFromZone(int enemyIndex, Vector3 position, BossSpawnZone zone)
+    {
+        if (enemyIndex < 0 || enemyIndex >= enemyPrefabs.Count) return null;
+
+        GameObject boss = Instantiate(enemyPrefabs[enemyIndex], position, Quaternion.identity);
+        EnemyController controller = boss.GetComponent<EnemyController>();
+   
+
+        // Assign a unique but consistent ID for the session
+        controller.instanceID = $"BOSS_{zone.transform.position.x}_{zone.transform.position.y}";
+
+        return boss;
     }
 }
 

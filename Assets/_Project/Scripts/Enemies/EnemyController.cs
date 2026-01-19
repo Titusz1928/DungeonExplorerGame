@@ -18,6 +18,8 @@ public class EnemyController : MonoBehaviour
     [Header("Persistence")]
     public string instanceID;
 
+    public bool IsBoss => data != null && data.isBoss;
+
 
     private EnemyState state;
     private Rigidbody2D rb;
@@ -416,6 +418,16 @@ public class EnemyController : MonoBehaviour
             return;
 
         reportedDeath = true;
+
+        // DEBUG: Check if anyone is actually listening to this boss dying
+        if (OnEnemyDeath == null)
+        {
+            Debug.LogWarning($"[BOSS DEBUG] {gameObject.name} died, but NO ONE was listening to OnEnemyDeath!");
+        }
+        else
+        {
+            Debug.Log($"[BOSS DEBUG] {gameObject.name} died. Notifying {OnEnemyDeath.GetInvocationList().Length} listeners.");
+        }
 
         OnEnemyDeath?.Invoke(this);
 

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -50,5 +51,8 @@ public class EnemySO : ScriptableObject
     [Header("Anatomy & Natural Resistance")]
     public List<EnemyBodyPart> anatomy = new();
     public DamageType naturalDamageType;
+
+    [Header("Special")]
+    public bool isBoss;
 }
 

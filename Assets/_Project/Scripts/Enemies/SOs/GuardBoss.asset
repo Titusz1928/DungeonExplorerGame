@@ -104,3 +104,4 @@ MonoBehaviour:
     bleedMultiplier: 0.5
     partClickSprite: {fileID: 21300000, guid: 5d5dbe0308301cd44a5c050f2c067a1e, type: 3}
   naturalDamageType: 1
+  isBoss: 1

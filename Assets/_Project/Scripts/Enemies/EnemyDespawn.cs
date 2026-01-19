@@ -35,6 +35,15 @@ public class EnemyDespawn : MonoBehaviour
 
     private void Despawn()
     {
+        if (controller.IsBoss)
+        {
+            // Bosses don't need to report back to the SpawnManager 
+            // to be put in a "respawn pool". They just vanish, 
+            // and the BossSpawnZone will recreate them when the player returns.
+            Destroy(gameObject);
+            return;
+        }
+
         if (EnemySpawnManager.Instance != null)
         {
             EnemySpawnManager.Instance.HandleEnemyDespawn(controller);
