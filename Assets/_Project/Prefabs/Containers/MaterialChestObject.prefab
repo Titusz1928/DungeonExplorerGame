@@ -44,6 +44,7 @@ GameObject:
   - component: {fileID: 4733260309647983194}
   - component: {fileID: 6281422361637403584}
   - component: {fileID: 7823617757757351456}
+  - component: {fileID: 6851956562696468095}
   m_Layer: 0
   m_Name: Chest
   m_TagString: Untagged
@@ -186,3 +187,23 @@ MonoBehaviour:
   worldCell: {x: 0, y: 0}
   wasOpened: 0
   uniqueId: 
+--- !u!114 &6851956562696468095
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8121190948459766688}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SerializedVersion: 0
+  m_OverrideArea: 0
+  m_Area: 0
+  m_OverrideGenerateLinks: 0
+  m_GenerateLinks: 0
+  m_IgnoreFromBuild: 1
+  m_ApplyToChildren: 1
+  m_AffectedAgents: ffffffff

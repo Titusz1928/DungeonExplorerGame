@@ -1,5 +1,6 @@
 ﻿using System.Security.Cryptography;
 using UnityEngine;
+using UnityEngine.AI;
 
 public enum EnemyState
 {
@@ -11,8 +12,11 @@ public enum EnemyState
 }
 
 [RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(NavMeshAgent))]
 public class EnemyController : MonoBehaviour
 {
+    private NavMeshAgent agent;
+
     public EnemySO data;
 
     [Header("Persistence")]
@@ -55,6 +59,10 @@ public class EnemyController : MonoBehaviour
 
     void Awake()
     {
+        agent = GetComponent<NavMeshAgent>();
+        agent.updateRotation = false;
+        agent.updateUpAxis = false;
+
         rb = GetComponent<Rigidbody2D>();
 
         // Generate a unique ID if this is a brand new enemy
@@ -96,6 +104,13 @@ public class EnemyController : MonoBehaviour
         );
 
         PickNewTarget();
+
+        NavMeshHit hit;
+        if (NavMesh.SamplePosition(transform.position, out hit, 2.0f, NavMesh.AllAreas))
+        {
+            transform.position = hit.position;
+            agent.Warp(hit.position); // Warping is the best way to move an agent to the mesh
+        }
     }
 
     void OnEnable()
@@ -398,23 +413,46 @@ public class EnemyController : MonoBehaviour
 
     void MoveTowardsTarget()
     {
-        if (isWaiting)
+        if (isWaiting || UIManager.Instance.IsInBattle)
+        {
+            if (agent.isOnNavMesh) agent.isStopped = true;
             return;
+        }
 
-        Vector2 pos = rb.position;
-        Vector2 toTarget = currentTarget - pos;
+        // Only set a destination if the agent is correctly placed on the mesh
+        if (agent.isOnNavMesh)
+        {
+            agent.isStopped = false;
+            agent.speed = data.moveSpeed;
+            agent.SetDestination(currentTarget);
 
-        if (toTarget.sqrMagnitude < 0.01f)
-            return;
-
-        facingDirection = toTarget.normalized; // 👁️ LOOK DIRECTION
-
-        rb.MovePosition(pos + facingDirection * data.moveSpeed * Time.fixedDeltaTime);
+            if (agent.velocity.sqrMagnitude > 0.1f)
+            {
+                facingDirection = agent.velocity.normalized;
+            }
+        }
     }
 
     bool ReachedTarget()
     {
-        return Vector2.Distance(rb.position, currentTarget) < 0.1f;
+        // SAFETY CHECK: If the agent isn't on a NavMesh yet, it can't have 'reached' a target
+        if (!agent.isOnNavMesh)
+        {
+            return false;
+        }
+
+        if (!agent.pathPending)
+        {
+            // Now it is safe to check remainingDistance
+            if (agent.remainingDistance <= agent.stoppingDistance)
+            {
+                if (!agent.hasPath || agent.velocity.sqrMagnitude == 0f)
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     // --------------------------------------------------

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using NavMeshPlus.Components;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -20,6 +21,8 @@ public class ChunkManager : MonoBehaviour
     public TileTerrainGenerator terrainGenerator;
 
     public WorldObjectSpawner worldObjectSpawner;
+
+    public NavMeshSurface surface;
 
     private System.Collections.IEnumerator Start()
     {
@@ -126,6 +129,8 @@ public class ChunkManager : MonoBehaviour
 
         foreach (var coord in toUnload)
             UnloadChunk(coord);
+
+        RefreshNavMesh();
     }
 
     bool IsChunkInWorld(Vector2Int coord)
@@ -166,4 +171,36 @@ public class ChunkManager : MonoBehaviour
         }
     }
 
+
+    public void RefreshNavMesh()
+    {
+        // Stop any existing refresh to avoid stacking
+        StopCoroutine("DelayedRefresh");
+        StartCoroutine("DelayedRefresh");
+    }
+
+    private System.Collections.IEnumerator DelayedRefresh()
+    {
+        // 1. Wait for the chunk generation to fully finish (Physics sync)
+        yield return new WaitForSeconds(0.1f);
+
+        // 2. Move the "Baking Box" to the center of your loaded world
+        // Since you load chunks around the player, the Player is the center.
+        if (surface != null && player != null)
+        {
+            // Move the generic "Baking Camera" to the player's position
+            surface.transform.position = player.position;
+
+            // Optional: Ensure the Size covers your loaded chunks 
+            // (3x3 chunks of size 64 = ~192 units wide). 
+            // Set this in the Inspector on the Surface component (Size: 300x300 is usually safe).
+        }
+
+        // 3. Force a full rebuild
+        // This creates the blue mesh from scratch based on the new position
+        if (surface != null)
+        {
+            surface.BuildNavMeshAsync();
+        }
+    }
 }

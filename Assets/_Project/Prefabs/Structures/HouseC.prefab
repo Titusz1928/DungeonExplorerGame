@@ -2595,6 +2595,7 @@ GameObject:
   - component: {fileID: 4714184892859583258}
   - component: {fileID: 4685181126674961876}
   - component: {fileID: 8912155093834543586}
+  - component: {fileID: 2566775789705423208}
   m_Layer: 0
   m_Name: HouseC
   m_TagString: Untagged
@@ -2684,6 +2685,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   variationRules: {fileID: 11400000, guid: d4daca5a22f175a43aba5a6ceb3264e3, type: 2}
   objectsFolder: {fileID: 8432529152390301219}
+--- !u!114 &2566775789705423208
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5065970378604294679}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SerializedVersion: 0
+  m_OverrideArea: 0
+  m_Area: 0
+  m_OverrideGenerateLinks: 0
+  m_GenerateLinks: 0
+  m_IgnoreFromBuild: 1
+  m_ApplyToChildren: 1
+  m_AffectedAgents: ffffffff
 --- !u!1 &5439240449174468982
 GameObject:
   m_ObjectHideFlags: 0

@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 1494016957523874657}
   - component: {fileID: 8250253081279100791}
   - component: {fileID: 5728259194674963437}
+  - component: {fileID: 8675873200100650989}
   m_Layer: 0
   m_Name: Table
   m_TagString: Untagged
@@ -156,7 +157,26 @@ MonoBehaviour:
   availableRecipes:
   - {fileID: 11400000, guid: 60db5f803e7dd8e4eb5e4288506fb1a9, type: 2}
   - {fileID: 11400000, guid: ec02071d2a17a5d42b03a79136cd5a89, type: 2}
-  Sprite: {fileID: 0}
+--- !u!114 &8675873200100650989
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 845461320894300865}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SerializedVersion: 0
+  m_OverrideArea: 0
+  m_Area: 0
+  m_OverrideGenerateLinks: 0
+  m_GenerateLinks: 0
+  m_IgnoreFromBuild: 1
+  m_ApplyToChildren: 1
+  m_AffectedAgents: ffffffff
 --- !u!1 &4410330211750663154
 GameObject:
   m_ObjectHideFlags: 0
