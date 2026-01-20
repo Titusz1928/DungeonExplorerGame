@@ -195,13 +195,13 @@ public class PlayerMovement : MonoBehaviour
                     xpDistanceAccumulator = 0f;
 
                     // --- XP ---
-                    PlayerSkillManager.Instance.AddXP(PlayerSkill.Speed, xpPerTick);
+                    PlayerSkillManager.Instance.AddXP(PlayerSkill.Speed, xpPerTick, true);
 
                     if (state.CurrentMode == MovementMode.Sneaking)
-                        PlayerSkillManager.Instance.AddXP(PlayerSkill.Stealth, xpPerTick * 1.2f);
+                        PlayerSkillManager.Instance.AddXP(PlayerSkill.Stealth, xpPerTick * 1.2f, true);
 
                     if (state.CurrentMode == MovementMode.Sprinting)
-                        PlayerSkillManager.Instance.AddXP(PlayerSkill.Strength, xpPerTick * 0.5f);
+                        PlayerSkillManager.Instance.AddXP(PlayerSkill.Strength, xpPerTick * 0.5f, true);
 
                 }
 

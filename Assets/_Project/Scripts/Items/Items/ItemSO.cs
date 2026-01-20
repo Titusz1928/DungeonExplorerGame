@@ -7,7 +7,8 @@ public enum ItemCategory
     Material,
     Consumable,
     Clothing,
-    Document
+    Document,
+    Key
 }
 
 [CreateAssetMenu(fileName = "NewItem", menuName = "Inventory/Item")]

@@ -95,6 +95,8 @@ public class BossSpawnZone : EnemySpawnZone
         // 3. Small buffer to ensure WindowManager has updated its Root reference
         yield return new WaitForEndOfFrame();
 
+        AudioManager.Instance.PlayVictorySFX();
+
         // 4. Open the Window 
         if (VictoryWindowPrefab != null)
         {

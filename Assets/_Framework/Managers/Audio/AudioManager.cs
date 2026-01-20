@@ -16,6 +16,8 @@ public class AudioManager : MonoBehaviour
     private AudioClip placeSFX;
     private AudioClip gameoverSFX;
     private AudioClip startbattleSFX;
+    private AudioClip victorySFX;
+    private AudioClip levelupSFX;
 
     private AudioSource musicSource;
     private AudioSource sfxSource;
@@ -64,6 +66,8 @@ public class AudioManager : MonoBehaviour
         placeSFX = Resources.Load<AudioClip>("Audio/SFX/placeSFX");
         gameoverSFX = Resources.Load<AudioClip>("Audio/SFX/other/gameover");
         startbattleSFX = Resources.Load<AudioClip>("Audio/SFX/other/startbattlesoundeffect");
+        victorySFX = Resources.Load<AudioClip>("Audio/SFX/other/victory");
+        levelupSFX = Resources.Load<AudioClip>("Audio/SFX/other/levelup");
 
 
         if (mainMenuMusic == null)
@@ -122,6 +126,16 @@ public class AudioManager : MonoBehaviour
     public void PlayGameOverSFX()
     {
         PlaySFX(gameoverSFX);
+    }
+
+    public void PlayVictorySFX()
+    {
+        PlaySFX(victorySFX);
+    }
+
+    public void PlayLevelUpSFX()
+    {
+        PlaySFX(levelupSFX);
     }
 
 

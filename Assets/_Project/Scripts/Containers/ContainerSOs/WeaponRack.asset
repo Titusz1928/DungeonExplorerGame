@@ -32,6 +32,13 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 38057dbfb64a55f49a19bf1edc6ae5d2, type: 2}
     - {fileID: 11400000, guid: f28e0592a06d0584e90d100d6d14b6a6, type: 2}
     - {fileID: 11400000, guid: 660786c249eef234aafe4f02bd12d385, type: 2}
+    - {fileID: 11400000, guid: bef664faa2a5c2341b616a1aaead6481, type: 2}
+    - {fileID: 11400000, guid: 290cd27c86859664c9bddb992c6ccc94, type: 2}
+    - {fileID: 11400000, guid: b88b45fd244e5104081569fc282d391d, type: 2}
+    - {fileID: 11400000, guid: 07b884edc2a782f4da7d0b7ee45bdeed, type: 2}
+    - {fileID: 11400000, guid: 6fc7951db1446e544b837203988a6586, type: 2}
+    - {fileID: 11400000, guid: 1c9a41740f53b6c4fb552fc2f21ead1f, type: 2}
+    - {fileID: 11400000, guid: fdaa2d5560dc77340ace6323b07be173, type: 2}
     minCount: 1
-    maxCount: 1
+    maxCount: 2
     allowDuplicates: 0

@@ -16,7 +16,16 @@ public abstract class Interactable : MonoBehaviour
 
     protected virtual void Start()
     {
-        playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
+        // Use your static reference for safety
+        if (GameBoot.PersistentPlayer != null)
+        {
+            playerTransform = GameBoot.PersistentPlayer.transform;
+        }
+        else
+        {
+            // Fallback just in case
+            playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
+        }
 
         if (interactButton != null)
             interactButton.onClick.AddListener(OnInteract);

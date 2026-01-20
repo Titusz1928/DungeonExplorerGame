@@ -33,7 +33,7 @@ public class KnowledgeManager : MonoBehaviour
         // 4. Grant XP if applicable.
         if (page.givesXP && page.xpAmount > 0)
         {
-            PlayerSkillManager.Instance.AddXP(page.skillType, page.xpAmount);
+            PlayerSkillManager.Instance.AddXP(page.skillType, page.xpAmount, true);
         }
 
         if (page.recipeIDToUnlock > 0)

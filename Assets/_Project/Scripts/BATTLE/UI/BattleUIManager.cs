@@ -72,7 +72,7 @@ public class BattleUIManager : MonoBehaviour
             }
         }
 
-        PlayerSkillManager.Instance.AddXP(PlayerSkill.BattleIQ, 1);
+        PlayerSkillManager.Instance.AddXP(PlayerSkill.BattleIQ, 1, true);
     }
 
     private void UpdateSlot(BattleEnemyUISlot slot, EnemyController enemy, int iqLevel)

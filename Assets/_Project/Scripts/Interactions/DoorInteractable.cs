@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class DoorInteractable : Interactable
 {
@@ -11,34 +12,73 @@ public class DoorInteractable : Interactable
     public Vector2 spawnOffset;
 
     public bool isLocked = false;
-    public int requiredKeyID = 99;
+    [SerializeField] private int requiredKeyID = 99;
+
+    [SerializeField] private Sprite lockedSprite;
+
+    [SerializeField] private Image buttonImage;
+
+    protected override void Start()
+    {
+        base.Start();
+        // If you want a different sprite when locked vs unlocked
+        if (isLocked && lockedSprite != null)
+        {
+            buttonImage.sprite = lockedSprite;
+        }
+    }
 
     public override void OnInteract()
     {
         if (isLocked)
         {
-            Debug.Log("[DOOR] The door is locked.");
-            return;
+            // Use your static reference to get the Player's Inventory component
+            Inventory playerInv = GameBoot.PersistentPlayer.GetComponent<Inventory>();
+
+            // Find the key instance
+            ItemInstance keyFound = playerInv.items.Find(i => i.itemSO.ID == requiredKeyID);
+
+            if (keyFound != null)
+            {
+                Debug.Log($"[DOOR] Key {keyFound.itemSO.itemName} found. Unlocking...");
+                UnlockAndOpen(keyFound);
+            }
+            else
+            {
+                Debug.Log($"[DOOR] Locked. Needs Key ID: {requiredKeyID}");
+            }
+        }
+        else
+        {
+            OpenDoor();
+        }
+    }
+
+    private void UnlockAndOpen(ItemInstance key)
+    {
+        // Check if it's a KeyItemSO to play its specific sound
+        if (key.itemSO is KeyItemSO keySO && keySO.unlockSound != null)
+        {
+            AudioSource.PlayClipAtPoint(keySO.unlockSound, transform.position);
         }
 
+        isLocked = false;
+        OpenDoor();
+    }
+
+    private void OpenDoor()
+    {
         if (otherDoorPrefab == null) return;
 
-        // 1. Calculate the New Position
         Vector3 newPos = transform.position + new Vector3(spawnOffset.x, spawnOffset.y, 0);
 
-        // 2. UPDATE SAVE SYSTEM
-        // We save the NEW position so it loads correctly in the future
+        // Update Save System so this chunk remembers the door is now the 'Open' version
         if (WorldSaveData.Instance != null)
         {
             WorldSaveData.Instance.UpdateObjectPrefabInChunk(newPos, otherDoorPrefab.name);
         }
 
-        // 3. SPAWN THE NEW DOOR
-        GameObject newDoor = Instantiate(otherDoorPrefab, newPos, transform.rotation, transform.parent);
-
-        // 4. DESTROY THE OLD DOOR
+        Instantiate(otherDoorPrefab, newPos, transform.rotation, transform.parent);
         Destroy(gameObject);
-
-        Debug.Log($"[DOOR] Swapped. Offset Applied: {spawnOffset}");
     }
 }

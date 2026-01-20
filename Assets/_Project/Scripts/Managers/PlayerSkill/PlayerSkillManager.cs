@@ -57,7 +57,7 @@ public class PlayerSkillManager : MonoBehaviour
     // ---------------------------------------------------------
     // XP Adding
     // ---------------------------------------------------------
-    public void AddXP(PlayerSkill skill, float baseAmount)
+    public void AddXP(PlayerSkill skill, float baseAmount, bool notifyPlayer)
     {
         float modifier = GetIQXPModifier();
         float amount = baseAmount * modifier;
@@ -72,7 +72,14 @@ public class PlayerSkillManager : MonoBehaviour
             data.RecalculateXPRequirement();
 
             Debug.Log($"{skill} leveled up to Level {data.level}!");
-            MessageManager.Instance.ShowMessageDirectly($"{skill} increased to {data.level}!");
+
+            if (notifyPlayer)
+            {
+                MessageManager.Instance.ShowMessageDirectly($"{skill} increased to {data.level}!");
+                AudioManager.Instance.PlayLevelUpSFX();
+            }           
+
+
         }
     }
 
@@ -97,7 +104,7 @@ public class PlayerSkillManager : MonoBehaviour
         {
             if (pair.Key.ToString().ToLower() == skillName.ToLower())
             {
-                AddXP(pair.Key, amount);
+                AddXP(pair.Key, amount, true);
                 return true;
             }
         }

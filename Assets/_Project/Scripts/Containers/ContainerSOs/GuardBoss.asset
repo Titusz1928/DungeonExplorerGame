@@ -93,3 +93,9 @@ MonoBehaviour:
     minCount: 1
     maxCount: 3
     allowDuplicates: 1
+  - groupName: Keys
+    possibleItems:
+    - {fileID: 11400000, guid: 37b9503c8d84b814f874395412904c68, type: 2}
+    minCount: 1
+    maxCount: 1
+    allowDuplicates: 1
