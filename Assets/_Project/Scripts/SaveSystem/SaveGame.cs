@@ -7,6 +7,7 @@ public class WorldMeta
     public string updatedAt;
     public int seed;
     public float difficulty;
+    public bool cheatsEnabled;
 }
 
 [System.Serializable]

@@ -24,6 +24,7 @@ public class GameSettings : MonoBehaviour
 
     [Header("Difficulty")]
     public float difficulty = 1f; //placeholder
+    public bool CheatsEnabled;
 
     public List<SkillStartEntry> startingSkills = new List<SkillStartEntry>();
 

@@ -114,6 +114,7 @@ public class GameBoot : MonoBehaviour
         GameSettings.Instance.worldId = data.worldMetaData.worldId;
         GameSettings.Instance.worldName = data.worldMetaData.worldName;
         GameSettings.Instance.createdAt = data.worldMetaData.createdAt;
+        GameSettings.Instance.CheatsEnabled = data.worldMetaData.cheatsEnabled;
 
         // 3. Create Physical Objects (This spawns WorldSaveData and ChunkManager)
         CreatePersistentObjects(Vector2.zero);

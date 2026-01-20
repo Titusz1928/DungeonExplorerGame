@@ -62,6 +62,11 @@ public class PlayerStateManager : MonoBehaviour
         isDead = true;
         Debug.Log("Player has died!");
 
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.PlayGameOverSFX();
+        }
+
         // Show the game over UI immediately
         if (gameOverWindow != null)
         {

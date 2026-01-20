@@ -108,6 +108,7 @@ public class GameSessionController : MonoBehaviour
         int finalSeed = ResolveSeedFromInput();
         GameSettings.Instance.CreateNewWorld(nameInput.text, finalSeed);
         GameSettings.Instance.difficulty = defaults.defaultDifficulty;
+        GameSettings.Instance.CheatsEnabled = defaults.cheatsActivated;
 
         Launch();
     }

@@ -41,13 +41,34 @@ public class BattleManager : MonoBehaviour
 
     public void StartBattle(EnemyController mainTarget, List<EnemyController> helpers)
     {
-        isProcessingTurn = false; // Reset turn state
-        endTurnButton.interactable = true; // Ensure button is clickable
-        logText.text = "You were ambushed!";
-
         activeCombatants.Clear();
         activeCombatants.Add(mainTarget);
         activeCombatants.AddRange(helpers);
+
+        // 2. Determine which music to play
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.PlayStartBattleSFX();
+
+            // Check if ANY combatant in the list is a boss
+            bool bossPresent = activeCombatants.Any(e => e.IsBoss);
+
+            if (bossPresent)
+            {
+                Debug.Log("Playing Boss music");
+                AudioManager.Instance.PlayBossBattleMusic();
+                logText.text = "Your target appears!";
+            }
+            else
+            {
+                logText.text = "You were ambushed!";
+                AudioManager.Instance.PlayBattleMusic();
+            }
+        }
+
+        isProcessingTurn = false; // Reset turn state
+        endTurnButton.interactable = true; // Ensure button is clickable
+
 
         // Reset targeting to the first enemy
         targetedEnemyIndex = 0;
@@ -318,6 +339,11 @@ public class BattleManager : MonoBehaviour
 
         logText.text = "<color=green>Victory! All enemies defeated.</color>";
         yield return new WaitForSeconds(2.5f);
+
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.PlayExplorationMusic();
+        }
 
         UIManager.Instance.ExitBattleState();
 

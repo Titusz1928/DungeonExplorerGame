@@ -5,4 +5,5 @@ public class GameSettingsDefaults : ScriptableObject
 {
     public int defaultSeed;
     public float defaultDifficulty = 1f;
+    public bool cheatsActivated = false;
 }

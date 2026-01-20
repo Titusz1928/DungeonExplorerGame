@@ -247,6 +247,13 @@ public class EnemyController : MonoBehaviour
         if (state == newState)
             return;
 
+
+        // --- PLAY SOUND ON DETECTION ---
+        if (newState == EnemyState.Chasing)
+        {
+            PlayDetectionSound();
+        }
+
         state = newState;
 
         // Update debug text
@@ -267,6 +274,14 @@ public class EnemyController : MonoBehaviour
             _ => Color.white
         };
 
+    }
+
+    private void PlayDetectionSound()
+    {
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.PlayGameOverSFX();
+        }
     }
 
 #if UNITY_EDITOR

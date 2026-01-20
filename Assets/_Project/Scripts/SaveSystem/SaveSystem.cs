@@ -104,7 +104,9 @@ public static class SaveSystem
             createdAt = settings.createdAt,
             updatedAt = System.DateTime.UtcNow.ToString("o"),
             seed = settings.seed,
-            difficulty = settings.difficulty
+            difficulty = settings.difficulty,
+            cheatsEnabled=settings.CheatsEnabled
+
         };
 
         string json = JsonUtility.ToJson(meta, true);

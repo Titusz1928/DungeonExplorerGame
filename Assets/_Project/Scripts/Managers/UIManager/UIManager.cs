@@ -22,6 +22,8 @@ public class UIManager : MonoBehaviour
     [Header("ExtraHUD")]
     [SerializeField] private TextMeshProUGUI playerCoordinatesText;
 
+    [SerializeField] private GameObject cheatsButton;
+
     [Header("Gameplay UI Elements")]
     public GameObject joystickUI;
 
@@ -55,6 +57,15 @@ public class UIManager : MonoBehaviour
         IsInBattle = false;
         generalCanvas.enabled = true;
         battleCanvas.enabled = false;
+
+        if (GameSettings.Instance != null)
+        {
+            if(GameSettings.Instance.CheatsEnabled)
+                cheatsButton.SetActive(true);
+            else
+                cheatsButton.SetActive(false);
+        }
+
         UpdateJoystickVisibility();
     }
 

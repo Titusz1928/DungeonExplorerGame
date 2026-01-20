@@ -12,6 +12,8 @@ public class WorldManagementPopup : MonoBehaviour
     [SerializeField] private TMP_Text lastPlayedAtText;
     [SerializeField] private Button saveButton;
     [SerializeField] private Button deleteButton;
+    [SerializeField] private Toggle cheatsEnabledToggle;
+    [SerializeField] private TextMeshProUGUI toggleText;
 
     private WorldMeta currentMeta;
 
@@ -26,8 +28,14 @@ public class WorldManagementPopup : MonoBehaviour
         createdAtText.text = FormatISODate(meta.createdAt);
         lastPlayedAtText.text = FormatISODate(meta.updatedAt);
 
-        // Clear listeners to avoid issues if the prefab is reused (pooling)
-        saveButton.onClick.RemoveAllListeners();
+        cheatsEnabledToggle.isOn = meta.cheatsEnabled;
+        if (meta.cheatsEnabled)
+            toggleText.text = "Enabled";
+        else
+            toggleText.text = "Disabled";
+
+            // Clear listeners to avoid issues if the prefab is reused (pooling)
+            saveButton.onClick.RemoveAllListeners();
         saveButton.onClick.AddListener(SaveAndClose);
 
         deleteButton.onClick.RemoveAllListeners();
@@ -49,6 +57,7 @@ public class WorldManagementPopup : MonoBehaviour
     private void SaveAndClose()
     {
         currentMeta.worldName = nameInput.text;
+        currentMeta.cheatsEnabled= cheatsEnabledToggle.isOn;
         SaveSystem.UpdateWorldMeta(currentMeta);
 
         RefreshAndClose();

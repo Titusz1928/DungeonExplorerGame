@@ -10,8 +10,12 @@ public class AudioManager : MonoBehaviour
     [Header("Music Clips")]
     [SerializeField] private AudioClip mainMenuMusic;
     [SerializeField] private AudioClip gameMusic;
+    [SerializeField] private AudioClip battleMusic;
+    [SerializeField] private AudioClip bossBattleMusic;
 
     private AudioClip placeSFX;
+    private AudioClip gameoverSFX;
+    private AudioClip startbattleSFX;
 
     private AudioSource musicSource;
     private AudioSource sfxSource;
@@ -53,9 +57,14 @@ public class AudioManager : MonoBehaviour
     {
         mainMenuMusic = Resources.Load<AudioClip>("Audio/Music/MainMenuTheme");
         gameMusic = Resources.Load<AudioClip>("Audio/Music/GameTheme");
+        battleMusic = Resources.Load<AudioClip>("Audio/Music/battlemusic");
+        bossBattleMusic = Resources.Load<AudioClip>("Audio/Music/bigbattlemusic");
 
         // Load SFX files
         placeSFX = Resources.Load<AudioClip>("Audio/SFX/placeSFX");
+        gameoverSFX = Resources.Load<AudioClip>("Audio/SFX/other/gameover");
+        startbattleSFX = Resources.Load<AudioClip>("Audio/SFX/other/startbattlesoundeffect");
+
 
         if (mainMenuMusic == null)
             Debug.LogWarning("MainMenuTheme.mp3 not found in Resources/Audio/Music");
@@ -105,6 +114,17 @@ public class AudioManager : MonoBehaviour
         PlaySFX(placeSFX);
     }
 
+    public void PlayStartBattleSFX()
+    {
+        PlaySFX(startbattleSFX);
+    }
+
+    public void PlayGameOverSFX()
+    {
+        PlaySFX(gameoverSFX);
+    }
+
+
 
     public void PlaySFX(AudioClip clip, float volumeMultiplier = 1f)
     {
@@ -140,6 +160,30 @@ public class AudioManager : MonoBehaviour
         }
 
         musicSource.volume = musicVolume;
+    }
+
+    public void PlayBattleMusic()
+    {
+        if (battleMusic != null && musicSource.clip != battleMusic)
+        {
+            StartCoroutine(FadeToNewTrack(battleMusic));
+        }
+    }
+
+    public void PlayBossBattleMusic()
+    {
+        if (battleMusic != null && musicSource.clip != battleMusic)
+        {
+            StartCoroutine(FadeToNewTrack(bossBattleMusic));
+        }
+    }
+
+    public void PlayExplorationMusic()
+    {
+        if (gameMusic != null && musicSource.clip != gameMusic)
+        {
+            StartCoroutine(FadeToNewTrack(gameMusic));
+        }
     }
 
     // --- Volume & Toggle Management ---
