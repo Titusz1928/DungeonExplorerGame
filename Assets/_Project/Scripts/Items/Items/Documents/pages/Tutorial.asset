@@ -30,14 +30,20 @@ MonoBehaviour:
   - frontSide:
       pageID: 25
       background: {fileID: 0}
-      defaultText: Welcome to the island of death, you will die here!
+      defaultText: "Your current mission is to explore the island, including the
+        mysterious ruins in the center of the island. The enemy keeps this building
+        under constant surveillance, therefore you need to eliminate the guard. He
+        is exceptionally tall, you will know it when you see him.\n\nAproximate height:2.2m
+        \nAproximate weigth:160kg\n\nGood luck, Captain TItus 1412. august 13th"
       givesXP: 0
       xpAmount: 0
       skillType: 0
+      recipeIDToUnlock: 0
     backSide:
       pageID: 26
-      background: {fileID: 21300000, guid: b8d20961e7a03a64e8c0f5f12d30d41e, type: 3}
+      background: {fileID: 21300000, guid: ac36fd320dd1cce4b967a6b1549e7ae9, type: 3}
       defaultText: 
       givesXP: 1
       xpAmount: 10
       skillType: 5
+      recipeIDToUnlock: 0

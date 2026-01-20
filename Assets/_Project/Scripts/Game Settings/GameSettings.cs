@@ -27,6 +27,8 @@ public class GameSettings : MonoBehaviour
 
     public List<SkillStartEntry> startingSkills = new List<SkillStartEntry>();
 
+    [SerializeField] private bool isVisible=true; 
+
     private void Awake()
     {
         if (Instance != null)
@@ -56,4 +58,11 @@ public class GameSettings : MonoBehaviour
     {
         seed = UnityEngine.Random.Range(int.MinValue, int.MaxValue);
     }
+
+    public void ToggelVisibility()
+    {
+        isVisible = !isVisible;
+    }
+
+    public bool IsVisible() { return isVisible; }
 }

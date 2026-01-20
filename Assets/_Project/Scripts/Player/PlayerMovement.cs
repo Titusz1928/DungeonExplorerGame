@@ -244,6 +244,9 @@ public class PlayerMovement : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
+        if (!GameSettings.Instance.IsVisible())
+            return;
+
         // 1. Check if we are already in a battle or a menu is open
         if (UIManager.Instance.IsInBattle || UIManager.Instance.IsWindowOpen)
             return;

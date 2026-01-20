@@ -1,4 +1,6 @@
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
@@ -17,8 +19,13 @@ public class UIManager : MonoBehaviour
     [SerializeField] private float minZoom = 3f;
     [SerializeField] private float maxZoom = 7f;
 
+    [Header("ExtraHUD")]
+    [SerializeField] private TextMeshProUGUI playerCoordinatesText;
+
     [Header("Gameplay UI Elements")]
     public GameObject joystickUI;
+
+    public Image VisibilityImage;
 
     private int windowCount = 0;
 
@@ -29,6 +36,15 @@ public class UIManager : MonoBehaviour
     {
         if (Instance == null) Instance = this;
         else Destroy(gameObject);
+
+        if(playerCoordinatesText != null)
+            playerCoordinatesText.gameObject.SetActive(false);
+
+        if (GameSettings.Instance != null)
+        {
+            if(GameSettings.Instance.IsVisible())
+                VisibilityImage.gameObject.SetActive(false);
+        }
 
         // Initialization: Start in Exploration mode
         InitializeUI();
@@ -105,5 +121,29 @@ public class UIManager : MonoBehaviour
         // Orthographic: Larger size = Further/Zoomed Out
         float newSize = mainCamera.orthographicSize + 1f;
         mainCamera.orthographicSize = Mathf.Clamp(newSize, minZoom, maxZoom);
+    }
+
+    public void deactivateExtraHUD()
+    {
+        playerCoordinatesText.gameObject.SetActive(false);
+    }
+
+    public void activateExtraHUD()
+    {
+        playerCoordinatesText.gameObject.SetActive(true);
+    }
+
+    public void changeVisibilityUIStatus()
+    {
+        GameSettings.Instance.ToggelVisibility();
+
+        if (GameSettings.Instance.IsVisible())
+        {
+            VisibilityImage.gameObject.SetActive(false);
+        }
+        else
+        {
+            VisibilityImage.gameObject.SetActive(true);
+        }
     }
 }

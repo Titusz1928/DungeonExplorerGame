@@ -128,6 +128,13 @@ public class EnemyController : MonoBehaviour
         if (UIManager.Instance.IsInBattle)
             return;
 
+        // If we are in an alert state but the player is no longer "visible" (e.g. cheat toggled on)
+        if (!GameSettings.Instance.IsVisible() && (state == EnemyState.Chasing || state == EnemyState.Investigating))
+        {
+            SetState(data.isGuarding ? EnemyState.Guarding : EnemyState.Wandering);
+            PickNewTarget();
+        }
+
         CheckVision();
 
         if (isWaiting)
@@ -185,6 +192,8 @@ public class EnemyController : MonoBehaviour
 
     void OnNoiseHeard(NoiseEvent noise)
     {
+        if (!GameSettings.Instance.IsVisible()) return;
+
         // Ignore own noise if needed later
         // if (noise.Source == gameObject) return;
 
@@ -224,6 +233,17 @@ public class EnemyController : MonoBehaviour
 
     public void SetState(EnemyState newState)
     {
+        // If player is invisible, block entry into aggressive/alert states
+        if (!GameSettings.Instance.IsVisible())
+        {
+            if (newState == EnemyState.Chasing ||
+                newState == EnemyState.Investigating ||
+                newState == EnemyState.Searching)
+            {
+                return;
+            }
+        }
+
         if (state == newState)
             return;
 
@@ -327,6 +347,8 @@ public class EnemyController : MonoBehaviour
 
     void CheckVision()
     {
+        if (!GameSettings.Instance.IsVisible()) return;
+
         GameObject player = PlayerStateManager.Instance.gameObject;
         Vector2 toPlayer = (Vector2)player.transform.position - rb.position;
 

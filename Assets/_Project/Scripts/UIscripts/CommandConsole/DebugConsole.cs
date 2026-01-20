@@ -52,9 +52,10 @@ public class DebugConsole : MonoBehaviour
         commands["/xp"] = CmdAddXP;
         commands["/seed"] = CmdSeed;
         commands["/clear"] = CmdClear;
-
-        // New Injury Testing Commands
+        commands["/morehud"] = CmdMoreHUD;
+        commands["/lesshud"] = CmdLessHUD;
         commands["/injury"] = CmdAddInjury;
+        commands["/togglevisibility"] = CmdToggleVisibility;
     }
 
     // Called from InputField "On Submit"
@@ -101,9 +102,10 @@ public class DebugConsole : MonoBehaviour
         AddHistory("/heal <amount> - heal player");
         AddHistory("/xp <skillname> <amount> - add xp");
         AddHistory("/clear - clear console");
+        AddHistory("/morehud - additional HUD display");
+        AddHistory("/lesshud - less HUD display");
         AddHistory("/injury <part> <type> <sev> - spawn injury");
-        AddHistory("/bandage <part> - bandage a body part");
-        AddHistory("/combat - toggle real-time vs turn-based ticks");
+        AddHistory("/togglevisibility - activates/deactivates player invisibility");
     }
 
     private void CmdClear(string[] args)
@@ -112,6 +114,21 @@ public class DebugConsole : MonoBehaviour
 
         foreach (Transform child in content)
             Destroy(child.gameObject);
+    }
+
+    private void CmdToggleVisibility(string[] args)
+    {
+        UIManager.Instance.changeVisibilityUIStatus();
+    }
+
+    private void CmdMoreHUD(string[] args)
+    {
+        UIManager.Instance.activateExtraHUD();
+    }
+
+    private void CmdLessHUD(string[] args)
+    {
+        UIManager.Instance.deactivateExtraHUD();
     }
 
     private void CmdAddInjury(string[] args)

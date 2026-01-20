@@ -29,11 +29,12 @@ MonoBehaviour:
   papers:
   - frontSide:
       pageID: 15
-      background: {fileID: 2613348730587745498, guid: 9b2bd69068984d549b3936e5c065cc5f, type: 3}
+      background: {fileID: 21300000, guid: 9b2bd69068984d549b3936e5c065cc5f, type: 3}
       defaultText: 
       givesXP: 0
       xpAmount: 0
       skillType: 0
+      recipeIDToUnlock: 0
     backSide:
       pageID: 16
       background: {fileID: 0}
@@ -41,3 +42,4 @@ MonoBehaviour:
       givesXP: 0
       xpAmount: 0
       skillType: 0
+      recipeIDToUnlock: 0
