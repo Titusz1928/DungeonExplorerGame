@@ -4,7 +4,8 @@ using TMPro;
 
 public class PickupRow : MonoBehaviour
 {
-    [SerializeField] private TMP_Text nameText;
+    //[SerializeField] private TMP_Text nameText;
+    [SerializeField] private Image itemImage;
     [SerializeField] private TMP_Text qtyText;
     [SerializeField] private Button pickupButton;
 
@@ -31,7 +32,8 @@ public class PickupRow : MonoBehaviour
         window = pw;
         sourceContainer = null;
 
-        nameText.text = wi.itemSO.itemName;
+        //nameText.text = wi.itemSO.itemName;
+        itemImage.sprite = wi.itemSO.icon;
         qtyText.text = wi.quantity.ToString();
 
         SetupButton();
@@ -55,7 +57,8 @@ public class PickupRow : MonoBehaviour
         sourceContainer = container;
         window = pw;
 
-        nameText.text = instance.itemSO.itemName;
+        //nameText.text = instance.itemSO.itemName;
+        itemImage.sprite = instance.itemSO.icon;
         qtyText.text = instance.quantity.ToString();
 
         SetupButton();

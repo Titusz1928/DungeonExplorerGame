@@ -320,9 +320,21 @@ public class EnemyController : MonoBehaviour
         // Stop physics movement if in battle
         if (UIManager.Instance.IsInBattle)
         {
-            rb.linearVelocity = Vector2.zero; // Stop any sliding/drifting
+            rb.linearVelocity = Vector2.zero; // Stop physics sliding
+
+            // --- ADD THIS BLOCK ---
+            // We must explicitly stop the agent here because we are about to 'return'
+            // preventing MoveTowardsTarget() from running.
+            if (agent.isOnNavMesh)
+            {
+                agent.isStopped = true;
+                agent.velocity = Vector3.zero; // Force immediate stop
+            }
+            // ----------------------
+
             return;
         }
+
         MoveTowardsTarget();
     }
 
