@@ -38,6 +38,10 @@ public class PlayerMovement : MonoBehaviour
     [Header("Noise Settings")]
     public float metersPerNoise = 1f;
 
+    [Header("Battle Detection")]
+    [SerializeField] private float battleDetectionRadius = 0.5f; // Tiny radius around player
+    [SerializeField] private LayerMask enemyLayer;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -155,6 +159,8 @@ public class PlayerMovement : MonoBehaviour
             return;
         }
 
+        CheckForNearbyEnemies();
+
         // --- Joystick input ---
         if (joystick != null)
         {
@@ -242,19 +248,28 @@ public class PlayerMovement : MonoBehaviour
         rb.MovePosition(rb.position + moveInput * currentSpeed * Time.fixedDeltaTime);
     }
 
-    void OnCollisionEnter2D(Collision2D collision)
+    private void CheckForNearbyEnemies()
     {
+        // Level 3: Is the visibility setting blocking us?
         if (!GameSettings.Instance.IsVisible())
-            return;
-
-        // 1. Check if we are already in a battle or a menu is open
-        if (UIManager.Instance.IsInBattle || UIManager.Instance.IsWindowOpen)
-            return;
-
-        // 2. Check if the thing we hit is actually an enemy
-        if (collision.gameObject.CompareTag("Enemy"))
         {
-            StartBattle(collision.gameObject);
+            // If this prints, your "Cheat/Settings" are hiding the player from the code!
+            // Debug.Log("Check failed: Player is currently INVISIBLE per GameSettings.");
+            return;
+        }
+
+        // Level 4: The Physics Check
+        // We will temporarily REMOVE the enemyLayer filter to see if it finds ANYTHING
+        Collider2D hit = Physics2D.OverlapCircle(transform.position, battleDetectionRadius);
+
+        if (hit != null)
+        {
+            Debug.Log($"PHYSICS HIT: Found {hit.name} on Layer: {LayerMask.LayerToName(hit.gameObject.layer)} with Tag: {hit.tag}");
+
+            if (hit.CompareTag("Enemy"))
+            {
+                StartBattle(hit.gameObject);
+            }
         }
     }
 
@@ -314,5 +329,12 @@ public class PlayerMovement : MonoBehaviour
         //Destroy(enemy);
 
 
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        // This allows you to see the detection radius in the Scene view when you click the player
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, battleDetectionRadius);
     }
 }

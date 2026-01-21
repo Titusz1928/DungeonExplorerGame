@@ -34,7 +34,7 @@ Transform:
   m_GameObject: {fileID: 501290945532828953}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -9.412722, y: -8.164277, z: 0.06782023}
+  m_LocalPosition: {x: -9.412722, y: -8.164277, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -137,6 +137,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: b08b17df79d17f24abfed574330b1704, type: 2}
   instanceID: 
+  searchDuration: 4
+  searchRadius: 4
   corpsePrefab: {fileID: 9150212770442967940, guid: 19abdae32f7b66241bffb19d3caf3bc2, type: 3}
   stateText: {fileID: 3131458788744381536}
 --- !u!61 &3311205983913274736

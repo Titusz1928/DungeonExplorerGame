@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 8916658399640596906}
   - component: {fileID: 5907141300053903678}
   - component: {fileID: 169833938800949009}
+  - component: {fileID: 8559630000938870959}
   m_Layer: 0
   m_Name: chair
   m_TagString: Untagged
@@ -134,6 +135,26 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.5, y: 0.5}
   m_EdgeRadius: 0
+--- !u!114 &8559630000938870959
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 249831941848769076}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SerializedVersion: 0
+  m_OverrideArea: 0
+  m_Area: 0
+  m_OverrideGenerateLinks: 0
+  m_GenerateLinks: 0
+  m_IgnoreFromBuild: 1
+  m_ApplyToChildren: 1
+  m_AffectedAgents: ffffffff
 --- !u!1 &1033395786302900369
 GameObject:
   m_ObjectHideFlags: 0
@@ -145,6 +166,7 @@ GameObject:
   - component: {fileID: 7943200377464191402}
   - component: {fileID: 4232340418996482089}
   - component: {fileID: 6597748652109698691}
+  - component: {fileID: 2337358578353211230}
   m_Layer: 0
   m_Name: wallN
   m_TagString: Untagged
@@ -268,6 +290,22 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 2, y: 0.3}
   m_EdgeRadius: 0
+--- !u!208 &2337358578353211230
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1033395786302900369}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 1.0150001, y: 0.50600004, z: 0.1}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &1040976200950379209
 GameObject:
   m_ObjectHideFlags: 0
@@ -279,6 +317,7 @@ GameObject:
   - component: {fileID: 4695226295242045016}
   - component: {fileID: 8630411514072632192}
   - component: {fileID: 6253715978222603899}
+  - component: {fileID: 5994548608633088414}
   m_Layer: 0
   m_Name: WallW
   m_TagString: Untagged
@@ -402,6 +441,22 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 0.72}
   m_EdgeRadius: 0
+--- !u!208 &5994548608633088414
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1040976200950379209}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.5, y: 0.5, z: 0.1}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &1206796519124610217
 GameObject:
   m_ObjectHideFlags: 0
@@ -938,6 +993,7 @@ GameObject:
   - component: {fileID: 753034867392921947}
   - component: {fileID: 8782148191111770803}
   - component: {fileID: 1217125404339534021}
+  - component: {fileID: 2984451053321181807}
   m_Layer: 0
   m_Name: WallE
   m_TagString: Untagged
@@ -1061,6 +1117,22 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 0.6}
   m_EdgeRadius: 0
+--- !u!208 &2984451053321181807
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3220479234609586000}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.5, y: 0.5, z: 0.1}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &3339423325829654693
 GameObject:
   m_ObjectHideFlags: 0
@@ -1107,6 +1179,7 @@ GameObject:
   - component: {fileID: 6938422175955967471}
   - component: {fileID: 5679115338086689057}
   - component: {fileID: 4362634690258100345}
+  - component: {fileID: 314604089302354061}
   m_Layer: 0
   m_Name: wallS
   m_TagString: Untagged
@@ -1384,6 +1457,22 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.8, y: 0.2}
   m_EdgeRadius: 0
+--- !u!208 &314604089302354061
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3411051837334078023}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 2.7710001, y: 1.3060001, z: 0.00001}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 7.491, y: 0.26900002, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &3485184816979177832
 GameObject:
   m_ObjectHideFlags: 0
@@ -1767,6 +1856,7 @@ GameObject:
   - component: {fileID: 6124624989539101985}
   - component: {fileID: 475418968412741899}
   - component: {fileID: 5162538453965071599}
+  - component: {fileID: 7192479187214138755}
   m_Layer: 0
   m_Name: Cabinet
   m_TagString: Untagged
@@ -1909,6 +1999,26 @@ MonoBehaviour:
   worldCell: {x: 0, y: 0}
   wasOpened: 0
   uniqueId: 
+--- !u!114 &7192479187214138755
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4247613793572846343}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SerializedVersion: 0
+  m_OverrideArea: 0
+  m_Area: 0
+  m_OverrideGenerateLinks: 0
+  m_GenerateLinks: 0
+  m_IgnoreFromBuild: 1
+  m_ApplyToChildren: 1
+  m_AffectedAgents: ffffffff
 --- !u!1 &4505189789606689231
 GameObject:
   m_ObjectHideFlags: 0
@@ -2282,6 +2392,7 @@ GameObject:
   - component: {fileID: 3675113600101975071}
   - component: {fileID: 4399675513876585204}
   - component: {fileID: 8443520008324117488}
+  - component: {fileID: 7388955014846889446}
   m_Layer: 0
   m_Name: WallE2
   m_TagString: Untagged
@@ -2405,6 +2516,22 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 0.55}
   m_EdgeRadius: 0
+--- !u!208 &7388955014846889446
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4872803345381090793}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.5, y: 0.5, z: 0.1}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &4983526314883700162
 GameObject:
   m_ObjectHideFlags: 0
@@ -2595,7 +2722,6 @@ GameObject:
   - component: {fileID: 4714184892859583258}
   - component: {fileID: 4685181126674961876}
   - component: {fileID: 8912155093834543586}
-  - component: {fileID: 2566775789705423208}
   m_Layer: 0
   m_Name: HouseC
   m_TagString: Untagged
@@ -2685,26 +2811,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   variationRules: {fileID: 11400000, guid: d4daca5a22f175a43aba5a6ceb3264e3, type: 2}
   objectsFolder: {fileID: 8432529152390301219}
---- !u!114 &2566775789705423208
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5065970378604294679}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SerializedVersion: 0
-  m_OverrideArea: 0
-  m_Area: 0
-  m_OverrideGenerateLinks: 0
-  m_GenerateLinks: 0
-  m_IgnoreFromBuild: 1
-  m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
 --- !u!1 &5439240449174468982
 GameObject:
   m_ObjectHideFlags: 0
@@ -2716,6 +2822,7 @@ GameObject:
   - component: {fileID: 2018058139763509249}
   - component: {fileID: 3991743058630142970}
   - component: {fileID: 3782947477839662270}
+  - component: {fileID: 7068661151630375555}
   m_Layer: 0
   m_Name: chair2
   m_TagString: Untagged
@@ -2839,6 +2946,26 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.5, y: 0.5}
   m_EdgeRadius: 0
+--- !u!114 &7068661151630375555
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5439240449174468982}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SerializedVersion: 0
+  m_OverrideArea: 0
+  m_Area: 0
+  m_OverrideGenerateLinks: 0
+  m_GenerateLinks: 0
+  m_IgnoreFromBuild: 1
+  m_ApplyToChildren: 1
+  m_AffectedAgents: ffffffff
 --- !u!1 &5876636060319978335
 GameObject:
   m_ObjectHideFlags: 0
@@ -2849,6 +2976,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2233767610626451042}
   - component: {fileID: 3390315631340730831}
+  - component: {fileID: 3134120759632883829}
+  - component: {fileID: 8186565850209153142}
   m_Layer: 0
   m_Name: Woodpile
   m_TagString: Untagged
@@ -2926,6 +3055,72 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!61 &3134120759632883829
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5876636060319978335}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: -0.3}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1, y: 1}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 1, y: 0.3}
+  m_EdgeRadius: 0
+--- !u!114 &8186565850209153142
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5876636060319978335}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SerializedVersion: 0
+  m_OverrideArea: 0
+  m_Area: 0
+  m_OverrideGenerateLinks: 0
+  m_GenerateLinks: 0
+  m_IgnoreFromBuild: 1
+  m_ApplyToChildren: 1
+  m_AffectedAgents: ffffffff
 --- !u!1 &6169487687705960365
 GameObject:
   m_ObjectHideFlags: 0
@@ -3177,6 +3372,7 @@ GameObject:
   - component: {fileID: 1771041939632519305}
   - component: {fileID: 7962052721129360415}
   - component: {fileID: 7349761304329158129}
+  - component: {fileID: 5719420931808924192}
   m_Layer: 0
   m_Name: Bed
   m_TagString: Untagged
@@ -3300,6 +3496,26 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1.5, y: 0.5}
   m_EdgeRadius: 0
+--- !u!114 &5719420931808924192
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7293210922642563554}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SerializedVersion: 0
+  m_OverrideArea: 0
+  m_Area: 0
+  m_OverrideGenerateLinks: 0
+  m_GenerateLinks: 0
+  m_IgnoreFromBuild: 1
+  m_ApplyToChildren: 1
+  m_AffectedAgents: ffffffff
 --- !u!1 &7453875871883293617
 GameObject:
   m_ObjectHideFlags: 0
@@ -3311,6 +3527,7 @@ GameObject:
   - component: {fileID: 8038907307510125026}
   - component: {fileID: 4762500733228799527}
   - component: {fileID: 1026848575796623549}
+  - component: {fileID: 4231908381231515493}
   m_Layer: 0
   m_Name: wallS2
   m_TagString: Untagged
@@ -3434,6 +3651,22 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 0.3}
   m_EdgeRadius: 0
+--- !u!208 &4231908381231515493
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7453875871883293617}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.44000003, y: 0.50600004, z: 0.1}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &7745706148627049513
 GameObject:
   m_ObjectHideFlags: 0

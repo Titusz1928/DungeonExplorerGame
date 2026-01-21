@@ -43,6 +43,14 @@ public class EnemyController : MonoBehaviour
     private float decisionTimer;
     private bool isWaiting;
 
+    [Header("Smart AI Settings")]
+    [SerializeField] private float searchDuration = 4f; // How long to look for player after losing them
+    [SerializeField] private float searchRadius = 4f;   // How far to look around the last known spot
+
+    private Vector2 lastKnownPosition; // Where the enemy THINKS the player is
+    private bool canSeePlayer = false; // Internal flag for the current frame
+    private float searchTimer;
+
     [Header("Corpse")]
     [SerializeField] private GameObject corpsePrefab;
 
@@ -51,6 +59,8 @@ public class EnemyController : MonoBehaviour
 
     [Header("Debug")]
     [SerializeField] private TMPro.TextMeshPro stateText;
+
+    [SerializeField] private float chaseSpeedMultiplier = 1.25f;
 
     public EnemyState getState()
     {
@@ -139,12 +149,12 @@ public class EnemyController : MonoBehaviour
 
     void Update()
     {
-        //CHECK IF THERE IS A BATTLE OR NOT
+        // CHECK IF THERE IS A BATTLE OR NOT
         if (UIManager.Instance.IsInBattle)
             return;
 
-        // If we are in an alert state but the player is no longer "visible" (e.g. cheat toggled on)
-        if (!GameSettings.Instance.IsVisible() && (state == EnemyState.Chasing || state == EnemyState.Investigating))
+        // Cheat/Settings check
+        if (!GameSettings.Instance.IsVisible() && (state == EnemyState.Chasing || state == EnemyState.Investigating || state == EnemyState.Searching))
         {
             SetState(data.isGuarding ? EnemyState.Guarding : EnemyState.Wandering);
             PickNewTarget();
@@ -152,7 +162,9 @@ public class EnemyController : MonoBehaviour
 
         CheckVision();
 
-        if (isWaiting)
+        // We only want the "Idle/Decision" timer to stop the AI during calm states.
+        // If they are Chasing or Searching, they should be moving constantly.
+        if (isWaiting && state != EnemyState.Chasing && state != EnemyState.Searching)
         {
             decisionTimer -= Time.deltaTime;
             if (decisionTimer <= 0f)
@@ -163,6 +175,7 @@ public class EnemyController : MonoBehaviour
             return;
         }
 
+        // --- ADD THE NEW CASES HERE ---
         switch (state)
         {
             case EnemyState.Wandering:
@@ -175,6 +188,14 @@ public class EnemyController : MonoBehaviour
 
             case EnemyState.Investigating:
                 UpdateInvestigating();
+                break;
+
+            case EnemyState.Chasing:
+                UpdateChasing(); // New logic: Move to LKP
+                break;
+
+            case EnemyState.Searching:
+                UpdateSearching(); // New logic: Look around LKP
                 break;
         }
     }
@@ -373,6 +394,45 @@ public class EnemyController : MonoBehaviour
         currentTarget = player.transform.position;
     }
 
+    void UpdateSearching()
+    {
+        // 1. If we see the player again, immediately resume chasing
+        if (canSeePlayer)
+        {
+            SetState(EnemyState.Chasing);
+            return;
+        }
+
+        // 2. Countdown to giving up
+        searchTimer -= Time.deltaTime;
+        if (searchTimer <= 0)
+        {
+            // Gave up, go back to guard or wander
+            SetState(data.isGuarding ? EnemyState.Guarding : EnemyState.Wandering);
+            PickNewTarget();
+            return;
+        }
+
+        // 3. Move around the search area
+        if (ReachedTarget())
+        {
+            // Wait a tiny bit then pick another spot near the Last Known Position
+            if (!isWaiting)
+            {
+                StartWaiting(); // Reuse your existing wait logic
+                // Override the generic waiting behavior to pick a search target next
+                Invoke(nameof(PickNewSearchTarget), decisionTimer);
+            }
+        }
+    }
+
+    void PickNewSearchTarget()
+    {
+        // Pick a random point close to where we last saw the player
+        Vector2 randomPoint = lastKnownPosition + Random.insideUnitCircle * searchRadius;
+        currentTarget = randomPoint;
+    }
+
     void UpdateInvestigating()
     {
         if (ReachedTarget())
@@ -431,11 +491,18 @@ public class EnemyController : MonoBehaviour
             return;
         }
 
-        // Only set a destination if the agent is correctly placed on the mesh
         if (agent.isOnNavMesh)
         {
             agent.isStopped = false;
-            agent.speed = data.moveSpeed;
+
+            // Apply Speed Increase if Chasing
+            float currentSpeed = data.moveSpeed;
+            if (state == EnemyState.Chasing)
+            {
+                currentSpeed *= chaseSpeedMultiplier;
+            }
+
+            agent.speed = currentSpeed;
             agent.SetDestination(currentTarget);
 
             if (agent.velocity.sqrMagnitude > 0.1f)
@@ -474,7 +541,17 @@ public class EnemyController : MonoBehaviour
     void PickNewTarget()
     {
         stateTimer = Random.Range(2f, 4f);
-        currentTarget = (Vector2)transform.position + Random.insideUnitCircle * 3f;
+
+        if (data.isGuarding)
+        {
+            // This handles the "PickNewGuardTarget" logic automatically
+            currentTarget = guardCenter + Random.insideUnitCircle * data.guardRadius;
+        }
+        else
+        {
+            // Standard wandering logic
+            currentTarget = (Vector2)transform.position + Random.insideUnitCircle * 3f;
+        }
     }
 
     void PickNewGuardTarget()

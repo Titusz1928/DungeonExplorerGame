@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3676318557374194593}
   - component: {fileID: 787421213517317751}
   - component: {fileID: 7791170531460485208}
+  - component: {fileID: 8230181245514531569}
   m_Layer: 0
   m_Name: WallE
   m_TagString: Untagged
@@ -134,6 +135,22 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 0.67}
   m_EdgeRadius: 0
+--- !u!208 &8230181245514531569
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 990609734169972204}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.5, y: 0.5, z: 0.1}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &1041697624728231319
 GameObject:
   m_ObjectHideFlags: 0
@@ -178,6 +195,7 @@ GameObject:
   - component: {fileID: 2197484263107225630}
   - component: {fileID: 667694091663324594}
   - component: {fileID: 5108028306975004916}
+  - component: {fileID: 4912177066205798068}
   m_Layer: 0
   m_Name: Chest
   m_TagString: Untagged
@@ -320,6 +338,26 @@ MonoBehaviour:
   worldCell: {x: 0, y: 0}
   wasOpened: 0
   uniqueId: 
+--- !u!114 &4912177066205798068
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1196426849119678714}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SerializedVersion: 0
+  m_OverrideArea: 0
+  m_Area: 0
+  m_OverrideGenerateLinks: 0
+  m_GenerateLinks: 0
+  m_IgnoreFromBuild: 1
+  m_ApplyToChildren: 1
+  m_AffectedAgents: ffffffff
 --- !u!1 &1229947553346637707
 GameObject:
   m_ObjectHideFlags: 0
@@ -730,6 +768,7 @@ GameObject:
   - component: {fileID: 6633350704715835349}
   - component: {fileID: 5149346433245704150}
   - component: {fileID: 6666224721146492506}
+  - component: {fileID: 7564372375881943474}
   m_Layer: 0
   m_Name: WallW
   m_TagString: Untagged
@@ -899,6 +938,22 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 0.3}
   m_EdgeRadius: 0
+--- !u!208 &7564372375881943474
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3888520504015277576}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.5, y: 0.5, z: 0.1}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &5082143425542700070
 GameObject:
   m_ObjectHideFlags: 0
@@ -911,6 +966,7 @@ GameObject:
   - component: {fileID: 3482452500243209273}
   - component: {fileID: 2117998744862857827}
   - component: {fileID: 1676445523910734743}
+  - component: {fileID: 7320013147564197020}
   m_Layer: 0
   m_Name: Chest
   m_TagString: Untagged
@@ -1053,6 +1109,26 @@ MonoBehaviour:
   worldCell: {x: 0, y: 0}
   wasOpened: 0
   uniqueId: 
+--- !u!114 &7320013147564197020
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5082143425542700070}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SerializedVersion: 0
+  m_OverrideArea: 0
+  m_Area: 0
+  m_OverrideGenerateLinks: 0
+  m_GenerateLinks: 0
+  m_IgnoreFromBuild: 1
+  m_ApplyToChildren: 1
+  m_AffectedAgents: ffffffff
 --- !u!1 &5289073237724482163
 GameObject:
   m_ObjectHideFlags: 0
@@ -1101,6 +1177,7 @@ GameObject:
   - component: {fileID: 3637263911129420825}
   - component: {fileID: 2337244343652631135}
   - component: {fileID: 824096232096206080}
+  - component: {fileID: 6562317714940220139}
   m_Layer: 0
   m_Name: Container
   m_TagString: Untagged
@@ -1243,6 +1320,26 @@ MonoBehaviour:
   worldCell: {x: 0, y: 0}
   wasOpened: 0
   uniqueId: 
+--- !u!114 &6562317714940220139
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5937087279675493443}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SerializedVersion: 0
+  m_OverrideArea: 0
+  m_Area: 0
+  m_OverrideGenerateLinks: 0
+  m_GenerateLinks: 0
+  m_IgnoreFromBuild: 1
+  m_ApplyToChildren: 1
+  m_AffectedAgents: ffffffff
 --- !u!1 &6415310289467887350
 GameObject:
   m_ObjectHideFlags: 0
@@ -1319,6 +1416,7 @@ GameObject:
   - component: {fileID: 2229058323363948161}
   - component: {fileID: 4167106465401847358}
   - component: {fileID: 7255070465237961308}
+  - component: {fileID: 5018514912349125958}
   m_Layer: 0
   m_Name: wallN
   m_TagString: Untagged
@@ -1442,6 +1540,22 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 2, y: 0.3}
   m_EdgeRadius: 0
+--- !u!208 &5018514912349125958
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7781974579966905352}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 1, y: 0.5, z: 0.1}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &7793280527617699263
 GameObject:
   m_ObjectHideFlags: 0
@@ -1756,6 +1870,8 @@ GameObject:
   - component: {fileID: 937254236650364014}
   - component: {fileID: 4608833062908690430}
   - component: {fileID: 352374894960048839}
+  - component: {fileID: 2548968088048559161}
+  - component: {fileID: 8541115763640644115}
   m_Layer: 0
   m_Name: chair
   m_TagString: Untagged
@@ -1879,6 +1995,46 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.5, y: 0.5}
   m_EdgeRadius: 0
+--- !u!114 &2548968088048559161
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8492856448270663559}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SerializedVersion: 0
+  m_OverrideArea: 0
+  m_Area: 0
+  m_OverrideGenerateLinks: 0
+  m_GenerateLinks: 0
+  m_IgnoreFromBuild: 1
+  m_ApplyToChildren: 1
+  m_AffectedAgents: ffffffff
+--- !u!114 &8541115763640644115
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8492856448270663559}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SerializedVersion: 0
+  m_OverrideArea: 0
+  m_Area: 0
+  m_OverrideGenerateLinks: 0
+  m_GenerateLinks: 0
+  m_IgnoreFromBuild: 0
+  m_ApplyToChildren: 1
+  m_AffectedAgents: ffffffff
 --- !u!1 &8995838801735999340
 GameObject:
   m_ObjectHideFlags: 0
