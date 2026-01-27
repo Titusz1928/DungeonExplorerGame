@@ -91,6 +91,10 @@ MonoBehaviour:
   metersPerXP: 10
   xpPerTick: 0.5
   metersPerNoise: 1
+  battleDetectionRadius: 0.5
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!95 &8628205578866359104
 Animator:
   serializedVersion: 7
@@ -157,7 +161,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 6
-  m_Sprite: {fileID: 6259596292554402213, guid: 0abfe72713db6f645bde08e459f81b87, type: 3}
+  m_Sprite: {fileID: 6127832712062808546, guid: 8d8b87ec066103d4a83946a77a6e745c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -206,7 +210,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 2, y: 2}
+    oldSize: {x: 0.5, y: 1.125}
     newSize: {x: 0.64, y: 0.64}
     adaptiveTilingThreshold: 0.5
     drawMode: 0

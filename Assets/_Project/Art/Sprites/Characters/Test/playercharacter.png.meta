@@ -1,103 +1,106 @@
 fileFormatVersion: 2
-guid: 0abfe72713db6f645bde08e459f81b87
+guid: 8d8b87ec066103d4a83946a77a6e745c
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 6259596292554402213
-    second: THEROZ CHARACTER TALES IDLE RUN_0
+      213: -6623552204177362296
+    second: playercharacter_0
   - first:
-      213: 6131541365938026798
-    second: THEROZ CHARACTER TALES IDLE RUN_1
+      213: 6127832712062808546
+    second: playercharacter_1
   - first:
-      213: -4097311848236412739
-    second: THEROZ CHARACTER TALES IDLE RUN_2
+      213: -256082163544347800
+    second: playercharacter_2
   - first:
-      213: -8034738033381756471
-    second: THEROZ CHARACTER TALES IDLE RUN_3
+      213: 8319185917081333187
+    second: playercharacter_3
   - first:
-      213: 9070698823894952107
-    second: THEROZ CHARACTER TALES IDLE RUN_4
+      213: 295276062900386831
+    second: playercharacter_4
   - first:
-      213: -2000827492482225
-    second: THEROZ CHARACTER TALES IDLE RUN_5
+      213: -7405987141931154400
+    second: playercharacter_5
   - first:
-      213: -4972623232530199561
-    second: THEROZ CHARACTER TALES IDLE RUN_6
+      213: -1570664545206848775
+    second: playercharacter_6
   - first:
-      213: 8532395012564107258
-    second: THEROZ CHARACTER TALES IDLE RUN_7
+      213: -1287474691834740204
+    second: playercharacter_7
   - first:
-      213: 610110041473076403
-    second: THEROZ CHARACTER TALES IDLE RUN_8
+      213: 6659296852603412301
+    second: playercharacter_8
   - first:
-      213: -3820703949082509340
-    second: THEROZ CHARACTER TALES IDLE RUN_9
+      213: -3358476091289868293
+    second: playercharacter_9
   - first:
-      213: 232937501855174614
-    second: THEROZ CHARACTER TALES IDLE RUN_10
+      213: 1358718983913105455
+    second: playercharacter_10
   - first:
-      213: -167348948125252854
-    second: THEROZ CHARACTER TALES IDLE RUN_11
+      213: 6452887782189996144
+    second: playercharacter_11
   - first:
-      213: 8624462197864048950
-    second: THEROZ CHARACTER TALES IDLE RUN_12
+      213: -6673745395989922152
+    second: playercharacter_12
   - first:
-      213: -454087821359235612
-    second: THEROZ CHARACTER TALES IDLE RUN_13
+      213: -2285366009922435429
+    second: playercharacter_13
   - first:
-      213: -5548507258073173885
-    second: THEROZ CHARACTER TALES IDLE RUN_14
+      213: -634545369973740800
+    second: playercharacter_14
   - first:
-      213: -1624609155736761547
-    second: THEROZ CHARACTER TALES IDLE RUN_15
+      213: 2041112235883146557
+    second: playercharacter_15
   - first:
-      213: 5959209220369546808
-    second: THEROZ CHARACTER TALES IDLE RUN_16
+      213: -7026280514521953165
+    second: playercharacter_16
   - first:
-      213: 1493117782311604878
-    second: THEROZ CHARACTER TALES IDLE RUN_17
+      213: -6640288221889436418
+    second: playercharacter_17
   - first:
-      213: -8425552364557086989
-    second: THEROZ CHARACTER TALES IDLE RUN_18
+      213: 4430905199335130611
+    second: playercharacter_18
   - first:
-      213: -6890701289305057293
-    second: THEROZ CHARACTER TALES IDLE RUN_19
+      213: 1948822011048216835
+    second: playercharacter_19
   - first:
-      213: 3665149195135091745
-    second: THEROZ CHARACTER TALES IDLE RUN_20
+      213: 1267940847006700636
+    second: playercharacter_20
   - first:
-      213: -7065901268742113819
-    second: THEROZ CHARACTER TALES IDLE RUN_21
+      213: -1003648825794763807
+    second: playercharacter_21
   - first:
-      213: 1300404399632177842
-    second: THEROZ CHARACTER TALES IDLE RUN_22
+      213: -5813421341761506883
+    second: playercharacter_22
   - first:
-      213: 8229783027646723474
-    second: THEROZ CHARACTER TALES IDLE RUN_23
+      213: -3600931591040955045
+    second: playercharacter_23
   - first:
-      213: 4688376451383025950
-    second: THEROZ CHARACTER TALES IDLE RUN_24
+      213: -2502067728430804088
+    second: playercharacter_24
   - first:
-      213: 6167314967473417846
-    second: THEROZ CHARACTER TALES IDLE RUN_25
+      213: 7699434528796837521
+    second: playercharacter_25
   - first:
-      213: 21017135509099269
-    second: THEROZ CHARACTER TALES IDLE RUN_26
+      213: 3239769486578714627
+    second: playercharacter_26
   - first:
-      213: 4086564721056778720
-    second: THEROZ CHARACTER TALES IDLE RUN_27
+      213: -6516209107181372609
+    second: playercharacter_27
   - first:
-      213: -3077529742065719464
-    second: THEROZ CHARACTER TALES IDLE RUN_28
+      213: -2894913859845802298
+    second: playercharacter_28
   - first:
-      213: -159121711093366256
-    second: THEROZ CHARACTER TALES IDLE RUN_29
+      213: 3909494971924672424
+    second: playercharacter_29
   - first:
-      213: -8938446841561604482
-    second: THEROZ CHARACTER TALES IDLE RUN_30
+      213: 6298303169474464845
+    second: playercharacter_30
   - first:
-      213: 452022737881762711
-    second: THEROZ CHARACTER TALES IDLE RUN_31
+      213: 6333643697967907413
+    second: playercharacter_31
+  - first:
+      213: 8752628578174102418
+    second: playercharacter_32
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -130,7 +133,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -206,705 +209,727 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: THEROZ CHARACTER TALES IDLE RUN_0
+      name: playercharacter_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 320
-        width: 64
-        height: 64
+        y: 335
+        width: 22
+        height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 5a9ae0fc9ad8ed650800000000000000
-      internalID: 6259596292554402213
+      spriteID: 882b0c60d5a6414a0800000000000000
+      internalID: -6623552204177362296
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: THEROZ CHARACTER TALES IDLE RUN_1
+      name: playercharacter_1
       rect:
         serializedVersion: 2
-        x: 64
-        y: 320
-        width: 64
-        height: 64
+        x: 26
+        y: 331
+        width: 16
+        height: 36
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: e297952d26c971550800000000000000
-      internalID: 6131541365938026798
+      spriteID: 2e1b58d826f6a0550800000000000000
+      internalID: 6127832712062808546
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: THEROZ CHARACTER TALES IDLE RUN_2
+      name: playercharacter_2
       rect:
         serializedVersion: 2
-        x: 128
-        y: 320
-        width: 64
-        height: 64
+        x: 87
+        y: 332
+        width: 16
+        height: 36
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: db09edf159c6327c0800000000000000
-      internalID: -4097311848236412739
+      spriteID: 86b20a801a6327cf0800000000000000
+      internalID: -256082163544347800
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: THEROZ CHARACTER TALES IDLE RUN_3
+      name: playercharacter_3
       rect:
         serializedVersion: 2
-        x: 192
-        y: 320
-        width: 64
-        height: 64
+        x: 153
+        y: 332
+        width: 16
+        height: 36
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 9c1b5f81450ee7090800000000000000
-      internalID: -8034738033381756471
+      spriteID: 3cda010c38fa37370800000000000000
+      internalID: 8319185917081333187
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: THEROZ CHARACTER TALES IDLE RUN_4
+      name: playercharacter_4
       rect:
         serializedVersion: 2
-        x: 256
-        y: 320
-        width: 64
-        height: 64
+        x: 217
+        y: 332
+        width: 16
+        height: 36
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: ba8efce858891ed70800000000000000
-      internalID: 9070698823894952107
+      spriteID: f0c7ad7c308091400800000000000000
+      internalID: 295276062900386831
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: THEROZ CHARACTER TALES IDLE RUN_5
+      name: playercharacter_5
       rect:
         serializedVersion: 2
-        x: 320
-        y: 320
-        width: 64
-        height: 64
+        x: 281
+        y: 332
+        width: 16
+        height: 36
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: f43cd0c0244e8fff0800000000000000
-      internalID: -2000827492482225
+      spriteID: 024451adee5a83990800000000000000
+      internalID: -7405987141931154400
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: THEROZ CHARACTER TALES IDLE RUN_6
+      name: playercharacter_6
       rect:
         serializedVersion: 2
-        x: 0
-        y: 256
-        width: 64
-        height: 64
+        x: 345
+        y: 332
+        width: 16
+        height: 36
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 7fbce2f1481bdfab0800000000000000
-      internalID: -4972623232530199561
+      spriteID: 9f235a9fae0e33ae0800000000000000
+      internalID: -1570664545206848775
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: THEROZ CHARACTER TALES IDLE RUN_7
+      name: playercharacter_7
       rect:
         serializedVersion: 2
-        x: 64
-        y: 256
-        width: 64
-        height: 64
+        x: 27
+        y: 271
+        width: 16
+        height: 36
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: affb23fae08296670800000000000000
-      internalID: 8532395012564107258
+      spriteID: 41282efc698f12ee0800000000000000
+      internalID: -1287474691834740204
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: THEROZ CHARACTER TALES IDLE RUN_8
+      name: playercharacter_8
       rect:
         serializedVersion: 2
-        x: 128
-        y: 256
-        width: 64
-        height: 64
+        x: 88
+        y: 271
+        width: 16
+        height: 36
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 3bcc6e7a9db877800800000000000000
-      internalID: 610110041473076403
+      spriteID: d4f9d4974339a6c50800000000000000
+      internalID: 6659296852603412301
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: THEROZ CHARACTER TALES IDLE RUN_9
+      name: playercharacter_9
       rect:
         serializedVersion: 2
-        x: 192
-        y: 256
-        width: 64
-        height: 64
+        x: 155
+        y: 271
+        width: 12
+        height: 37
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 4ef310350022afac0800000000000000
-      internalID: -3820703949082509340
+      spriteID: bf76608f9cb4461d0800000000000000
+      internalID: -3358476091289868293
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: THEROZ CHARACTER TALES IDLE RUN_10
+      name: playercharacter_10
       rect:
         serializedVersion: 2
-        x: 256
-        y: 256
-        width: 64
-        height: 64
+        x: 216
+        y: 271
+        width: 17
+        height: 36
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 6dfc1fc7c6f8b3300800000000000000
-      internalID: 232937501855174614
+      spriteID: f2868b197b32bd210800000000000000
+      internalID: 1358718983913105455
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: THEROZ CHARACTER TALES IDLE RUN_11
+      name: playercharacter_11
       rect:
         serializedVersion: 2
-        x: 320
-        y: 256
-        width: 64
-        height: 64
+        x: 280
+        y: 271
+        width: 17
+        height: 36
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: a038571b4057dadf0800000000000000
-      internalID: -167348948125252854
+      spriteID: 07894e0cf334d8950800000000000000
+      internalID: 6452887782189996144
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: THEROZ CHARACTER TALES IDLE RUN_12
+      name: playercharacter_12
       rect:
         serializedVersion: 2
-        x: 0
-        y: 192
-        width: 64
-        height: 64
+        x: 344
+        y: 271
+        width: 17
+        height: 35
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 639a872bcae30b770800000000000000
-      internalID: 8624462197864048950
+      spriteID: 89e3f9edbe71263a0800000000000000
+      internalID: -6673745395989922152
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: THEROZ CHARACTER TALES IDLE RUN_13
+      name: playercharacter_13
       rect:
         serializedVersion: 2
-        x: 64
-        y: 192
-        width: 64
-        height: 64
+        x: 25
+        y: 206
+        width: 18
+        height: 36
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 4ed3d074881c2b9f0800000000000000
-      internalID: -454087821359235612
+      spriteID: b9642dce8bfb840e0800000000000000
+      internalID: -2285366009922435429
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: THEROZ CHARACTER TALES IDLE RUN_14
+      name: playercharacter_14
       rect:
         serializedVersion: 2
-        x: 128
-        y: 192
-        width: 64
-        height: 64
+        x: 89
+        y: 206
+        width: 15
+        height: 37
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 3803fd8cb0ebff2b0800000000000000
-      internalID: -5548507258073173885
+      spriteID: 00ba8d41954a137f0800000000000000
+      internalID: -634545369973740800
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: THEROZ CHARACTER TALES IDLE RUN_15
+      name: playercharacter_15
       rect:
         serializedVersion: 2
-        x: 192
-        y: 192
-        width: 64
-        height: 64
+        x: 152
+        y: 206
+        width: 16
+        height: 36
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 53b8675949a3479e0800000000000000
-      internalID: -1624609155736761547
+      spriteID: d3da486a3cc735c10800000000000000
+      internalID: 2041112235883146557
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: THEROZ CHARACTER TALES IDLE RUN_16
+      name: playercharacter_16
       rect:
         serializedVersion: 2
-        x: 256
-        y: 192
-        width: 64
-        height: 64
+        x: 216
+        y: 206
+        width: 16
+        height: 36
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 83efb52763d53b250800000000000000
-      internalID: 5959209220369546808
+      spriteID: 37c8baf4913ad7e90800000000000000
+      internalID: -7026280514521953165
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: THEROZ CHARACTER TALES IDLE RUN_17
+      name: playercharacter_17
       rect:
         serializedVersion: 2
-        x: 320
-        y: 192
-        width: 64
-        height: 64
+        x: 280
+        y: 206
+        width: 19
+        height: 37
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: e82908e46be98b410800000000000000
-      internalID: 1493117782311604878
+      spriteID: ef4e1104b05f8d3a0800000000000000
+      internalID: -6640288221889436418
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: THEROZ CHARACTER TALES IDLE RUN_18
+      name: playercharacter_18
       rect:
         serializedVersion: 2
-        x: 0
-        y: 128
-        width: 64
-        height: 64
+        x: 343
+        y: 205
+        width: 19
+        height: 37
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 3fe4f12d3cc621b80800000000000000
-      internalID: -8425552364557086989
+      spriteID: 3f54dc78dccbd7d30800000000000000
+      internalID: 4430905199335130611
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: THEROZ CHARACTER TALES IDLE RUN_19
+      name: playercharacter_19
       rect:
         serializedVersion: 2
-        x: 64
-        y: 128
-        width: 64
-        height: 64
+        x: 23
+        y: 141
+        width: 20
+        height: 37
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 3f755a59faf4f50a0800000000000000
-      internalID: -6890701289305057293
+      spriteID: 309cdf23b4b9b0b10800000000000000
+      internalID: 1948822011048216835
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: THEROZ CHARACTER TALES IDLE RUN_20
+      name: playercharacter_20
       rect:
         serializedVersion: 2
-        x: 128
-        y: 128
-        width: 64
-        height: 64
+        x: 86
+        y: 142
+        width: 20
+        height: 37
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 12406d036c93dd230800000000000000
-      internalID: 3665149195135091745
+      spriteID: c54da068b71a89110800000000000000
+      internalID: 1267940847006700636
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: THEROZ CHARACTER TALES IDLE RUN_21
+      name: playercharacter_21
       rect:
         serializedVersion: 2
-        x: 192
-        y: 128
-        width: 64
-        height: 64
+        x: 149
+        y: 143
+        width: 18
+        height: 36
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 5e5f4aa9b30e0fd90800000000000000
-      internalID: -7065901268742113819
+      spriteID: 1e3e343e5b25212f0800000000000000
+      internalID: -1003648825794763807
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: THEROZ CHARACTER TALES IDLE RUN_22
+      name: playercharacter_22
       rect:
         serializedVersion: 2
-        x: 256
-        y: 128
-        width: 64
-        height: 64
+        x: 215
+        y: 142
+        width: 17
+        height: 37
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 2ba5e6069e6fb0210800000000000000
-      internalID: 1300404399632177842
+      spriteID: db171aa2714925fa0800000000000000
+      internalID: -5813421341761506883
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: THEROZ CHARACTER TALES IDLE RUN_23
+      name: playercharacter_23
       rect:
         serializedVersion: 2
-        x: 320
-        y: 128
-        width: 64
-        height: 64
+        x: 280
+        y: 142
+        width: 19
+        height: 36
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 295fb657f00163270800000000000000
-      internalID: 8229783027646723474
+      spriteID: b5d8587ebcbe60ec0800000000000000
+      internalID: -3600931591040955045
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: THEROZ CHARACTER TALES IDLE RUN_24
+      name: playercharacter_24
       rect:
         serializedVersion: 2
-        x: 0
-        y: 64
-        width: 64
-        height: 64
+        x: 343
+        y: 142
+        width: 19
+        height: 36
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: e11edfdda85701140800000000000000
-      internalID: 4688376451383025950
+      spriteID: 883d9e258aed64dd0800000000000000
+      internalID: -2502067728430804088
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: THEROZ CHARACTER TALES IDLE RUN_25
+      name: playercharacter_25
       rect:
         serializedVersion: 2
-        x: 64
-        y: 64
-        width: 64
-        height: 64
+        x: 24
+        y: 79
+        width: 16
+        height: 38
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 67ee33e7944b69550800000000000000
-      internalID: 6167314967473417846
+      spriteID: 196005c19e2e9da60800000000000000
+      internalID: 7699434528796837521
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: THEROZ CHARACTER TALES IDLE RUN_26
+      name: playercharacter_26
       rect:
         serializedVersion: 2
-        x: 128
-        y: 64
-        width: 64
-        height: 64
+        x: 87
+        y: 79
+        width: 21
+        height: 37
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 503573039faaa4000800000000000000
-      internalID: 21017135509099269
+      spriteID: 3088ca9de29f5fc20800000000000000
+      internalID: 3239769486578714627
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: THEROZ CHARACTER TALES IDLE RUN_27
+      name: playercharacter_27
       rect:
         serializedVersion: 2
-        x: 192
-        y: 64
-        width: 64
-        height: 64
+        x: 150
+        y: 78
+        width: 18
+        height: 37
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 0e98b3656f466b830800000000000000
-      internalID: 4086564721056778720
+      spriteID: f3bf9446756c195a0800000000000000
+      internalID: -6516209107181372609
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: THEROZ CHARACTER TALES IDLE RUN_28
+      name: playercharacter_28
       rect:
         serializedVersion: 2
-        x: 256
-        y: 64
-        width: 64
-        height: 64
+        x: 212
+        y: 79
+        width: 22
+        height: 36
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 857297a410b6a45d0800000000000000
-      internalID: -3077529742065719464
+      spriteID: 6c63980be2333d7d0800000000000000
+      internalID: -2894913859845802298
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: THEROZ CHARACTER TALES IDLE RUN_29
+      name: playercharacter_29
       rect:
         serializedVersion: 2
-        x: 320
-        y: 64
-        width: 64
-        height: 64
+        x: 280
+        y: 78
+        width: 17
+        height: 37
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 0124a3695afaacdf0800000000000000
-      internalID: -159121711093366256
+      spriteID: 8afeebca6f0514630800000000000000
+      internalID: 3909494971924672424
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: THEROZ CHARACTER TALES IDLE RUN_30
+      name: playercharacter_30
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 64
-        height: 64
+        x: 342
+        y: 78
+        width: 21
+        height: 36
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: e7e120d94f144f380800000000000000
-      internalID: -8938446841561604482
+      spriteID: d4c0e30ec51186750800000000000000
+      internalID: 6298303169474464845
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: THEROZ CHARACTER TALES IDLE RUN_31
+      name: playercharacter_31
       rect:
         serializedVersion: 2
-        x: 64
-        y: 0
-        width: 64
-        height: 64
+        x: 24
+        y: 15
+        width: 16
+        height: 37
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 79b87d10948e54600800000000000000
-      internalID: 452022737881762711
+      spriteID: 552c44fd26f95e750800000000000000
+      internalID: 6333643697967907413
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: playercharacter_32
+      rect:
+        serializedVersion: 2
+        x: 86
+        y: 15
+        width: 21
+        height: 36
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 29beff48155977970800000000000000
+      internalID: 8752628578174102418
       vertices: []
       indices: 
       edges: []
@@ -913,7 +938,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 294c84e82596a9849a6afad3ec062152
+    spriteID: 6acf10b3091ba0240a4fca39af81ed66
     internalID: 0
     vertices: []
     indices: 
@@ -923,38 +948,39 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      THEROZ CHARACTER TALES IDLE RUN_0: 6259596292554402213
-      THEROZ CHARACTER TALES IDLE RUN_1: 6131541365938026798
-      THEROZ CHARACTER TALES IDLE RUN_10: 232937501855174614
-      THEROZ CHARACTER TALES IDLE RUN_11: -167348948125252854
-      THEROZ CHARACTER TALES IDLE RUN_12: 8624462197864048950
-      THEROZ CHARACTER TALES IDLE RUN_13: -454087821359235612
-      THEROZ CHARACTER TALES IDLE RUN_14: -5548507258073173885
-      THEROZ CHARACTER TALES IDLE RUN_15: -1624609155736761547
-      THEROZ CHARACTER TALES IDLE RUN_16: 5959209220369546808
-      THEROZ CHARACTER TALES IDLE RUN_17: 1493117782311604878
-      THEROZ CHARACTER TALES IDLE RUN_18: -8425552364557086989
-      THEROZ CHARACTER TALES IDLE RUN_19: -6890701289305057293
-      THEROZ CHARACTER TALES IDLE RUN_2: -4097311848236412739
-      THEROZ CHARACTER TALES IDLE RUN_20: 3665149195135091745
-      THEROZ CHARACTER TALES IDLE RUN_21: -7065901268742113819
-      THEROZ CHARACTER TALES IDLE RUN_22: 1300404399632177842
-      THEROZ CHARACTER TALES IDLE RUN_23: 8229783027646723474
-      THEROZ CHARACTER TALES IDLE RUN_24: 4688376451383025950
-      THEROZ CHARACTER TALES IDLE RUN_25: 6167314967473417846
-      THEROZ CHARACTER TALES IDLE RUN_26: 21017135509099269
-      THEROZ CHARACTER TALES IDLE RUN_27: 4086564721056778720
-      THEROZ CHARACTER TALES IDLE RUN_28: -3077529742065719464
-      THEROZ CHARACTER TALES IDLE RUN_29: -159121711093366256
-      THEROZ CHARACTER TALES IDLE RUN_3: -8034738033381756471
-      THEROZ CHARACTER TALES IDLE RUN_30: -8938446841561604482
-      THEROZ CHARACTER TALES IDLE RUN_31: 452022737881762711
-      THEROZ CHARACTER TALES IDLE RUN_4: 9070698823894952107
-      THEROZ CHARACTER TALES IDLE RUN_5: -2000827492482225
-      THEROZ CHARACTER TALES IDLE RUN_6: -4972623232530199561
-      THEROZ CHARACTER TALES IDLE RUN_7: 8532395012564107258
-      THEROZ CHARACTER TALES IDLE RUN_8: 610110041473076403
-      THEROZ CHARACTER TALES IDLE RUN_9: -3820703949082509340
+      playercharacter_0: -6623552204177362296
+      playercharacter_1: 6127832712062808546
+      playercharacter_10: 1358718983913105455
+      playercharacter_11: 6452887782189996144
+      playercharacter_12: -6673745395989922152
+      playercharacter_13: -2285366009922435429
+      playercharacter_14: -634545369973740800
+      playercharacter_15: 2041112235883146557
+      playercharacter_16: -7026280514521953165
+      playercharacter_17: -6640288221889436418
+      playercharacter_18: 4430905199335130611
+      playercharacter_19: 1948822011048216835
+      playercharacter_2: -256082163544347800
+      playercharacter_20: 1267940847006700636
+      playercharacter_21: -1003648825794763807
+      playercharacter_22: -5813421341761506883
+      playercharacter_23: -3600931591040955045
+      playercharacter_24: -2502067728430804088
+      playercharacter_25: 7699434528796837521
+      playercharacter_26: 3239769486578714627
+      playercharacter_27: -6516209107181372609
+      playercharacter_28: -2894913859845802298
+      playercharacter_29: 3909494971924672424
+      playercharacter_3: 8319185917081333187
+      playercharacter_30: 6298303169474464845
+      playercharacter_31: 6333643697967907413
+      playercharacter_32: 8752628578174102418
+      playercharacter_4: 295276062900386831
+      playercharacter_5: -7405987141931154400
+      playercharacter_6: -1570664545206848775
+      playercharacter_7: -1287474691834740204
+      playercharacter_8: 6659296852603412301
+      playercharacter_9: -3358476091289868293
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
