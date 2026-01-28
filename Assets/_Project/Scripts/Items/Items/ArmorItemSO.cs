@@ -61,6 +61,11 @@ public class ArmorItemSO : ItemSO
     public float noise;
     public float conspicuousness;
 
+    [Header("Visuals")]
+    public Sprite[] animationFrames;
+    [Tooltip("Which renderer should this art go into? (Usually the biggest slot it covers)")]
+    public ArmorSlot primaryVisualSlot;
+
     [Header("Audio")]
     public AudioClip useSound;
 

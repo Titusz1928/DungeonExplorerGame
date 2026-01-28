@@ -5,6 +5,8 @@ public class EquipmentManager : MonoBehaviour
 {
     public static EquipmentManager Instance;
 
+    public PlayerPaperDoll playerVisuals;
+
     // Armor is stored by Slot → Layer → Item
     public Dictionary<ArmorSlot, Dictionary<ArmorLayer, ItemInstance>> equippedArmor;
 
@@ -56,6 +58,16 @@ public class EquipmentManager : MonoBehaviour
 
         item.isEquipped = true;
         Debug.Log($"[EQUIPMENT MANAGER]: Equipped {armor.itemName}");
+
+        if (playerVisuals != null)
+        {
+            Debug.Log($"[EQUIP] Calling PaperDoll: Slot={armor.primaryVisualSlot}, Layer={armor.layer}, Frames={armor.animationFrames?.Length}");
+            playerVisuals.SetSlotVisual(armor.primaryVisualSlot, armor.layer, armor.animationFrames);
+        }
+        else
+        {
+            Debug.LogError("[EQUIP] playerVisuals is NULL in EquipmentManager!");
+        }
     }
 
     public void Equip(ItemInstance item)
@@ -123,6 +135,12 @@ public class EquipmentManager : MonoBehaviour
         {
             equippedArmor[slot][layer].isEquipped = false;
             equippedArmor[slot].Remove(layer);
+        }
+
+        if (playerVisuals != null)
+        {
+            // Now we only clear the specific slot!
+            playerVisuals.ClearSlotVisual(slot, layer);
         }
     }
 
