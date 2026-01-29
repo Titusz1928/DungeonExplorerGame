@@ -758,7 +758,7 @@ GameObject:
   - component: {fileID: 1902260427501321704}
   - component: {fileID: 3667727237914874279}
   m_Layer: 0
-  m_Name: Head_Chain
+  m_Name: Head_Chainmail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1642,7 +1642,7 @@ GameObject:
   - component: {fileID: 8423663518001552634}
   - component: {fileID: 370743360346496902}
   m_Layer: 0
-  m_Name: Legs_Chain
+  m_Name: Legs_Chainmail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1816,7 +1816,7 @@ GameObject:
   - component: {fileID: 3376208140300472132}
   - component: {fileID: 8942415344025271308}
   m_Layer: 0
-  m_Name: Feet_Chain
+  m_Name: Feet_Chainmail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2091,7 +2091,7 @@ GameObject:
   - component: {fileID: 4416997898388451813}
   - component: {fileID: 4160532387215058905}
   m_Layer: 0
-  m_Name: Arms_Chain
+  m_Name: Arms_Chainmail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2526,7 +2526,7 @@ GameObject:
   - component: {fileID: 7183899612080653552}
   - component: {fileID: 2122597648231539170}
   m_Layer: 0
-  m_Name: Face_Chain
+  m_Name: Face_Chainmail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2792,7 +2792,7 @@ GameObject:
   - component: {fileID: 2319236470648671189}
   - component: {fileID: 7262759034793104193}
   m_Layer: 0
-  m_Name: Neck_Chain
+  m_Name: Neck_Chainmail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2879,7 +2879,7 @@ GameObject:
   - component: {fileID: 3079081156727359903}
   - component: {fileID: 9170461335498595648}
   m_Layer: 0
-  m_Name: Torso_Chain
+  m_Name: Torso_Chainmail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2966,7 +2966,7 @@ GameObject:
   - component: {fileID: 2763206482179189440}
   - component: {fileID: 3822597833079340286}
   m_Layer: 0
-  m_Name: Hands_Chain
+  m_Name: Hands_Chainmail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3140,7 +3140,7 @@ GameObject:
   - component: {fileID: 6882535423557286697}
   - component: {fileID: 5337809042180273773}
   m_Layer: 0
-  m_Name: Shoulders_Chain
+  m_Name: Shoulders_Chainmail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
