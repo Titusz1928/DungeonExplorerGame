@@ -30,6 +30,9 @@ public class WeaponItemSO : ItemSO
     public DamageType damageType;
     public float damageAmount;
 
+    [Header("Visuals")]
+    public Sprite[] animationFrames;
+
     [Header("Audio")]
     public AudioClip attackSound;
 }

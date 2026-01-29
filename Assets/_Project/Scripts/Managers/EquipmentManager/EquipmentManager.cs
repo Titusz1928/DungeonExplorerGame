@@ -146,12 +146,16 @@ public class EquipmentManager : MonoBehaviour
 
     public void UnequipMainHand(ItemInstance weapon)
     {
+        WeaponItemSO weaponSO = weapon.itemSO as WeaponItemSO;
+
         if (mainHandWeapon == weapon)
         {
             weapon.isEquipped = false;
             mainHandWeapon = null;
             Debug.Log($"Unequipped weapon: {weapon.itemSO.itemName}");
         }
+
+        playerVisuals.ClearItemVisual("Weapon_Main");
     }
 
     public void UnequipShield(ItemInstance shield)
@@ -162,6 +166,7 @@ public class EquipmentManager : MonoBehaviour
             offHandShield = null;
             Debug.Log($"Unequipped shield: {shield.itemSO.itemName}");
         }
+        playerVisuals.ClearItemVisual("Weapon_Off");
     }
 
     // -----------------------
@@ -169,6 +174,8 @@ public class EquipmentManager : MonoBehaviour
     // -----------------------
     public void EquipMainHand(ItemInstance weapon)
     {
+        WeaponItemSO weaponSO = weapon.itemSO as WeaponItemSO;
+
         if (mainHandWeapon != null)
             mainHandWeapon.isEquipped = false;
 
@@ -176,10 +183,14 @@ public class EquipmentManager : MonoBehaviour
         weapon.isEquipped = true;
 
         Debug.Log($"Equipped weapon: {weapon.itemSO.itemName}");
+
+        playerVisuals.SetItemVisual("Weapon_Main", weaponSO.animationFrames);
     }
 
     public void EquipShield(ItemInstance shield)
     {
+        ShieldItemSO shieldSO = shield.itemSO as ShieldItemSO;
+
         if (offHandShield != null)
             offHandShield.isEquipped = false;
 
@@ -187,6 +198,8 @@ public class EquipmentManager : MonoBehaviour
         shield.isEquipped = true;
 
         Debug.Log($"Equipped shield: {shield.itemSO.itemName}");
+
+        playerVisuals.SetItemVisual("Weapon_Off", shieldSO.animationFrames);
     }
 
     // -----------------------

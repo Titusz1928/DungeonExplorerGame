@@ -264,7 +264,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (hit != null)
         {
-            Debug.Log($"PHYSICS HIT: Found {hit.name} on Layer: {LayerMask.LayerToName(hit.gameObject.layer)} with Tag: {hit.tag}");
+            //Debug.Log($"PHYSICS HIT: Found {hit.name} on Layer: {LayerMask.LayerToName(hit.gameObject.layer)} with Tag: {hit.tag}");
 
             if (hit.CompareTag("Enemy"))
             {

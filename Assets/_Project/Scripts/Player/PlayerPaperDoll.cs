@@ -65,7 +65,6 @@ public class PlayerPaperDoll : MonoBehaviour
                 if (entry.Value != null && index < entry.Value.Length)
                 {
                     sr.sprite = entry.Value[index];
-                    if (sr.sprite == null) Debug.LogError($"[PaperDoll] Fail! Index {index} in array for {entry.Key} resulted in a null sprite!");
                 }
                 else
                 {
@@ -98,6 +97,27 @@ public class PlayerPaperDoll : MonoBehaviour
         if (renderers.TryGetValue(key, out SpriteRenderer sr))
         {
             sr.sprite = null; // Clears the actual image
+        }
+    }
+
+    public void SetItemVisual(string slotName, Sprite[] frames)
+    {
+        // slotName would be "Weapon" or "Shield" or "Torch"
+        // This matches GameObjects named "Weapon_Main", etc.
+        activeVisuals[slotName] = frames;
+
+        if (!renderers.ContainsKey(slotName))
+        {
+            Debug.LogWarning($"[PaperDoll] No renderer found for Item Slot: {slotName}");
+        }
+    }
+
+    public void ClearItemVisual(string slotName)
+    {
+        activeVisuals[slotName] = null;
+        if (renderers.TryGetValue(slotName, out SpriteRenderer sr))
+        {
+            sr.sprite = null;
         }
     }
 }

@@ -20,7 +20,45 @@ MonoBehaviour:
   maxStackSize: 1
   isBreakable: 1
   maxDurability: 60
+  isFuel: 0
+  fuelValue: 0
+  isCookable: 0
+  cookTimeRequired: 0
+  cookedResultSO: {fileID: 0}
   weaponType: 2
   damageType: 2
   damageAmount: 30
+  animationFrames:
+  - {fileID: -6730405778264477282, guid: 6afbbdea6917043499f29923849abda9, type: 3}
+  - {fileID: -5174156240417653293, guid: 6afbbdea6917043499f29923849abda9, type: 3}
+  - {fileID: -1519113058696234040, guid: 6afbbdea6917043499f29923849abda9, type: 3}
+  - {fileID: -5926426335501226464, guid: 6afbbdea6917043499f29923849abda9, type: 3}
+  - {fileID: -4791160720239246348, guid: 6afbbdea6917043499f29923849abda9, type: 3}
+  - {fileID: -6083332384528132883, guid: 6afbbdea6917043499f29923849abda9, type: 3}
+  - {fileID: -3374475561425746322, guid: 6afbbdea6917043499f29923849abda9, type: 3}
+  - {fileID: -1418700848335769518, guid: 6afbbdea6917043499f29923849abda9, type: 3}
+  - {fileID: -1244369870885355582, guid: 6afbbdea6917043499f29923849abda9, type: 3}
+  - {fileID: 1675380272777809188, guid: 6afbbdea6917043499f29923849abda9, type: 3}
+  - {fileID: -11020652480466867, guid: 6afbbdea6917043499f29923849abda9, type: 3}
+  - {fileID: 971105472546441862, guid: 6afbbdea6917043499f29923849abda9, type: 3}
+  - {fileID: -4546705309023856269, guid: 6afbbdea6917043499f29923849abda9, type: 3}
+  - {fileID: -1035164135547774448, guid: 6afbbdea6917043499f29923849abda9, type: 3}
+  - {fileID: 7397469962807511083, guid: 6afbbdea6917043499f29923849abda9, type: 3}
+  - {fileID: 7337677607630661941, guid: 6afbbdea6917043499f29923849abda9, type: 3}
+  - {fileID: -3623741232491406487, guid: 6afbbdea6917043499f29923849abda9, type: 3}
+  - {fileID: 2108436444531076320, guid: 6afbbdea6917043499f29923849abda9, type: 3}
+  - {fileID: 8241561547991702239, guid: 6afbbdea6917043499f29923849abda9, type: 3}
+  - {fileID: 3016319365002063622, guid: 6afbbdea6917043499f29923849abda9, type: 3}
+  - {fileID: -207556512937099854, guid: 6afbbdea6917043499f29923849abda9, type: 3}
+  - {fileID: 4662623539496407155, guid: 6afbbdea6917043499f29923849abda9, type: 3}
+  - {fileID: -6196079579232400469, guid: 6afbbdea6917043499f29923849abda9, type: 3}
+  - {fileID: 3552847090176675187, guid: 6afbbdea6917043499f29923849abda9, type: 3}
+  - {fileID: 7349668957832438650, guid: 6afbbdea6917043499f29923849abda9, type: 3}
+  - {fileID: -1041412954, guid: 6afbbdea6917043499f29923849abda9, type: 3}
+  - {fileID: 617998258, guid: 6afbbdea6917043499f29923849abda9, type: 3}
+  - {fileID: -1866810062, guid: 6afbbdea6917043499f29923849abda9, type: 3}
+  - {fileID: -1189536998, guid: 6afbbdea6917043499f29923849abda9, type: 3}
+  - {fileID: 199600879, guid: 6afbbdea6917043499f29923849abda9, type: 3}
+  - {fileID: 1903484759, guid: 6afbbdea6917043499f29923849abda9, type: 3}
+  - {fileID: 304983367, guid: 6afbbdea6917043499f29923849abda9, type: 3}
   attackSound: {fileID: 8300000, guid: be90123d0c4c93040825fdfe6611039c, type: 3}

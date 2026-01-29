@@ -28,4 +28,37 @@ MonoBehaviour:
   weaponType: 4
   damageType: 2
   damageAmount: 25
+  animationFrames:
+  - {fileID: 6270833394640592693, guid: 023421f2c6d775e4eaa6ada2d3c3afc6, type: 3}
+  - {fileID: -3288374799682236256, guid: 023421f2c6d775e4eaa6ada2d3c3afc6, type: 3}
+  - {fileID: 2427657079320273657, guid: 023421f2c6d775e4eaa6ada2d3c3afc6, type: 3}
+  - {fileID: 7035132840801639034, guid: 023421f2c6d775e4eaa6ada2d3c3afc6, type: 3}
+  - {fileID: 8442597692572843034, guid: 023421f2c6d775e4eaa6ada2d3c3afc6, type: 3}
+  - {fileID: -509387851032131005, guid: 023421f2c6d775e4eaa6ada2d3c3afc6, type: 3}
+  - {fileID: 1087738165812526129, guid: 023421f2c6d775e4eaa6ada2d3c3afc6, type: 3}
+  - {fileID: 4158510910669080819, guid: 023421f2c6d775e4eaa6ada2d3c3afc6, type: 3}
+  - {fileID: -8281856633647545228, guid: 023421f2c6d775e4eaa6ada2d3c3afc6, type: 3}
+  - {fileID: 1253898573317843701, guid: 023421f2c6d775e4eaa6ada2d3c3afc6, type: 3}
+  - {fileID: -843219006198819011, guid: 023421f2c6d775e4eaa6ada2d3c3afc6, type: 3}
+  - {fileID: 1244739989548341638, guid: 023421f2c6d775e4eaa6ada2d3c3afc6, type: 3}
+  - {fileID: 8991631613457769425, guid: 023421f2c6d775e4eaa6ada2d3c3afc6, type: 3}
+  - {fileID: -2883551504956471565, guid: 023421f2c6d775e4eaa6ada2d3c3afc6, type: 3}
+  - {fileID: -1887037736094106655, guid: 023421f2c6d775e4eaa6ada2d3c3afc6, type: 3}
+  - {fileID: -547381519290169379, guid: 023421f2c6d775e4eaa6ada2d3c3afc6, type: 3}
+  - {fileID: -6325253188896171545, guid: 023421f2c6d775e4eaa6ada2d3c3afc6, type: 3}
+  - {fileID: 8182741028233629847, guid: 023421f2c6d775e4eaa6ada2d3c3afc6, type: 3}
+  - {fileID: -1353524685796439789, guid: 023421f2c6d775e4eaa6ada2d3c3afc6, type: 3}
+  - {fileID: 6618741981758135303, guid: 023421f2c6d775e4eaa6ada2d3c3afc6, type: 3}
+  - {fileID: -7500159700491965926, guid: 023421f2c6d775e4eaa6ada2d3c3afc6, type: 3}
+  - {fileID: -1718586834380632186, guid: 023421f2c6d775e4eaa6ada2d3c3afc6, type: 3}
+  - {fileID: -3986618559061769097, guid: 023421f2c6d775e4eaa6ada2d3c3afc6, type: 3}
+  - {fileID: 8067155648601064029, guid: 023421f2c6d775e4eaa6ada2d3c3afc6, type: 3}
+  - {fileID: -4837538243824310849, guid: 023421f2c6d775e4eaa6ada2d3c3afc6, type: 3}
+  - {fileID: -223225648524750993, guid: 023421f2c6d775e4eaa6ada2d3c3afc6, type: 3}
+  - {fileID: -3456439977266651756, guid: 023421f2c6d775e4eaa6ada2d3c3afc6, type: 3}
+  - {fileID: -4511242079574269418, guid: 023421f2c6d775e4eaa6ada2d3c3afc6, type: 3}
+  - {fileID: 4844210869449415459, guid: 023421f2c6d775e4eaa6ada2d3c3afc6, type: 3}
+  - {fileID: -4356280187653038252, guid: 023421f2c6d775e4eaa6ada2d3c3afc6, type: 3}
+  - {fileID: -5306493581592037471, guid: 023421f2c6d775e4eaa6ada2d3c3afc6, type: 3}
+  - {fileID: -5594217374577630374, guid: 023421f2c6d775e4eaa6ada2d3c3afc6, type: 3}
   attackSound: {fileID: 8300000, guid: 589e208220240fa41a3f11cd2d2504c5, type: 3}

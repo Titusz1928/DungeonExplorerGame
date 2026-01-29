@@ -20,14 +20,51 @@ MonoBehaviour:
   maxStackSize: 1
   isBreakable: 1
   maxDurability: 200
+  isFuel: 0
+  fuelValue: 0
+  isCookable: 0
+  cookTimeRequired: 0
+  cookedResultSO: {fileID: 0}
   slotsCovered: 0
   layer: 0
-  bluntRes: 0
-  pierceRes: 0
-  slashRes: 0
+  defenses: []
   noise: 0
   conspicuousness: 0
-  holes: 0
+  animationFrames:
+  - {fileID: 6229401350509173553, guid: 6f3ace1099bb89f4dae311b11015d2ae, type: 3}
+  - {fileID: -6622435796597794848, guid: 6f3ace1099bb89f4dae311b11015d2ae, type: 3}
+  - {fileID: -867076785892012971, guid: 6f3ace1099bb89f4dae311b11015d2ae, type: 3}
+  - {fileID: 1073436021270738275, guid: 6f3ace1099bb89f4dae311b11015d2ae, type: 3}
+  - {fileID: 9187207090359433462, guid: 6f3ace1099bb89f4dae311b11015d2ae, type: 3}
+  - {fileID: 6992504454906164618, guid: 6f3ace1099bb89f4dae311b11015d2ae, type: 3}
+  - {fileID: -1444084563811133939, guid: 6f3ace1099bb89f4dae311b11015d2ae, type: 3}
+  - {fileID: 2334561976729215547, guid: 6f3ace1099bb89f4dae311b11015d2ae, type: 3}
+  - {fileID: 8754862462585959663, guid: 6f3ace1099bb89f4dae311b11015d2ae, type: 3}
+  - {fileID: 5163192813119243660, guid: 6f3ace1099bb89f4dae311b11015d2ae, type: 3}
+  - {fileID: -8344169292449400304, guid: 6f3ace1099bb89f4dae311b11015d2ae, type: 3}
+  - {fileID: -3669015207120821579, guid: 6f3ace1099bb89f4dae311b11015d2ae, type: 3}
+  - {fileID: 8889295422158005474, guid: 6f3ace1099bb89f4dae311b11015d2ae, type: 3}
+  - {fileID: -2589868057399737557, guid: 6f3ace1099bb89f4dae311b11015d2ae, type: 3}
+  - {fileID: 2478101746373886826, guid: 6f3ace1099bb89f4dae311b11015d2ae, type: 3}
+  - {fileID: -1269024495074744207, guid: 6f3ace1099bb89f4dae311b11015d2ae, type: 3}
+  - {fileID: -6432966532469066062, guid: 6f3ace1099bb89f4dae311b11015d2ae, type: 3}
+  - {fileID: 3605936761414053680, guid: 6f3ace1099bb89f4dae311b11015d2ae, type: 3}
+  - {fileID: -4456886896056844063, guid: 6f3ace1099bb89f4dae311b11015d2ae, type: 3}
+  - {fileID: 8241575149824032120, guid: 6f3ace1099bb89f4dae311b11015d2ae, type: 3}
+  - {fileID: 7862549176927298150, guid: 6f3ace1099bb89f4dae311b11015d2ae, type: 3}
+  - {fileID: 5721440214325283340, guid: 6f3ace1099bb89f4dae311b11015d2ae, type: 3}
+  - {fileID: 146670019105280358, guid: 6f3ace1099bb89f4dae311b11015d2ae, type: 3}
+  - {fileID: 7693137223234650819, guid: 6f3ace1099bb89f4dae311b11015d2ae, type: 3}
+  - {fileID: 7416057724396533038, guid: 6f3ace1099bb89f4dae311b11015d2ae, type: 3}
+  - {fileID: -7744457588791662001, guid: 6f3ace1099bb89f4dae311b11015d2ae, type: 3}
+  - {fileID: -8865391007592183433, guid: 6f3ace1099bb89f4dae311b11015d2ae, type: 3}
+  - {fileID: -345989065952514787, guid: 6f3ace1099bb89f4dae311b11015d2ae, type: 3}
+  - {fileID: -7138377917466894152, guid: 6f3ace1099bb89f4dae311b11015d2ae, type: 3}
+  - {fileID: -3116942606576902710, guid: 6f3ace1099bb89f4dae311b11015d2ae, type: 3}
+  - {fileID: 6579844070978012057, guid: 6f3ace1099bb89f4dae311b11015d2ae, type: 3}
+  - {fileID: 1871133908, guid: 6f3ace1099bb89f4dae311b11015d2ae, type: 3}
+  primaryVisualSlot: 0
+  useSound: {fileID: 0}
   shieldType: 1
   blockStrength: 50
   staminaCost: 10

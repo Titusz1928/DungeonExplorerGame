@@ -16,4 +16,5 @@ public class ShieldItemSO : ArmorItemSO
     public float blockStrength = 50f;     // how much damage it can absorb
     public float staminaCost = 10f;       // stamina lost when blocking
     public float knockbackResist = 25f;   // reduces stagger when blocking
+
 }
