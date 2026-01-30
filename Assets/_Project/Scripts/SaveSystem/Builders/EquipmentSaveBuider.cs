@@ -82,7 +82,7 @@ public static class EquipmentSaveBuilder
                 ItemInstance armor = FindInInventory(itemId);
                 if (armor != null)
                 {
-                    eq.EquipArmor(armor);
+                    eq.EquipArmor(armor, false);
                 }
             }
         }

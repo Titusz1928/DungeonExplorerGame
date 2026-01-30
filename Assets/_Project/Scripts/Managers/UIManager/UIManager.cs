@@ -16,7 +16,7 @@ public class UIManager : MonoBehaviour
 
     [Header("Camera Settings")]
     [SerializeField] private Camera mainCamera; // Drag your Main Camera here
-    [SerializeField] private float minZoom = 3f;
+    [SerializeField] private float minZoom = 2f;
     [SerializeField] private float maxZoom = 7f;
 
     [Header("ExtraHUD")]

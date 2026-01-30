@@ -31,7 +31,7 @@ public class EquipmentManager : MonoBehaviour
     // -----------------------
     // EQUIPPING ARMOR
     // -----------------------
-    public void EquipArmor(ItemInstance item)
+    public void EquipArmor(ItemInstance item, bool playSound = true)
     {
         ArmorItemSO armor = item.itemSO as ArmorItemSO;
         if (armor == null)
@@ -40,7 +40,8 @@ public class EquipmentManager : MonoBehaviour
             return;
         }
 
-        AudioManager.Instance.PlaySFX(armor.useSound);
+        if(playSound)
+            AudioManager.Instance.PlaySFX(armor.useSound);
 
         foreach (ArmorSlot slot in GetSlotsFromFlags(armor.slotsCovered))
         {
