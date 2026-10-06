@@ -1,42 +1,61 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TitusGames.Framework;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public enum PlayerActionType { Attack, Treatment, EquipmentChange }
 
-public class BattleManager : MonoBehaviour
+public class BattleManager : MonoBehaviour, IBattleService
 {
-    public static BattleManager Instance;
-
-    [Header("UI References")]
-    [SerializeField] private List<Image> enemySlots; // The Image objects
-    [SerializeField] private TMP_Text logText;
-    [SerializeField] private Button endTurnButton;
+    // --- DEPENDENCIES (Injected via GameBoot) ---
+    private IBattleUIService _uiService;
+    private IBattleAudioService _audioService;
+    private IWindowService _windowService;
+    private ISceneService _sceneService;
+    private IPlayerSkillService _skillService;
 
     [Header("Log Speed Settings")]
     public bool isSkipLogEnabled = false;
     private float NormalWait = 1.0f;
     private float SkipWait = 0.1f;
 
+    // --- STATE ---
     private List<EnemyController> activeCombatants = new List<EnemyController>();
-    public int targetedEnemyIndex = 0;
+    public int targetedEnemyIndex { get; private set; } = 0;
     private bool isProcessingTurn = false;
 
-    [Header("Targeting Data")]
     private string currentTargetPartName;
     private ArmorSlot currentTargetSlot;
-
     private PlayerActionType pendingAction = PlayerActionType.Attack;
 
-    private void Awake()
+    // Required by IBattleService interface
+    public bool IsSkipLogEnabled
     {
-        if (Instance == null) Instance = this;
-        else Destroy(gameObject);
+        get => isSkipLogEnabled;
+        set => isSkipLogEnabled = value;
+    }
+    public int TargetedEnemyIndex => targetedEnemyIndex;
 
-        foreach (var slot in enemySlots) slot.gameObject.SetActive(false);
+    public event System.Action<string> OnLogMessage;
+    public event System.Action<bool> OnTurnProcessingStateChanged;
+    public event System.Action OnVisualsRefreshRequested;
+    public event System.Action OnBattleEnded;
+
+    public void Initialize(
+        IBattleUIService uiService,
+        IBattleAudioService audioService,
+        IWindowService windowService,
+        ISceneService sceneService,
+        IPlayerSkillService skillService)
+    {
+        _uiService = uiService;
+        _audioService = audioService;
+        _windowService = windowService;
+        _sceneService = sceneService;
+        _skillService = skillService;
     }
 
     public void StartBattle(EnemyController mainTarget, List<EnemyController> helpers)
@@ -45,10 +64,10 @@ public class BattleManager : MonoBehaviour
         activeCombatants.Add(mainTarget);
         activeCombatants.AddRange(helpers);
 
-        // 2. Determine which music to play
-        if (AudioManager.Instance != null)
+        // 1. Audio and Log Messages via Injected Services
+        if (_audioService != null)
         {
-            AudioManager.Instance.PlayStartBattleSFX();
+            _audioService.PlayStartBattleSFX();
 
             // Check if ANY combatant in the list is a boss
             bool bossPresent = activeCombatants.Any(e => e.IsBoss);
@@ -56,69 +75,41 @@ public class BattleManager : MonoBehaviour
             if (bossPresent)
             {
                 Debug.Log("Playing Boss music");
-                AudioManager.Instance.PlayBossBattleMusic();
-                logText.text = "Your target appears!";
+                _audioService.PlayBossBattleMusic();
+                _uiService?.SetLogText("Your target appears!");
             }
             else
             {
-                logText.text = "You were ambushed!";
-                AudioManager.Instance.PlayBattleMusic();
+                _audioService.PlayBattleMusic();
+                _uiService?.SetLogText("You were ambushed!");
             }
         }
 
+        // 2. Reset Turn State
         isProcessingTurn = false; // Reset turn state
-        endTurnButton.interactable = true; // Ensure button is clickable
+        _uiService?.SetEndTurnButtonInteractable(true);
 
 
-        // Reset targeting to the first enemy
+        // 3. Target Setup
         targetedEnemyIndex = 0;
-
-        // 2. NEW: Roll the initial target part for the first enemy
         if (activeCombatants.Count > 0)
         {
             RollTargetPart(activeCombatants[targetedEnemyIndex]);
         }
 
-        for (int i = 0; i < enemySlots.Count; i++)
-        {
-            if (i < activeCombatants.Count)
-            {
-                EnemyController enemy = activeCombatants[i];
-
-
-                enemySlots[i].sprite = enemy.data.battlesprite;
-                enemySlots[i].gameObject.SetActive(true);
-
-                // Setup the click event for this specific slot
-                int index = i; // Local copy for the listener
-                Button btn = enemySlots[i].GetComponent<Button>();
-                if (btn != null)
-                {
-                    btn.onClick.RemoveAllListeners();
-                    btn.onClick.AddListener(() => OnEnemyClicked(index));
-                }
-            }
-            else
-            {
-                enemySlots[i].gameObject.SetActive(false);
-            }
-        }
-
-        UpdateTargetVisuals();
-        BattleUIManager.Instance.RefreshAll();
+        // 4. UI Setup via Injected UI Service
+        _uiService?.SetupEnemySlots(activeCombatants, targetedEnemyIndex, OnEnemyClicked);
+        _uiService?.UpdateTargetVisuals(targetedEnemyIndex, currentTargetPartName);
+        _uiService?.RefreshAll();
 
         Debug.Log($"Battle started. Target: {activeCombatants[targetedEnemyIndex].data.enemyName}");
     }
 
     public void OnEnemyClicked(int index)
     {
-        if (index >= activeCombatants.Count) return;
+        if (index < 0 || index >= activeCombatants.Count) return;
 
-        // NEW: Close any open anatomy overlays before changing targets
-        if (BattleUIManager.Instance != null)
-        {
-            BattleUIManager.Instance.HideAnatomyOverlay();
-        }
+        _uiService?.HideAnatomyOverlay();
 
         targetedEnemyIndex = index;
         Debug.Log($"New Target Selected: {activeCombatants[targetedEnemyIndex].data.enemyName}");
@@ -130,71 +121,37 @@ public class BattleManager : MonoBehaviour
 
     private void UpdateTargetVisuals()
     {
-        for (int i = 0; i < enemySlots.Count; i++)
-        {
-            // SAFETY 1: Check if the slot itself exists in the list
-            if (enemySlots[i] == null)
-            {
-                Debug.LogWarning($"BattleManager: Slot at index {i} is null!");
-                continue;
-            }
-
-            Transform border = enemySlots[i].transform.Find("Border");
-            Transform bodypartselector = enemySlots[i].transform.Find("TargetBodypartSelector");
-
-            bool isThisTarget = (i == targetedEnemyIndex && enemySlots[i].gameObject.activeSelf);
-
-            // Update Border
-            if (border != null) border.gameObject.SetActive(isThisTarget);
-
-            // Update Selector
-            if (bodypartselector != null)
-            {
-                bodypartselector.gameObject.SetActive(isThisTarget);
-
-                if (isThisTarget)
-                {
-                    TMPro.TextMeshProUGUI partText = bodypartselector.GetComponentInChildren<TMPro.TextMeshProUGUI>();
-
-                    if (partText != null)
-                    {
-                        // SAFETY 2: Ensure we actually have a part name before converting to Upper
-                        if (!string.IsNullOrEmpty(currentTargetPartName))
-                        {
-                            partText.text = currentTargetPartName.ToUpper();
-                        }
-                        else
-                        {
-                            partText.text = "???"; // Fallback
-                            Debug.LogWarning("BattleManager: currentTargetPartName is null or empty!");
-                        }
-                    }
-                }
-            }
-        }
+        _uiService?.UpdateTargetVisuals(targetedEnemyIndex, currentTargetPartName);
     }
 
     // Helper to get the currently selected enemy for the attack logic later
     public EnemyController GetTargetedEnemy()
     {
-        return activeCombatants[targetedEnemyIndex];
+        if (targetedEnemyIndex >= 0 && targetedEnemyIndex < activeCombatants.Count)
+        {
+            return activeCombatants[targetedEnemyIndex];
+        }
+
+        Debug.LogWarning("BattleManager: Targeted index out of range or activeCombatants is empty.");
+        return null;
     }
 
     public void SetPendingAction(PlayerActionType action)
     {
         pendingAction = action;
 
-        // Optional: Log it so the player knows what they just did
-        logText.text = action switch
+        string logMessage = action switch
         {
             PlayerActionType.Treatment => "Prepared to use medical items...",
             PlayerActionType.EquipmentChange => "Preparing to swap gear...",
             _ => "Targeting enemy..."
         };
+
+        _uiService?.SetLogText(logMessage);
     }
 
 
-    public void OnEndTurnPressed()
+    public void EndTurn()
     {
         if (isProcessingTurn) return;
 
@@ -210,33 +167,34 @@ public class BattleManager : MonoBehaviour
 
     private IEnumerator ExecuteBattleTurn()
     {
-        BattleUIManager.Instance.SwitchToLogTab();
+        _uiService?.SwitchToLogTab();
 
         if (activeCombatants.Count == 0 || activeCombatants.All(e => e == null))
         {
-            UIManager.Instance.ExitBattleState();
+            ServiceLocator.Current.TryGet<IUIManagerService>(out var uimanagerService);
+            uimanagerService.ExitBattleState();
             yield break;
         }
 
         isProcessingTurn = true;
-        endTurnButton.interactable = false;
+        OnTurnProcessingStateChanged?.Invoke(isProcessingTurn);
+        _uiService?.SetEndTurnButtonInteractable(false);
 
         // Initial refresh at start of turn
-        BattleUIManager.Instance.RefreshAll();
+        _uiService?.RefreshAll();
+
 
         // --- 1. PLAYER'S TURN ---
         switch (pendingAction)
         {
             case PlayerActionType.Treatment:
-                logText.text = "You focus on treating your wounds...";
+                _uiService?.SetLogText("You focus on treating your wounds...");
                 yield return GetWait(1.2f);
-                // Note: The logic (healing/bandaging) already happened in the UI script
                 break;
 
             case PlayerActionType.EquipmentChange:
-                logText.text = "You spend the moment adjusting your equipment...";
+                _uiService?.SetLogText("You spend the moment adjusting your equipment...");
                 yield return GetWait(1.2f);
-                // Note: The equip/unequip already happened in EquipmentRowPrefab
                 break;
 
             case PlayerActionType.Attack:
@@ -251,13 +209,14 @@ public class BattleManager : MonoBehaviour
                     {
                         yield return StartCoroutine(EndBattleSequence());
                         isProcessingTurn = false;
+                        OnTurnProcessingStateChanged?.Invoke(isProcessingTurn);
                         yield break;
                     }
                     yield return GetWait();
                 }
                 else
                 {
-                    logText.text = "No target selected!";
+                    _uiService?.SetLogText("No target selected!");
                     yield return GetWait();
                 }
                 break;
@@ -265,6 +224,8 @@ public class BattleManager : MonoBehaviour
 
         // Reset the action to Attack for the next turn
         pendingAction = PlayerActionType.Attack;
+
+        ServiceLocator.Current.TryGet<IPlayerStateService>(out var playerService);
 
         // --- 2. ENEMIES' TURN ---
         var currentEnemies = new List<EnemyController>(activeCombatants);
@@ -274,21 +235,22 @@ public class BattleManager : MonoBehaviour
 
             yield return StartCoroutine(ResolveAttack(enemy, null));
 
-            if (PlayerStateManager.Instance.isDead)
+            if (playerService != null && playerService.IsDead)
             {
                 yield return StartCoroutine(HandlePlayerDefeat());
                 isProcessingTurn = false;
+                OnTurnProcessingStateChanged?.Invoke(isProcessingTurn);
                 yield break;
             }
             yield return GetWait();
         }
 
         // --- 3. END OF TURN (BLEEDING) ---
-        logText.text = "End of round. Injuries are bleeding...";
+        _uiService?.SetLogText("End of round. Injuries are bleeding...");
         yield return GetWait();
 
         // Process Player Bleed
-        InjuryManager pim = PlayerStateManager.Instance.GetComponent<InjuryManager>();
+        InjuryManager pim = playerService.GameObject.GetComponent<InjuryManager>();
         if (pim != null) pim.OnTurnEnded();
 
         // Process Enemy Bleed
@@ -303,13 +265,14 @@ public class BattleManager : MonoBehaviour
 
         yield return GetWait();
         UpdateEnemySprites();
-        BattleUIManager.Instance.RefreshAll();
+        _uiService?.RefreshAll();
 
         // FINAL CHECK: Did anyone bleed to death?
-        if (PlayerStateManager.Instance.isDead)
+        if (playerService != null && playerService.IsDead)
         {
             yield return StartCoroutine(HandlePlayerDefeat());
             isProcessingTurn = false;
+            OnTurnProcessingStateChanged?.Invoke(isProcessingTurn);
             yield break;
         }
 
@@ -317,13 +280,15 @@ public class BattleManager : MonoBehaviour
         {
             yield return StartCoroutine(EndBattleSequence());
             isProcessingTurn = false;
+            OnTurnProcessingStateChanged?.Invoke(isProcessingTurn);
             yield break;
         }
 
         // --- 4. START NEW ROUND ---
-        logText.text = "Your Turn";
+        _uiService?.SetLogText("Your Turn");
         isProcessingTurn = false;
-        endTurnButton.interactable = true;
+        OnTurnProcessingStateChanged?.Invoke(isProcessingTurn);
+        _uiService?.SetEndTurnButtonInteractable(true);
     }
 
 
@@ -334,20 +299,16 @@ public class BattleManager : MonoBehaviour
 
     private IEnumerator EndBattleSequence()
     {
-        // Ensure button is off so player can't click during sequence
-        endTurnButton.interactable = false;
+        _uiService?.SetEndTurnButtonInteractable(false);
+        _uiService?.SetLogText("<color=green>Victory! All enemies defeated.</color>");
 
-        logText.text = "<color=green>Victory! All enemies defeated.</color>";
-        yield return new WaitForSeconds(2.5f);
+        yield return GetWait(2.5f);
 
-        if (AudioManager.Instance != null)
-        {
-            AudioManager.Instance.PlayExplorationMusic();
-        }
+        _audioService?.PlayExplorationMusic();
 
-        UIManager.Instance.ExitBattleState();
+        // Notify listeners (e.g. UIManager) that the battle has ended
+        OnBattleEnded?.Invoke();
 
-        // Optional: Give XP or Loot here
         Debug.Log("Battle Ended Successfully.");
     }
 
@@ -355,18 +316,17 @@ public class BattleManager : MonoBehaviour
     {
         for (int i = 0; i < activeCombatants.Count; i++)
         {
-            if (activeCombatants[i] == null || activeCombatants[i].GetComponent<EnemyStats>().currentHP <= 0)
-            {
-                // Fade out or just disable
-                enemySlots[i].gameObject.SetActive(false);
+            var enemy = activeCombatants[i];
+            bool isDeadOrNull = enemy == null || enemy.GetComponent<EnemyStats>().currentHP <= 0;
 
-                // If the dead enemy was our target, switch target to the next alive enemy
-                if (targetedEnemyIndex == i)
-                {
-                    AutoSelectNextTarget();
-                }
+            if (isDeadOrNull && targetedEnemyIndex == i)
+            {
+                AutoSelectNextTarget();
             }
         }
+
+        // Refresh slots and selection visuals through the UI service
+        _uiService?.SetupEnemySlots(activeCombatants, targetedEnemyIndex, OnEnemyClicked);
         UpdateTargetVisuals();
     }
 
@@ -406,36 +366,48 @@ public class BattleManager : MonoBehaviour
 
     private IEnumerator HandlePlayerDefeat()
     {
-        logText.text = "<color=red>You have been defeated...</color>";
+        _uiService?.SetLogText("<color=red>You have been defeated...</color>");
 
-        // 1. Get the prefab
-        GameObject gameOverPrefab = PlayerStateManager.Instance.gameOverWindow;
+        GameObject gameOverPrefab = null;
 
-        if (gameOverPrefab != null)
+        if (ServiceLocator.Current.TryGet<IPlayerStateService>(out var playerService))
         {
-            // 2. Open via WindowManager
-            // Because UIManager.EnterBattleState already registered 'battleWindowRoot',
-            // this will spawn in the correct canvas automatically.
-            WindowManager.Instance.OpenWindow(gameOverPrefab);
+            // Assuming gameOverWindow is exposed via IPlayerStateService or retrieved from component
+            if (playerService is PlayerStateManager psm)
+            {
+                gameOverPrefab = psm.gameOverWindow;
+            }
+        }
 
-            Debug.Log("Game Over window opened via WindowManager in Battle Root.");
+        // Open via injected/resolved IWindowService
+        if (gameOverPrefab != null && _windowService != null)
+        {
+            _windowService.OpenWindow(gameOverPrefab);
+            Debug.Log("Game Over window opened via IWindowService.");
         }
         else
         {
-            Debug.LogError("No Game Over prefab found!");
+            Debug.LogError("BattleManager: Missing Game Over prefab or IWindowService reference!");
         }
 
-        // 3. Pause for the player to see the log message
-        yield return new WaitForSeconds(2.5f);
+        yield return GetWait(2.5f);
 
-        // Note: Usually, the Game Over window buttons (like "Exit to Menu") 
-        // will handle the SceneManager call, but if you want to force it:
-        //UIManager.Instance.ExitBattleState();
-        SceneManagerEX.Instance.LoadScene("MainMenu");
+        // Transition scene via injected/resolved ISceneService
+        if (_sceneService != null)
+        {
+            _sceneService.LoadScene("MainMenu");
+        }
+        else
+        {
+            Debug.LogError("BattleManager: ISceneService is null, cannot load MainMenu!");
+        }
     }
 
     private IEnumerator ResolveAttack(EnemyController attacker, EnemyController defender)
     {
+        ServiceLocator.Current.TryGet<IPlayerStateService>(out var playerService);
+        ServiceLocator.Current.TryGet<IEquipmentService>(out var equipmentService);
+
         bool playerAttacking = attacker == null;
         WeaponItemSO weapon = GetEquippedWeapon(attacker);
 
@@ -443,7 +415,7 @@ public class BattleManager : MonoBehaviour
         float hitChance = 0.5f;
         if (playerAttacking)
         {
-            int skillLevel = PlayerSkillManager.Instance.GetLevel(PlayerSkill.WeaponHandling);
+            int skillLevel = _skillService != null ? _skillService.GetLevel(PlayerSkill.WeaponHandling) : 0;
             hitChance += (skillLevel * 0.02f);
             hitChance = Mathf.Clamp(hitChance, 0f, 0.95f);
         }
@@ -468,31 +440,37 @@ public class BattleManager : MonoBehaviour
 
         if (playerAttacking)
         {
-            AudioClip attacksound = weapon.attackSound;
-            AudioManager.Instance.PlaySFX(attacksound);
-            logText.text = $"You attempt to strike the {targetName}...";
+            AudioClip attackSound = weapon != null ? weapon.attackSound : null;
+            if (attackSound != null) _audioService?.PlaySFX(attackSound);
+            _uiService?.SetLogText($"You attempt to strike the {targetName}...");
         }
         else
         {
-            AudioClip attacksound = attacker.data.attackSound;
-            AudioManager.Instance.PlaySFX(attacksound);
-            logText.text = $"The {attackerName} lunges at you...";
+            AudioClip attackSound = attacker.data.attackSound;
+            if (attackSound != null) _audioService?.PlaySFX(attackSound);
+            _uiService?.SetLogText($"The {attackerName} lunges at you...");
         }
 
         yield return GetWait();
 
         if (!didHit)
         {
-            logText.text = playerAttacking ? "You swung wide and missed!" : $"You dodged the {attackerName}'s attack!";
+            string missText = playerAttacking
+            ? "You swung wide and missed!"
+            : $"You dodged the {attackerName}'s attack!";
+            _uiService?.SetLogText(missText);
             yield break;
         }
 
         if (wasBlocked)
         {
-            logText.text = playerAttacking ? $"The {targetName} <color=blue>BLOCKED</color> your strike with their shield!" : $"You <color=blue>BLOCKED</color> the attack!";
+            string blockText = playerAttacking
+            ? $"The {targetName} <color=blue>BLOCKED</color> your strike with their shield!"
+            : $"You <color=blue>BLOCKED</color> the attack!";
+            _uiService?.SetLogText(blockText);
 
-            AudioClip injury = Resources.Load<AudioClip>("Audio/SFX/characters/enemies/attack/block");
-            AudioManager.Instance.PlaySFX(injury);
+            AudioClip blockSFX = Resources.Load<AudioClip>("Audio/SFX/characters/enemies/attack/block");
+            if (blockSFX != null) _audioService?.PlaySFX(blockSFX);
 
             // Optional: Damage shield durability here
             yield break;
@@ -544,9 +522,19 @@ public class BattleManager : MonoBehaviour
         }
 
         // 5. Calculate Protection
-        double protection = playerAttacking
-            ? defender.GetComponent<EnemyArmorManager>().GetProtection(partName, dType)
-            : EquipmentManager.Instance.GetTotalDefenseForSlot(slot).GetTypedDefense(dType);
+        double protection = 0;
+        if (playerAttacking)
+        {
+            var enemyArmor = defender.GetComponent<EnemyArmorManager>();
+            if (enemyArmor != null) protection = enemyArmor.GetProtection(partName, dType);
+        }
+        else
+        {
+            if (equipmentService != null)
+            {
+                protection = equipmentService.GetTotalDefenseForSlot(slot).GetTypedDefense(dType);
+            }
+        }
 
         double damageDifference = rawDamage - protection;
         double finalDamage = 0;
@@ -561,7 +549,11 @@ public class BattleManager : MonoBehaviour
 
             if (!playerAttacking)
             {
-                PlayerStateManager.Instance.GetComponent<InjuryManager>().AddInjury(slot, GetInjuryType(dType), severity);
+                if (playerService != null)
+                {
+                    var pim = playerService.GameObject.GetComponent<InjuryManager>();
+                    if (pim != null) pim.AddInjury(slot, GetInjuryType(dType), severity);
+                }
 
                 // Check if the player's hit part is high-danger
                 string bloodText = "";
@@ -570,10 +562,10 @@ public class BattleManager : MonoBehaviour
                     bloodText = " <color=red>The wound is bleeding heavily!</color>";
                 }
 
-                logText.text = $"<color=red>CRITICAL!</color> The {attackerName} hit your {partName} and caused a {GetInjuryType(dType)}!{bloodText}";
+                _uiService?.SetLogText($"<color=red>CRITICAL!</color> The {attackerName} hit your {partName} and caused a {GetInjuryType(dType)}!{bloodText}");
 
-                AudioClip injury = Resources.Load<AudioClip>("Audio/SFX/characters/enemies/attack/injury");
-                AudioManager.Instance.PlaySFX(injury);
+                AudioClip injurySFX = Resources.Load<AudioClip>("Audio/SFX/characters/enemies/attack/injury");
+                if (injurySFX != null) _audioService?.PlaySFX(injurySFX);
             }
             else
             {
@@ -590,35 +582,38 @@ public class BattleManager : MonoBehaviour
                     bleedNote = " <color=#FF3333>It's bleeding profusely!</color>";
                 }
 
-                logText.text = $"<color=orange>Brutal Hit!</color> You struck the {targetName}'s {partName} and caused a {GetInjuryType(dType)}!{bleedNote}";
+                _uiService?.SetLogText($"<color=orange>Brutal Hit!</color> You struck the {targetName}'s {partName} and caused a {GetInjuryType(dType)}!{bleedNote}");
 
-                AudioClip injury = Resources.Load<AudioClip>("Audio/SFX/characters/enemies/attack/injury");
-                AudioManager.Instance.PlaySFX(injury);
+                AudioClip injurySFX = Resources.Load<AudioClip>("Audio/SFX/characters/enemies/attack/injury");
+                if (injurySFX != null) _audioService?.PlaySFX(injurySFX);
             }
         }
         else if (damageDifference > 0)
         {
             // TIER B: SUCCESSFUL HIT
             finalDamage = damageDifference;
-            logText.text = playerAttacking
-                ? $"You hit the {targetName}'s {partName}"
-                : $"The strike landedbut your armor prevented a wound.";
+            string hitMsg = playerAttacking
+                ? $"You hit the {targetName}'s {partName}."
+                : "The strike landed, but your armor prevented a wound.";
+            _uiService?.SetLogText(hitMsg);
         }
         else if (damageDifference > -5.0)
         {
             // TIER C: BRUISE
             finalDamage = Random.Range(1f, 3f);
-            logText.text = playerAttacking
+            string bruiseMsg = playerAttacking
                 ? $"Your blow was mostly deflected by the {targetName}'s armor."
                 : $"The {attackerName} hit your {partName}! Your armor held, but you're bruised.";
+            _uiService?.SetLogText(bruiseMsg);
         }
         else
         {
             // TIER D: TOTAL BLOCK
             finalDamage = 0;
-            logText.text = playerAttacking
+            string blockMsg = playerAttacking
                 ? $"The {targetName}'s armor is too thick!"
                 : $"Your armor completely absorbed the {attackerName}'s impact.";
+            _uiService?.SetLogText(blockMsg);
         }
 
         // 7. Apply Armor Wear and Final HP Changes
@@ -626,7 +621,7 @@ public class BattleManager : MonoBehaviour
         {
             // Target is Player
             ApplyArmorWear(null, slot, finalDamage > 0, dType);
-            PlayerStateManager.Instance.inflictDamage((float)finalDamage);
+            playerService?.InflictDamage((float)finalDamage);
         }
         else
         {
@@ -635,23 +630,30 @@ public class BattleManager : MonoBehaviour
             defender.GetComponent<EnemyStats>().TakeDamage(finalDamage);
 
             // Weapon Durability (Player only)
-            if (EquipmentManager.Instance.mainHandWeapon != null)
+            if(equipmentService != null && equipmentService.mainHandWeapon != null)
             {
-                var weaponInstance = EquipmentManager.Instance.mainHandWeapon;
+                var weaponInstance = equipmentService.mainHandWeapon;
                 weaponInstance.currentDurability = System.Math.Max(0, weaponInstance.currentDurability - 1);
             }
 
-            PlayerSkillManager.Instance.AddXP(PlayerSkill.WeaponHandling, 5f, true);
+            _skillService?.AddXP(PlayerSkill.WeaponHandling, 5f, true);
         }
 
-        BattleUIManager.Instance.RefreshAll();
+        _uiService?.RefreshAll();
     }
 
     // --- HELPERS ---
 
     private WeaponItemSO GetEquippedWeapon(EnemyController enemy)
     {
-        if (enemy == null) return (WeaponItemSO)EquipmentManager.Instance.mainHandWeapon?.itemSO;
+        if (enemy == null) // Player
+        {
+            if (ServiceLocator.Current.TryGet<IEquipmentService>(out var equipmentService))
+            {
+                return equipmentService.mainHandWeapon?.itemSO as WeaponItemSO;
+            }
+            return null;
+        }
 
         // Find first weapon in enemy inventory
         var inv = enemy.GetComponent<EnemyArmorManager>().rawInventory;
@@ -664,15 +666,18 @@ public class BattleManager : MonoBehaviour
     {
         if (entity == null) // Checking Player
         {
-            // Check if player has an item in the off-hand that is a shield
-            var offhand = EquipmentManager.Instance.offHandShield; // Adjust to your variable name
-            return offhand != null && offhand.itemSO is ShieldItemSO shield;
+            if (ServiceLocator.Current.TryGet<IEquipmentService>(out var equipmentService))
+            {
+                var offhand = equipmentService.offHandShield;
+                return offhand != null && offhand.itemSO is ShieldItemSO;
+            }
+            return false;
         }
         else // Checking Enemy
         {
-            var inv = entity.GetComponent<EnemyArmorManager>().rawInventory;
-            var shield = inv.Find(i => i.itemSO is ShieldItemSO);
-            return (ShieldItemSO)shield?.itemSO;
+            var inv = entity.GetComponent<EnemyArmorManager>()?.rawInventory;
+            var shield = inv?.Find(i => i.itemSO is ShieldItemSO);
+            return shield?.itemSO is ShieldItemSO;
         }
     }
 
@@ -694,8 +699,14 @@ public class BattleManager : MonoBehaviour
 
         if (enemy == null) // Player
         {
-            if (!EquipmentManager.Instance.equippedArmor.ContainsKey(slot)) return;
-            armorLayers = EquipmentManager.Instance.equippedArmor[slot];
+            if (ServiceLocator.Current.TryGet<IEquipmentService>(out var equipmentService))
+            {
+                if (!equipmentService.equippedArmor.TryGetValue(slot, out armorLayers)) return;
+            }
+            else
+            {
+                return;
+            }
         }
         else // Enemy
         {
@@ -740,7 +751,8 @@ public class BattleManager : MonoBehaviour
 
         if (entity == null) // Player
         {
-            var pim = PlayerStateManager.Instance.GetComponent<InjuryManager>();
+            ServiceLocator.Current.TryGet<IPlayerStateService>(out var playerStateService);
+            var pim = playerStateService.GameObject.GetComponent<InjuryManager>();
             // Ignore injuries that are bandaged for accuracy penalties
             activeInjuries = pim.activeInjuries.FindAll(i => !i.isBandaged);
         }
@@ -770,7 +782,8 @@ public class BattleManager : MonoBehaviour
 
         if (entity == null) // Player
         {
-            var pim = PlayerStateManager.Instance.GetComponent<InjuryManager>();
+            ServiceLocator.Current.TryGet<IPlayerStateService>(out var playerStateService);
+            var pim = playerStateService.GameObject.GetComponent<InjuryManager>();
             activeInjuries = pim.activeInjuries.FindAll(i => !i.isBandaged);
         }
         else

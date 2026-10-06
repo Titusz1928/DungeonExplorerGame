@@ -1,7 +1,8 @@
 using System.Collections.Generic;
+using TitusGames.Framework;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 
 public class RipClothingWindow : MonoBehaviour
 {
@@ -10,7 +11,7 @@ public class RipClothingWindow : MonoBehaviour
     [SerializeField] private GameObject cellPrefab;
     [SerializeField] private TextMeshProUGUI headerText;
 
-    [SerializeField] private AudioClip ripClothingAudio;
+    [SerializeField] private string ripClothingAudio;
 
     private ItemInstance scissorInstance;
     private Inventory inventory;
@@ -83,16 +84,19 @@ public class RipClothingWindow : MonoBehaviour
         scissorInstance.currentDurability -= 1;
 
         // Check if scissors broke
+
+        ServiceLocator.Current.TryGet<IMessageService>(out var messageService);
         if (scissorInstance.currentDurability <= 0)
         {
-            MessageManager.Instance.ShowMessageDirectly("The scissors have broken!");
+            messageService.ShowMessageDirectly("The scissors have broken!");
         }
         else
         {
-            MessageManager.Instance.ShowMessageDirectly("Created 3 Ripped Clothing");
+            messageService.ShowMessageDirectly("Created 3 Ripped Clothing");
         }
 
-        AudioManager.Instance.PlaySFX(ripClothingAudio);
+        ServiceLocator.Current.TryGet<IAudioService>(out var audioService);
+        audioService.PlaySFX(ripClothingAudio);
 
         // 4. Refresh and Close
         InventoryWindow invWindow = FindFirstObjectByType<InventoryWindow>();
@@ -103,6 +107,7 @@ public class RipClothingWindow : MonoBehaviour
 
     public void CloseWindow()
     {
-        WindowManager.Instance.CloseTopWindow();
+        ServiceLocator.Current.TryGet<IWindowService>(out var windowService);
+        windowService.CloseTopWindow();
     }
 }

@@ -1,5 +1,6 @@
-using UnityEngine;
+using TitusGames.Framework;
 using TMPro;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class InventorySkillRow : MonoBehaviour
@@ -20,12 +21,14 @@ public class InventorySkillRow : MonoBehaviour
         skillNameText.text = skill.ToString();
 
         // 2. Level
-        int level = PlayerSkillManager.Instance.GetLevel(skill);
+        ServiceLocator.Current.TryGet<IPlayerSkillService>(out var playerSkillService);
+
+        int level = playerSkillService.GetLevel(skill);
         levelText.text = $"Lv {level}";
 
         // 3. XP Bar
-        float currentXP = PlayerSkillManager.Instance.GetXP(skill);
-        float xpToNext = PlayerSkillManager.Instance.GetXPToNext(skill);
+        float currentXP = playerSkillService.GetXP(skill);
+        float xpToNext = playerSkillService.GetXPToNext(skill);
 
         float fillAmount = xpToNext > 0 ? currentXP / xpToNext : 0f;
         xpBar.fillAmount = fillAmount;

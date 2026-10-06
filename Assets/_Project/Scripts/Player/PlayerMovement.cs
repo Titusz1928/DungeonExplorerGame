@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using TitusGames.Framework;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using System.Linq;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -22,7 +23,7 @@ public class PlayerMovement : MonoBehaviour
 
     private bool usingJoystick = false;
 
-    private PlayerStateManager state;
+    private IPlayerStateService state;
     private float currentSpeed;
 
     //for skill levels and noise
@@ -46,7 +47,8 @@ public class PlayerMovement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
-        state = PlayerStateManager.Instance;
+        ServiceLocator.Current.TryGet<IPlayerStateService>(out var playerStateService);
+        state = playerStateService;
 
         controls = new PlayerControls();
         controls.Player.Move.performed += ctx =>
@@ -101,9 +103,10 @@ public class PlayerMovement : MonoBehaviour
     public void UpdateSpeed(MovementMode mode)
     {
         // 1. Get skill levels
-        int speedLevel = PlayerSkillManager.Instance.GetLevel(PlayerSkill.Speed);
-        int stealthLevel = PlayerSkillManager.Instance.GetLevel(PlayerSkill.Stealth);
-        int strengthLevel = PlayerSkillManager.Instance.GetLevel(PlayerSkill.Strength);
+        ServiceLocator.Current.TryGet<IPlayerSkillService>(out var playerSkillService);
+        int speedLevel = playerSkillService.GetLevel(PlayerSkill.Speed);
+        int stealthLevel = playerSkillService.GetLevel(PlayerSkill.Stealth);
+        int strengthLevel = playerSkillService.GetLevel(PlayerSkill.Strength);
 
         // 2. Calculate initial base and multipliers
         float effectiveBaseSpeed = baseSpeed + (speedLevel * 0.03f);
@@ -151,7 +154,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        if (UIManager.Instance != null && (UIManager.Instance.IsWindowOpen || UIManager.Instance.IsInBattle))
+        ServiceLocator.Current.TryGet<IUIManagerService>(out var uimanagerService);
+        if (uimanagerService != null && (uimanagerService.IsWindowOpen || uimanagerService.IsInBattle))
         {
             moveInput = Vector2.zero;
             usingJoystick = false;
@@ -199,15 +203,15 @@ public class PlayerMovement : MonoBehaviour
                 if (xpDistanceAccumulator >= metersPerXP)
                 {
                     xpDistanceAccumulator = 0f;
-
+                    ServiceLocator.Current.TryGet<IPlayerSkillService>(out var playerSkillService);
                     // --- XP ---
-                    PlayerSkillManager.Instance.AddXP(PlayerSkill.Speed, xpPerTick, true);
+                    playerSkillService.AddXP(PlayerSkill.Speed, xpPerTick, true);
 
                     if (state.CurrentMode == MovementMode.Sneaking)
-                        PlayerSkillManager.Instance.AddXP(PlayerSkill.Stealth, xpPerTick * 1.2f, true);
+                        playerSkillService.AddXP(PlayerSkill.Stealth, xpPerTick * 1.2f, true);
 
                     if (state.CurrentMode == MovementMode.Sprinting)
-                        PlayerSkillManager.Instance.AddXP(PlayerSkill.Strength, xpPerTick * 0.5f, true);
+                        playerSkillService.AddXP(PlayerSkill.Strength, xpPerTick * 0.5f, true);
 
                 }
 
@@ -238,7 +242,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (UIManager.Instance != null && (UIManager.Instance.IsWindowOpen || UIManager.Instance.IsInBattle))
+        ServiceLocator.Current.TryGet<IUIManagerService>(out var uimanagerService);
+        if (uimanagerService != null && (uimanagerService.IsWindowOpen || uimanagerService.IsInBattle))
         {
             rb.linearVelocity = Vector2.zero;
             return;
@@ -279,9 +284,11 @@ public class PlayerMovement : MonoBehaviour
         if (mainEnemy == null) return;
 
         // 1. Switch UI to Battle Mode
-        WindowManager.Instance.CloseAllWindows();
+        ServiceLocator.Current.TryGet<IWindowService>(out var windowService);
+        windowService.CloseAllWindows();
 
-        UIManager.Instance.EnterBattleState();
+        ServiceLocator.Current.TryGet<IUIManagerService>(out var uimanagerService);
+        uimanagerService.EnterBattleState();
 
         // 2. Find all enemies within 15 units
         float searchRadius = 10f;
@@ -316,7 +323,8 @@ public class PlayerMovement : MonoBehaviour
             .ToList();
 
         // 5. Send to BattleManager
-        BattleManager.Instance.StartBattle(mainEnemy, finalHelpers);
+        ServiceLocator.Current.TryGet<IBattleService>(out var battleService);
+        battleService.StartBattle(mainEnemy, finalHelpers);
 
         // 6. Handle exploration world cleanup
         // Instead of just Destroying, we usually disable them so we can return to them if we flee

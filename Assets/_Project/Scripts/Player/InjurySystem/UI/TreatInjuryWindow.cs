@@ -1,7 +1,8 @@
 using System.Collections.Generic;
+using TitusGames.Framework;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 
 public class TreatInjuryWindow : MonoBehaviour
 {
@@ -21,7 +22,8 @@ public class TreatInjuryWindow : MonoBehaviour
         targetInjury = injury;
         headerText.text = $"Treating: {injury.type} on {injury.bodyPart}";
 
-        playerInventory = PlayerStateManager.Instance.GetComponent<Inventory>();
+        ServiceLocator.Current.TryGet<IPlayerStateService>(out var playerstateService);
+        playerInventory = playerstateService.GameObject.GetComponent<Inventory>();
 
         ClearRows();
         PopulateMedicalItems();
@@ -81,13 +83,14 @@ public class TreatInjuryWindow : MonoBehaviour
     private void OnItemSelected(ItemInstance item)
     {
         ConsumableItemSO consumable = (ConsumableItemSO)item.itemSO;
-        InjuryManager manager = PlayerStateManager.Instance.GetComponent<InjuryManager>();
+        ServiceLocator.Current.TryGet<IPlayerStateService>(out var playerstateService);
+        InjuryManager manager = playerstateService.GameObject.GetComponent<InjuryManager>();
 
         if (consumable.consumableType == ConsumableType.Potion)
         {
             // Pass the reference directly
             manager.RemoveInjury(targetInjury);
-            PlayerStateManager.Instance.addHealth(consumable.healthAmount);
+            playerstateService.AddHealth(consumable.healthAmount);
         }
         else if (consumable.consumableType == ConsumableType.FirstAid)
         {
@@ -110,12 +113,15 @@ public class TreatInjuryWindow : MonoBehaviour
             }
         }
 
-        if (UIManager.Instance.IsInBattle)
+
+        ServiceLocator.Current.TryGet<IUIManagerService>(out var uimanagerService);
+        if (uimanagerService.IsInBattle)
         {
-            BattleManager.Instance.SetPendingAction(PlayerActionType.Treatment);
+            ServiceLocator.Current.TryGet<IBattleService>(out var battleService);
+            battleService.SetPendingAction(PlayerActionType.Treatment);
             // Automatically start the turn processing so the player doesn't have to click "End Turn" 
             // after using an item (Standard for many RPGs)
-            BattleManager.Instance.OnEndTurnPressed();
+            battleService.EndTurn();
         }
 
         CloseWindow();
@@ -123,6 +129,7 @@ public class TreatInjuryWindow : MonoBehaviour
 
     public void CloseWindow()
     {
-        WindowManager.Instance.CloseTopWindow();
+        ServiceLocator.Current.TryGet<IWindowService>(out var windowService);
+        windowService.CloseTopWindow();
     }
 }

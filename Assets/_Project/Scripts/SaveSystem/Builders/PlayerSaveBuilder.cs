@@ -1,3 +1,4 @@
+using TitusGames.Framework;
 using UnityEngine;
 
 public static class PlayerSaveBuilder
@@ -16,9 +17,10 @@ public static class PlayerSaveBuilder
         // --------------------
         // PLAYER STATE
         // --------------------
-        var state = PlayerStateManager.Instance;
-        save.health = state.health;
-        save.stamina = state.stamina;
+        ServiceLocator.Current.TryGet<IPlayerStateService>(out var playerStateService);
+        var state = playerStateService;
+        save.health = state.Health;
+        save.stamina = state.Stamina;
 
         // --------------------
         // INVENTORY

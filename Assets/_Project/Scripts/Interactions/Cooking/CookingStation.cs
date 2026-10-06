@@ -1,3 +1,4 @@
+using TitusGames.Framework;
 using UnityEngine;
 
 public class CookingStation : Interactable
@@ -180,7 +181,10 @@ public class CookingStation : Interactable
         Sprite spriteToSend = (sr != null) ? sr.sprite : null;
 
         // 2. Open window
-        GameObject windowGO = WindowManager.Instance.OpenWindow(cookingWindowPrefab);
+
+        ServiceLocator.Current.TryGet<IWindowService>(out var windowService);
+
+        GameObject windowGO = windowService.OpenWindow(cookingWindowPrefab);
         CookingStationWindow ui = windowGO.GetComponent<CookingStationWindow>();
 
         if (ui != null)

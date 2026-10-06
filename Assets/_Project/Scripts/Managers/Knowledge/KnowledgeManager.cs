@@ -1,20 +1,23 @@
 using System.Collections.Generic;
+using TitusGames.Framework;
 using UnityEngine;
 using static UnityEngine.Rendering.DebugUI;
 
-public class KnowledgeManager : MonoBehaviour
+public class KnowledgeManager : MonoBehaviour, IKnowledgeService
 {
-    public static KnowledgeManager Instance;
-
     // This set stores all unique pageIDs the player has read.
     // In a real project, you should include this in your Save/Load system.
     private HashSet<int> discoveredPageIDs = new HashSet<int>();
     private HashSet<int> knownRecipeIDs = new HashSet<int>();
 
-    private void Awake()
+    private void OnEnable()
     {
-        if (Instance == null) Instance = this;
-        else Destroy(gameObject);
+        ServiceLocator.Current.Register<IKnowledgeService>(this);
+    }
+
+    private void OnDisable()
+    {
+        ServiceLocator.Current.Unregister<IKnowledgeService>();
     }
 
     //BOOKS
@@ -33,7 +36,10 @@ public class KnowledgeManager : MonoBehaviour
         // 4. Grant XP if applicable.
         if (page.givesXP && page.xpAmount > 0)
         {
-            PlayerSkillManager.Instance.AddXP(page.skillType, page.xpAmount, true);
+            if (ServiceLocator.Current.TryGet<IPlayerSkillService>(out var skillService))
+            {
+                skillService.AddXP(page.skillType, page.xpAmount, true);
+            }
         }
 
         if (page.recipeIDToUnlock > 0)
@@ -66,8 +72,11 @@ public class KnowledgeManager : MonoBehaviour
             // You could trigger a UI notification here: "New Recipe Learned!"
 
 
-           MessageManager.Instance.ShowMessageDirectly($"You unlocked a new recipe!");
-        
+            if (ServiceLocator.Current.TryGet<IMessageService>(out var messageService))
+            {
+                messageService.ShowMessageDirectly("You unlocked a new recipe!");
+            }
+
         }
     }
 

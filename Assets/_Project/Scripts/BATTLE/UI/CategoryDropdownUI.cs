@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TitusGames.Framework;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -58,7 +59,10 @@ public class CategoryDropdownUI : MonoBehaviour
             return;
         }
 
-        if (player == null) player = PlayerStateManager.Instance.gameObject;
+        if (player == null && ServiceLocator.Current.TryGet<IPlayerStateService>(out var playerStateService))
+        {
+            player = playerStateService.GameObject;
+        }
 
         // 1. Clear existing rows
         ClearList();

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using TitusGames.Framework;
 using UnityEngine;
 
 public class InjuryManager : MonoBehaviour
@@ -32,7 +33,8 @@ public class InjuryManager : MonoBehaviour
     {
         // 1. Use the UIManager's central state
         // Only run real-time logic if NOT in combat
-        if (UIManager.Instance != null && !UIManager.Instance.IsInBattle)
+        ServiceLocator.Current.TryGet<IUIManagerService>(out var uimanagerService);
+        if (uimanagerService != null && !uimanagerService.IsInBattle)
         {
             ProcessInjuries(Time.deltaTime);
         }
@@ -42,7 +44,8 @@ public class InjuryManager : MonoBehaviour
     public void OnTurnEnded()
     {
         // 2. Extra safety check to ensure we only tick turn-damage during battle
-        if (UIManager.Instance != null && UIManager.Instance.IsInBattle)
+        ServiceLocator.Current.TryGet<IUIManagerService>(out var uimanagerService);
+        if (uimanagerService != null && uimanagerService.IsInBattle)
         {
             // Treat 1 turn as 10 seconds of "real-time" for balance
             ProcessInjuries(10f);
@@ -83,7 +86,7 @@ public class InjuryManager : MonoBehaviour
 
         if (totalDrain > 0)
         {
-            playerState.inflictDamage(totalDrain);
+            playerState.InflictDamage(totalDrain);
         }
     }
 

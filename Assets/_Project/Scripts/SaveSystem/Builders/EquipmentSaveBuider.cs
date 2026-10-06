@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using TitusGames.Framework;
 using UnityEngine;
 
 public static class EquipmentSaveBuilder
@@ -7,7 +8,8 @@ public static class EquipmentSaveBuilder
     {
         EquipmentSave save = new EquipmentSave();
 
-        EquipmentManager eq = EquipmentManager.Instance;
+        ServiceLocator.Current.TryGet<IEquipmentService>(out var equipmentService);
+        IEquipmentService eq = equipmentService;
         if (eq == null)
         {
             Debug.LogError("EquipmentManager.Instance is null! Cannot save equipment.");

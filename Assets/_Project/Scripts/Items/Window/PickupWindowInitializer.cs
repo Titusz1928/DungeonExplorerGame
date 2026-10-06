@@ -1,3 +1,4 @@
+using TitusGames.Framework;
 using UnityEngine;
 
 public class PickupWindowInitializer : MonoBehaviour
@@ -6,7 +7,9 @@ public class PickupWindowInitializer : MonoBehaviour
 
     public void OpenPickupWindow()
     {
-        GameObject windowObj = WindowManager.Instance.OpenWindow(pickupWindowPrefab);
+        ServiceLocator.Current.TryGet<IWindowService>(out var windowService);
+
+        GameObject windowObj = windowService.OpenWindow(pickupWindowPrefab);
 
         PickupWindow pw = windowObj.GetComponent<PickupWindow>();
 

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using TitusGames.Framework;
 using UnityEngine;
 
 public class EnemyInjuryManager : MonoBehaviour
@@ -16,7 +17,8 @@ public class EnemyInjuryManager : MonoBehaviour
 
     private void Update()
     {
-        if (UIManager.Instance != null && !UIManager.Instance.IsInBattle)
+        ServiceLocator.Current.TryGet<IUIManagerService>(out var uimanagerService);
+        if(uimanagerService != null && !uimanagerService.IsInBattle)
         {
             ProcessInjuries(Time.deltaTime);
         }
@@ -25,7 +27,8 @@ public class EnemyInjuryManager : MonoBehaviour
     public void OnTurnEnded()
     {
         // Use the central UI state like the player does
-        if (UIManager.Instance != null && UIManager.Instance.IsInBattle)
+        ServiceLocator.Current.TryGet<IUIManagerService>(out var uimanagerService);
+        if (uimanagerService != null && !uimanagerService.IsInBattle)
         {
             ProcessInjuries(10f);
         }

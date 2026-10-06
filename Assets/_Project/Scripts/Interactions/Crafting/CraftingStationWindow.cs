@@ -1,7 +1,8 @@
-using UnityEngine;
 using System.Collections.Generic;
-using UnityEngine.UI;
+using TitusGames.Framework;
 using TMPro;
+using UnityEngine;
+using UnityEngine.UI;
 
 public class CraftingStationWindow : MonoBehaviour
 {
@@ -49,8 +50,10 @@ public class CraftingStationWindow : MonoBehaviour
         // 2. Filter and Spawn Recipes
         foreach (RecipeSO recipe in currentStation.availableRecipes)
         {
+            ServiceLocator.Current.TryGet<IKnowledgeService>(out var knowledgeService);
+
             // Only show if known by the player
-            if (KnowledgeManager.Instance.IsRecipeKnown(recipe.recipeID))
+            if (knowledgeService.IsRecipeKnown(recipe.recipeID))
             {
                 SpawnRow(recipe);
             }

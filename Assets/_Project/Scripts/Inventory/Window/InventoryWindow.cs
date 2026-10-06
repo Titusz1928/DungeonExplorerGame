@@ -1,47 +1,42 @@
-﻿using UnityEngine;
-using TMPro;
+﻿using System.Collections.Generic;
+using TitusGames.Framework;
+using UnityEngine;
 
 public class InventoryWindow : MonoBehaviour
 {
+    [Header("Container")]
     [SerializeField] private Transform rowContainer;
 
-    //Inventory Items Tab
+    [Header("Inventory Items Tab")]
     [SerializeField] private GameObject itemsRowPrefab;
     [SerializeField] private GameObject itemsTitleRowPrefab;
     [SerializeField] private GameObject itemsStatsRowPrefab;
     [SerializeField] private GameObject moveWindow;
-    private ItemInstance pendingMoveItem;
     [SerializeField] private GameObject itemInfoWindow;
-    private ItemInstance pendinginfoItem;
     [SerializeField] private GameObject dropWindow;
-    private ItemInstance pendingDropItem;
     [SerializeField] private GameObject ripClothingWindowPrefab;
-    [SerializeField] private GameObject DocumentWindowPrefab;
+    [SerializeField] private GameObject documentWindowPrefab;
 
-    //Inventory Equipment Tab
+    [Header("Inventory Equipment Tab")]
     [SerializeField] private GameObject equipmentTitleRowPrefab;
     [SerializeField] private GameObject equipmentRowPrefab;
     [SerializeField] private GameObject equipmentStatRowPrefab;
 
-    //Inventory Injuruies & Skills Tab
+    [Header("Inventory Health & Skills Tab")]
     [SerializeField] private GameObject injurySectionPrefab;
     [SerializeField] private GameObject skillsRowPrefab;
 
+    [Header("References")]
     [SerializeField] private Transform player;
     [SerializeField] private Inventory inventory;
 
-    private short tabselected;
-
-    private void Start()
-    {
-        //Refresh();
-    }
+    private short tabSelected;
 
     public void Initialize(Inventory inv, Transform playerTransform)
     {
         inventory = inv;
         player = playerTransform;
-        tabselected = 0;
+        tabSelected = 0;
         Refresh();
     }
 
@@ -49,533 +44,442 @@ public class InventoryWindow : MonoBehaviour
     {
         if (inventory == null)
         {
-            Debug.LogError("Inventory not assigned!");
+            Debug.LogError("[InventoryWindow] Inventory is not assigned!");
             return;
         }
 
-        switch (tabselected)
+        switch (tabSelected)
         {
             case 0:
-                buildItemSection();
+                BuildItemSection();
                 break;
             case 1:
-                buildEquipmentSection();
+                BuildEquipmentSection();
                 break;
             case 2:
-                buildHealthNSkillsSection();
+                BuildHealthNSkillsSection();
                 break;
         }
-
     }
 
-    public void itemsTabSelected()
+    // -----------------------
+    // TAB SELECTION (UI Callbacks)
+    // -----------------------
+    public void ItemsTabSelected()
     {
-        //destroying other things
-
-        tabselected = 0;
+        tabSelected = 0;
         Refresh();
     }
 
-    public void equipmentTabSelected()
+    public void EquipmentTabSelected()
     {
-        //destroying other things
-        //destroying items
-        foreach (Transform child in rowContainer)
-            Destroy(child.gameObject);
-
-        tabselected = 1;
+        tabSelected = 1;
         Refresh();
     }
 
-    public void statsnskillsTabSelected()
+    public void StatsNSkillsTabSelected()
     {
-        //destroying other things
-        //destroying items
-        foreach (Transform child in rowContainer)
-            Destroy(child.gameObject);
-
-        tabselected = 2;
+        tabSelected = 2;
         Refresh();
     }
 
-    public void buildItemSection()
+    // -----------------------
+    // SECTION BUILDERS
+    // -----------------------
+    public void BuildItemSection()
     {
-        if (rowContainer == null || itemsRowPrefab == null)
-        {
-            Debug.LogError("Row container or row prefab not assigned!");
-            return;
-        }
+        if (!ValidateContainerAndPrefab(itemsRowPrefab)) return;
 
-        foreach (Transform child in rowContainer)
-            Destroy(child.gameObject);
-
+        ClearRowContainer();
 
         if (itemsStatsRowPrefab != null)
         {
             GameObject rowObj = Instantiate(itemsStatsRowPrefab, rowContainer);
-            ItemStatRow row = rowObj.GetComponent<ItemStatRow>();
-            row.SetData(inventory, this);
+            if (rowObj.TryGetComponent<ItemStatRow>(out var row))
+            {
+                row.SetData(inventory, this);
+            }
         }
         else
         {
-            Debug.LogWarning("itemsStatsRowPrefab not assigned! No item stat row will be created.");
+            Debug.LogWarning("[InventoryWindow] itemsStatsRowPrefab not assigned!");
         }
-
-        //if (itemsTitleRowPrefab != null)
-        //{
-        //    Instantiate(itemsTitleRowPrefab, rowContainer);
-        //}
-        //else
-        //{
-        //    Debug.LogWarning("titleRowPrefab not assigned! No title row will be created.");
-        //}
 
         foreach (ItemInstance instance in inventory.items)
         {
             GameObject rowObj = Instantiate(itemsRowPrefab, rowContainer);
-
-            InventoryRow row = rowObj.GetComponent<InventoryRow>();
-            row.SetData(instance, this);
+            if (rowObj.TryGetComponent<InventoryRow>(out var row))
+            {
+                row.SetData(instance, this);
+            }
         }
     }
 
-
-    public void buildEquipmentSection()
+    public void BuildEquipmentSection()
     {
-        if (rowContainer == null)
-        {
-            Debug.LogError("Row container not assigned!");
-            return;
-        }
+        if (rowContainer == null) return;
 
-        // Clear existing rows
-        foreach (Transform child in rowContainer)
-            Destroy(child.gameObject);
+        ClearRowContainer();
 
-        // Add title row
         if (equipmentTitleRowPrefab != null)
         {
             Instantiate(equipmentTitleRowPrefab, rowContainer);
         }
-        else
+
+        if (!ServiceLocator.Current.TryGet<IEquipmentService>(out var equipmentService))
         {
-            Debug.LogWarning("equipmentTitleRowPrefab not assigned! No title row will be created.");
-        }
-
-        // Iterate over all body parts (ArmorSlot enum)
-        foreach (ArmorSlot slot in System.Enum.GetValues(typeof(ArmorSlot)))
-        {
-            if (slot == ArmorSlot.None) continue; // skip None
-
-            // Get total defense values from EquipmentManager
-            ArmorDefense totalDefense = EquipmentManager.Instance.GetTotalDefenseForSlot(slot);
-
-            // Instantiate a row prefab for this body part
-            if (equipmentRowPrefab != null)
-            {
-                GameObject rowObj = Instantiate(equipmentRowPrefab, rowContainer);
-                EquipmentInventoryRow row = rowObj.GetComponent<EquipmentInventoryRow>();
-                if (row != null)
-                {
-                    row.SetData(
-                        slot.ToString(),       // body part name
-                        totalDefense.blunt,    // total blunt
-                        totalDefense.pierce,   // total pierce
-                        totalDefense.slash     // total slash
-                    );
-                }
-                else
-                {
-                    Debug.LogError("EquipmentInventoryRow component not found on prefab!");
-                }
-            }
-            else
-            {
-                Debug.LogWarning("equipmentRowPrefab not assigned!");
-            }
-        }
-
-
-        // --- Sneak row ---
-        if (equipmentStatRowPrefab != null)
-        {
-            GameObject sneakRow = Instantiate(equipmentStatRowPrefab, rowContainer);
-            sneakRow.GetComponent<EquipmentStatRow>()
-                .SetData("Sneak", EquipmentManager.Instance.GetTotalSneak());
-        }
-
-        // --- Conspicuousness row ---
-        if (equipmentStatRowPrefab != null)
-        {
-            GameObject consRow = Instantiate(equipmentStatRowPrefab, rowContainer);
-            consRow.GetComponent<EquipmentStatRow>()
-                .SetData("Conspicuousness", EquipmentManager.Instance.GetTotalConspicuousness());
-        }
-
-    }
-
-
-    public void buildHealthNSkillsSection()
-    {
-        if (rowContainer == null)
-        {
-            Debug.LogError("Row container not assigned!");
+            Debug.LogError("[InventoryWindow] IEquipmentService not registered in ServiceLocator!");
             return;
         }
 
-        foreach (Transform child in rowContainer)
-            Destroy(child.gameObject);
-
-        // 1. Get the Player and InjuryManager
-        if (PlayerStateManager.Instance != null)
+        // Iterate through all body part slots
+        foreach (ArmorSlot slot in System.Enum.GetValues(typeof(ArmorSlot)))
         {
-            GameObject playerObj = PlayerStateManager.Instance.gameObject;
-            InjuryManager injuryManager = playerObj.GetComponent<InjuryManager>();
+            if (slot == ArmorSlot.None) continue;
 
-            // 2. Only create the dropdown if the prefab exists AND there is at least one injury
-            if (injurySectionPrefab != null && injuryManager != null && injuryManager.activeInjuries.Count > 0)
+            ArmorDefense totalDefense = equipmentService.GetTotalDefenseForSlot(slot);
+
+            if (equipmentRowPrefab != null)
             {
-                GameObject healthObj = Instantiate(injurySectionPrefab, rowContainer);
-
-                InjuryDropdownUI dropdown = healthObj.GetComponent<InjuryDropdownUI>();
-                if (dropdown != null)
+                GameObject rowObj = Instantiate(equipmentRowPrefab, rowContainer);
+                if (rowObj.TryGetComponent<EquipmentInventoryRow>(out var row))
                 {
-                    dropdown.Initialize(playerObj);
+                    row.SetData(
+                        slot.ToString(),
+                        totalDefense.blunt,
+                        totalDefense.pierce,
+                        totalDefense.slash
+                    );
+                }
+            }
+        }
+
+        // Stats rows (Sneak & Conspicuousness)
+        if (equipmentStatRowPrefab != null)
+        {
+            GameObject sneakRow = Instantiate(equipmentStatRowPrefab, rowContainer);
+            if (sneakRow.TryGetComponent<EquipmentStatRow>(out var sneakStat))
+            {
+                sneakStat.SetData("Sneak", equipmentService.GetTotalSneak());
+            }
+
+            GameObject consRow = Instantiate(equipmentStatRowPrefab, rowContainer);
+            if (consRow.TryGetComponent<EquipmentStatRow>(out var consStat))
+            {
+                consStat.SetData("Conspicuousness", equipmentService.GetTotalConspicuousness());
+            }
+        }
+    }
+
+    public void BuildHealthNSkillsSection()
+    {
+        if (rowContainer == null) return;
+
+        ClearRowContainer();
+
+        if (ServiceLocator.Current.TryGet<IPlayerStateService>(out var playerState))
+        {
+            GameObject playerObj = playerState.GameObject;
+            if (playerObj != null && playerObj.TryGetComponent<InjuryManager>(out var injuryManager))
+            {
+                if (injurySectionPrefab != null && injuryManager.activeInjuries.Count > 0)
+                {
+                    GameObject healthObj = Instantiate(injurySectionPrefab, rowContainer);
+                    if (healthObj.TryGetComponent<InjuryDropdownUI>(out var dropdown))
+                    {
+                        dropdown.Initialize(playerObj);
+                    }
                 }
             }
         }
 
         foreach (PlayerSkill skill in System.Enum.GetValues(typeof(PlayerSkill)))
         {
+            if (skillsRowPrefab == null) continue;
+
             GameObject rowObj = Instantiate(skillsRowPrefab, rowContainer);
-            InventorySkillRow row = rowObj.GetComponent<InventorySkillRow>();
-            row.SetData(skill);
+            if (rowObj.TryGetComponent<InventorySkillRow>(out var row))
+            {
+                row.SetData(skill);
+            }
         }
     }
 
+    // -----------------------
+    // ITEM ACTIONS
+    // -----------------------
     public void OnInfoButtonPressed(ItemInstance item)
     {
-        Debug.Log($"Info pressed for {item.itemSO.itemName}");
-        pendinginfoItem = item; // store the item if needed later
-
-        // Open the item info window via WindowManager
-        GameObject windowGO = WindowManager.Instance.OpenWindow(itemInfoWindow);
-
-        // Get the ItemInfoWindow component from the instantiated window
-        ItemInfoWindow infoWindow = windowGO.GetComponent<ItemInfoWindow>();
-
-        if (infoWindow != null)
+        GameObject windowGO = OpenWindow(itemInfoWindow);
+        if (windowGO != null && windowGO.TryGetComponent<ItemInfoWindow>(out var infoWindow))
         {
-            infoWindow.Show(item); // <-- pass the ItemInstance here
-        }
-        else
-        {
-            Debug.LogError("ItemInfoWindow component not found on the window prefab!");
+            infoWindow.Show(item);
         }
     }
+
 
     public void OnUseButtonPressed(ItemInstance item)
     {
+        if (item == null) return;
+
+        // Resolve services at the start to avoid redundant lookup calls
+        ServiceLocator.Current.TryGet<IMessageService>(out var messageService);
+        ServiceLocator.Current.TryGet<IEquipmentService>(out var equipmentService);
+
         ItemSO so = item.itemSO;
 
-        // --------------------------
-        // BASIC EQUIP / UNEQUIP CHECK
-        // --------------------------
+        // --- UNEQUIP CHECK ---
         if (item.isEquipped)
         {
-            // Already equipped → UNEQUIP
-            switch (so)
+            if (equipmentService != null)
             {
-                case WeaponItemSO weapon:
-                    EquipmentManager.Instance.UnequipMainHand(item);
-                    MessageManager.Instance.ShowMessageDirectly($"Unequipped {weapon.itemName}");
-                    Refresh();
-                    return;
-
-                case ShieldItemSO shield:
-                    EquipmentManager.Instance.UnequipShield(item);
-                    MessageManager.Instance.ShowMessageDirectly($"Unequipped {shield.itemName}");
-                    Refresh();
-                    return;
-
-                case ArmorItemSO armor:
-                    EquipmentManager.Instance.UnequipArmor(item);
-                    MessageManager.Instance.ShowMessageDirectly($"Unequipped {armor.itemName}");
-                    Refresh();
-                    return;
+                equipmentService.Unequip(item);
+                messageService?.ShowMessageDirectly($"Unequipped {so.itemName}");
+                Refresh();
             }
+            return;
         }
 
-        // -----------------------------------------------------
-        // FROM HERE ON, THE ITEM IS NOT EQUIPPED → EQUIP IT
-        // -----------------------------------------------------
-
+        // --- EQUIP / CONSUME CHECK ---
         switch (so)
         {
-            // --------------------------
-            // CONSUMABLES
-            // --------------------------
             case ConsumableItemSO consumable:
-                // Only allow Food or Potion types here
-                if (consumable.consumableType == ConsumableType.Food || consumable.consumableType == ConsumableType.Potion)
-                {
-                    Debug.Log($"Using consumable: {consumable.itemName}");
-
-                    PlayerStateManager.Instance.addHealth(consumable.healthAmount);
-                    PlayerStateManager.Instance.addStamina(consumable.staminaAmount);
-
-                    AudioManager.Instance.PlaySFX(consumable.useSound);
-
-                    inventory.RemoveItem(item);
-
-                    // 2. Add the empty container back
-                    if (consumable.returnItem != null)
-                    {
-                        bool added = inventory.AddItem(consumable.returnItem, 1);
-                        if (!added)
-                        {
-                            // Hardcore mechanic: If inventory is full, the container is "dropped" (lost)
-                            MessageManager.Instance.ShowMessageDirectly("Inventory full! Discarded empty container.", null);
-
-
-                            Vector3 spawnPos = PlayerReference.PlayerTransform.position;
-
-                            ItemInstance singleDrop = new ItemInstance(consumable.returnItem, 1);
-                            singleDrop.currentDurability = item.currentDurability;
-
-                            ItemSpawner.Instance.SpawnWorldItem(singleDrop, spawnPos);
-                        }
-                    }
-
-                    Sprite infoIcon = Resources.Load<Sprite>("UI/Icons/heal");
-                    MessageManager.Instance.ShowMessageDirectly(
-                        $"+{consumable.healthAmount} HP   +{consumable.staminaAmount} STAMINA",
-                        infoIcon
-                    );
-
-
-                    Refresh();
-                }
-                else if (consumable.consumableType == ConsumableType.FirstAid)
-                {
-                    InjuryManager injuryManager = PlayerStateManager.Instance.GetComponent<InjuryManager>();
-                    Injury target = injuryManager.GetFirstTreatableInjury();
-
-                    if (target != null)
-                    {
-                        Debug.Log($"Quick-using First Aid on: {target.bodyPart}");
-
-                        // Apply the bandage using your existing function
-                        injuryManager.ApplyBandage(target);
-
-                        // Remove item from inventory
-                        inventory.RemoveItem(item);
-
-                        // Notify Player
-                        Sprite infoIcon = Resources.Load<Sprite>("UI/Icons/heal"); // Ensure this path exists
-                        MessageManager.Instance.ShowMessageDirectly(
-                            $"Bandaged {target.bodyPart} ({target.type})",
-                            infoIcon
-                        );
-
-                        Refresh();
-                    }
-                    else
-                    {
-                        // Optional: Tell the player they don't need a bandage
-                        MessageManager.Instance.ShowMessageDirectly("No injuries require bandaging.", null);
-                        Debug.Log("FirstAid clicked but no treatable injuries found.");
-                    }
-                }
+                HandleConsumableUse(item, consumable, messageService);
                 break;
 
-            // --------------------------
-            //  DOCUMENTS
-            // --------------------------
-            case DocumentSO document:
+            case DocumentSO:
                 OnDocumentUsed(item);
                 break;
 
-
-            // --------------------------
-            // WEAPONS
-            // --------------------------
             case WeaponItemSO weapon:
                 if (item.currentDurability <= 0)
                 {
-                    MessageManager.Instance.ShowMessageDirectly($"{weapon.itemName} is broken and cannot be equipped!");
+                    messageService?.ShowMessageDirectly($"{weapon.itemName} is broken and cannot be equipped!");
                     return;
                 }
-
-                EquipmentManager.Instance.EquipMainHand(item);
-                MessageManager.Instance.ShowMessageDirectly($"Equipped {weapon.itemName}");
-                Refresh();
+                if (equipmentService != null)
+                {
+                    equipmentService.EquipMainHand(item);
+                    messageService?.ShowMessageDirectly($"Equipped {weapon.itemName}");
+                    Refresh();
+                }
                 break;
 
-            // --------------------------
-            // SHIELD
-            // --------------------------
             case ShieldItemSO shield:
                 if (item.currentDurability <= 0)
                 {
-                    MessageManager.Instance.ShowMessageDirectly($"{shield.itemName} is destroyed!");
+                    messageService?.ShowMessageDirectly($"{shield.itemName} is destroyed!");
                     return;
                 }
-
-                EquipmentManager.Instance.EquipShield(item);
-                MessageManager.Instance.ShowMessageDirectly($"Equipped {shield.itemName}");
-                Refresh();
+                if (equipmentService != null)
+                {
+                    equipmentService.EquipShield(item);
+                    messageService?.ShowMessageDirectly($"Equipped {shield.itemName}");
+                    Refresh();
+                }
                 break;
 
-            // --------------------------
-            // ARMOR
-            // --------------------------
             case ArmorItemSO armor:
                 if (item.currentDurability <= 0)
                 {
-                    MessageManager.Instance.ShowMessageDirectly($"{armor.itemName} is too damaged to wear!");
+                    messageService?.ShowMessageDirectly($"{armor.itemName} is too damaged to wear!");
                     return;
                 }
-
-                EquipmentManager.Instance.EquipArmor(item);
-                MessageManager.Instance.ShowMessageDirectly($"Equipped {armor.itemName}");
-                Refresh();
+                if (equipmentService != null)
+                {
+                    equipmentService.EquipArmor(item);
+                    messageService?.ShowMessageDirectly($"Equipped {armor.itemName}");
+                    Refresh();
+                }
                 break;
 
-            // --------------------------
-            // SCISSORS (ID 20)
-            // --------------------------
-            case ItemSO genericItem when genericItem.ID == 20:
+            case ItemSO genericItem when genericItem.ID == 20: // Scissors
                 if (item.currentDurability <= 0)
                 {
-                    MessageManager.Instance.ShowMessageDirectly("These scissors are broken and cannot cut anything.");
+                    messageService?.ShowMessageDirectly("These scissors are broken and cannot cut anything.");
                     return;
                 }
-
-                Debug.Log($"Using special item: {genericItem.itemName}");
                 OnRipButtonPressed(item);
                 break;
 
-            // --------------------------
-            // DEFAULT
-            // --------------------------
             default:
-                Debug.Log($"Item cannot be used: {so.itemName}");
-                MessageManager.Instance.ShowMessageDirectly($"{so.itemName} cannot be used");
+                messageService?.ShowMessageDirectly($"{so.itemName} cannot be used");
                 break;
+        }
+    }
+
+    private void HandleConsumableUse(ItemInstance item, ConsumableItemSO consumable, IMessageService messageService = null)
+    {
+        // Fallback service resolution if called independently without passing the service
+        if (messageService == null)
+        {
+            ServiceLocator.Current.TryGet<IMessageService>(out messageService);
+        }
+
+        if (!ServiceLocator.Current.TryGet<IPlayerStateService>(out var playerState))
+        {
+            Debug.LogError("[InventoryWindow] IPlayerStateService is missing!");
+            return;
+        }
+
+        if (consumable.consumableType == ConsumableType.Food || consumable.consumableType == ConsumableType.Potion)
+        {
+            playerState.AddHealth(consumable.healthAmount);
+            playerState.AddStamina(consumable.staminaAmount);
+
+            if (ServiceLocator.Current.TryGet<IGameAudioService>(out var audioService))
+            {
+                audioService.PlaySFX(consumable.useSound);
+            }
+
+            inventory.RemoveItem(item);
+
+            if (consumable.returnItem != null)
+            {
+                bool added = inventory.AddItem(consumable.returnItem, 1);
+                if (!added)
+                {
+                    messageService?.ShowMessageDirectly("Inventory full! Discarded empty container.");
+                    Vector3 spawnPos = PlayerReference.PlayerTransform.position;
+                    ItemInstance singleDrop = new ItemInstance(consumable.returnItem, 1)
+                    {
+                        currentDurability = item.currentDurability
+                    };
+                    ItemSpawner.Instance.SpawnWorldItem(singleDrop, spawnPos);
+                }
+            }
+
+            Sprite infoIcon = Resources.Load<Sprite>("UI/Icons/heal");
+            messageService?.ShowMessageWithSprite(
+                $"+{consumable.healthAmount} HP   +{consumable.staminaAmount} STAMINA",
+                infoIcon,
+                useLocalization: false
+            );
+
+            Refresh();
+        }
+        else if (consumable.consumableType == ConsumableType.FirstAid)
+        {
+            InjuryManager injuryManager = playerState.GameObject.GetComponent<InjuryManager>();
+            Injury target = injuryManager?.GetFirstTreatableInjury();
+
+            if (target != null)
+            {
+                injuryManager.ApplyBandage(target);
+                inventory.RemoveItem(item);
+
+                Sprite infoIcon = Resources.Load<Sprite>("UI/Icons/heal");
+                messageService?.ShowMessageWithSprite(
+                    $"Bandaged {target.bodyPart} ({target.type})",
+                    infoIcon,
+                    useLocalization: false
+                );
+
+                Refresh();
+            }
+            else
+            {
+                messageService?.ShowMessageDirectly("No injuries require bandaging.");
+            }
         }
     }
 
     public void OnDocumentUsed(ItemInstance item)
     {
-        // 1. Spawn the Window
-        GameObject windowGo = WindowManager.Instance.OpenWindow(DocumentWindowPrefab);
-
-        // 2. Get the Component
-        DocumentWindow docWindowInstance = windowGo.GetComponent<DocumentWindow>();
-
-        // 3. Initialize
-        if (docWindowInstance != null)
+        GameObject windowGO = OpenWindow(documentWindowPrefab);
+        if (windowGO != null && windowGO.TryGetComponent<DocumentWindow>(out var docWindow))
         {
-            docWindowInstance.OpenDocument(item);
+            docWindow.OpenDocument(item);
         }
     }
 
     public void OnRipButtonPressed(ItemInstance item)
     {
-        Debug.Log($"Rip Clothing pressed using {item.itemSO.itemName}");
-
-        // 1. Spawn the Window through WindowManager
-        GameObject windowGO = WindowManager.Instance.OpenWindow(ripClothingWindowPrefab);
-
-        // 2. Get the specific RipClothingWindow component
-        RipClothingWindow ripWindowInstance = windowGO.GetComponent<RipClothingWindow>();
-
-        // 3. Initialize the window with the scissors and the current inventory
-        if (ripWindowInstance != null)
+        GameObject windowGO = OpenWindow(ripClothingWindowPrefab);
+        if (windowGO != null && windowGO.TryGetComponent<RipClothingWindow>(out var ripWindow))
         {
-            ripWindowInstance.OpenRipWindow(item, inventory);
+            ripWindow.OpenRipWindow(item, inventory);
         }
     }
 
     public void OnMoveButtonPressed(ItemInstance item)
     {
-        Debug.Log($"Move pressed for {item.itemSO.itemName}");
-
-        pendingMoveItem = item;
-
-        // Spawn MoveWindow through WindowManager
-        GameObject windowGO = WindowManager.Instance.OpenWindow(moveWindow);
-
-        // Get MoveWindow component from the instantiated window
-        MoveWindow moveWindowInstance = windowGO.GetComponent<MoveWindow>();
-
-        // Tell the window which item is being moved
-        moveWindowInstance.OpenMoveWindow(item, inventory, player);
+        GameObject windowGO = OpenWindow(moveWindow);
+        if (windowGO != null && windowGO.TryGetComponent<MoveWindow>(out var moveWindowInstance))
+        {
+            moveWindowInstance.OpenMoveWindow(item, inventory, player);
+        }
     }
-
-
 
     public void OnDropButtonPressed(ItemInstance item, bool showWindow)
     {
+        if (item == null || inventory == null) return;
+
         if (showWindow && item.quantity > 1)
         {
-            // 1) Logic to open your DropWindow prefab (similar to MoveWindow)
-            // Pass 'item' to it so it can set the slider max
-            Debug.Log("Opening Drop Quantity Window...");
-
-            pendingDropItem = item;
-
-            // Spawn MoveWindow through WindowManager
-            GameObject windowGO = WindowManager.Instance.OpenWindow(dropWindow);
-
-            // Get MoveWindow component from the instantiated window
-            DropWindow dropWindowInstance = windowGO.GetComponent<DropWindow>();
-
-            // Tell the window which item is being moved
-            dropWindowInstance.OpenDropWindow(item, inventory, player);
+            GameObject windowGO = OpenWindow(dropWindow);
+            if (windowGO != null && windowGO.TryGetComponent<DropWindow>(out var dropWindowInstance))
+            {
+                dropWindowInstance.OpenDropWindow(item, inventory, player);
+            }
         }
         else
         {
-
-            if (inventory == null) return;
-
-            // ---------------------------
-            // UNEQUIP IF NECESSARY
-            // ---------------------------
-            if (item.isEquipped)
+            if (item.isEquipped && ServiceLocator.Current.TryGet<IEquipmentService>(out var equipmentService))
             {
-                switch (item.itemSO)
-                {
-                    case ShieldItemSO shield:
-                        EquipmentManager.Instance.UnequipShield(item);
-                        break;
-                    case ArmorItemSO armor:
-                        EquipmentManager.Instance.UnequipArmor(item);
-                        break;
-                    case WeaponItemSO weapon:
-                        EquipmentManager.Instance.UnequipMainHand(item);
-                        break;
-
-                }
+                equipmentService.Unequip(item);
             }
 
-            // 1. Determine spawn position
             Vector3 spawnPos = PlayerReference.PlayerTransform.position;
+            ItemInstance singleDrop = new ItemInstance(item.itemSO, 1)
+            {
+                currentDurability = item.currentDurability
+            };
 
-            // 2. CREATE A TEMPORARY INSTANCE FOR THE GROUND
-            // We create a "copy" that only represents the 1 item being dropped.
-            ItemInstance singleDrop = new ItemInstance(item.itemSO, 1);
-            singleDrop.currentDurability = item.currentDurability;
-
-            // 3. Spawn using the temporary "single" instance
             ItemSpawner.Instance.SpawnWorldItem(singleDrop, spawnPos);
-
-            // 4. Remove exactly 1 from the inventory stack
             inventory.RemoveItem(item, 1);
 
             Refresh();
         }
     }
-}
 
+    // -----------------------
+    // HELPERS
+    // -----------------------
+    private void ClearRowContainer()
+    {
+        if (rowContainer == null) return;
+
+        foreach (Transform child in rowContainer)
+        {
+            Destroy(child.gameObject);
+        }
+    }
+
+    private GameObject OpenWindow(GameObject prefab)
+    {
+        if (prefab == null)
+        {
+            Debug.LogError("[InventoryWindow] Attempted to open null window prefab!");
+            return null;
+        }
+
+        if (ServiceLocator.Current.TryGet<IWindowService>(out var windowService))
+        {
+            return windowService.OpenWindow(prefab);
+        }
+
+        Debug.LogError("[InventoryWindow] IWindowService is not registered in ServiceLocator!");
+        return null;
+    }
+
+    private bool ValidateContainerAndPrefab(GameObject prefab)
+    {
+        if (rowContainer == null || prefab == null)
+        {
+            Debug.LogError("[InventoryWindow] Row container or required prefab is missing!");
+            return false;
+        }
+        return true;
+    }
+}

@@ -1,3 +1,4 @@
+using TitusGames.Framework;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,10 +14,11 @@ public class SaveButtonHandler : MonoBehaviour
 
     private void Update()
     {
-        if (UIManager.Instance == null) return;
+        ServiceLocator.Current.TryGet<IUIManagerService>(out var uimanagerService);
+        if (uimanagerService == null) return;
 
         // The button is interactable ONLY if we are NOT in battle
-        bool canSave = !UIManager.Instance.IsInBattle;
+        bool canSave = !uimanagerService.IsInBattle;
 
         // Only update if state changed to save performance
         if (saveButton.interactable != canSave)
@@ -28,10 +30,12 @@ public class SaveButtonHandler : MonoBehaviour
     public void OnSaveButtonPressed()
     {
         // Double check just in case
-        if (UIManager.Instance.IsInBattle) return;
+        ServiceLocator.Current.TryGet<IUIManagerService>(out var uimanagerService);
+        if (uimanagerService.IsInBattle) return;
 
         Debug.Log("Save button pressed");
-        MessageManager.Instance.ShowMessageDirectly("Game saved");
+        ServiceLocator.Current.TryGet<IMessageService>(out var messageService);
+        messageService.ShowMessageDirectly("Game saved");
         SaveSystem.SaveGame();
     }
 }

@@ -1,10 +1,11 @@
+using TitusGames.Framework;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UIManager : MonoBehaviour
+public class UIManager : MonoBehaviour, IUIManagerService
 {
-    public static UIManager Instance;
+    public GameObject GameObject => gameObject;
 
     [Header("Window Roots")]
     [SerializeField] private Transform generalWindowRoot; // In GeneralCanvas
@@ -37,10 +38,9 @@ public class UIManager : MonoBehaviour
 
     private void Awake()
     {
-        if (Instance == null) Instance = this;
-        else Destroy(gameObject);
+        ServiceLocator.Current.Register<IUIManagerService>(this);
 
-        if(playerCoordinatesText != null)
+        if (playerCoordinatesText != null)
             playerCoordinatesText.gameObject.SetActive(false);
 
         if (GameSettings.Instance != null)
@@ -51,6 +51,11 @@ public class UIManager : MonoBehaviour
 
         // Initialization: Start in Exploration mode
         InitializeUI();
+    }
+
+    private void OnDestroy()
+    {
+        ServiceLocator.Current.Unregister<IUIManagerService>();
     }
 
     private void InitializeUI()
@@ -84,7 +89,10 @@ public class UIManager : MonoBehaviour
         generalCanvas.enabled = false; // Or keep true if you want background UI
         battleCanvas.enabled = true;
 
-        WindowManager.Instance.RegisterUIRoot(battleWindowRoot);
+        if (ServiceLocator.Current.TryGet<IWindowService>(out var windowManager))
+        {
+            windowManager.RegisterUIRoot(battleWindowRoot);
+        }
 
         UpdateJoystickVisibility();
     }
@@ -95,7 +103,10 @@ public class UIManager : MonoBehaviour
         generalCanvas.enabled = true;
         battleCanvas.enabled = false;
 
-        WindowManager.Instance.RegisterUIRoot(generalWindowRoot);
+        if (ServiceLocator.Current.TryGet<IWindowService>(out var windowManager))
+        {
+            windowManager.RegisterUIRoot(generalWindowRoot);
+        }
 
         UpdateJoystickVisibility();
     }

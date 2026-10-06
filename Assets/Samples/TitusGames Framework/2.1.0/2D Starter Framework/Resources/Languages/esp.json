@@ -1,0 +1,20 @@
+﻿{
+  "title": "Nombre del Juego",
+  "newgame": "Nuevo Juego",
+  "highscores": "Puntajes Máximos",
+  "settings": "Ajustes",
+  "exit": "Salir",
+  "info": "Acerca del juego",
+  "mainmenu": "Menú principal",
+  "language": "Idioma",
+  "audio": "Audio",
+  "music": "Música",
+  "sfx": "Efectos de sonido",
+  "mute": "Silenciar",
+  "testmessage": "Este es un mensaje de prueba.",
+
+  "hun": "Húngaro",
+  "eng": "Inglés",
+  "rom": "Rumano",
+  "esp": "Español"
+}

@@ -1,3 +1,4 @@
+using TitusGames.Framework;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -24,7 +25,7 @@ public class DocumentWindow : MonoBehaviour
     // Add more sprites here as you get the art (scrollBackground, etc.)
 
     [Header("Audio")]
-    public AudioClip pageTurnSound;
+    public string pageTurnSound = "turnpage";
 
     private ItemInstance currentItem;
     private DocumentSO docData;
@@ -107,7 +108,9 @@ public class DocumentWindow : MonoBehaviour
         // Bounds check
         if (nextIndex < 0 || nextIndex > docData.papers.Count) return;
 
-        AudioManager.Instance.PlaySFX(pageTurnSound);
+        ServiceLocator.Current.TryGet<IAudioService>(out var audioService);
+
+        audioService.PlaySFX(pageTurnSound);
 
         currentPaperIndex = nextIndex;
         UpdateBookDisplay();
@@ -157,8 +160,10 @@ public class DocumentWindow : MonoBehaviour
 
         // ADD THIS:
         // We check both pages currently visible on the screen!
-        if (leftPaperData != null) KnowledgeManager.Instance.TryReadPage(leftPaperData.backSide);
-        if (rightPaperData != null) KnowledgeManager.Instance.TryReadPage(rightPaperData.frontSide);
+        ServiceLocator.Current.TryGet<IKnowledgeService>(out var knowledgeService);
+
+        if (leftPaperData != null) knowledgeService.TryReadPage(leftPaperData.backSide);
+        if (rightPaperData != null) knowledgeService.TryReadPage(rightPaperData.frontSide);
     }
     #endregion
 
@@ -166,7 +171,8 @@ public class DocumentWindow : MonoBehaviour
     #region Single Page Logic
     public void ToggleFlip()
     {
-        AudioManager.Instance.PlaySFX(pageTurnSound);
+        ServiceLocator.Current.TryGet<IAudioService>(out var audioService);
+        audioService.PlaySFX(pageTurnSound);
 
         showingFront = !showingFront;
         UpdateSingleDisplay();
@@ -194,7 +200,8 @@ public class DocumentWindow : MonoBehaviour
             string sideLabelText = showingFront ? "Frontside" : "Backside";
             activeSingleController.Refresh(sideData, sideInst, sideData.background != null, sideLabelText);
 
-            KnowledgeManager.Instance.TryReadPage(sideData);
+            ServiceLocator.Current.TryGet<IKnowledgeService>(out var knowledgeService);
+            knowledgeService.TryReadPage(sideData);
         }
     }
 
@@ -215,6 +222,7 @@ public class DocumentWindow : MonoBehaviour
 
     public void CloseWindow()
     {
-        WindowManager.Instance.CloseTopWindow();
+        ServiceLocator.Current.TryGet<IWindowService>(out var windowService);
+        windowService.CloseTopWindow();
     }
 }

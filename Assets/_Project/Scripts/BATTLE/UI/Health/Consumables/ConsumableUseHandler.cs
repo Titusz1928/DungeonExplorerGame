@@ -1,3 +1,4 @@
+using TitusGames.Framework;
 using UnityEngine;
 
 public static class ConsumableUseHandler
@@ -6,34 +7,48 @@ public static class ConsumableUseHandler
     {
         if (item.itemSO is not ConsumableItemSO consumable) return;
 
-        Inventory inventory = PlayerStateManager.Instance.GetComponent<Inventory>();
+        ServiceLocator.Current.TryGet<IPlayerStateService>(out var playerState);
+        ServiceLocator.Current.TryGet<IMessageService>(out var messageService);
+
+        if (playerState == null)
+        {
+            Debug.LogError("[ConsumableUseHandler] IPlayerStateService is not registered!");
+            return;
+        }
+
+        // Access attached components cleanly via the interface's GameObject property
+        Inventory inventory = playerState.GameObject.GetComponent<Inventory>();
+        if (inventory == null)
+        {
+            Debug.LogError("[ConsumableUseHandler] Inventory component missing on player object!");
+            return;
+        }
+
         bool itemUsed = false;
 
         if (consumable.consumableType == ConsumableType.Food || consumable.consumableType == ConsumableType.Potion)
         {
-            PlayerStateManager.Instance.addHealth(consumable.healthAmount);
-            PlayerStateManager.Instance.addStamina(consumable.staminaAmount);
+            playerState.AddHealth(consumable.healthAmount);
+            playerState.AddStamina(consumable.staminaAmount);
 
-            MessageManager.Instance.ShowMessageDirectly(
-                $"+{consumable.healthAmount} HP  +{consumable.staminaAmount} STAMINA",
-                Resources.Load<Sprite>("UI/Icons/heal"));
+            messageService?.ShowMessageDirectly( $"+{consumable.healthAmount} HP  +{consumable.staminaAmount} STAMINA", "UI/Icons/heal");
 
             itemUsed = true;
         }
         else if (consumable.consumableType == ConsumableType.FirstAid)
         {
-            InjuryManager injuryManager = PlayerStateManager.Instance.GetComponent<InjuryManager>();
-            Injury target = injuryManager.GetFirstTreatableInjury();
+            InjuryManager injuryManager = playerState.GameObject.GetComponent<InjuryManager>();
+            Injury target = injuryManager?.GetFirstTreatableInjury();
 
             if (target != null)
             {
                 injuryManager.ApplyBandage(target);
-                MessageManager.Instance.ShowMessageDirectly($"Bandaged {target.bodyPart}", Resources.Load<Sprite>("UI/Icons/heal"));
+                messageService?.ShowMessageDirectly($"Bandaged {target.bodyPart}", "UI/Icons/heal");
                 itemUsed = true;
             }
             else
             {
-                MessageManager.Instance.ShowMessageDirectly("No injuries require bandaging.", null);
+                messageService?.ShowMessageDirectly("No injuries require bandaging.", null);
             }
         }
 
@@ -43,10 +58,14 @@ public static class ConsumableUseHandler
             HandlePostUseRefreshes();
 
             // Battle turn economy
-            if (UIManager.Instance.IsInBattle)
+            ServiceLocator.Current.TryGet<IUIManagerService>(out var uimanagerService);
+            if (uimanagerService.IsInBattle)
             {
-                BattleManager.Instance.SetPendingAction(PlayerActionType.Treatment);
-                BattleManager.Instance.OnEndTurnPressed();
+                if (ServiceLocator.Current.TryGet<IBattleService>(out var battleService))
+                {
+                    battleService.SetPendingAction(PlayerActionType.Treatment);
+                    battleService.EndTurn();
+                }
             }
         }
     }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using TitusGames.Framework;
 using UnityEditor;
 using UnityEngine;
 
@@ -212,11 +213,13 @@ public class NoiseManager : MonoBehaviour
     float ApplySneakModifiers(float baseNoise)
     {
         // Equipment influence (makes noise stronger)
-        float equipmentSneak = EquipmentManager.Instance.GetTotalSneak();
+        ServiceLocator.Current.TryGet<IEquipmentService>(out var equipmentService);
+        float equipmentSneak = equipmentService.GetTotalSneak();
         float equipmentModifier = 1f + (equipmentSneak * 0.005f); // e.g., +0.5% noise per equipment point
 
         // Stealth skill (reduces noise)
-        int stealthLevel = PlayerSkillManager.Instance.GetLevel(PlayerSkill.Stealth);
+        ServiceLocator.Current.TryGet<IPlayerSkillService>(out var playerSkillService);
+        int stealthLevel = playerSkillService.GetLevel(PlayerSkill.Stealth);
         float stealthModifier = Mathf.Lerp(1f, 0.5f, stealthLevel / 10f); // reduces noise with skill
 
         return baseNoise * equipmentModifier * stealthModifier;

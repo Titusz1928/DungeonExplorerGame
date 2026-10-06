@@ -1,3 +1,4 @@
+using TitusGames.Framework;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -53,7 +54,8 @@ public class InjuryRowPrefab : MonoBehaviour
         if (treatInjuryWindowPrefab != null)
         {
             // 1. Open window
-            GameObject windowInstance = WindowManager.Instance.OpenWindow(treatInjuryWindowPrefab);
+            ServiceLocator.Current.TryGet<IWindowService>(out var windowService);
+            GameObject windowInstance = windowService.OpenWindow(treatInjuryWindowPrefab);
 
             // 2. Pass the specific LINKED INJURY instance
             windowInstance.GetComponent<TreatInjuryWindow>().OpenTreatWindow(linkedInjury);

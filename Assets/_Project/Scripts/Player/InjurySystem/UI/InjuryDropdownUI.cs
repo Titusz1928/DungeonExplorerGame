@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using TitusGames.Framework;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
@@ -63,9 +64,10 @@ public class InjuryDropdownUI : MonoBehaviour
         // If player is null, try to find the Instance dynamically
         if (player == null)
         {
-            if (PlayerStateManager.Instance != null)
+            ServiceLocator.Current.TryGet<IPlayerStateService>(out var playerStateService);
+            if (playerStateService != null)
             {
-                player = PlayerStateManager.Instance.gameObject;
+                player = playerStateService.GameObject;
             }
             else
             {

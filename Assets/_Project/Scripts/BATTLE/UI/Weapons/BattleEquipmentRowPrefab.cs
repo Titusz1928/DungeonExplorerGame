@@ -1,3 +1,4 @@
+using TitusGames.Framework;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -52,20 +53,30 @@ public class BattleEquipmentRowPrefab : MonoBehaviour, IItemRow
 
     private void OnActionPressed()
     {
+
+        ServiceLocator.Current.TryGet<IEquipmentService>(out var equipmentService);
         // 1. Logic first
         if (linkedItem.isEquipped)
-            EquipmentManager.Instance.Unequip(linkedItem);
+        {
+            equipmentService.Unequip(linkedItem);
+        }
         else
-            EquipmentManager.Instance.Equip(linkedItem);
+        {
+            equipmentService.Equip(linkedItem);
+        }
 
         // 2. Refresh UI while it's still visible/active
         RefreshAllDropdowns();
 
         // 3. Then end the turn (which deactivates the panel)
-        if (UIManager.Instance.IsInBattle)
+        ServiceLocator.Current.TryGet<IUIManagerService>(out var uimanagerService);
+        if (uimanagerService.IsInBattle)
         {
-            BattleManager.Instance.SetPendingAction(PlayerActionType.EquipmentChange);
-            BattleManager.Instance.OnEndTurnPressed();
+            if (ServiceLocator.Current.TryGet<IBattleService>(out var battleService))
+            {
+                battleService.SetPendingAction(PlayerActionType.EquipmentChange);
+                battleService.EndTurn();
+            }
         }
     }
 

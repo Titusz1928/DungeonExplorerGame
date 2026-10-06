@@ -1,0 +1,21 @@
+{
+  "title": "Game Name",
+  "newgame": "New Game",
+  "highscores": "High Scores",
+  "settings": "Settings",
+  "exit": "Exit",
+  "info": "About the game",
+  "mainmenu": "Main menu",
+  "language": "Language",
+  "audio": "Audio",
+  "music": "Music",
+  "sfx": "Sound effects",
+  "mute": "Mute",
+  "testmessage": "this is a test message",
+
+
+  "hun": "Hungarian",
+  "eng": "English",
+  "rom": "Romanian",
+  "esp": "Spanish"
+}

@@ -1,5 +1,6 @@
-using UnityEngine;
+using TitusGames.Framework;
 using TMPro;
+using UnityEngine;
 
 public class EquipmentLabelUI : MonoBehaviour
 {
@@ -13,13 +14,13 @@ public class EquipmentLabelUI : MonoBehaviour
 
     public void RefreshLabels()
     {
-        EquipmentManager em = EquipmentManager.Instance;
-        if (em == null) return;
+        ServiceLocator.Current.TryGet<IEquipmentService>(out var equipmentService);
+        if (equipmentService == null) return;
 
         // Update Main Hand - Check both the instance and the SO
-        if (em.mainHandWeapon != null && em.mainHandWeapon.itemSO != null)
+        if (equipmentService.mainHandWeapon != null && equipmentService.mainHandWeapon.itemSO != null)
         {
-            mainHandText.text = em.mainHandWeapon.itemSO.itemName;
+            mainHandText.text = equipmentService.mainHandWeapon.itemSO.itemName;
         }
         else
         {
@@ -27,9 +28,9 @@ public class EquipmentLabelUI : MonoBehaviour
         }
 
         // Update Off Hand - Check both the instance and the SO
-        if (em.offHandShield != null && em.offHandShield.itemSO != null)
+        if (equipmentService.offHandShield != null && equipmentService.offHandShield.itemSO != null)
         {
-            offHandText.text = em.offHandShield.itemSO.itemName;
+            offHandText.text = equipmentService.offHandShield.itemSO.itemName;
         }
         else
         {

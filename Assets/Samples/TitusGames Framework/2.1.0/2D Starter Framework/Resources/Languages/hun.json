@@ -1,0 +1,20 @@
+{
+  "title": "Game Name",
+  "newgame": "Új játék",
+  "highscores": "Rekordok",
+  "settings": "Beállitások",
+  "exit": "Kilépés",
+  "info": "A játékról",
+  "mainmenu": "Főmenü",
+  "language": "Nyelv",
+  "audio": "Hang",
+  "music": "Zene",
+  "sfx": "Hang effektek",
+  "mute": "Némítás",
+  "testmessage": "ez egy teszt uzenet",
+
+  "hun": "Magyar",
+  "eng": "Angol",
+  "rom": "Román",
+  "esp": "Spanyol"
+}

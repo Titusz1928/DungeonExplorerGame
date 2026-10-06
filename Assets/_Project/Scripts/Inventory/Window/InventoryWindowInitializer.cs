@@ -1,3 +1,4 @@
+using TitusGames.Framework;
 using UnityEngine;
 
 public class InventoryWindowInitializer : MonoBehaviour
@@ -6,7 +7,9 @@ public class InventoryWindowInitializer : MonoBehaviour
 
     public void OpenInventoryWindow()
     {
-        GameObject windowObj = WindowManager.Instance.OpenWindow(inventoryWindowPrefab);
+        ServiceLocator.Current.TryGet<IWindowService>(out var windowService);
+
+        GameObject windowObj = windowService.OpenWindow(inventoryWindowPrefab);
 
         InventoryWindow invWindow = windowObj.GetComponent<InventoryWindow>();
 

@@ -1,8 +1,9 @@
-﻿using UnityEngine;
-using TMPro;
-using UnityEngine.UI;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using TitusGames.Framework;
+using TMPro;
+using UnityEngine;
+using UnityEngine.UI;
 
 public class DebugConsole : MonoBehaviour
 {
@@ -18,7 +19,7 @@ public class DebugConsole : MonoBehaviour
     private Dictionary<string, Action<string[]>> commands;
 
     //command history (saved while in game scene)
-    private List<string> history => WindowManager.Instance.debugHistory;
+    private readonly List<string> history = new List<string>();
 
 
     private void Awake()
@@ -118,23 +119,30 @@ public class DebugConsole : MonoBehaviour
 
     private void CmdToggleVisibility(string[] args)
     {
-        UIManager.Instance.changeVisibilityUIStatus();
+        if (ServiceLocator.Current.TryGet<IUIManagerService>(out var uiManager))
+        {
+            uiManager.changeVisibilityUIStatus();
+        }
     }
 
     private void CmdMoreHUD(string[] args)
     {
-        UIManager.Instance.activateExtraHUD();
+        if (ServiceLocator.Current.TryGet<IUIManagerService>(out var uiManager))
+        {
+            uiManager.activateExtraHUD();
+        }
     }
 
     private void CmdLessHUD(string[] args)
     {
-        UIManager.Instance.deactivateExtraHUD();
+        if (ServiceLocator.Current.TryGet<IUIManagerService>(out var uiManager))
+        {
+            uiManager.deactivateExtraHUD();
+        }
     }
 
     private void CmdAddInjury(string[] args)
     {
-        // Format: /injury <bodyPart> <type> <severity>
-        // Example: /injury Torso Cut 50
         if (args.Length < 4)
         {
             AddHistory("Usage: /injury <Part> <Type> <Severity>");
@@ -145,9 +153,19 @@ public class DebugConsole : MonoBehaviour
             Enum.TryParse(args[2], true, out InjuryType type) &&
             float.TryParse(args[3], out float severity))
         {
-            var manager = PlayerStateManager.Instance.GetComponent<InjuryManager>();
-            manager.AddInjury(part, type, severity);
-            AddHistory($"Added {type} to {part} with severity {severity}");
+            if (ServiceLocator.Current.TryGet<IPlayerStateService>(out var playerState))
+            {
+                var manager = playerState.GameObject.GetComponent<InjuryManager>();
+                if (manager != null)
+                {
+                    manager.AddInjury(part, type, severity);
+                    AddHistory($"Added {type} to {part} with severity {severity}");
+                }
+                else
+                {
+                    AddHistory("InjuryManager component not found on player object.");
+                }
+            }
         }
         else
         {
@@ -200,9 +218,11 @@ public class DebugConsole : MonoBehaviour
         }
 
 
-        PlayerSkillManager.Instance.TryAddXP(skillName, amount);
-
-        AddHistory($"Added {amount} XP to '{skillName}'.");
+        if (ServiceLocator.Current.TryGet<IPlayerSkillService>(out var skillService))
+        {
+            skillService.TryAddXP(skillName, amount);
+            AddHistory($"Added {amount} XP to '{skillName}'.");
+        }
     }
 
     private void CmdHealth(string[] args)
@@ -217,14 +237,18 @@ public class DebugConsole : MonoBehaviour
             AddHistory("Health must be a number");
             return;
         }
-        if (number < 0){
-            PlayerStateManager.Instance.inflictDamage(-number);
-        }
-        else
+        if (ServiceLocator.Current.TryGet<IPlayerStateService>(out var playerState))
         {
-            PlayerStateManager.Instance.addHealth(number);
+            if (number < 0)
+            {
+                playerState.InflictDamage(-number);
+            }
+            else
+            {
+                playerState.AddHealth(number);
+            }
+            AddHistory($"Player healed/damaged by ({number})");
         }
-        AddHistory($"Player healed by ({number})");
     }
 
     private void CmdTeleport(string[] args)

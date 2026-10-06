@@ -1,4 +1,5 @@
 using System;
+using TitusGames.Framework;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -35,7 +36,8 @@ public class WorldEntryUI : MonoBehaviour
     private void OpenEditWindow()
     {
         // 1. Tell WindowManager to instantiate the prefab
-        GameObject windowObj = WindowManager.Instance.OpenWindow(managementWindowPrefab);
+        ServiceLocator.Current.TryGet<IWindowService>(out var windowService);
+        GameObject windowObj = windowService.OpenWindow(managementWindowPrefab);
 
         // 2. Get the script component from the instantiated object
         WorldManagementPopup popupScript = windowObj.GetComponent<WorldManagementPopup>();

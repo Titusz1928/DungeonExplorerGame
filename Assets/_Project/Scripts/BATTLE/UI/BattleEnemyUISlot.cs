@@ -16,4 +16,25 @@ public class BattleEnemyUISlot : MonoBehaviour
     [Header("Anatomy Overlay")]
     public GameObject anatomyOverlayRoot; // The parent panel that holds the buttons
     public Transform anatomyButtonContainer;
+
+    [Header("Targeting Visuals")]
+    public GameObject targetHighlight;
+    public TMP_Text targetPartText;
+
+    public void SetTargetVisuals(bool isTargeted, string targetPartName)
+    {
+        if (targetHighlight != null)
+        {
+            targetHighlight.SetActive(isTargeted);
+        }
+
+        if (targetPartText != null)
+        {
+            targetPartText.gameObject.SetActive(isTargeted && !string.IsNullOrEmpty(targetPartName));
+            if (isTargeted && !string.IsNullOrEmpty(targetPartName))
+            {
+                targetPartText.text = targetPartName;
+            }
+        }
+    }
 }

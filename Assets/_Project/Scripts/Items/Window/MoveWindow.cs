@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using TitusGames.Framework;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -160,6 +161,7 @@ public class MoveWindow : MonoBehaviour
 
     public void CloseWindow()
     {
-        WindowManager.Instance.CloseTopWindow();
+        ServiceLocator.Current.TryGet<IWindowService>(out var windowService);
+        windowService.CloseTopWindow();
     }
 }

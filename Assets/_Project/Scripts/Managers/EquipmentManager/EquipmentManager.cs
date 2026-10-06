@@ -1,23 +1,17 @@
 ﻿using System.Collections.Generic;
+using TitusGames.Framework;
 using UnityEngine;
 
-public class EquipmentManager : MonoBehaviour
+public class EquipmentManager : MonoBehaviour, IEquipmentService
 {
-    public static EquipmentManager Instance;
-
     public PlayerPaperDoll playerVisuals;
 
-    // Armor is stored by Slot → Layer → Item
-    public Dictionary<ArmorSlot, Dictionary<ArmorLayer, ItemInstance>> equippedArmor;
-
-    // Weapons
-    public ItemInstance mainHandWeapon;
-    public ItemInstance offHandShield;
+    public Dictionary<ArmorSlot, Dictionary<ArmorLayer, ItemInstance>> equippedArmor { get; private set; }
+    public ItemInstance mainHandWeapon { get; private set; }
+    public ItemInstance offHandShield { get; private set; }
 
     private void Awake()
     {
-        Instance = this;
-
         // Initialize armor dictionary
         equippedArmor = new Dictionary<ArmorSlot, Dictionary<ArmorLayer, ItemInstance>>();
 
@@ -26,6 +20,16 @@ public class EquipmentManager : MonoBehaviour
             if (slot == ArmorSlot.None) continue;
             equippedArmor[slot] = new Dictionary<ArmorLayer, ItemInstance>();
         }
+    }
+
+    private void OnEnable()
+    {
+        ServiceLocator.Current.Register<IEquipmentService>(this);
+    }
+
+    private void OnDisable()
+    {
+        ServiceLocator.Current.Unregister<IEquipmentService>();
     }
 
     // -----------------------
@@ -40,8 +44,13 @@ public class EquipmentManager : MonoBehaviour
             return;
         }
 
-        if(playSound)
-            AudioManager.Instance.PlaySFX(armor.useSound);
+        if (playSound)
+        {
+            if (ServiceLocator.Current.TryGet<IGameAudioService>(out var audioService))
+            {
+                audioService.PlaySFX(armor.useSound);
+            }
+        }
 
         foreach (ArmorSlot slot in GetSlotsFromFlags(armor.slotsCovered))
         {
@@ -119,7 +128,8 @@ public class EquipmentManager : MonoBehaviour
         ArmorItemSO armor = item.itemSO as ArmorItemSO;
         if (armor == null) return;
 
-        AudioManager.Instance.PlaySFX(armor.useSound);
+        ServiceLocator.Current.TryGet<IGameAudioService>(out var audioService);
+        audioService.PlaySFX(armor.useSound);
 
         foreach (ArmorSlot slot in GetSlotsFromFlags(armor.slotsCovered))
         {

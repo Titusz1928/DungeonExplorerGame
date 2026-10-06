@@ -1,0 +1,20 @@
+{
+  "title": "Nume Joc",
+  "newgame": "Joc Nou",
+  "highscores": "Scoruri Mari",
+  "settings": "Setări",
+  "exit": "Ieșire",
+  "info": "Despre joc",
+  "mainmenu": "Meniu principal",
+  "language": "Limbă",
+  "audio": "Audio",
+  "music": "Muzică",
+  "sfx": "Efecte sonore",
+  "mute": "Fără sunet",
+  "testmessage": "acesta este un mesaj de test",
+
+  "hun": "Maghiară",
+  "eng": "Engleză",
+  "rom": "Română",
+  "esp": "Spaniolă"
+}

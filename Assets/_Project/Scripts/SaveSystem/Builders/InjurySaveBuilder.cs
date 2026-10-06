@@ -1,3 +1,4 @@
+using TitusGames.Framework;
 using UnityEngine;
 
 public static class InjurySaveBuilder
@@ -5,7 +6,8 @@ public static class InjurySaveBuilder
     public static InjurySaveData Build()
     {
         InjurySaveData saveData = new InjurySaveData();
-        var manager = PlayerStateManager.Instance.GetComponent<InjuryManager>();
+        ServiceLocator.Current.TryGet<IPlayerStateService>(out var playerStateService);
+        var manager = playerStateService.GameObject.GetComponent<InjuryManager>();
 
         if (manager == null) return saveData;
 

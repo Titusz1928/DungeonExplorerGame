@@ -1,6 +1,7 @@
+using TitusGames.Framework;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 
 public class DropWindow : MonoBehaviour
 {
@@ -51,11 +52,12 @@ public class DropWindow : MonoBehaviour
         // If we drop the whole stack and it's equipped, we must unequip it
         if (movingItem.isEquipped && amountToDrop >= movingItem.quantity)
         {
+            ServiceLocator.Current.TryGet<IEquipmentService>(out var equipmentService);
             switch (movingItem.itemSO)
             {
-                case ShieldItemSO shield: EquipmentManager.Instance.UnequipShield(movingItem); break;
-                case ArmorItemSO armor: EquipmentManager.Instance.UnequipArmor(movingItem); break;
-                case WeaponItemSO weapon: EquipmentManager.Instance.UnequipMainHand(movingItem); break;
+                case ShieldItemSO shield: equipmentService.UnequipShield(movingItem); break;
+                case ArmorItemSO armor: equipmentService.UnequipArmor(movingItem); break;
+                case WeaponItemSO weapon: equipmentService.UnequipMainHand(movingItem); break;
             }
         }
 
@@ -79,6 +81,7 @@ public class DropWindow : MonoBehaviour
 
     public void CloseWindow()
     {
-        WindowManager.Instance.CloseTopWindow();
+        ServiceLocator.Current.TryGet<IWindowService>(out var windowService);
+        windowService.CloseTopWindow();
     }
 }

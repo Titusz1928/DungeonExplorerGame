@@ -1,3 +1,4 @@
+using TitusGames.Framework;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -35,10 +36,16 @@ public class BodyPartTargetButton : MonoBehaviour
     {
         Debug.Log("[BODYPARTBTN] bodypart clicked");
         // Tell the BattleManager exactly what we hit
-        BattleManager.Instance.ManualTargetPart(mySlot, myPartName);
+        if (ServiceLocator.Current.TryGet<IBattleService>(out var battleService))
+        {
+            battleService.ManualTargetPart(mySlot, myPartName);
+        }
 
-        // Optionally close the overlay after picking
-        BattleUIManager.Instance.HideAnatomyOverlay();
+        // Resolve UI service and hide anatomy overlay
+        if (ServiceLocator.Current.TryGet<IBattleUIService>(out var uiService))
+        {
+            uiService.HideAnatomyOverlay();
+        }
     }
 
     //public void test()

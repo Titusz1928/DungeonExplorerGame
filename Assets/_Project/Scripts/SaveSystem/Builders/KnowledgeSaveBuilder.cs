@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using TitusGames.Framework;
 
 public static class KnowledgeSaveBuilder
 {
@@ -6,11 +7,12 @@ public static class KnowledgeSaveBuilder
     {
         KnowledgeSaveData data = new KnowledgeSaveData();
 
-        if (KnowledgeManager.Instance != null)
+        ServiceLocator.Current.TryGet<IKnowledgeService>(out var knowledgeService);
+        if (knowledgeService != null)
         {
             // Convert the HashSet to a List for the save file
-            data.readPageIDs = KnowledgeManager.Instance.GetReadPageIDs();
-            data.knownRecipeIDs = KnowledgeManager.Instance.GetKnownRecipeIDs();
+            data.readPageIDs = knowledgeService.GetReadPageIDs();
+            data.knownRecipeIDs = knowledgeService.GetKnownRecipeIDs();
         }
 
         return data;
@@ -18,9 +20,10 @@ public static class KnowledgeSaveBuilder
 
     public static void Apply(KnowledgeSaveData data)
     {
-        if (data == null || KnowledgeManager.Instance == null) return;
+        ServiceLocator.Current.TryGet<IKnowledgeService>(out var knowledgeService);
+        if (data == null || knowledgeService == null) return;
 
         // Pass the list back to the manager to rebuild the HashSet
-        KnowledgeManager.Instance.LoadKnowledge(data.readPageIDs, data.knownRecipeIDs);
+        knowledgeService.LoadKnowledge(data.readPageIDs, data.knownRecipeIDs);
     }
 }

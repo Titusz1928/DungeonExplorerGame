@@ -1,6 +1,7 @@
+using TitusGames.Framework;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 
 public class BattlePlayerInjuryRowPrefab : MonoBehaviour
 {
@@ -46,9 +47,37 @@ public class BattlePlayerInjuryRowPrefab : MonoBehaviour
     private void OnTreatClicked()
     {
         // Open the window using your existing prefab
-        GameObject windowObj = WindowManager.Instance.OpenWindow(BattleUIManager.Instance.treatInjuryWindow);
-        TreatInjuryWindow window = windowObj.GetComponent<TreatInjuryWindow>();
+        if (!ServiceLocator.Current.TryGet<IBattleUIService>(out var uiService) ||
+        !ServiceLocator.Current.TryGet<IWindowService>(out var windowService))
+        {
+            Debug.LogWarning("Required services for treating injury not found.");
+            return;
+        }
 
-        window.OpenTreatWindow(currentInjury);
+        // Open window using resolved services
+        GameObject windowObj = windowService.OpenWindow(uiService.treatInjuryWindow);
+        if (windowObj != null && windowObj.TryGetComponent<TreatInjuryWindow>(out var window))
+        {
+            window.OpenTreatWindow(currentInjury);
+        }
     }
+
+    /*
+    
+    private void OnTreatClicked()
+{
+    // 1. Fetch the window service from the Service Locator
+    var windowService = ServiceLocator.Current.Get<IWindowService>();
+    
+    // 2. Fetch the battle UI service (or manager) from the Service Locator
+    var battleUIService = ServiceLocator.Current.Get<IBattleUIService>(); // Or BattleUIManager if registered directly as a class
+
+    // 3. Open the window and initialize it
+    GameObject windowObj = windowService.OpenWindow(battleUIService.treatInjuryWindow);
+    TreatInjuryWindow window = windowObj.GetComponent<TreatInjuryWindow>();
+
+    window.OpenTreatWindow(currentInjury);
+}
+
+     */
 }

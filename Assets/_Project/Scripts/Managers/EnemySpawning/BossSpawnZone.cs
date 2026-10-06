@@ -1,4 +1,5 @@
 using System.Collections;
+using TitusGames.Framework;
 using UnityEngine;
 
 public class BossSpawnZone : EnemySpawnZone
@@ -86,22 +87,26 @@ public class BossSpawnZone : EnemySpawnZone
 
         // 2. Force the UI to switch back to General mode
         // This disables the BattleCanvas and enables the GeneralCanvas
-        if (UIManager.Instance != null)
+        ServiceLocator.Current.TryGet<IUIManagerService>(out var uimanagerService);
+        if (uimanagerService != null)
         {
             //Debug.Log("[BOSS SYSTEM] Switching UI to General State.");
-            UIManager.Instance.ExitBattleState();
+            uimanagerService.ExitBattleState();
         }
 
         // 3. Small buffer to ensure WindowManager has updated its Root reference
         yield return new WaitForEndOfFrame();
 
-        AudioManager.Instance.PlayVictorySFX();
+
+        ServiceLocator.Current.TryGet<IGameAudioService>(out var audioService);
+        audioService.PlayVictorySFX();
 
         // 4. Open the Window 
         if (VictoryWindowPrefab != null)
         {
-           // Debug.Log("[BOSS SYSTEM] Opening Victory Window on General Canvas.");
-            WindowManager.Instance.OpenWindow(VictoryWindowPrefab);
+            // Debug.Log("[BOSS SYSTEM] Opening Victory Window on General Canvas.");
+            ServiceLocator.Current.TryGet<IWindowService>(out var windowService);
+            windowService.OpenWindow(VictoryWindowPrefab);
         }
 
         // 5. Finally, destroy this zone

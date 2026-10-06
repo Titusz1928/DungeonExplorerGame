@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using TitusGames.Framework;
 
 public static class SkillSaveBuilder
 {
@@ -11,7 +12,8 @@ public static class SkillSaveBuilder
             //if (skill == PlayerSkill.None) // optional if you have a None enum
             //    continue;
 
-            SkillData data = PlayerSkillManager.Instance.GetSkillData(skill);
+            ServiceLocator.Current.TryGet<IPlayerSkillService>(out var playerSkillService);
+            SkillData data = playerSkillService.GetSkillData(skill);
 
             save.Add(new SkillSaveEntry
             {
@@ -28,7 +30,8 @@ public static class SkillSaveBuilder
     {
         if (savedSkills == null) return;
 
-        var skillManager = PlayerSkillManager.Instance;
+        ServiceLocator.Current.TryGet<IPlayerSkillService>(out var playerSkillService);
+        var skillManager = playerSkillService;
 
         foreach (var entry in savedSkills)
         {

@@ -1,4 +1,5 @@
 ﻿using System.Security.Cryptography;
+using TitusGames.Framework;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -150,7 +151,8 @@ public class EnemyController : MonoBehaviour
     void Update()
     {
         // CHECK IF THERE IS A BATTLE OR NOT
-        if (UIManager.Instance.IsInBattle)
+        ServiceLocator.Current.TryGet<IUIManagerService>(out var uimanagerService);
+        if (uimanagerService.IsInBattle)
             return;
 
         // Cheat/Settings check
@@ -314,9 +316,9 @@ public class EnemyController : MonoBehaviour
 
     private void PlayDetectionSound()
     {
-        if (AudioManager.Instance != null)
+        if (ServiceLocator.Current.TryGet<IGameAudioService>(out var audioService))
         {
-            AudioManager.Instance.PlayGameOverSFX();
+            audioService.PlayDetectionSFX();
         }
     }
 
@@ -339,7 +341,8 @@ public class EnemyController : MonoBehaviour
     void FixedUpdate()
     {
         // Stop physics movement if in battle
-        if (UIManager.Instance.IsInBattle)
+        ServiceLocator.Current.TryGet<IUIManagerService>(out var uimanagerService);
+        if (uimanagerService.IsInBattle)
         {
             rb.linearVelocity = Vector2.zero; // Stop physics sliding
 
@@ -390,8 +393,10 @@ public class EnemyController : MonoBehaviour
 
     void UpdateChasing()
     {
-        GameObject player = PlayerStateManager.Instance.gameObject;
-        currentTarget = player.transform.position;
+        if (ServiceLocator.Current.TryGet<IPlayerStateService>(out var playerService))
+        {
+            currentTarget = playerService.Transform.position;
+        }
     }
 
     void UpdateSearching()
@@ -451,8 +456,13 @@ public class EnemyController : MonoBehaviour
     {
         if (!GameSettings.Instance.IsVisible()) return;
 
-        GameObject player = PlayerStateManager.Instance.gameObject;
-        Vector2 toPlayer = (Vector2)player.transform.position - rb.position;
+        if (!ServiceLocator.Current.TryGet<IPlayerStateService>(out var playerService))
+        {
+            return;
+        }
+
+        Vector3 playerPos = playerService.Transform.position;
+        Vector2 toPlayer = (Vector2)playerPos - rb.position;
 
         // 1️⃣ Distance
         if (toPlayer.magnitude > data.visionRange)
@@ -476,7 +486,7 @@ public class EnemyController : MonoBehaviour
 
         // 👁️ PLAYER SEEN
         SetState(EnemyState.Chasing);
-        currentTarget = player.transform.position;
+        currentTarget = playerPos;
     }
 
     // --------------------------------------------------
@@ -485,7 +495,8 @@ public class EnemyController : MonoBehaviour
 
     void MoveTowardsTarget()
     {
-        if (isWaiting || UIManager.Instance.IsInBattle)
+        ServiceLocator.Current.TryGet<IUIManagerService>(out var uimanagerService);
+        if (isWaiting || uimanagerService.IsInBattle)
         {
             if (agent.isOnNavMesh) agent.isStopped = true;
             return;

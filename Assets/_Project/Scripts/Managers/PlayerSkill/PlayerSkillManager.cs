@@ -1,5 +1,6 @@
-﻿using UnityEngine;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using TitusGames.Framework;
+using UnityEngine;
 
 public enum PlayerSkill
 {
@@ -26,21 +27,30 @@ public class SkillData
     }
 }
 
-public class PlayerSkillManager : MonoBehaviour
+public class PlayerSkillManager : MonoBehaviour, IPlayerSkillService
 {
-    public static PlayerSkillManager Instance;
-
     private Dictionary<PlayerSkill, SkillData> skills =
         new Dictionary<PlayerSkill, SkillData>();
 
     private void Awake()
     {
-        Instance = this;
-
+        // Initialize all skill data models
         foreach (PlayerSkill skill in System.Enum.GetValues(typeof(PlayerSkill)))
         {
             skills[skill] = new SkillData();
         }
+    }
+
+    private void OnEnable()
+    {
+        // Register service into ServiceLocator on enable
+        ServiceLocator.Current?.Register<IPlayerSkillService>(this);
+    }
+
+    private void OnDisable()
+    {
+        // Unregister service when disabled or destroyed
+        ServiceLocator.Current?.Unregister<IPlayerSkillService>();
     }
 
     // ---------------------------------------------------------
@@ -75,8 +85,11 @@ public class PlayerSkillManager : MonoBehaviour
 
             if (notifyPlayer)
             {
-                MessageManager.Instance.ShowMessageDirectly($"{skill} increased to {data.level}!");
-                AudioManager.Instance.PlayLevelUpSFX();
+                var messageService = ServiceLocator.Current?.Get<IMessageService>();
+                var gameAudioService = ServiceLocator.Current?.Get<IGameAudioService>();
+
+                messageService?.ShowMessageDirectly($"{skill} increased to {data.level}!");
+                gameAudioService?.PlayLevelUpSFX();
             }           
 
 
