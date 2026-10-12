@@ -63,23 +63,28 @@ public class BattleUIManager : MonoBehaviour, IBattleUIService
         }
     }
 
-   public void SetupEnemySlots(List<EnemyController> activeCombatants, int targetedIndex, System.Action<int> onEnemyClicked)
+    public void SetupEnemySlots(List<EnemyController> activeCombatants, int targetedIndex, System.Action<int> onEnemyClicked)
     {
         Debug.Log("[BattleUIManager] Setting up enemy slots...");
+
         for (int i = 0; i < uiSlots.Count; i++)
         {
+            if (uiSlots[i] == null) continue;
+
             if (i < activeCombatants.Count && activeCombatants[i] != null)
             {
+                // 1. Activate the HP bar object (where BattleEnemyUISlot lives)
                 uiSlots[i].gameObject.SetActive(true);
 
-                // Assign battle sprite if the slot has an Image component
-                Image slotSprite = uiSlots[i].GetComponent<Image>();
-                if (slotSprite != null)
+                // 2. Activate and assign the separate portrait image
+                if (uiSlots[i].enemyPortrait != null)
                 {
-                    slotSprite.sprite = activeCombatants[i].data.battlesprite;
+                    Sprite sprite = activeCombatants[i].data.battlesprite;
+                    uiSlots[i].enemyPortrait.gameObject.SetActive(sprite != null);
+                    uiSlots[i].enemyPortrait.sprite = sprite;
                 }
 
-                // Wire up click event to BattleManager listener
+                // 3. Wire button click
                 int index = i;
                 Button btn = uiSlots[i].GetComponent<Button>();
                 if (btn == null) btn = uiSlots[i].GetComponentInParent<Button>();
@@ -92,7 +97,18 @@ public class BattleUIManager : MonoBehaviour, IBattleUIService
             }
             else
             {
+                // Deactivate both the HP bar object AND the separate portrait image
                 uiSlots[i].gameObject.SetActive(false);
+
+                if (uiSlots[i].enemyPortrait != null)
+                {
+                    uiSlots[i].enemyPortrait.gameObject.SetActive(false); // Fixed: added .gameObject
+                }
+
+                if (uiSlots[i].anatomyOverlayRoot != null)
+                {
+                    uiSlots[i].anatomyOverlayRoot.SetActive(false);
+                }
             }
         }
 

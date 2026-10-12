@@ -28,7 +28,7 @@ public class EnemyInjuryManager : MonoBehaviour
     {
         // Use the central UI state like the player does
         ServiceLocator.Current.TryGet<IUIManagerService>(out var uimanagerService);
-        if (uimanagerService != null && !uimanagerService.IsInBattle)
+        if (uimanagerService != null && uimanagerService.IsInBattle)
         {
             ProcessInjuries(10f);
         }

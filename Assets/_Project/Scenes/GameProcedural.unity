@@ -4153,7 +4153,6 @@ GameObject:
   - component: {fileID: 2017432089206680269}
   - component: {fileID: 7407582675274019862}
   - component: {fileID: 4397483389118996363}
-  - component: {fileID: 7407582675274019863}
   m_Layer: 5
   m_Name: EnemyImage
   m_TagString: Untagged
@@ -5338,7 +5337,6 @@ GameObject:
   - component: {fileID: 1436577889367251732}
   - component: {fileID: 4307581400178012226}
   - component: {fileID: 8683995101739694405}
-  - component: {fileID: 8683995101739694406}
   m_Layer: 5
   m_Name: EnemyImage
   m_TagString: Untagged
@@ -7197,6 +7195,7 @@ GameObject:
   - component: {fileID: 126777442609656037}
   - component: {fileID: 8501996618321168456}
   - component: {fileID: 485735742845216460}
+  - component: {fileID: 8501996618321168457}
   m_Layer: 5
   m_Name: EnemyBattleHPbar
   m_TagString: Untagged
@@ -7856,7 +7855,6 @@ GameObject:
   - component: {fileID: 272221182089977053}
   - component: {fileID: 8884604378460431362}
   - component: {fileID: 6903780066929144263}
-  - component: {fileID: 8884604378460431363}
   m_Layer: 5
   m_Name: EnemyImage
   m_TagString: Untagged
@@ -8107,6 +8105,7 @@ GameObject:
   - component: {fileID: 1587210795929246991}
   - component: {fileID: 2057794097150312842}
   - component: {fileID: 7808834813772646961}
+  - component: {fileID: 7808834813772646962}
   m_Layer: 5
   m_Name: EnemyBattleHPbar
   m_TagString: Untagged
@@ -8233,6 +8232,7 @@ GameObject:
   - component: {fileID: 3389475435895018973}
   - component: {fileID: 6585164329600794805}
   - component: {fileID: 7270860587244087777}
+  - component: {fileID: 7270860587244087778}
   m_Layer: 5
   m_Name: EnemyBattleHPbar
   m_TagString: Untagged
@@ -8812,6 +8812,7 @@ GameObject:
   - component: {fileID: 4885894197618260775}
   - component: {fileID: 1418062102862735532}
   - component: {fileID: 8995170779091598375}
+  - component: {fileID: 8995170779091598376}
   m_Layer: 5
   m_Name: EnemyBattleHPbar
   m_TagString: Untagged
@@ -10725,7 +10726,6 @@ GameObject:
   - component: {fileID: 2883024354227702646}
   - component: {fileID: 8074506340549530744}
   - component: {fileID: 2382549048112086432}
-  - component: {fileID: 8074506340549530745}
   m_Layer: 5
   m_Name: EnemyImage
   m_TagString: Untagged
@@ -12267,6 +12267,7 @@ GameObject:
   - component: {fileID: 4744775996357128872}
   - component: {fileID: 4083457576943708776}
   - component: {fileID: 1597858396643669010}
+  - component: {fileID: 5549723603311576557}
   m_Layer: 5
   m_Name: EnemyBattleHPbar
   m_TagString: Untagged
@@ -12274,6 +12275,30 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &5549723603311576557
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5549723603311576556}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b604974a08c2fe45b8f122ca9bc6a5a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyPortrait: {fileID: 8074506340549530744}
+  lowEstimateBar: {fileID: 7719986042061631731}
+  highEstimateBar: {fileID: 8909576192077278046}
+  hpText: {fileID: 8813496251955971949}
+  injuryIconContainer: {fileID: 8206381306562742781}
+  rowPrefab: {fileID: 5875334936999511071, guid: 31ba7775c200d0b469a6744981c40577, type: 3}
+  cellPrefab: {fileID: 4892738367772910045, guid: 7b5e6bd82d7e82747a1a1d2db45456b2, type: 3}
+  anatomyOverlayRoot: {fileID: 7803113349674792551}
+  anatomyButtonContainer: {fileID: 4913576643507812929}
+  targetBorder: {fileID: 229644038189151219}
+  targetPartText: {fileID: 8989374285226789711}
+  targetBodypartSelector: {fileID: 6731863258598165686}
 --- !u!222 &5569374441857368278
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -15537,6 +15562,30 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &7270860587244087778
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3642360665302423006}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b604974a08c2fe45b8f122ca9bc6a5a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyPortrait: {fileID: 4307581400178012226}
+  lowEstimateBar: {fileID: 8454747378484630097}
+  highEstimateBar: {fileID: 8646828431183567095}
+  hpText: {fileID: 2993635521213727087}
+  injuryIconContainer: {fileID: 6619135850148700706}
+  rowPrefab: {fileID: 5875334936999511071, guid: 31ba7775c200d0b469a6744981c40577, type: 3}
+  cellPrefab: {fileID: 4892738367772910045, guid: 7b5e6bd82d7e82747a1a1d2db45456b2, type: 3}
+  anatomyOverlayRoot: {fileID: 185205860820446125}
+  anatomyButtonContainer: {fileID: 7596770333915944152}
+  targetBorder: {fileID: 7616554847706787744}
+  targetPartText: {fileID: 545070589119740867}
+  targetBodypartSelector: {fileID: 7058635618369837615}
 --- !u!114 &7279587406626191470
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15599,7 +15648,6 @@ GameObject:
   - component: {fileID: 1429169762342134903}
   - component: {fileID: 5172303881993250745}
   - component: {fileID: 6072779771590139286}
-  - component: {fileID: 7371315090910323636}
   m_Layer: 5
   m_Name: EnemyImage
   m_TagString: Untagged
@@ -15752,28 +15800,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &7371315090910323636
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7293009038839870936}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5b604974a08c2fe45b8f122ca9bc6a5a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  lowEstimateBar: {fileID: 1019790436418828765}
-  highEstimateBar: {fileID: 2796717962422480922}
-  hpText: {fileID: 3354050677392385667}
-  injuryIconContainer: {fileID: 7362256159904795443}
-  rowPrefab: {fileID: 5875334936999511071, guid: 31ba7775c200d0b469a6744981c40577, type: 3}
-  cellPrefab: {fileID: 4892738367772910045, guid: 7b5e6bd82d7e82747a1a1d2db45456b2, type: 3}
-  anatomyOverlayRoot: {fileID: 7112520787692153768}
-  anatomyButtonContainer: {fileID: 8937852656954820808}
-  targetHighlight: {fileID: 0}
-  targetPartText: {fileID: 0}
 --- !u!114 &7407582675274019862
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15804,28 +15830,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &7407582675274019863
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1475394538802146454}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5b604974a08c2fe45b8f122ca9bc6a5a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  lowEstimateBar: {fileID: 8507261548925309250}
-  highEstimateBar: {fileID: 8860508199549560507}
-  hpText: {fileID: 3681141943774124882}
-  injuryIconContainer: {fileID: 1438902321555698460}
-  rowPrefab: {fileID: 5875334936999511071, guid: 31ba7775c200d0b469a6744981c40577, type: 3}
-  cellPrefab: {fileID: 4892738367772910045, guid: 7b5e6bd82d7e82747a1a1d2db45456b2, type: 3}
-  anatomyOverlayRoot: {fileID: 6416240869949208215}
-  anatomyButtonContainer: {fileID: 10178099890785673}
-  targetHighlight: {fileID: 0}
-  targetPartText: {fileID: 0}
 --- !u!224 &7411407263191193057
 RectTransform:
   m_ObjectHideFlags: 0
@@ -16506,6 +16510,30 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &7808834813772646962
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3584819730096215457}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b604974a08c2fe45b8f122ca9bc6a5a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyPortrait: {fileID: 5172303881993250745}
+  lowEstimateBar: {fileID: 1019790436418828765}
+  highEstimateBar: {fileID: 2796717962422480922}
+  hpText: {fileID: 3354050677392385667}
+  injuryIconContainer: {fileID: 7362256159904795443}
+  rowPrefab: {fileID: 5875334936999511071, guid: 31ba7775c200d0b469a6744981c40577, type: 3}
+  cellPrefab: {fileID: 4892738367772910045, guid: 7b5e6bd82d7e82747a1a1d2db45456b2, type: 3}
+  anatomyOverlayRoot: {fileID: 7112520787692153768}
+  anatomyButtonContainer: {fileID: 8937852656954820808}
+  targetBorder: {fileID: 7929074346858799231}
+  targetPartText: {fileID: 5323802313345323477}
+  targetBodypartSelector: {fileID: 4776711825170417218}
 --- !u!222 &7816400267447621964
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -16705,11 +16733,11 @@ MonoBehaviour:
   logPanel: {fileID: 3202058401732656235}
   playerPanel: {fileID: 2718711530972405986}
   uiSlots:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 5549723603311576557}
+  - {fileID: 8501996618321168457}
+  - {fileID: 7808834813772646962}
+  - {fileID: 8995170779091598376}
+  - {fileID: 7270860587244087778}
   skipLogButtonBg: {fileID: 4547378486426874295}
   partButtonPrefab: {fileID: 7370892320847993930, guid: a4dd6f3c23ca8ac468d2d56cdcc410d3, type: 3}
 --- !u!1 &7929074346858799231
@@ -17010,28 +17038,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &8074506340549530745
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4823142715628430134}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5b604974a08c2fe45b8f122ca9bc6a5a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  lowEstimateBar: {fileID: 7719986042061631731}
-  highEstimateBar: {fileID: 8909576192077278046}
-  hpText: {fileID: 8813496251955971949}
-  injuryIconContainer: {fileID: 8206381306562742781}
-  rowPrefab: {fileID: 5875334936999511071, guid: 31ba7775c200d0b469a6744981c40577, type: 3}
-  cellPrefab: {fileID: 4892738367772910045, guid: 7b5e6bd82d7e82747a1a1d2db45456b2, type: 3}
-  anatomyOverlayRoot: {fileID: 7803113349674792551}
-  anatomyButtonContainer: {fileID: 4913576643507812929}
-  targetHighlight: {fileID: 8795172293545791727}
-  targetPartText: {fileID: 8989374285226789711}
 --- !u!224 &8088361420231441551
 RectTransform:
   m_ObjectHideFlags: 0
@@ -17727,6 +17733,30 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2991674221875501831}
   m_CullTransparentMesh: 1
+--- !u!114 &8501996618321168457
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2991674221875501831}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b604974a08c2fe45b8f122ca9bc6a5a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyPortrait: {fileID: 7407582675274019862}
+  lowEstimateBar: {fileID: 8507261548925309250}
+  highEstimateBar: {fileID: 8860508199549560507}
+  hpText: {fileID: 3681141943774124882}
+  injuryIconContainer: {fileID: 1438902321555698460}
+  rowPrefab: {fileID: 5875334936999511071, guid: 31ba7775c200d0b469a6744981c40577, type: 3}
+  cellPrefab: {fileID: 4892738367772910045, guid: 7b5e6bd82d7e82747a1a1d2db45456b2, type: 3}
+  anatomyOverlayRoot: {fileID: 6416240869949208215}
+  anatomyButtonContainer: {fileID: 10178099890785673}
+  targetBorder: {fileID: 1493330201257882193}
+  targetPartText: {fileID: 7135029331262802518}
+  targetBodypartSelector: {fileID: 4659753007985051781}
 --- !u!114 &8507261548925309250
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18088,28 +18118,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &8683995101739694406
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1957162208657881361}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5b604974a08c2fe45b8f122ca9bc6a5a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  lowEstimateBar: {fileID: 8454747378484630097}
-  highEstimateBar: {fileID: 8646828431183567095}
-  hpText: {fileID: 2993635521213727087}
-  injuryIconContainer: {fileID: 6619135850148700706}
-  rowPrefab: {fileID: 5875334936999511071, guid: 31ba7775c200d0b469a6744981c40577, type: 3}
-  cellPrefab: {fileID: 4892738367772910045, guid: 7b5e6bd82d7e82747a1a1d2db45456b2, type: 3}
-  anatomyOverlayRoot: {fileID: 185205860820446125}
-  anatomyButtonContainer: {fileID: 7596770333915944152}
-  targetHighlight: {fileID: 0}
-  targetPartText: {fileID: 0}
 --- !u!224 &8684756950336392850
 RectTransform:
   m_ObjectHideFlags: 0
@@ -18572,28 +18580,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &8884604378460431363
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3446260683315071007}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5b604974a08c2fe45b8f122ca9bc6a5a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  lowEstimateBar: {fileID: 79611145200510192}
-  highEstimateBar: {fileID: 6067470497693284207}
-  hpText: {fileID: 1007291055550535242}
-  injuryIconContainer: {fileID: 5390052750299883917}
-  rowPrefab: {fileID: 5875334936999511071, guid: 31ba7775c200d0b469a6744981c40577, type: 3}
-  cellPrefab: {fileID: 4892738367772910045, guid: 7b5e6bd82d7e82747a1a1d2db45456b2, type: 3}
-  anatomyOverlayRoot: {fileID: 5833223918222368688}
-  anatomyButtonContainer: {fileID: 2197135734428182684}
-  targetHighlight: {fileID: 0}
-  targetPartText: {fileID: 0}
 --- !u!114 &8909576192077278046
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19019,6 +19005,30 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &8995170779091598376
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4000020999185400998}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b604974a08c2fe45b8f122ca9bc6a5a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyPortrait: {fileID: 8884604378460431362}
+  lowEstimateBar: {fileID: 79611145200510192}
+  highEstimateBar: {fileID: 6067470497693284207}
+  hpText: {fileID: 1007291055550535242}
+  injuryIconContainer: {fileID: 5390052750299883917}
+  rowPrefab: {fileID: 5875334936999511071, guid: 31ba7775c200d0b469a6744981c40577, type: 3}
+  cellPrefab: {fileID: 4892738367772910045, guid: 7b5e6bd82d7e82747a1a1d2db45456b2, type: 3}
+  anatomyOverlayRoot: {fileID: 5833223918222368688}
+  anatomyButtonContainer: {fileID: 2197135734428182684}
+  targetBorder: {fileID: 5766567199810071509}
+  targetPartText: {fileID: 5389277224071910097}
+  targetBodypartSelector: {fileID: 7478723209862606820}
 --- !u!222 &8999785718969609371
 CanvasRenderer:
   m_ObjectHideFlags: 0
