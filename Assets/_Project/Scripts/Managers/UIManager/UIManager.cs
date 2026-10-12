@@ -28,13 +28,14 @@ public class UIManager : MonoBehaviour, IUIManagerService
 
     [Header("Gameplay UI Elements")]
     public GameObject joystickUI;
-
     public Image VisibilityImage;
 
-    private int windowCount = 0;
+    private IWindowService windowService;
+    private bool wasWindowOpen = false;
 
-    public bool IsWindowOpen => windowCount > 0;
-    public bool IsInBattle { get; private set; } // Tracks current state
+    // Ask the framework directly if windows are open
+    public bool IsWindowOpen => windowService != null && windowService.WindowCount > 0;
+    public bool IsInBattle { get; private set; }
 
     private void Awake()
     {
@@ -53,6 +54,28 @@ public class UIManager : MonoBehaviour, IUIManagerService
         InitializeUI();
     }
 
+    private void Update()
+    {
+        // Monitor for window state changes automatically without needing package events
+        if (windowService != null)
+        {
+            bool isWindowOpenNow = windowService.WindowCount > 0;
+
+            // If the state changed this frame (a window opened or all closed), update the joystick
+            if (isWindowOpenNow != wasWindowOpen)
+            {
+                wasWindowOpen = isWindowOpenNow;
+                UpdateJoystickVisibility();
+            }
+        }
+    }
+
+    private void Start()
+    {
+        // Grab the framework's window service once at the start
+        windowService = ServiceLocator.Current.Get<IWindowService>();
+    }
+
     private void OnDestroy()
     {
         ServiceLocator.Current.Unregister<IUIManagerService>();
@@ -66,16 +89,8 @@ public class UIManager : MonoBehaviour, IUIManagerService
 
         if (GameSettings.Instance != null)
         {
-            if (GameSettings.Instance.CheatsEnabled)
-            {
-                cheatsButton.SetActive(true);
-                battlecheatsButton.SetActive(true);
-            }
-            else
-            {
-                cheatsButton.SetActive(false);
-                battlecheatsButton.SetActive(false);
-            }
+            cheatsButton.SetActive(GameSettings.Instance.CheatsEnabled);
+            battlecheatsButton.SetActive(GameSettings.Instance.CheatsEnabled);
         }
 
         UpdateJoystickVisibility();
@@ -89,11 +104,7 @@ public class UIManager : MonoBehaviour, IUIManagerService
         generalCanvas.enabled = false; // Or keep true if you want background UI
         battleCanvas.enabled = true;
 
-        if (ServiceLocator.Current.TryGet<IWindowService>(out var windowManager))
-        {
-            windowManager.RegisterUIRoot(battleWindowRoot);
-        }
-
+        if (windowService != null) windowService.RegisterUIRoot(battleWindowRoot);
         UpdateJoystickVisibility();
     }
 
@@ -103,11 +114,7 @@ public class UIManager : MonoBehaviour, IUIManagerService
         generalCanvas.enabled = true;
         battleCanvas.enabled = false;
 
-        if (ServiceLocator.Current.TryGet<IWindowService>(out var windowManager))
-        {
-            windowManager.RegisterUIRoot(generalWindowRoot);
-        }
-
+        if (windowService != null) windowService.RegisterUIRoot(generalWindowRoot);
         UpdateJoystickVisibility();
     }
 
@@ -115,9 +122,6 @@ public class UIManager : MonoBehaviour, IUIManagerService
 
     public void SetWindowState(bool opening)
     {
-        windowCount = opening ? windowCount + 1 : windowCount - 1;
-        windowCount = Mathf.Max(0, windowCount);
-
         UpdateJoystickVisibility();
     }
 
@@ -125,8 +129,6 @@ public class UIManager : MonoBehaviour, IUIManagerService
     {
         if (joystickUI == null) return;
 
-        // The joystick should ONLY be active if:
-        // 1. No windows are open AND 2. We are NOT in a battle
         bool shouldShowJoystick = !IsWindowOpen && !IsInBattle;
         joystickUI.SetActive(shouldShowJoystick);
     }
@@ -165,14 +167,6 @@ public class UIManager : MonoBehaviour, IUIManagerService
     public void changeVisibilityUIStatus()
     {
         GameSettings.Instance.ToggelVisibility();
-
-        if (GameSettings.Instance.IsVisible())
-        {
-            VisibilityImage.gameObject.SetActive(false);
-        }
-        else
-        {
-            VisibilityImage.gameObject.SetActive(true);
-        }
+        VisibilityImage.gameObject.SetActive(!GameSettings.Instance.IsVisible());
     }
 }

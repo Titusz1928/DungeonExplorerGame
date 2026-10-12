@@ -46,7 +46,7 @@ public class EquipmentManager : MonoBehaviour, IEquipmentService
 
         if (playSound)
         {
-            if (ServiceLocator.Current.TryGet<IGameAudioService>(out var audioService))
+            if (ServiceLocator.Current.TryGet<IAudioService>(out var audioService))
             {
                 audioService.PlaySFX(armor.useSound);
             }
@@ -128,8 +128,14 @@ public class EquipmentManager : MonoBehaviour, IEquipmentService
         ArmorItemSO armor = item.itemSO as ArmorItemSO;
         if (armor == null) return;
 
-        ServiceLocator.Current.TryGet<IGameAudioService>(out var audioService);
-        audioService.PlaySFX(armor.useSound);
+        if (ServiceLocator.Current.TryGet<IAudioService>(out var audioService))
+        {
+            audioService.PlaySFX(armor.useSound);
+        }
+        else
+        {
+            Debug.LogWarning("[EquipmentManager] IGameAudioService was not found in ServiceLocator.");
+        }
 
         foreach (ArmorSlot slot in GetSlotsFromFlags(armor.slotsCovered))
         {

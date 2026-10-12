@@ -89,9 +89,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91c0c0ed9bc088d4196d3b73312490fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  conatinerScrollField: {fileID: 0}
   rowsParent: {fileID: 0}
   rowPrefab: {fileID: 6125132567830753549, guid: 511c12ecaf2cdbd42b2886526762b85b, type: 3}
   cellPrefab: {fileID: 6267157810891569390, guid: 3cd0641f38d8158439c3bc1fa2ec1ad5, type: 3}
+  sliderContainer: {fileID: 0}
+  quantitySlider: {fileID: 0}
+  quantityText: {fileID: 0}
   scanRadius: 1
 --- !u!1 &1087896490613752823
 GameObject:
@@ -197,6 +201,7 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -686,17 +691,18 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 120
+  m_fontSize: 50
   m_fontSizeBase: 120
   m_fontWeight: 400
-  m_enableAutoSizing: 0
-  m_fontSizeMin: 18
-  m_fontSizeMax: 72
+  m_enableAutoSizing: 1
+  m_fontSizeMin: 50
+  m_fontSizeMax: 120
   m_fontStyle: 1
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0

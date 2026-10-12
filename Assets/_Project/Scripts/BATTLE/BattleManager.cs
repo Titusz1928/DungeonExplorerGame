@@ -44,22 +44,31 @@ public class BattleManager : MonoBehaviour, IBattleService
     public event System.Action OnVisualsRefreshRequested;
     public event System.Action OnBattleEnded;
 
-    public void Initialize(
-        IBattleUIService uiService,
-        IBattleAudioService audioService,
-        IWindowService windowService,
-        ISceneService sceneService,
-        IPlayerSkillService skillService)
+    private void Awake()
     {
-        _uiService = uiService;
-        _audioService = audioService;
-        _windowService = windowService;
-        _sceneService = sceneService;
-        _skillService = skillService;
+        // Auto-resolve all required services from ServiceLocator on load
+        ServiceLocator.Current.TryGet(out _uiService);
+        ServiceLocator.Current.TryGet(out _audioService);
+        ServiceLocator.Current.TryGet(out _windowService);
+        ServiceLocator.Current.TryGet(out _sceneService);
+        ServiceLocator.Current.TryGet(out _skillService);
+    }
+
+    private void OnEnable()
+    {
+        ServiceLocator.Current.Register<IBattleService>(this);
+    }
+
+    private void OnDisable()
+    {
+        ServiceLocator.Current.Unregister<IBattleService>();
     }
 
     public void StartBattle(EnemyController mainTarget, List<EnemyController> helpers)
     {
+        if (_uiService == null) ServiceLocator.Current.TryGet(out _uiService);
+        if (_audioService == null) ServiceLocator.Current.TryGet(out _audioService);
+
         activeCombatants.Clear();
         activeCombatants.Add(mainTarget);
         activeCombatants.AddRange(helpers);
@@ -98,6 +107,7 @@ public class BattleManager : MonoBehaviour, IBattleService
         }
 
         // 4. UI Setup via Injected UI Service
+        Debug.Log("[BattleManager] calling uiservice setupenemyslots method...");
         _uiService?.SetupEnemySlots(activeCombatants, targetedEnemyIndex, OnEnemyClicked);
         _uiService?.UpdateTargetVisuals(targetedEnemyIndex, currentTargetPartName);
         _uiService?.RefreshAll();
@@ -824,4 +834,5 @@ public class BattleManager : MonoBehaviour, IBattleService
     {
         return new WaitForSeconds(isSkipLogEnabled ? SkipWait : customNormal);
     }
+
 }

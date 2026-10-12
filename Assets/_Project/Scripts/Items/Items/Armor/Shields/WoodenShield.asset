@@ -64,7 +64,7 @@ MonoBehaviour:
   - {fileID: 6579844070978012057, guid: 6f3ace1099bb89f4dae311b11015d2ae, type: 3}
   - {fileID: 1871133908, guid: 6f3ace1099bb89f4dae311b11015d2ae, type: 3}
   primaryVisualSlot: 0
-  useSound: {fileID: 0}
+  useSound: {fileID: 8300000, guid: a3aef9cfa5b89a344821f08a14b7c35d, type: 3}
   shieldType: 1
   blockStrength: 50
   staminaCost: 10

@@ -39,39 +39,20 @@ public class GameBoot : MonoBehaviour
             yield return StartCoroutine(HandleNewGame());
         }
 
-        // 4. Scene Transition
+        // 3. Scene Transition
         AsyncOperation loadScene = SceneManager.LoadSceneAsync("GameProcedural");
         while (!loadScene.isDone) yield return null;
-
-        InjectServices();
 
         // 5. Cleanup and Show Game
         yield return StartCoroutine(FadeCanvas(1f, 0f, fadeDuration));
         gameBootCanvas.gameObject.SetActive(false);
     }
 
-    private void InjectServices()
-    {
-        Debug.Log("GameBoot: Injecting Services...");
-
-        // TryGet works seamlessly as if it were part of the package!
-        if (!ServiceLocator.Current.TryGet<IBattleService>(out var battleService) || !(battleService is BattleManager battleManager))
-        {
-            return; // BattleManager isn't in this scene (e.g., Main Menu)
-        }
-
-        ServiceLocator.Current.TryGet<IBattleUIService>(out var uiService);
-        ServiceLocator.Current.TryGet<IBattleAudioService>(out var audioService);
-        ServiceLocator.Current.TryGet<IWindowService>(out var windowService);
-        ServiceLocator.Current.TryGet<ISceneService>(out var sceneService);
-        ServiceLocator.Current.TryGet<IPlayerSkillService>(out var skillService);
-
-        battleManager.Initialize(uiService, audioService, windowService, sceneService, skillService);
-    }
-
     private IEnumerator HandleNewGame()
     {
         Debug.Log("Booting: NEW GAME");
+
+        DestroyPersistentObjects();
 
         CreatePersistentObjects(Vector2.zero); // Temporary (0,0) position
 
@@ -198,6 +179,30 @@ public class GameBoot : MonoBehaviour
             DontDestroyOnLoad(PersistentWSD);
         }
 
+    }
+
+    private void DestroyPersistentObjects()
+    {
+        if (PersistentPlayer != null)
+        {
+            DestroyImmediate(PersistentPlayer);
+            PersistentPlayer = null;
+        }
+
+        if (PersistentWorld != null)
+        {
+            DestroyImmediate(PersistentWorld);
+            PersistentWorld = null;
+        }
+
+        if (PersistentWSD != null)
+        {
+            DestroyImmediate(PersistentWSD);
+            PersistentWSD = null;
+        }
+
+        // Reset static instance reference explicitly
+        WorldSaveData.Instance = null;
     }
 
 

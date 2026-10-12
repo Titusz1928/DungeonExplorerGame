@@ -55,8 +55,8 @@ public class PlayerPaperDoll : MonoBehaviour
         int index = ParseSpriteIndex(bodyRenderer.sprite.name);
 
         // Log the index once per second so we don't spam the console too hard
-        if (Time.frameCount % 600 == 0)
-            Debug.Log($"[PaperDoll] LateUpdate: Body Sprite={bodyRenderer.sprite.name}, Parsed Index={index}");
+        //if (Time.frameCount % 600 == 0)
+        //    Debug.Log($"[PaperDoll] LateUpdate: Body Sprite={bodyRenderer.sprite.name}, Parsed Index={index}");
 
         foreach (var entry in activeVisuals)
         {

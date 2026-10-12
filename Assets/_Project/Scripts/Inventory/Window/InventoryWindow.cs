@@ -59,6 +59,9 @@ public class InventoryWindow : MonoBehaviour
             case 2:
                 BuildHealthNSkillsSection();
                 break;
+            default:
+                Debug.LogWarning($"[InventoryWindow] Invalid tabSelected index: {tabSelected}");
+                break;
         }
     }
 
@@ -67,18 +70,21 @@ public class InventoryWindow : MonoBehaviour
     // -----------------------
     public void ItemsTabSelected()
     {
+        Debug.Log("[InventoryWindow] ItemsTabSelected() called from UI Button click.");
         tabSelected = 0;
         Refresh();
     }
 
     public void EquipmentTabSelected()
     {
+        Debug.Log("[InventoryWindow] EquipmentTabSelected() called from UI Button click.");
         tabSelected = 1;
         Refresh();
     }
 
     public void StatsNSkillsTabSelected()
     {
+        Debug.Log("[InventoryWindow] StatsNSkillsTabSelected() called from UI Button click.");
         tabSelected = 2;
         Refresh();
     }
@@ -88,6 +94,7 @@ public class InventoryWindow : MonoBehaviour
     // -----------------------
     public void BuildItemSection()
     {
+        Debug.Log("[InventoryWindow] Building Items Section...");
         if (!ValidateContainerAndPrefab(itemsRowPrefab)) return;
 
         ClearRowContainer();

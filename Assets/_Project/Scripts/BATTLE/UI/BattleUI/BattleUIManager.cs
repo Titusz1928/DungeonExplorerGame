@@ -32,6 +32,15 @@ public class BattleUIManager : MonoBehaviour, IBattleUIService
     [Header("Anatomy Settings")]
     [SerializeField] private GameObject partButtonPrefab;
 
+    private void OnEnable()
+    {
+        ServiceLocator.Current.Register<IBattleUIService>(this);
+    }
+
+    private void OnDisable()
+    {
+        ServiceLocator.Current.Unregister<IBattleUIService>();
+    }
 
     private void Start()
     {
@@ -54,8 +63,9 @@ public class BattleUIManager : MonoBehaviour, IBattleUIService
         }
     }
 
-    public void SetupEnemySlots(List<EnemyController> activeCombatants, int targetedIndex, System.Action<int> onEnemyClicked)
+   public void SetupEnemySlots(List<EnemyController> activeCombatants, int targetedIndex, System.Action<int> onEnemyClicked)
     {
+        Debug.Log("[BattleUIManager] Setting up enemy slots...");
         for (int i = 0; i < uiSlots.Count; i++)
         {
             if (i < activeCombatants.Count && activeCombatants[i] != null)

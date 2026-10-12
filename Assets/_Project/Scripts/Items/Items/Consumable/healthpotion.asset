@@ -29,4 +29,4 @@ MonoBehaviour:
   healthAmount: 90
   staminaAmount: 90
   returnItem: {fileID: 11400000, guid: d547e7bee9e53d8469ae9486797959c9, type: 2}
-  useSound: {fileID: 8300000, guid: 1a6ae5d6fce144c4282940b4023e4832, type: 3}
+  useSound: {fileID: 8300000, guid: 83654ceae02026f44b85c1e8a7f94bc8, type: 3}

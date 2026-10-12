@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using TitusGames.Framework;
 using UnityEngine;
 
 public class PlayerStartingItems : MonoBehaviour
@@ -14,28 +15,41 @@ public class PlayerStartingItems : MonoBehaviour
 
     public void GiveItemsToPlayer(GameObject player)
     {
+        if (player == null)
+        {
+            Debug.LogError("[PlayerStartingItems] Player GameObject is null!");
+            return;
+        }
+
         Inventory inv = player.GetComponent<Inventory>();
-        EquipmentManager equip = player.GetComponent<EquipmentManager>();
 
-        if (inv == null || equip == null) return;
+        // Try getting IEquipmentService from player GameObject, fallback to ServiceLocator
+        if (!player.TryGetComponent<IEquipmentService>(out var equip))
+        {
+            ServiceLocator.Current.TryGet<IEquipmentService>(out equip);
+        }
 
-        // We'll keep track of what we've equipped to avoid double-equipping weapons
+        if (inv == null || equip == null)
+        {
+            Debug.LogError($"[PlayerStartingItems] Required components missing! Inventory null: {inv == null}, EquipmentService null: {equip == null}");
+            return;
+        }
+
         bool weaponEquipped = false;
         bool shieldEquipped = false;
 
         foreach (var entry in loadout)
         {
+            if (entry.item == null || entry.amount <= 0) continue;
+
             // 1. Add to inventory
-            // Note: For starting items, we usually want them in the inventory first
             inv.AddItem(entry.item, entry.amount);
 
             // 2. Find the instance we just added to equip it
-            // We look backwards from the end of the inventory to find the newest matching item
             for (int i = inv.items.Count - 1; i >= 0; i--)
             {
                 ItemInstance instance = inv.items[i];
 
-                // If this is the item we just added and it isn't equipped yet
                 if (instance.itemSO == entry.item && !instance.isEquipped)
                 {
                     if (instance.itemSO is ArmorItemSO)
@@ -53,11 +67,11 @@ public class PlayerStartingItems : MonoBehaviour
                         shieldEquipped = true;
                     }
 
-                    // Once we've handled this specific starting item "entry", move to the next loadout item
                     break;
                 }
             }
         }
-        Debug.Log("Starting items distributed and equipped.");
+
+        Debug.Log("[PlayerStartingItems] Starting items distributed and equipped.");
     }
 }

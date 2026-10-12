@@ -28,4 +28,5 @@ MonoBehaviour:
   consumableType: 2
   healthAmount: 0
   staminaAmount: 0
-  useSound: {fileID: 8300000, guid: d390e0d0b2b2eeb47bccf29cb223319c, type: 3}
+  returnItem: {fileID: 0}
+  useSound: {fileID: 8300000, guid: c9cd162c1620d26439f3aadd68b32dff, type: 3}

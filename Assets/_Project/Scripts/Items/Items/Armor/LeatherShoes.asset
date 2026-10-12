@@ -69,4 +69,4 @@ MonoBehaviour:
   - {fileID: -280568984, guid: 7fefea79fa2001a4fbe0ef117886becf, type: 3}
   - {fileID: 1374658322, guid: 7fefea79fa2001a4fbe0ef117886becf, type: 3}
   primaryVisualSlot: 256
-  useSound: {fileID: 8300000, guid: 46ef98116bd677641ad41d144124786a, type: 3}
+  useSound: {fileID: 8300000, guid: 7ccabc3e291d374479f3e68ae8527bf0, type: 3}
